@@ -2,6 +2,7 @@
 export { default as Button } from "./Button";
 export { default as DataTable } from "./DataTable";
 export { default as CustomTabs } from "./CustomTabs";
+export { default as ColorPalette } from "./ColorPalette";
 
 // Re-export shadcn/ui components for convenience
 export { Badge } from "@/components/ui/badge";

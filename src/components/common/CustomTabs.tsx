@@ -27,17 +27,17 @@ const CustomTabs: React.FC<CustomTabsProps> = ({
       className={cn('w-full', className)}
       onValueChange={onValueChange}
     >
-      <TabsList className="bg-[var(--beige)] rounded-md p-[5px] h-auto inline-flex gap-[20px] justify-start">
+      <TabsList className="bg-beige rounded-md p-[5px] h-auto inline-flex gap-[20px] justify-start">
         {tabs.map((tab) => (
           <TabsTrigger
             key={tab.value}
             value={tab.value}
             className={cn(
               'mobile-medium-regular',
-              'px-3 py-1.5 rounded-[3px] text-[var(--darkgray)]',
-              'data-[state=active]:bg-white data-[state=active]:text-[var(--darkgreen)] data-[state=active]:font-bold',
+              'px-3 py-1.5 rounded-[3px] text-darkgray',
+              'data-[state=active]:bg-white data-[state=active]:text-darkgreen data-[state=active]:font-bold',
               'data-[state=active]:shadow-none border-0',
-              'hover:bg-white/50 hover:text-[var(--darkgreen)]',
+              'hover:bg-white/50 hover:text-darkgreen',
               'transition-all duration-200 ease-in-out',
               'text-[18px] leading-[1.4] tracking-[-0.36px]'
             )}

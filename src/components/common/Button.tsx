@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button as ShadcnButton } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { getColorClass, getHoverColorClass } from '@/lib/colors';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link' | 'darkgreen';
@@ -16,7 +17,7 @@ const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const customVariants = {
-    darkgreen: 'bg-[#036B3F] text-white hover:bg-[#024933] border-transparent',
+    darkgreen: `${getColorClass('darkgreen', 'bg')} text-white ${getHoverColorClass('darkgreen', 'bg')}/90 border-transparent`,
   };
 
   const isCustomVariant = variant === 'darkgreen';

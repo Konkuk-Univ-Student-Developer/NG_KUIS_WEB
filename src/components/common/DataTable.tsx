@@ -26,9 +26,9 @@ const DataTable: React.FC<DataTableProps> = ({ columns, data, className }) => {
     <div className={cn('w-full border rounded-lg', className)}>
       <Table>
         <TableHeader>
-          <TableRow className="bg-[var(--lightgray)]">
+          <TableRow className="bg-lightgray">
             {columns.map((column) => (
-              <TableHead key={column.key} className="mobile-extrasmall-bold text-[var(--black)]">
+              <TableHead key={column.key} className="mobile-extrasmall-bold text-black">
                 {column.label}
               </TableHead>
             ))}
@@ -36,7 +36,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns, data, className }) => {
         </TableHeader>
         <TableBody>
           {data.map((row, index) => (
-            <TableRow key={index} className="hover:bg-[var(--beige)]">
+            <TableRow key={index} className="hover:bg-beige">
               {columns.map((column) => (
                 <TableCell key={column.key} className="mobile-extrasmall-regular">
                   {column.render ? column.render(row[column.key], row) : String(row[column.key] || '')}
