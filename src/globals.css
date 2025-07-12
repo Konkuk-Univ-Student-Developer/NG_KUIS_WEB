@@ -3,6 +3,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+* {
+  box-sizing: border-box;
+}
+
 /* Figma Design System Colors */
 :root {
   /* Primary Colors */
@@ -129,6 +133,26 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Figma Design System Colors */
+  --color-darkgreen: #036b3f;
+  --color-lightgreen: #8bc34a;
+  --color-green: #4caf50;
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-beige: #eef0e4;
+  --color-darkgray: #656f76;
+  --color-lightgray: #ecebe3;
+  --color-coolgray: #b1b3b4;
+  --color-warmgray: #795548;
+  --color-orange: #f0a704;
+  --color-magenta: #e91e63;
+  --color-yellow: #ffeb3b;
+  --color-violet: #9c27b0;
+  --color-blue: #2196f3;
+  --color-danger: #f44336;
+
+  /* Shadcn UI Colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -218,6 +242,26 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Figma Design System Colors */
+  --color-darkgreen: #036b3f;
+  --color-lightgreen: #8bc34a;
+  --color-green: #4caf50;
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-beige: #eef0e4;
+  --color-darkgray: #656f76;
+  --color-lightgray: #ecebe3;
+  --color-coolgray: #b1b3b4;
+  --color-warmgray: #795548;
+  --color-orange: #f0a704;
+  --color-magenta: #e91e63;
+  --color-yellow: #ffeb3b;
+  --color-violet: #9c27b0;
+  --color-blue: #2196f3;
+  --color-danger: #f44336;
+
+  /* Shadcn UI Colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
