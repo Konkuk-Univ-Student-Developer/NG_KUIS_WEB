@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button as ShadcnButton } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { getColorClass, getHoverColorClass } from '@/lib/colors';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link' | 'darkgreen';
@@ -16,19 +15,28 @@ const Button: React.FC<ButtonProps> = ({
   children,
   ...props
 }) => {
-  const customVariants = {
-    darkgreen: `${getColorClass('darkgreen', 'bg')} text-white ${getHoverColorClass('darkgreen', 'bg')}/90 border-transparent`,
-  };
-
-  const isCustomVariant = variant === 'darkgreen';
-  const buttonVariant = isCustomVariant ? 'default' : variant;
-  const customClass = isCustomVariant ? customVariants[variant] : '';
+  // darkgreen variant는 간단하게 클래스 오버라이드로 처리
+  if (variant === 'darkgreen') {
+    return (
+      <ShadcnButton
+        variant="default"
+        size={size}
+        className={cn(
+          'bg-darkgreen text-white hover:bg-darkgreen/90 border-transparent',
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </ShadcnButton>
+    );
+  }
 
   return (
     <ShadcnButton
-      variant={buttonVariant}
+      variant={variant}
       size={size}
-      className={cn(customClass, className)}
+      className={className}
       {...props}
     >
       {children}
