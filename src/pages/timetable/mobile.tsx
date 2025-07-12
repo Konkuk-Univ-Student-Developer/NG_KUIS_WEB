@@ -1,28 +1,134 @@
-import React from 'react';
-import { TopBar } from '@/components/common';
-import { Calendar, Clock, MapPin } from 'lucide-react';
+import React, { useState } from 'react';
+import { TopBar, Select, SearchInput, ViewToggle, Pagination } from '@/components/common';
 
 const TimetablePage: React.FC = () => {
-  const todayClasses = [
+  const [viewMode, setViewMode] = useState<'List' | 'Card'>('List');
+  const [selectedYear, setSelectedYear] = useState('간의년도');
+  const [selectedSemester, setSelectedSemester] = useState('간의학기');
+  const [selectedDepartment, setSelectedDepartment] = useState('이수구분');
+  const [searchQueries, setSearchQueries] = useState({
+    professor: '',
+    courseCode: '',
+    keyword: ''
+  });
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const yearOptions = [
+    { value: '2024', label: '2024년도' },
+    { value: '2025', label: '2025년도' }
+  ];
+
+  const semesterOptions = [
+    { value: '1', label: '1학기' },
+    { value: '2', label: '2학기' }
+  ];
+
+  const departmentOptions = [
+    { value: 'general', label: '교양' },
+    { value: 'major', label: '전공' },
+    { value: 'elective', label: '선택' }
+  ];
+
+  const courseData = [
     {
-      time: '09:00 - 10:30',
-      name: '데이터베이스',
-      location: '새천년관 1203호',
-      professor: '김교수'
+      학년: '1',
+      과목번호: '0312',
+      교과목명: '이산수학',
+      학점: '3',
+      담당교수: '박소영',
+      강의실: '새501'
     },
     {
-      time: '11:00 - 12:30',
-      name: '운영체제',
-      location: '공학관 A동 405호',
-      professor: '이교수'
+      학년: '1',
+      과목번호: '0312',
+      교과목명: '이산수학',
+      학점: '3',
+      담당교수: '박소영',
+      강의실: '새501'
     },
     {
-      time: '14:00 - 15:30',
-      name: '알고리즘',
-      location: '새천년관 1101호',
-      professor: '박교수'
+      학년: '1',
+      과목번호: '0312',
+      교과목명: '이산수학',
+      학점: '3',
+      담당교수: '박소영',
+      강의실: '새501'
+    },
+    {
+      학년: '1',
+      과목번호: '0312',
+      교과목명: '이산수학',
+      학점: '3',
+      담당교수: '박소영',
+      강의실: '새501'
+    },
+    {
+      학년: '1',
+      과목번호: '0312',
+      교과목명: '이산수학',
+      학점: '3',
+      담당교수: '박소영',
+      강의실: '새501'
+    },
+    {
+      학년: '1',
+      과목번호: '0312',
+      교과목명: '이산수학',
+      학점: '3',
+      담당교수: '박소영',
+      강의실: '새501'
+    },
+    {
+      학년: '1',
+      과목번호: '0312',
+      교과목명: '이산수학',
+      학점: '3',
+      담당교수: '박소영',
+      강의실: '새501'
+    },
+    {
+      학년: '1',
+      과목번호: '0312',
+      교과목명: '이산수학',
+      학점: '3',
+      담당교수: '박소영',
+      강의실: '새501'
+    },
+    {
+      학년: '1',
+      과목번호: '0312',
+      교과목명: '이산수학',
+      학점: '3',
+      담당교수: '박소영',
+      강의실: '새501'
+    },
+    {
+      학년: '1',
+      과목번호: '0312',
+      교과목명: '이산수학',
+      학점: '3',
+      담당교수: '박소영',
+      강의실: '새501'
+    },
+    {
+      학년: '1',
+      과목번호: '0312',
+      교과목명: '이산수학',
+      학점: '3',
+      담당교수: '박소영',
+      강의실: '새501'
+    },
+    {
+      학년: '1',
+      과목번호: '0312',
+      교과목명: '이산수학',
+      학점: '3',
+      담당교수: '박소영',
+      강의실: '새501'
     }
   ];
+
+  const totalPages = 10;
 
   return (
     <div className="min-h-screen bg-white">
@@ -31,39 +137,103 @@ const TimetablePage: React.FC = () => {
         onMenuClick={() => console.log('메뉴 클릭')}
         onLoginClick={() => console.log('로그인 클릭')}
       />
-      
+
       <div className="px-5 py-[25px] space-y-6">
-        <h1 className="text-darkgreen text-mobile-medium-bold">강의 시간표</h1>
-        
-        <div className="bg-beige rounded-[10px] p-5">
-          <div className="flex items-center gap-3 mb-4">
-            <Calendar className="w-6 h-6 text-darkgreen" />
-            <h2 className="text-mobile-small-bold">오늘의 강의</h2>
+        {/* Title */}
+        <h1 className="text-darkgreen text-mobile-medium-bold">종합강의시간표</h1>
+
+        {/* Filter Dropdowns */}
+        <div className="flex gap-3">
+          <Select
+            value={selectedYear}
+            onChange={setSelectedYear}
+            placeholder="간의년도"
+            options={yearOptions}
+            className="flex-1"
+          />
+          <Select
+            value={selectedSemester}
+            onChange={setSelectedSemester}
+            placeholder="간의학기"
+            options={semesterOptions}
+            className="flex-1"
+          />
+          <Select
+            value={selectedDepartment}
+            onChange={setSelectedDepartment}
+            placeholder="이수구분"
+            options={departmentOptions}
+            className="flex-1"
+          />
+        </div>
+
+        {/* Search Inputs */}
+        <div className="flex gap-3">
+          <SearchInput
+            placeholder="교강사"
+            value={searchQueries.professor}
+            onChange={(value) => setSearchQueries({ ...searchQueries, professor: value })}
+            className="flex-1"
+          />
+          <SearchInput
+            placeholder="과목번호"
+            value={searchQueries.courseCode}
+            onChange={(value) => setSearchQueries({ ...searchQueries, courseCode: value })}
+            className="flex-1"
+          />
+          <SearchInput
+            placeholder="학부(과)/전공"
+            value={searchQueries.keyword}
+            onChange={(value) => setSearchQueries({ ...searchQueries, keyword: value })}
+            className="flex-1"
+          />
+        </div>
+
+        {/* View Mode Toggle */}
+        <div className="flex justify-end">
+          <ViewToggle
+            value={viewMode}
+            onChange={setViewMode}
+          />
+        </div>
+
+        {/* Table */}
+        <div className="bg-white rounded-[8px] border border-lightgray overflow-hidden">
+          {/* Table Header */}
+          <div className="bg-beige px-4 py-3 border-b border-lightgray">
+            <div className="grid grid-cols-6 gap-2 text-mobile-small-bold text-darkgray">
+              <div>학년</div>
+              <div>과목번호</div>
+              <div>교과목명</div>
+              <div>학점</div>
+              <div>담당교수</div>
+              <div>강의실</div>
+            </div>
           </div>
-          
-          <div className="space-y-3">
-            {todayClasses.map((cls, index) => (
-              <div key={index} className="bg-white rounded-[8px] p-4">
-                <div className="flex items-start justify-between mb-2">
-                  <h3 className="text-mobile-small-bold">{cls.name}</h3>
-                  <div className="flex items-center gap-1">
-                    <Clock className="w-4 h-4 text-darkgray" />
-                    <span className="text-mobile-extrasmall text-darkgray">{cls.time}</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1 text-darkgray">
-                  <MapPin className="w-4 h-4" />
-                  <span className="text-mobile-extrasmall">{cls.location}</span>
-                  <span className="text-mobile-extrasmall ml-2">· {cls.professor}</span>
+
+          {/* Table Body */}
+          <div className="divide-y divide-lightgray">
+            {courseData.map((course, index) => (
+              <div key={index} className="px-4 py-3 hover:bg-beige/50 transition-colors">
+                <div className="grid grid-cols-6 gap-2 text-mobile-small">
+                  <div className="text-darkgray">{course.학년}</div>
+                  <div className="text-darkgray">{course.과목번호}</div>
+                  <div className="text-black font-medium">{course.교과목명}</div>
+                  <div className="text-darkgray">{course.학점}</div>
+                  <div className="text-darkgray">{course.담당교수}</div>
+                  <div className="text-darkgray">{course.강의실}</div>
                 </div>
               </div>
             ))}
           </div>
         </div>
-        
-        <button className="w-full bg-darkgreen text-white rounded-[10px] py-4 text-mobile-small-bold">
-          전체 시간표 보기
-        </button>
+
+        {/* Pagination */}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
       </div>
     </div>
   );
