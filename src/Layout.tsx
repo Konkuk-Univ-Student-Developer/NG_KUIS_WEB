@@ -18,7 +18,7 @@ const Layout: React.FC = () => {
   if (isMobile) {
     return (
       <div className="min-h-screen flex justify-center">
-        <div className="w-[390px]relative">
+        <div className="w-[390px] relative">
           <Outlet context={{ isMobile: true }} />
         </div>
       </div>
