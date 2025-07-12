@@ -111,14 +111,14 @@ const TimetablePage: React.FC = () => {
           <Select
             value={selectedYear}
             onChange={setSelectedYear}
-            placeholder="간의년도"
+            placeholder="강의년도"
             options={yearOptions}
             className="flex-1"
           />
           <Select
             value={selectedSemester}
             onChange={setSelectedSemester}
-            placeholder="간의학기"
+            placeholder="강의학기"
             options={semesterOptions}
             className="flex-1"
           />

@@ -28,7 +28,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns, data, className }) => {
         <TableHeader>
           <TableRow className="bg-lightgray">
             {columns.map((column) => (
-              <TableHead key={column.key} className="mobile-extrasmall-bold text-black">
+              <TableHead key={column.key} className="text-mobile-extrasmall-bold text-black">
                 {column.label}
               </TableHead>
             ))}
@@ -38,7 +38,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns, data, className }) => {
           {data.map((row, index) => (
             <TableRow key={index} className="hover:bg-beige">
               {columns.map((column) => (
-                <TableCell key={column.key} className="mobile-extrasmall-regular">
+                <TableCell key={column.key} className="text-mobile-extrasmall-regular">
                   {column.render ? column.render(row[column.key], row) : String(row[column.key] || '')}
                 </TableCell>
               ))}
