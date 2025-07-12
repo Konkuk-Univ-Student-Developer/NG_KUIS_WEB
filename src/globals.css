@@ -5,15 +5,30 @@
 
 /* Figma Design System Colors */
 :root {
+  /* Primary Colors */
   --darkgreen: #036b3f;
+  --lightgreen: #8bc34a;
+  --green: #4caf50;
+
+  /* Neutral Colors */
   --black: #000000;
-  --beige: #eef0e4;
   --white: #ffffff;
+  --beige: #eef0e4;
   --darkgray: #656f76;
   --lightgray: #ecebe3;
-  --orange: #f0a704;
   --coolgray: #b1b3b4;
-  --black-inactive: #000000;
+  --warmgray: #795548;
+
+  /* Accent Colors */
+  --orange: #f0a704;
+  --magenta: #e91e63;
+  --yellow: #ffeb3b;
+  --violet: #9c27b0;
+  --blue: #2196f3;
+  --danger: #f44336;
+
+  /* Inactive State */
+  --black-inactive: #424242;
 
   /* Spacing */
   --gap-4: 4px;
