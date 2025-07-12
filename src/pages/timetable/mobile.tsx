@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { TopBar, Select, SearchInput, ViewToggle, Pagination } from '@/components/common';
+import { TopBar, Select, SearchInput, ViewToggle, Pagination, CourseCard } from '@/components/common';
 
 const TimetablePage: React.FC = () => {
   const [viewMode, setViewMode] = useState<'List' | 'Card'>('List');
-  const [selectedYear, setSelectedYear] = useState('간의년도');
-  const [selectedSemester, setSelectedSemester] = useState('간의학기');
+  const [selectedYear, setSelectedYear] = useState('강의년도');
+  const [selectedSemester, setSelectedSemester] = useState('강의학기');
   const [selectedDepartment, setSelectedDepartment] = useState('이수구분');
   const [searchQueries, setSearchQueries] = useState({
     professor: '',
@@ -36,7 +36,9 @@ const TimetablePage: React.FC = () => {
       교과목명: '이산수학',
       학점: '3',
       담당교수: '박소영',
-      강의실: '새501'
+      강의실: '새501',
+      시간: '화 09-12 / 목 09-12',
+      과목코드: 'COA&A8723'
     },
     {
       학년: '1',
@@ -44,7 +46,9 @@ const TimetablePage: React.FC = () => {
       교과목명: '이산수학',
       학점: '3',
       담당교수: '박소영',
-      강의실: '새501'
+      강의실: '새501',
+      시간: '화 09-12 / 목 09-12',
+      과목코드: 'COA&A8723'
     },
     {
       학년: '1',
@@ -52,7 +56,9 @@ const TimetablePage: React.FC = () => {
       교과목명: '이산수학',
       학점: '3',
       담당교수: '박소영',
-      강의실: '새501'
+      강의실: '새501',
+      시간: '화 09-12 / 목 09-12',
+      과목코드: 'COA&A8723'
     },
     {
       학년: '1',
@@ -60,7 +66,9 @@ const TimetablePage: React.FC = () => {
       교과목명: '이산수학',
       학점: '3',
       담당교수: '박소영',
-      강의실: '새501'
+      강의실: '새501',
+      시간: '화 09-12 / 목 09-12',
+      과목코드: 'COA&A8723'
     },
     {
       학년: '1',
@@ -68,7 +76,9 @@ const TimetablePage: React.FC = () => {
       교과목명: '이산수학',
       학점: '3',
       담당교수: '박소영',
-      강의실: '새501'
+      강의실: '새501',
+      시간: '화 09-12 / 목 09-12',
+      과목코드: 'COA&A8723'
     },
     {
       학년: '1',
@@ -76,55 +86,9 @@ const TimetablePage: React.FC = () => {
       교과목명: '이산수학',
       학점: '3',
       담당교수: '박소영',
-      강의실: '새501'
-    },
-    {
-      학년: '1',
-      과목번호: '0312',
-      교과목명: '이산수학',
-      학점: '3',
-      담당교수: '박소영',
-      강의실: '새501'
-    },
-    {
-      학년: '1',
-      과목번호: '0312',
-      교과목명: '이산수학',
-      학점: '3',
-      담당교수: '박소영',
-      강의실: '새501'
-    },
-    {
-      학년: '1',
-      과목번호: '0312',
-      교과목명: '이산수학',
-      학점: '3',
-      담당교수: '박소영',
-      강의실: '새501'
-    },
-    {
-      학년: '1',
-      과목번호: '0312',
-      교과목명: '이산수학',
-      학점: '3',
-      담당교수: '박소영',
-      강의실: '새501'
-    },
-    {
-      학년: '1',
-      과목번호: '0312',
-      교과목명: '이산수학',
-      학점: '3',
-      담당교수: '박소영',
-      강의실: '새501'
-    },
-    {
-      학년: '1',
-      과목번호: '0312',
-      교과목명: '이산수학',
-      학점: '3',
-      담당교수: '박소영',
-      강의실: '새501'
+      강의실: '새501',
+      시간: '화 09-12 / 목 09-12',
+      과목코드: 'COA&A8723'
     }
   ];
 
@@ -197,36 +161,50 @@ const TimetablePage: React.FC = () => {
           />
         </div>
 
-        {/* Table */}
-        <div className="bg-white rounded-[8px] border border-lightgray overflow-hidden">
-          {/* Table Header */}
-          <div className="bg-beige px-4 py-3 border-b border-lightgray">
-            <div className="grid grid-cols-6 gap-2 text-mobile-small-bold text-darkgray">
-              <div>학년</div>
-              <div>과목번호</div>
-              <div>교과목명</div>
-              <div>학점</div>
-              <div>담당교수</div>
-              <div>강의실</div>
-            </div>
-          </div>
-
-          {/* Table Body */}
-          <div className="divide-y divide-lightgray">
-            {courseData.map((course, index) => (
-              <div key={index} className="px-4 py-3 hover:bg-beige/50 transition-colors">
-                <div className="grid grid-cols-6 gap-2 text-mobile-small">
-                  <div className="text-darkgray">{course.학년}</div>
-                  <div className="text-darkgray">{course.과목번호}</div>
-                  <div className="text-black font-medium">{course.교과목명}</div>
-                  <div className="text-darkgray">{course.학점}</div>
-                  <div className="text-darkgray">{course.담당교수}</div>
-                  <div className="text-darkgray">{course.강의실}</div>
+        {/* Content - List or Card View */}
+        {viewMode === 'List' ? (
+          /* Table with horizontal scroll */
+          <div className="bg-white rounded-[8px] border border-lightgray overflow-hidden">
+            <div className="overflow-x-auto">
+              {/* Table Header */}
+              <div className="bg-beige px-4 py-3 border-b border-lightgray min-w-max">
+                <div className="grid grid-cols-7 gap-4 text-mobile-small-bold text-darkgray">
+                  <div className="min-w-[60px]">학년</div>
+                  <div className="min-w-[80px]">과목번호</div>
+                  <div className="min-w-[120px]">교과목명</div>
+                  <div className="min-w-[60px]">학점</div>
+                  <div className="min-w-[80px]">담당교수</div>
+                  <div className="min-w-[80px]">강의실</div>
+                  <div className="min-w-[140px]">시간</div>
                 </div>
               </div>
+
+              {/* Table Body */}
+              <div className="divide-y divide-lightgray">
+                {courseData.map((course, index) => (
+                  <div key={index} className="px-4 py-3 hover:bg-beige/50 transition-colors min-w-max">
+                    <div className="grid grid-cols-7 gap-4 text-mobile-small">
+                      <div className="text-darkgray min-w-[60px]">{course.학년}</div>
+                      <div className="text-darkgray min-w-[80px]">{course.과목번호}</div>
+                      <div className="text-black font-medium min-w-[120px]">{course.교과목명}</div>
+                      <div className="text-darkgray min-w-[60px]">{course.학점}</div>
+                      <div className="text-darkgray min-w-[80px]">{course.담당교수}</div>
+                      <div className="text-darkgray min-w-[80px]">{course.강의실}</div>
+                      <div className="text-darkgray min-w-[140px]">{course.시간}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          /* Card View */
+          <div className="space-y-3">
+            {courseData.map((course, index) => (
+              <CourseCard key={index} course={course} />
             ))}
           </div>
-        </div>
+        )}
 
         {/* Pagination */}
         <Pagination

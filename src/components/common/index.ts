@@ -7,6 +7,7 @@ export { default as Select } from "./Select";
 export { default as SearchInput } from "./SearchInput";
 export { default as ViewToggle } from "./ViewToggle";
 export { default as Pagination } from "./Pagination";
+export { default as CourseCard } from "./CourseCard";
 
 // Re-export shadcn/ui components for convenience
 export { Badge } from "@/components/ui/badge";
