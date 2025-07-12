@@ -6,8 +6,10 @@ import {
   Search,
   Edit3,
   ZoomIn,
-  ArrowRight
+  ArrowRight,
+  DollarSign
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { TopBar } from '@/components/common';
 
 const HomePage: React.FC = () => {
@@ -15,22 +17,22 @@ const HomePage: React.FC = () => {
     {
       icon: <GraduationCap className="w-6 h-6 text-darkgreen" />,
       label: '성적 조회',
-      onClick: () => console.log('성적 조회')
+      path: '/grades'
     },
     {
       icon: <Calendar className="w-6 h-6 text-darkgreen" />,
       label: '강의 시간표',
-      onClick: () => console.log('강의 시간표')
+      path: '/timetable'
     },
     {
       icon: <School className="w-6 h-6 text-darkgreen" />,
       label: '졸업 시뮬',
-      onClick: () => console.log('졸업 시뮬')
+      path: '/graduation'
     },
     {
-      icon: <School className="w-6 h-6 text-darkgreen" />,
+      icon: <DollarSign className="w-6 h-6 text-darkgreen" />,
       label: '장학 관리',
-      onClick: () => console.log('장학 관리')
+      path: '/scholarship'
     },
   ];
 
@@ -91,10 +93,10 @@ const HomePage: React.FC = () => {
           {/* Menu Grid */}
           <div className="flex justify-between">
             {quickMenuItems.map((item, index) => (
-              <button
+              <Link
                 key={index}
-                onClick={item.onClick}
-                className="bg-beige w-[79px] h-[74px] rounded-[10px] flex flex-col items-center justify-center px-1"
+                to={item.path}
+                className="bg-beige w-[79px] h-[74px] rounded-[10px] flex flex-col items-center justify-center px-1 hover:bg-lightgray transition-colors"
               >
                 <div className="mb-1">
                   {item.icon}
@@ -102,7 +104,7 @@ const HomePage: React.FC = () => {
                 <span className="text-black text-mobile-small-bold text-center leading-[1.2] tracking-[-0.32px] whitespace-pre-line">
                   {item.label}
                 </span>
-              </button>
+              </Link>
             ))}
           </div>
         </div>
