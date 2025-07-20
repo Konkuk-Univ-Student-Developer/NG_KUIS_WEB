@@ -1,7 +1,8 @@
 import React from 'react';
-import { GraduationCap, Target, AlertCircle, CheckCircle, TrendingUp } from 'lucide-react';
+import { TopBar } from '@/components/common';
+import { GraduationCap, Target, AlertCircle, CheckCircle } from 'lucide-react';
 
-const GraduationDesktop: React.FC = () => {
+const GraduationPage: React.FC = () => {
   const requirements = [
     { category: '전공필수', required: 42, completed: 38, status: 'warning' },
     { category: '전공선택', required: 30, completed: 32, status: 'success' },
@@ -15,38 +16,48 @@ const GraduationDesktop: React.FC = () => {
   const percentage = Math.round((totalCompleted / totalRequired) * 100);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-darkgreen mb-8">졸업 시뮬레이션</h1>
+    <div className="min-h-screen bg-white md:bg-gray-50">
+      {/* Mobile TopBar */}
+      <div className="md:hidden">
+        <TopBar
+          isLoggedIn={false}
+          onMenuClick={() => console.log('메뉴 클릭')}
+          onLoginClick={() => console.log('로그인 클릭')}
+        />
+      </div>
+      
+      <div className="px-5 py-[25px] space-y-6 md:p-8 md:max-w-7xl md:mx-auto">
+        <h1 className="text-darkgreen text-mobile-medium-bold md:text-3xl md:font-bold md:mb-8">졸업 시뮬레이션</h1>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="space-y-6 md:grid md:grid-cols-1 lg:grid-cols-3 md:gap-6 md:space-y-0">
           {/* 졸업 진행률 */}
-          <div className="lg:col-span-2 bg-white rounded-lg shadow-sm p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold flex items-center gap-3">
+          <div className="bg-beige rounded-[10px] p-5 md:lg:col-span-2 md:bg-white md:rounded-lg md:shadow-sm md:p-6">
+            <div className="flex items-center gap-3 mb-4 md:justify-between md:mb-6">
+              <div className="flex items-center gap-3">
                 <GraduationCap className="w-6 h-6 text-darkgreen" />
-                졸업 진행률
-              </h2>
-              <span className="text-2xl font-bold text-darkgreen">{percentage}%</span>
+                <h2 className="text-mobile-small-bold md:text-xl md:font-semibold">졸업 진행률</h2>
+              </div>
+              <span className="hidden md:block text-2xl font-bold text-darkgreen">{percentage}%</span>
             </div>
             
-            <div className="mb-8">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-lg">전체 이수 학점</span>
-                <span className="text-lg font-medium">{totalCompleted} / {totalRequired}</span>
+            <div className="mb-4 md:mb-8">
+              <div className="flex justify-between items-center mb-2 md:mb-3">
+                <span className="text-mobile-small md:text-lg">전체 이수 학점</span>
+                <span className="text-mobile-small-bold md:text-lg md:font-medium">{totalCompleted} / {totalRequired}</span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-6">
+              <div className="w-full bg-lightgray rounded-full h-3 md:bg-gray-200 md:h-6">
                 <div 
-                  className="bg-darkgreen h-6 rounded-full transition-all duration-500 flex items-center justify-end pr-3"
+                  className="bg-darkgreen h-3 rounded-full transition-all duration-300 md:h-6 md:flex md:items-center md:justify-end md:pr-3"
                   style={{ width: `${percentage}%` }}
                 >
-                  <span className="text-white text-sm font-medium">{percentage}%</span>
+                  <span className="hidden md:inline text-white text-sm font-medium">{percentage}%</span>
                 </div>
               </div>
+              <p className="text-darkgreen text-mobile-small-bold mt-2 text-right md:hidden">{percentage}%</p>
             </div>
             
-            {/* 영역별 상세 */}
-            <div className="space-y-4">
+            {/* Desktop: 영역별 상세 */}
+            <div className="hidden md:block space-y-4">
               {requirements.map((req, index) => (
                 <div key={index} className="border rounded-lg p-4">
                   <div className="flex justify-between items-center mb-2">
@@ -75,8 +86,32 @@ const GraduationDesktop: React.FC = () => {
             </div>
           </div>
           
-          {/* 졸업 요건 요약 */}
-          <div className="space-y-6">
+          {/* Mobile: 영역별 이수 현황 */}
+          <div className="space-y-3 md:hidden">
+            <h2 className="text-mobile-small-bold flex items-center gap-2">
+              <Target className="w-5 h-5 text-darkgreen" />
+              영역별 이수 현황
+            </h2>
+            
+            {requirements.map((req, index) => (
+              <div key={index} className="bg-lightgray rounded-[8px] p-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-mobile-small">{req.category}</span>
+                  <div className="flex items-center gap-2">
+                    <span className={`text-mobile-small-bold ${req.status === 'success' ? 'text-green' : 'text-orange'}`}>
+                      {req.completed} / {req.required}
+                    </span>
+                    {req.status === 'warning' && (
+                      <AlertCircle className="w-4 h-4 text-orange" />
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          {/* Desktop: 졸업 요건 요약 & 추가 요건 */}
+          <div className="hidden md:block space-y-6">
             <div className="bg-white rounded-lg shadow-sm p-6">
               <h2 className="text-xl font-semibold mb-4">졸업 요건 요약</h2>
               <div className="space-y-3 text-sm">
@@ -128,4 +163,4 @@ const GraduationDesktop: React.FC = () => {
   );
 };
 
-export default GraduationDesktop;
+export default GraduationPage;
