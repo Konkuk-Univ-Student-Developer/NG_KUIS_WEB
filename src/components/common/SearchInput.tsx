@@ -21,17 +21,20 @@ const SearchInput: React.FC<SearchInputProps> = ({
   };
 
   return (
-    <div className={`relative ${className}`}>
-      <input
-        type="text"
-        placeholder={placeholder}
-        value={value}
-        onChange={handleChange}
-        disabled={disabled}
-        className={`w-full bg-beige rounded-[8px] px-4 py-3 pr-10 text-mobile-small placeholder-darkgray border-0 focus:ring-0 focus:outline-none focus:bg-beige/80 transition-colors ${disabled ? 'opacity-50 cursor-not-allowed' : ''
-          }`}
-      />
-      <Search className="absolute right-3 top-3 w-4 h-4 text-darkgray" />
+    <div className={`relative ${className} min-w-0`}>
+      <div className="bg-beige rounded-[15px] pl-3 pr-2 py-2 flex items-center gap-2">
+        <input
+          name='search-input'
+          type="text"
+          placeholder={placeholder}
+          value={value}
+          onChange={handleChange}
+          disabled={disabled}
+          className={`flex-1 min-w-0 bg-transparent text-mobile-small placeholder-darkgray border-0 focus:ring-0 focus:outline-none ${disabled ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+        />
+        <Search className="w-4 h-4 text-darkgray shrink-0" />
+      </div>
     </div>
   );
 };
