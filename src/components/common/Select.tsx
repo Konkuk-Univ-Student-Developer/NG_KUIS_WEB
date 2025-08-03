@@ -5,7 +5,7 @@ interface SelectProps {
   value: string;
   onChange?: (value: string) => void;
   placeholder?: string;
-  options?: Array<{ value: string; label: string }>;
+  option?: string;
   className?: string;
   disabled?: boolean;
 }
@@ -13,8 +13,8 @@ interface SelectProps {
 const Select: React.FC<SelectProps> = ({
   value,
   onChange,
-  placeholder = "선택하세요",
-  options = [],
+  placeholder = "",
+  option = "",
   className = "",
   disabled = false
 }) => {
@@ -30,7 +30,7 @@ const Select: React.FC<SelectProps> = ({
       <button
         onClick={() => setIsOpen(!isOpen)}
         disabled={disabled}
-        className={`w-full bg-beige rounded-[8px] px-4 py-3 flex items-center justify-between text-mobile-small ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-beige/80'
+        className={`w-full bg-beige rounded-[15px] pl-3 pr-2 py-2 flex items-center justify-between text-mobile-small ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-beige/80'
           } ${value ? 'text-black' : 'text-darkgray'}`}
       >
         <span>{value || placeholder}</span>
@@ -38,16 +38,14 @@ const Select: React.FC<SelectProps> = ({
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-lightgray rounded-[8px] shadow-lg z-10 max-h-48 overflow-y-auto">
-          {options.map((option) => (
-            <button
-              key={option.value}
-              onClick={() => handleSelect(option.value)}
-              className="w-full px-4 py-3 text-left text-mobile-small hover:bg-beige transition-colors"
-            >
-              {option.label}
-            </button>
-          ))}
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-lightgray rounded-[15px] shadow-lg z-10 max-h-48 overflow-y-auto">
+          <button
+            key={option}
+            onClick={() => handleSelect(option)}
+            className="w-full pl-3 pr-2 py-2 text-left text-mobile-small hover:bg-beige transition-colors"
+          >
+            {option}
+          </button>
         </div>
       )}
 
