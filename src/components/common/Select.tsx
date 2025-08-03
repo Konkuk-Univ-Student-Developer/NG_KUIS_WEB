@@ -5,7 +5,7 @@ interface SelectProps {
   value: string;
   onChange?: (value: string) => void;
   placeholder?: string;
-  option?: string;
+  options?: string[];
   className?: string;
   disabled?: boolean;
 }
@@ -14,7 +14,7 @@ const Select: React.FC<SelectProps> = ({
   value,
   onChange,
   placeholder = "",
-  option = "",
+  options = [],
   className = "",
   disabled = false
 }) => {
@@ -38,14 +38,16 @@ const Select: React.FC<SelectProps> = ({
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-lightgray rounded-[15px] shadow-lg z-10 max-h-48 overflow-y-auto">
-          <button
-            key={option}
-            onClick={() => handleSelect(option)}
-            className="w-full pl-3 pr-2 py-2 text-left text-mobile-small hover:bg-beige transition-colors"
-          >
-            {option}
-          </button>
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-lightgray rounded-[15px] shadow-lg z-10 max-h-48 overflow-y-auto cursor-pointer">
+          {options && options.map((option) =>
+            <button
+              key={option}
+              onClick={() => handleSelect(option)}
+              className="w-full pl-3 pr-2 py-2 text-left text-mobile-small hover:bg-beige transition-colors"
+            >
+              {option}
+            </button>
+          )}
         </div>
       )}
 
