@@ -13,6 +13,106 @@ interface CourseData {
   과목코드: string;
 }
 
+// 더미 데이터들
+const YEAR_OPTIONS = ['2024학년도', '2025학년도'];
+const SEMESTER_OPTIONS = ['1학기', '2학기'];
+const DEPARTMENT_OPTIONS = ['전필', '전선', '반교', '선교', '지필', '지교', '일선', '교직', '전기', '기교', '핵교', '일교', '심교', '융필', '융선'];
+
+const COURSE_DATA: CourseData[] = [
+  {
+    학년: '1',
+    과목번호: '0312',
+    교과목명: '이산수학',
+    학점: '3',
+    담당교수: '박소영',
+    강의실: '새501',
+    시간: '화 09-12 / 목 09-12',
+    과목코드: 'COA&A8723'
+  },
+  {
+    학년: '1',
+    과목번호: '0312',
+    교과목명: '이산수학',
+    학점: '3',
+    담당교수: '박소영',
+    강의실: '새501',
+    시간: '화 09-12 / 목 09-12',
+    과목코드: 'COA&A8723'
+  },
+  {
+    학년: '1',
+    과목번호: '0312',
+    교과목명: '이산수학',
+    학점: '3',
+    담당교수: '박소영',
+    강의실: '새501',
+    시간: '화 09-12 / 목 09-12',
+    과목코드: 'COA&A8723'
+  },
+  {
+    학년: '1',
+    과목번호: '0312',
+    교과목명: '이산수학',
+    학점: '3',
+    담당교수: '박소영',
+    강의실: '새501',
+    시간: '화 09-12 / 목 09-12',
+    과목코드: 'COA&A8723'
+  },
+  {
+    학년: '1',
+    과목번호: '0312',
+    교과목명: '이산수학',
+    학점: '3',
+    담당교수: '박소영',
+    강의실: '새501',
+    시간: '화 09-12 / 목 09-12',
+    과목코드: 'COA&A8723'
+  },
+  {
+    학년: '1',
+    과목번호: '0312',
+    교과목명: '이산수학',
+    학점: '3',
+    담당교수: '박소영',
+    강의실: '새501',
+    시간: '화 09-12 / 목 09-12',
+    과목코드: 'COA&A8723'
+  }
+];
+
+const TOTAL_PAGES = 10;
+
+// Desktop timetable data
+const DAYS = ['월', '화', '수', '목', '금'];
+const TIMES = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
+
+const SCHEDULE: Record<string, Array<{ time: string; name: string; location: string; professor: string; color: string; }>> = {
+  월: [
+    { time: '9:00-10:30', name: '데이터베이스', location: '새천년관 1203호', professor: '김교수', color: 'bg-blue-100 border-blue-300' },
+    { time: '14:00-15:30', name: '알고리즘', location: '새천년관 1101호', professor: '박교수', color: 'bg-green-100 border-green-300' }
+  ],
+  화: [
+    { time: '11:00-12:30', name: '운영체제', location: '공학관 A동 405호', professor: '이교수', color: 'bg-purple-100 border-purple-300' }
+  ],
+  수: [
+    { time: '9:00-10:30', name: '데이터베이스', location: '새천년관 1203호', professor: '김교수', color: 'bg-blue-100 border-blue-300' },
+    { time: '14:00-15:30', name: '알고리즘', location: '새천년관 1101호', professor: '박교수', color: 'bg-green-100 border-green-300' }
+  ],
+  목: [
+    { time: '11:00-12:30', name: '운영체제', location: '공학관 A동 405호', professor: '이교수', color: 'bg-purple-100 border-purple-300' },
+    { time: '15:00-17:00', name: '캡스톤디자인', location: '새천년관 2301호', professor: '최교수', color: 'bg-orange-100 border-orange-300' }
+  ],
+  금: []
+};
+
+const COURSE_LIST = [
+  { name: '데이터베이스', code: 'CS301', credit: 3, professor: '김교수', time: '월,수 09:00-10:30' },
+  { name: '운영체제', code: 'CS302', credit: 3, professor: '이교수', time: '화,목 11:00-12:30' },
+  { name: '알고리즘', code: 'CS303', credit: 3, professor: '박교수', time: '월,수 14:00-15:30' },
+  { name: '캡스톤디자인', code: 'CS401', credit: 3, professor: '최교수', time: '목 15:00-17:00' }
+];
+
 // Props 타입 정의
 interface MobileViewProps {
   viewMode: 'List' | 'Card';
@@ -179,35 +279,32 @@ const MobileView: React.FC<MobileViewProps> = ({
         /* Table with horizontal scroll */
         <div className="bg-white rounded-[8px] border border-lightgray overflow-hidden">
           <div className="overflow-x-auto">
-            {/* Table Header */}
-            <div className="bg-beige px-4 py-3 border-b border-lightgray min-w-max">
-              <div className="grid grid-cols-7 gap-4 text-mobile-small-bold text-darkgray">
-                <div className="min-w-[60px]">학년</div>
-                <div className="min-w-[80px]">과목번호</div>
-                <div className="min-w-[120px]">교과목명</div>
-                <div className="min-w-[60px]">학점</div>
-                <div className="min-w-[80px]">담당교수</div>
-                <div className="min-w-[80px]">강의실</div>
-                <div className="min-w-[140px]">시간</div>
-              </div>
-            </div>
-
-            {/* Table Body */}
-            <div className="divide-y divide-lightgray">
-              {courseData.map((course, index) => (
-                <div key={index} className="px-4 py-3 hover:bg-beige/50 transition-colors min-w-max">
-                  <div className="grid grid-cols-7 gap-4 text-mobile-small">
-                    <div className="text-darkgray min-w-[60px]">{course.학년}</div>
-                    <div className="text-darkgray min-w-[80px]">{course.과목번호}</div>
-                    <div className="text-black font-medium min-w-[120px]">{course.교과목명}</div>
-                    <div className="text-darkgray min-w-[60px]">{course.학점}</div>
-                    <div className="text-darkgray min-w-[80px]">{course.담당교수}</div>
-                    <div className="text-darkgray min-w-[80px]">{course.강의실}</div>
-                    <div className="text-darkgray min-w-[140px]">{course.시간}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <table className="w-full min-w-max text-center">
+              <thead className="bg-beige">
+                <tr>
+                  <th className="px-4 py-3 text-mobile-small-bold text-black min-w-[20px] border-b border-lightgray">학년</th>
+                  <th className="px-4 py-3 text-mobile-small-bold text-black min-w-[80px] border-b border-lightgray">과목번호</th>
+                  <th className="px-4 py-3text-mobile-small-bold text-black min-w-[120px] border-b border-lightgray">교과목명</th>
+                  <th className="px-4 py-3  text-mobile-small-bold text-black min-w-[60px] border-b border-lightgray">학점</th>
+                  <th className="px-4 py-3  text-mobile-small-bold text-black min-w-[80px] border-b border-lightgray">담당교수</th>
+                  <th className="px-4 py-3  text-mobile-small-bold text-black min-w-[80px] border-b border-lightgray">강의실</th>
+                  <th className="px-4 py-3  text-mobile-small-bold text-black min-w-[140px] border-b border-lightgray">시간</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-lightgray">
+                {courseData.map((course, index) => (
+                  <tr key={index} className="hover:bg-beige/50 transition-colors">
+                    <td className="px-4 py-3 text-mobile-small text-darkgray min-w-[20px]">{course.학년}</td>
+                    <td className="px-4 py-3 text-mobile-small text-darkgray min-w-[80px]">{course.과목번호}</td>
+                    <td className="px-4 py-3 text-mobile-small text-black font-medium min-w-[120px]">{course.교과목명}</td>
+                    <td className="px-4 py-3 text-mobile-small text-darkgray min-w-[60px]">{course.학점}</td>
+                    <td className="px-4 py-3 text-mobile-small text-darkgray min-w-[80px]">{course.담당교수}</td>
+                    <td className="px-4 py-3 text-mobile-small text-darkgray min-w-[80px]">{course.강의실}</td>
+                    <td className="px-4 py-3 text-mobile-small text-darkgray min-w-[140px]">{course.시간}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       ) : (
@@ -294,12 +391,7 @@ const DesktopView: React.FC<DesktopViewProps> = ({ days, times, schedule }) => (
         <div className="lg:col-span-2 bg-white rounded-lg shadow-sm p-6">
           <h2 className="text-xl font-semibold mb-4">수강 과목 목록</h2>
           <div className="space-y-3">
-            {[
-              { name: '데이터베이스', code: 'CS301', credit: 3, professor: '김교수', time: '월,수 09:00-10:30' },
-              { name: '운영체제', code: 'CS302', credit: 3, professor: '이교수', time: '화,목 11:00-12:30' },
-              { name: '알고리즘', code: 'CS303', credit: 3, professor: '박교수', time: '월,수 14:00-15:30' },
-              { name: '캡스톤디자인', code: 'CS401', credit: 3, professor: '최교수', time: '목 15:00-17:00' }
-            ].map((course, idx) => (
+            {COURSE_LIST.map((course, idx) => (
               <div key={idx} className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50">
                 <div>
                   <p className="font-medium">{course.name} ({course.code})</p>
@@ -345,98 +437,6 @@ const TimetablePage: React.FC = () => {
   });
   const [currentPage, setCurrentPage] = useState(1);
 
-  const yearOptions = ['2024학년도', '2025학년도'];
-  const semesterOptions = ['1학기', '2학기'];
-  const departmentOptions = ['전필', '전선', '반교', '선교', '지필', '지교', '일선', '교직', '전기', '기교', '핵교', '일교', '심교', '융필', '융선'];
-
-  const courseData = [
-    {
-      학년: '1',
-      과목번호: '0312',
-      교과목명: '이산수학',
-      학점: '3',
-      담당교수: '박소영',
-      강의실: '새501',
-      시간: '화 09-12 / 목 09-12',
-      과목코드: 'COA&A8723'
-    },
-    {
-      학년: '1',
-      과목번호: '0312',
-      교과목명: '이산수학',
-      학점: '3',
-      담당교수: '박소영',
-      강의실: '새501',
-      시간: '화 09-12 / 목 09-12',
-      과목코드: 'COA&A8723'
-    },
-    {
-      학년: '1',
-      과목번호: '0312',
-      교과목명: '이산수학',
-      학점: '3',
-      담당교수: '박소영',
-      강의실: '새501',
-      시간: '화 09-12 / 목 09-12',
-      과목코드: 'COA&A8723'
-    },
-    {
-      학년: '1',
-      과목번호: '0312',
-      교과목명: '이산수학',
-      학점: '3',
-      담당교수: '박소영',
-      강의실: '새501',
-      시간: '화 09-12 / 목 09-12',
-      과목코드: 'COA&A8723'
-    },
-    {
-      학년: '1',
-      과목번호: '0312',
-      교과목명: '이산수학',
-      학점: '3',
-      담당교수: '박소영',
-      강의실: '새501',
-      시간: '화 09-12 / 목 09-12',
-      과목코드: 'COA&A8723'
-    },
-    {
-      학년: '1',
-      과목번호: '0312',
-      교과목명: '이산수학',
-      학점: '3',
-      담당교수: '박소영',
-      강의실: '새501',
-      시간: '화 09-12 / 목 09-12',
-      과목코드: 'COA&A8723'
-    }
-  ];
-
-  const totalPages = 10;
-
-  // Desktop timetable data
-  const days = ['월', '화', '수', '목', '금'];
-  const times = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
-
-  const schedule: Record<string, Array<{ time: string; name: string; location: string; professor: string; color: string; }>> = {
-    월: [
-      { time: '9:00-10:30', name: '데이터베이스', location: '새천년관 1203호', professor: '김교수', color: 'bg-blue-100 border-blue-300' },
-      { time: '14:00-15:30', name: '알고리즘', location: '새천년관 1101호', professor: '박교수', color: 'bg-green-100 border-green-300' }
-    ],
-    화: [
-      { time: '11:00-12:30', name: '운영체제', location: '공학관 A동 405호', professor: '이교수', color: 'bg-purple-100 border-purple-300' }
-    ],
-    수: [
-      { time: '9:00-10:30', name: '데이터베이스', location: '새천년관 1203호', professor: '김교수', color: 'bg-blue-100 border-blue-300' },
-      { time: '14:00-15:30', name: '알고리즘', location: '새천년관 1101호', professor: '박교수', color: 'bg-green-100 border-green-300' }
-    ],
-    목: [
-      { time: '11:00-12:30', name: '운영체제', location: '공학관 A동 405호', professor: '이교수', color: 'bg-purple-100 border-purple-300' },
-      { time: '15:00-17:00', name: '캡스톤디자인', location: '새천년관 2301호', professor: '최교수', color: 'bg-orange-100 border-orange-300' }
-    ],
-    금: []
-  };
-
   // Conditional rendering based on viewport
   return (
     <>
@@ -454,18 +454,18 @@ const TimetablePage: React.FC = () => {
           setSelectedDepartment={setSelectedDepartment}
           setSearchQueries={setSearchQueries}
           setCurrentPage={setCurrentPage}
-          yearOptions={yearOptions}
-          semesterOptions={semesterOptions}
-          departmentOptions={departmentOptions}
-          courseData={courseData}
-          totalPages={totalPages}
+          yearOptions={YEAR_OPTIONS}
+          semesterOptions={SEMESTER_OPTIONS}
+          departmentOptions={DEPARTMENT_OPTIONS}
+          courseData={COURSE_DATA}
+          totalPages={TOTAL_PAGES}
         />
       </div>
       <div className="hidden md:block">
         <DesktopView
-          days={days}
-          times={times}
-          schedule={schedule}
+          days={DAYS}
+          times={TIMES}
+          schedule={SCHEDULE}
         />
       </div>
     </>
