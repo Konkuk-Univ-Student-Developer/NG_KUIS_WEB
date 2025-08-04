@@ -1,179 +1,254 @@
-import React from 'react';
-import {
-  GraduationCap,
-  Calendar,
-  School,
-  Search,
-  Edit3,
-  ZoomIn,
-  ArrowRight,
-  DollarSign
-} from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { TopBar } from '@/commons';
+import React from "react";
+import { Link } from "react-router-dom";
+import { TopBar } from "@/commons";
+import BookIcon from "@/assets/icon/ic_book.svg";
+import CalendarIcon from "@/assets/icon/ic_calendar.svg";
+import GraduationIcon from "@/assets/icon/ic_graduation.svg";
+import SearchIcon from "@/assets/icon/ic_search.svg";
+import EditIcon from "@/assets/icon/ic_edit.svg";
+import MagnifierIcon from "@/assets/icon/ic_magnifier.svg";
 
 const HomePage: React.FC = () => {
+  const isLoggedIn = false; // TODO: Replace with actual login state
+  const userName = "김건국";
+
   const quickMenuItems = [
     {
-      icon: <GraduationCap className="w-6 h-6 text-darkgreen" />,
-      label: '성적 조회',
-      path: '/grades'
+      icon: <img src={BookIcon} />,
+      label: (
+        <>
+          <span className="block md:hidden">
+            성적
+            <br />
+            조회
+          </span>
+          <span className="hidden md:block">성적 조회</span>
+        </>
+      ),
+      path: "/grades",
     },
     {
-      icon: <Calendar className="w-6 h-6 text-darkgreen" />,
-      label: '강의 시간표',
-      path: '/timetable'
+      icon: <img src={CalendarIcon} />,
+      label: (
+        <>
+          <span className="block md:hidden">
+            강의
+            <br />
+            시간표
+          </span>
+          <span className="hidden md:block">
+            종합
+            <br />
+            강의시간표
+          </span>
+        </>
+      ),
+      path: "/timetable",
     },
     {
-      icon: <School className="w-6 h-6 text-darkgreen" />,
-      label: '졸업 시뮬',
-      path: '/graduation'
+      icon: <img src={GraduationIcon} />,
+      label: (
+        <>
+          <span className="block md:hidden">
+            졸업
+            <br />
+            시뮬
+          </span>
+          <span className="hidden md:block">
+            졸업
+            <br />
+            시뮬레이션
+          </span>
+        </>
+      ),
+      path: "/graduation",
     },
     {
-      icon: <DollarSign className="w-6 h-6 text-darkgreen" />,
-      label: '장학 관리',
-      path: '/scholarship'
+      icon: <img src={GraduationIcon} />,
+      label: (
+        <>
+          <span className="block md:hidden">
+            장학
+            <br />
+            관리
+          </span>
+          <span className="hidden md:block">장학 관리</span>
+        </>
+      ),
+      path: "/scholarship",
     },
   ];
 
   const schoolLifeItems = [
-    { title: '2학기 수강신청 시작', date: 'D-3' },
-    { title: '2025학년도 학위수여식', date: '26.02.' },
-    { title: '2학기 수강신청 시작', date: 'D-3' },
+    { title: "2학기 수강신청 시작", date: "D-3" },
+    { title: "2학기 수강신청 시작", date: "D-3" },
+    { title: "2학기 수강신청 시작", date: "D-3" },
   ];
 
   const noticeItems = [
-    '2025년 2학기 조기 졸업 신청 안내',
-    '2025년 2학기 조기 졸업 신청 안내',
-    '2025년 2학기 조기 졸업 신청 안내',
+    { title: "2025년 2학기 조기 졸업 신청 안내", date: "2025.06.28" },
+    { title: "2025년 2학기 조기 졸업 신청 안내", date: "2025.06.28" },
+    { title: "2025년 2학기 조기 졸업 신청 안내", date: "2025.06.28" },
   ];
 
   return (
-    <div className="min-h-screen bg-white md:bg-gray-50">
-      {/* TopBar */}
+    <div className="min-h-screen">
       <TopBar
-        isLoggedIn={false}
-        onMenuClick={() => console.log('메뉴 클릭')}
-        onLoginClick={() => console.log('로그인 클릭')}
+        isLoggedIn={isLoggedIn}
+        onMenuClick={() => console.log("메뉴 클릭")}
+        onLoginClick={() => console.log("로그인 클릭")}
+        onProfileClick={() => console.log("프로필 클릭")}
       />
 
-      {/* Main Content */}
-      <div className="px-5 py-[25px] space-y-8 md:max-w-7xl md:mx-auto md:px-8 md:py-12">
-        {/* Desktop Title - Hidden on Mobile */}
-        <div className="hidden md:block text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            건국대학교 학사정보시스템
-          </h1>
-          <p className="text-lg text-gray-600">
-            학사 정보를 한눈에 확인하세요
-          </p>
-        </div>
-
-        {/* Section 1: Welcome & Search */}
-        <div className="space-y-[15px] md:space-y-6">
-          {/* Title Section - Mobile Only */}
-          <div className="bg-white px-[3px] h-[50px] flex items-center md:hidden">
-            <div className="text-mobile-medium text-black leading-[1.4] tracking-[-0.36px]">
-              <span className="text-darkgreen font-bold">로그인</span>
-              <span>이</span>
-              <br />
-              <span>필요합니다.</span>
-            </div>
-          </div>
-
-          {/* Search */}
-          <div className="bg-beige rounded-[15px] h-11 flex items-center px-4 md:h-14 md:max-w-2xl md:mx-auto">
-            <div className="flex-1 text-darkgray text-mobile-small tracking-[-0.28px] md:text-base">
-              이번 학기 성적 확인하기
-            </div>
-            <Search className="w-6 h-6 text-darkgray" />
-          </div>
-        </div>
-
-        {/* Quick Menu and School Life Container - Grid on Desktop */}
-        <div className="space-y-8 md:grid md:grid-cols-2 md:gap-8 md:space-y-0">
-          {/* Section 3: Quick Menu */}
-          <div className="space-y-[19px] md:space-y-6">
-            {/* Title */}
-            <div className="flex items-center justify-between">
-              <h2 className="text-darkgreen text-mobile-medium-bold leading-[1.4] tracking-[-0.36px] md:text-2xl">
-                QUICK MENU
-              </h2>
-              <Edit3 className="w-6 h-6 text-darkgray" />
-            </div>
-
-            {/* Menu Grid */}
-            <div className="flex justify-between md:grid md:grid-cols-2 md:gap-4">
-              {quickMenuItems.map((item, index) => (
-                <Link
-                  key={index}
-                  to={item.path}
-                  className="bg-beige w-[79px] h-[74px] rounded-[10px] flex flex-col items-center justify-center px-1 hover:bg-lightgray transition-colors md:w-full md:h-24 md:flex-row md:justify-start md:px-6 md:space-x-4"
-                >
-                  <div className="mb-1 md:mb-0">
-                    {item.icon}
-                  </div>
-                  <span className="text-black text-mobile-small-bold text-center leading-[1.2] tracking-[-0.32px] whitespace-pre-line md:text-base md:text-left md:whitespace-normal">
-                    {item.label}
+      <main className="mx-auto px-5 py-6 md:px-24 md:py-13 flex flex-col gap-8 md:gap-18">
+        {/* Greeting */}
+        <section className="text-left md:text-center">
+          <h2 className="text-black">
+            {isLoggedIn ? (
+              <div className="flex flex-col md:inline-block">
+                <span className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] md:text-desktop-extrabig-bold">
+                  {userName}
+                  <span className="text-lg font-normal leading-[1.4] tracking-[-0.36px] text-black md:text-desktop-extrabig-bold">
+                    {" 님,"}
                   </span>
-                </Link>
+                </span>
+                <span className="text-lg font-normal leading-[1.4] tracking-[-0.36px] md:hidden">
+                  안녕하세요.
+                </span>
+              </div>
+            ) : (
+              <div className="flex flex-col md:flex-row md:gap-1 md:justify-center">
+                <div className="inline-block">
+                  <Link
+                    to="/login"
+                    className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] underline md:no-underline md:text-desktop-extrabig-bold"
+                  >
+                    로그인
+                  </Link>
+                  <span className="text-lg font-normal leading-[1.4] tracking-[-0.36px]">
+                    이
+                  </span>
+                </div>
+                <span className="text-lg font-normal leading-[1.4] tracking-[-0.36px] md:text-desktop-extrabig-bold">
+                  필요합니다
+                </span>
+              </div>
+            )}
+          </h2>
+
+          <p className="mt-2 text-lg font-normal leading-[1.4] tracking-[-0.36px] text-black md:text-desktop-big hidden md:block">
+            안녕하세요. 건국대학교 학사정보시스템입니다.
+          </p>
+
+          <div className="mt-4 md:mt-6 flex items-center justify-center w-full">
+            <div className="relative w-full max-w-180 md:max-w-233">
+              <input
+                type="text"
+                placeholder="이번 학기 성적 확인하기"
+                className="w-full py-4 pl-6 text-sm font-normal leading-[1.2] tracking-[-0.28px] rounded-2xl bg-beige text-black placeholder-darkgray md:py-2 md:border md:border-darkgray md:desktop-small_regular focus:outline-none"
+              />
+              <img
+                src={SearchIcon}
+                alt="검색"
+                className="w-6 h-6 absolute top-1/2 right-4 transform -translate-y-1/2 text-darkgray cursor-pointer"
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Quick Menu */}
+        <section>
+          <div className="flex items-center justify-between mb-5">
+            <h3 className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] md:desktop-extrabig_bold">
+              QUICK MENU
+            </h3>
+            <img src={EditIcon} className="size-6 cursor-pointer" />
+          </div>
+
+          <div className="flex justify-between gap-3">
+            {quickMenuItems.map((item, i) => (
+              <Link
+                key={i}
+                to={item.path}
+                className="flex-1 bg-beige relative w-full md:max-w-65 h-21 rounded-[10px] md:rounded-2xl md:h-37"
+              >
+                <div className="absolute size-6 top-2 left-2 md:top-3 md:left-6 md:size-11">
+                  {item.icon}
+                </div>
+                <span className="absolute right-2 bottom-2 text-sm font-semibold leading-[1.2] tracking-[-0.28px] text-right text-black md:right-4 md:bottom-4 md:desktop-medium_bold">
+                  {item.label}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* 생활 & 공지 */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* 건국생활 한눈에 보기 */}
+          <div>
+            <div className="flex items-center justify-between mb-5">
+              <h3 className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px]">
+                건국생활 한눈에 보기
+              </h3>
+              <img src={MagnifierIcon} className="size-6 cursor-pointer" />
+            </div>
+
+            <div className="bg-beige rounded-[10px] py-5 px-6 space-y-4">
+              {schoolLifeItems.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="flex justify-between items-center gap-x-4 text-sm font-normal leading-[1.2] tracking-[-0.28px]"
+                >
+                  <span className="min-w-0 whitespace-nowrap overflow-hidden text-ellipsis">
+                    {item.title}
+                    {item.title}
+                    {item.title}
+                  </span>
+                  <span className="flex-shrink-0 text-darkgreen text-sm font-semibold leading-[1.2] tracking-[-0.28px]">
+                    {item.date}
+                  </span>
+                </div>
               ))}
             </div>
           </div>
+        </section>
 
-          {/* Section 2: 건국생활 한눈에 보기 */}
-          <div className="space-y-[19px] md:space-y-6">
-            {/* Title */}
-            <div className="flex items-center justify-between">
-              <h2 className="text-darkgreen text-mobile-medium-bold leading-[1.4] tracking-[-0.36px] md:text-2xl">
-                건국생활 한눈에 보기
-              </h2>
-              <ZoomIn className="w-6 h-6 text-darkgray" />
+        {/* 공지사항 */}
+        <section>
+          <div>
+            <div className="flex items-center justify-between mb-5">
+              <h3 className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px]">
+                공지사항
+              </h3>
+              <img src={MagnifierIcon} className="size-6 cursor-pointer" />
             </div>
 
-            {/* List */}
-            <div className="bg-beige rounded-[10px] px-[22px] py-[19px] md:px-8 md:py-6">
-              <div className="space-y-4 md:space-y-5">
-                {schoolLifeItems.map((item, index) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <span className="text-black text-mobile-small tracking-[-0.28px] leading-[1.2] md:text-base">
-                      {item.title}
-                    </span>
-                    <span className="text-darkgreen text-mobile-small-bold tracking-[-0.32px] leading-[1.2] md:text-base md:font-bold">
-                      {item.date}
-                    </span>
-                  </div>
-                ))}
-              </div>
+            <div className="divide-y">
+              {noticeItems.map((item, i) => (
+                <div
+                  key={i}
+                  className="py-2 text-sm font-normal leading-[1.2] tracking-[-0.28px] cursor-pointer"
+                >
+                  {item.title}
+                </div>
+              ))}
             </div>
           </div>
-        </div>
+        </section>
+      </main>
 
-        {/* Section 4: 공지사항 */}
-        <div className="space-y-[19px] md:space-y-6">
-          {/* Title */}
-          <div className="flex items-center justify-between">
-            <h2 className="text-darkgreen text-mobile-medium-bold leading-[1.4] tracking-[-0.36px] md:text-2xl">
-              공지사항
-            </h2>
-            <ArrowRight className="w-6 h-6 text-darkgray" />
-          </div>
-
-          {/* Notice List */}
-          <div className="space-y-1 md:bg-white md:rounded-lg md:p-6 md:shadow-sm">
-            {noticeItems.map((item, index) => (
-              <div
-                key={index}
-                className="h-[30px] flex items-center border-b border-darkgray/20 last:border-b-0 md:h-12 md:hover:bg-gray-50 md:px-4 md:-mx-4 md:cursor-pointer"
-              >
-                <span className="text-black text-mobile-small tracking-[-0.28px] leading-[1.2] md:text-base">
-                  {item}
-                </span>
-              </div>
-            ))}
-          </div>
+      {/* Footer */}
+      <footer className="hidden md:block text-xs text-gray-500 mt-12 space-y-1 text-center">
+        <div>
+          건국대학교 (05029) 120 Neungdong-ro, Gwangjin-gu, Seoul (05029) KOREA
         </div>
-      </div>
+        <div>TEL : 02-450-3114</div>
+        <div className="text-gray-400">
+          COPYRIGHT &copy; 2025 KONKUK UNIVERSITY STUDENTS DEVELOPER. ALL RIGHTS
+          RESERVED
+        </div>
+      </footer>
     </div>
   );
 };
