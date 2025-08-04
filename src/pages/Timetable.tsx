@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TopBar, Select, SearchInput, ViewToggle, Pagination, CourseCard } from '@/components/common';
+import { TopBar, Select, SearchInput, ViewToggle, Pagination, CourseCard } from '@/commons';
 
 const TimetablePage: React.FC = () => {
   const [viewMode, setViewMode] = useState<'List' | 'Card'>('List');

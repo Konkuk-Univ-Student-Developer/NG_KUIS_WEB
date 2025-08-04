@@ -10,7 +10,7 @@ import {
   DollarSign
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { TopBar } from '@/components/common';
+import { TopBar } from '@/commons';
 
 const HomePage: React.FC = () => {
   const quickMenuItems = [
