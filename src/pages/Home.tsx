@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { TopBar } from "@/commons";
 import BookIcon from "@/assets/icon/ic_book.svg";
@@ -11,6 +11,8 @@ import MagnifierIcon from "@/assets/icon/ic_magnifier.svg";
 const HomePage: React.FC = () => {
   const isLoggedIn = false; // TODO: Replace with actual login state
   const userName = "김건국";
+
+  const [activeTab, setActiveTab] = useState("전체");
 
   const quickMenuItems = [
     {
@@ -85,6 +87,17 @@ const HomePage: React.FC = () => {
     { title: "2학기 수강신청 시작", date: "D-3" },
   ];
 
+  const noticeTabs = [
+    "전체",
+    "학사",
+    "장학",
+    "취창업",
+    "국제",
+    "학생",
+    "입학",
+    "일반",
+  ];
+
   const noticeItems = [
     { title: "2025년 2학기 조기 졸업 신청 안내", date: "2025.06.28" },
     { title: "2025년 2학기 조기 졸업 신청 안내", date: "2025.06.28" },
@@ -100,15 +113,15 @@ const HomePage: React.FC = () => {
         onProfileClick={() => console.log("프로필 클릭")}
       />
 
-      <main className="mx-auto px-5 py-6 md:px-24 md:py-13 flex flex-col gap-8 md:gap-18">
+      <main className="mx-auto px-5 py-6 md:px-24 md:py-13 flex flex-col gap-8 md:gap-18 md:max-w-350">
         {/* Greeting */}
         <section className="text-left md:text-center">
           <h2 className="text-black">
             {isLoggedIn ? (
               <div className="flex flex-col md:inline-block">
-                <span className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] md:text-desktop-extrabig-bold">
+                <span className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] md:text-4xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]">
                   {userName}
-                  <span className="text-lg font-normal leading-[1.4] tracking-[-0.36px] text-black md:text-desktop-extrabig-bold">
+                  <span className="text-lg font-normal leading-[1.4] tracking-[-0.36px] text-black md:text-4xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]">
                     {" 님,"}
                   </span>
                 </span>
@@ -117,40 +130,40 @@ const HomePage: React.FC = () => {
                 </span>
               </div>
             ) : (
-              <div className="flex flex-col md:flex-row md:gap-1 md:justify-center">
+              <div className="flex flex-col md:flex-row md:gap-2 md:justify-center">
                 <div className="inline-block">
                   <Link
                     to="/login"
-                    className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] underline md:no-underline md:text-desktop-extrabig-bold"
+                    className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] border-b-2 border-darkgreen md:text-4xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]"
                   >
                     로그인
                   </Link>
-                  <span className="text-lg font-normal leading-[1.4] tracking-[-0.36px]">
+                  <span className="text-lg font-normal leading-[1.4] tracking-[-0.36px] md:text-4xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]">
                     이
                   </span>
                 </div>
-                <span className="text-lg font-normal leading-[1.4] tracking-[-0.36px] md:text-desktop-extrabig-bold">
+                <span className="text-lg font-normal leading-[1.4] tracking-[-0.36px] md:text-4xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]">
                   필요합니다
                 </span>
               </div>
             )}
           </h2>
 
-          <p className="mt-2 text-lg font-normal leading-[1.4] tracking-[-0.36px] text-black md:text-desktop-big hidden md:block">
+          <p className="text-lg font-normal leading-[1.4] tracking-[-0.36px] text-black hidden md:block md:text-[28px] md:font-normal md:leading-[2.0] md:tracking-[-0.56]">
             안녕하세요. 건국대학교 학사정보시스템입니다.
           </p>
 
-          <div className="mt-4 md:mt-6 flex items-center justify-center w-full">
+          <div className="mt-4 md:mt-6 flex w-full items-center justify-center">
             <div className="relative w-full max-w-180 md:max-w-233">
               <input
                 type="text"
                 placeholder="이번 학기 성적 확인하기"
-                className="w-full py-4 pl-6 text-sm font-normal leading-[1.2] tracking-[-0.28px] rounded-2xl bg-beige text-black placeholder-darkgray md:py-2 md:border md:border-darkgray md:desktop-small_regular focus:outline-none"
+                className="w-full rounded-2xl border-transparent bg-beige py-4 pl-6 text-base font-normal text-black placeholder-darkgray focus:outline-none md:border md:border-darkgray md:bg-white md:py-2 md:text-xl"
               />
               <img
                 src={SearchIcon}
                 alt="검색"
-                className="w-6 h-6 absolute top-1/2 right-4 transform -translate-y-1/2 text-darkgray cursor-pointer"
+                className="absolute right-4 top-1/2 h-6 w-6 -translate-y-1/2 cursor-pointer text-darkgray"
               />
             </div>
           </div>
@@ -159,10 +172,10 @@ const HomePage: React.FC = () => {
         {/* Quick Menu */}
         <section>
           <div className="flex items-center justify-between mb-5">
-            <h3 className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] md:desktop-extrabig_bold">
+            <h3 className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] md:text-4xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]">
               QUICK MENU
             </h3>
-            <img src={EditIcon} className="size-6 cursor-pointer" />
+            <img src={EditIcon} className="size-6 cursor-pointer md:size-12" />
           </div>
 
           <div className="flex justify-between gap-3">
@@ -175,7 +188,7 @@ const HomePage: React.FC = () => {
                 <div className="absolute size-6 top-2 left-2 md:top-3 md:left-6 md:size-11">
                   {item.icon}
                 </div>
-                <span className="absolute right-2 bottom-2 text-sm font-semibold leading-[1.2] tracking-[-0.28px] text-right text-black md:right-4 md:bottom-4 md:desktop-medium_bold">
+                <span className="absolute right-2 bottom-2 text-sm font-semibold leading-[1.2] tracking-[-0.28px] text-right text-black md:right-4 md:bottom-4 md:text-2xl md:font-bold md:leading-[1.2] md:tracking-[-0.48]">
                   {item.label}
                 </span>
               </Link>
@@ -184,53 +197,87 @@ const HomePage: React.FC = () => {
         </section>
 
         {/* 생활 & 공지 */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <section className="grid grid-cols-1 gap-8 lg:grid-cols-2 md:gap-12">
           {/* 건국생활 한눈에 보기 */}
           <div>
             <div className="flex items-center justify-between mb-5">
-              <h3 className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px]">
+              <h3 className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] md:text-4xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]">
                 건국생활 한눈에 보기
               </h3>
-              <img src={MagnifierIcon} className="size-6 cursor-pointer" />
+              <img
+                src={MagnifierIcon}
+                className="size-6 cursor-pointer md:size-12"
+              />
             </div>
 
-            <div className="bg-beige rounded-[10px] py-5 px-6 space-y-4">
+            <div className="bg-beige rounded-[10px] py-5 px-6 space-y-4 md:rounded-2xl md:px-9 md:py-7 md:space-y-6">
               {schoolLifeItems.map((item, idx) => (
                 <div
                   key={idx}
-                  className="flex justify-between items-center gap-x-4 text-sm font-normal leading-[1.2] tracking-[-0.28px]"
+                  className="flex justify-between items-center gap-x-4 text-sm font-normal leading-[1.2] tracking-[-0.28px] md:text-xl md:font-normal md:leading-[2.0] md:tracking-[-0.4]"
                 >
                   <span className="min-w-0 whitespace-nowrap overflow-hidden text-ellipsis">
                     {item.title}
                     {item.title}
                     {item.title}
                   </span>
-                  <span className="flex-shrink-0 text-darkgreen text-sm font-semibold leading-[1.2] tracking-[-0.28px]">
+                  <span className="flex-shrink-0 text-darkgreen text-sm font-semibold leading-[1.2] tracking-[-0.28px] md:text-xl md:font-bold md:leading-[2.0]">
                     {item.date}
                   </span>
                 </div>
               ))}
             </div>
           </div>
-        </section>
 
-        {/* 공지사항 */}
-        <section>
+          {/* 공지사항 */}
           <div>
-            <div className="flex items-center justify-between mb-5">
-              <h3 className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px]">
+            <div className="flex items-center justify-between mb-5 md:mb-0">
+              <h3 className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] md:text-4xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]">
                 공지사항
               </h3>
-              <img src={MagnifierIcon} className="size-6 cursor-pointer" />
+              <img
+                src={MagnifierIcon}
+                className="size-6 cursor-pointer md:size-12"
+              />
+            </div>
+
+            <div className="hidden md:block">
+              <nav className="flex items-center gap-x-2 rounded-[6px] bg-beige p-2 overflow-x-auto">
+                {noticeTabs.map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`
+          flex-shrink-0
+          whitespace-nowrap rounded-[6px] py-2 px-3 text-center text-xl font-normal leading-[2.0]
+          transition-all duration-200 focus:outline-none 
+          focus-visible:ring-2 focus-visible:ring-darkgreen 
+          focus-visible:ring-offset-2 focus-visible:ring-offset-beige 
+          ${
+            activeTab === tab
+              ? "bg-white text-darkgreen shadow md:font-bold"
+              : "text-darkgray hover:bg-white/70"
+          }
+        `}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </nav>
             </div>
 
             <div className="divide-y">
               {noticeItems.map((item, i) => (
-                <div
-                  key={i}
-                  className="py-2 text-sm font-normal leading-[1.2] tracking-[-0.28px] cursor-pointer"
-                >
-                  {item.title}
+                <div className="flex justify-between items-center py-2 md:py-3">
+                  <div
+                    key={i}
+                    className="text-sm font-normal leading-[1.2] tracking-[-0.28px] cursor-pointer min-w-0 whitespace-nowrap overflow-hidden text-ellipsis md:text-xl md:font-normal md:leading-[2.0]"
+                  >
+                    {item.title}
+                  </div>
+                  <div className="hidden md:block md:text-xl md:font-normal md:leading-[2.0] md:text-coolgray">
+                    {item.date}
+                  </div>
                 </div>
               ))}
             </div>
