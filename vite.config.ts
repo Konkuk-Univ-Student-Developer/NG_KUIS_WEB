@@ -19,7 +19,6 @@ export default defineConfig({
           },
         ],
         display: "swap",
-        text: "hello world",
       },
     }),
     tailwindcss(),
