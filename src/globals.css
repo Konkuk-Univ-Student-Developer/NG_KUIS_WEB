@@ -55,7 +55,7 @@
 
 @layer base {
   body {
-    font-family: "Noto Sans", system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-family: "Noto Sans", sans-serif;
     line-height: 1.5;
     font-weight: 400;
     color: var(--black);
