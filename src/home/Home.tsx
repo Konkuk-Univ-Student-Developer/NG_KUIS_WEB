@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { TopBar } from "@/commons";
 import BookIcon from "@/assets/icon/ic_book.svg?react";
@@ -7,8 +7,9 @@ import GraduationIcon from "@/assets/icon/ic_graduation.svg?react";
 import SearchIcon from "@/assets/icon/ic_search.svg?react";
 import EditIcon from "@/assets/icon/ic_edit.svg?react";
 import MagnifierIcon from "@/assets/icon/ic_magnifier.svg?react";
+import TitleSection from "@/components/commons/TitleSection";
 
-const HomePage: React.FC = () => {
+const HomePage = () => {
   const isLoggedIn = false; // TODO: Replace with actual login state
   const userName = "김건국";
 
@@ -167,12 +168,11 @@ const HomePage: React.FC = () => {
 
         {/* Quick Menu */}
         <section>
-          <div className="flex items-center justify-between mb-5">
-            <h3 className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] md:text-4xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]">
-              QUICK MENU
-            </h3>
-            <EditIcon className="size-6 cursor-pointer md:size-12" />
-          </div>
+          <TitleSection
+            title="QUICK MENU"
+            icon={<EditIcon className="size-6 cursor-pointer md:size-12" />}
+            path="/quick-menu"
+          />
 
           <div className="flex justify-between gap-3">
             {quickMenuItems.map((item, i) => (
@@ -196,12 +196,13 @@ const HomePage: React.FC = () => {
         <section className="grid grid-cols-1 gap-8 lg:grid-cols-2 md:gap-12">
           {/* 건국생활 한눈에 보기 */}
           <div>
-            <div className="flex items-center justify-between mb-5">
-              <h3 className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] md:text-4xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]">
-                건국생활 한눈에 보기
-              </h3>
-              <MagnifierIcon className="size-6 cursor-pointer md:size-12" />
-            </div>
+            <TitleSection
+              title="건국생활 한눈에 보기"
+              icon={
+                <MagnifierIcon className="size-6 cursor-pointer md:size-12" />
+              }
+              path="/quick-menu"
+            />
 
             <div className="bg-beige rounded-[10px] py-5 px-6 space-y-4 md:rounded-2xl md:px-9 md:py-7 md:space-y-6">
               {schoolLifeItems.map((item, idx) => (
@@ -224,12 +225,13 @@ const HomePage: React.FC = () => {
 
           {/* 공지사항 */}
           <div>
-            <div className="flex items-center justify-between mb-5 md:mb-0">
-              <h3 className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] md:text-4xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]">
-                공지사항
-              </h3>
-              <MagnifierIcon className="size-6 cursor-pointer md:size-12" />
-            </div>
+            <TitleSection
+              title="공지사항"
+              icon={
+                <MagnifierIcon className="size-6 cursor-pointer md:size-12" />
+              }
+              path="/quick-menu"
+            />
 
             <div className="hidden md:block">
               <nav className="flex items-center gap-x-2 rounded-[6px] bg-beige p-2 overflow-x-auto">
