@@ -8,6 +8,7 @@ import SearchIcon from "@/assets/icon/ic_search.svg?react";
 import EditIcon from "@/assets/icon/ic_edit.svg?react";
 import MagnifierIcon from "@/assets/icon/ic_magnifier.svg?react";
 import TitleSection from "@/components/commons/TitleSection";
+import QuickMenu from "@/components/home/QuickMenu";
 
 const HomePage = () => {
   const isLoggedIn = false; // TODO: Replace with actual login state
@@ -176,18 +177,12 @@ const HomePage = () => {
 
           <div className="flex justify-between gap-3">
             {quickMenuItems.map((item, i) => (
-              <Link
+              <QuickMenu
                 key={i}
-                to={item.path}
-                className="flex-1 bg-beige relative w-full md:max-w-65 h-21 rounded-[10px] md:rounded-2xl md:h-37"
-              >
-                <div className="absolute size-6 top-2 left-2 md:top-3 md:left-6 md:size-11">
-                  {item.icon}
-                </div>
-                <span className="absolute right-2 bottom-2 text-sm font-semibold leading-[1.2] tracking-[-0.28px] text-right text-black md:right-4 md:bottom-4 md:text-2xl md:font-bold md:leading-[1.2] md:tracking-[-0.48]">
-                  {item.label}
-                </span>
-              </Link>
+                icon={item.icon}
+                label={item.label}
+                path={item.path}
+              />
             ))}
           </div>
         </section>
