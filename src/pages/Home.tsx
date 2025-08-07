@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { TopBar } from "@/commons";
-import BookIcon from "@/assets/icon/ic_book.svg";
-import CalendarIcon from "@/assets/icon/ic_calendar.svg";
-import GraduationIcon from "@/assets/icon/ic_graduation.svg";
-import SearchIcon from "@/assets/icon/ic_search.svg";
-import EditIcon from "@/assets/icon/ic_edit.svg";
-import MagnifierIcon from "@/assets/icon/ic_magnifier.svg";
+import BookIcon from "@/assets/icon/ic_book.svg?react";
+import CalendarIcon from "@/assets/icon/ic_calendar.svg?react";
+import GraduationIcon from "@/assets/icon/ic_graduation.svg?react";
+import SearchIcon from "@/assets/icon/ic_search.svg?react";
+import EditIcon from "@/assets/icon/ic_edit.svg?react";
+import MagnifierIcon from "@/assets/icon/ic_magnifier.svg?react";
 
 const HomePage: React.FC = () => {
   const isLoggedIn = false; // TODO: Replace with actual login state
@@ -16,7 +16,7 @@ const HomePage: React.FC = () => {
 
   const quickMenuItems = [
     {
-      icon: <img src={BookIcon} />,
+      icon: <BookIcon />,
       label: (
         <>
           <span className="block md:hidden">
@@ -30,7 +30,7 @@ const HomePage: React.FC = () => {
       path: "/grades",
     },
     {
-      icon: <img src={CalendarIcon} />,
+      icon: <CalendarIcon />,
       label: (
         <>
           <span className="block md:hidden">
@@ -48,7 +48,7 @@ const HomePage: React.FC = () => {
       path: "/timetable",
     },
     {
-      icon: <img src={GraduationIcon} />,
+      icon: <GraduationIcon />,
       label: (
         <>
           <span className="block md:hidden">
@@ -66,7 +66,7 @@ const HomePage: React.FC = () => {
       path: "/graduation",
     },
     {
-      icon: <img src={GraduationIcon} />,
+      icon: <GraduationIcon />,
       label: (
         <>
           <span className="block md:hidden">
@@ -160,11 +160,7 @@ const HomePage: React.FC = () => {
                 placeholder="이번 학기 성적 확인하기"
                 className="w-full rounded-2xl border-transparent bg-beige py-4 pl-6 text-base font-normal text-black placeholder-darkgray focus:outline-none md:border md:border-darkgray md:bg-white md:py-2 md:text-xl"
               />
-              <img
-                src={SearchIcon}
-                alt="검색"
-                className="absolute right-4 top-1/2 h-6 w-6 -translate-y-1/2 cursor-pointer text-darkgray"
-              />
+              <SearchIcon className="absolute right-4 top-1/2 h-6 w-6 -translate-y-1/2 cursor-pointer text-darkgray" />
             </div>
           </div>
         </section>
@@ -175,7 +171,7 @@ const HomePage: React.FC = () => {
             <h3 className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] md:text-4xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]">
               QUICK MENU
             </h3>
-            <img src={EditIcon} className="size-6 cursor-pointer md:size-12" />
+            <EditIcon className="size-6 cursor-pointer md:size-12" />
           </div>
 
           <div className="flex justify-between gap-3">
@@ -204,10 +200,7 @@ const HomePage: React.FC = () => {
               <h3 className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] md:text-4xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]">
                 건국생활 한눈에 보기
               </h3>
-              <img
-                src={MagnifierIcon}
-                className="size-6 cursor-pointer md:size-12"
-              />
+              <MagnifierIcon className="size-6 cursor-pointer md:size-12" />
             </div>
 
             <div className="bg-beige rounded-[10px] py-5 px-6 space-y-4 md:rounded-2xl md:px-9 md:py-7 md:space-y-6">
@@ -235,10 +228,7 @@ const HomePage: React.FC = () => {
               <h3 className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] md:text-4xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]">
                 공지사항
               </h3>
-              <img
-                src={MagnifierIcon}
-                className="size-6 cursor-pointer md:size-12"
-              />
+              <MagnifierIcon className="size-6 cursor-pointer md:size-12" />
             </div>
 
             <div className="hidden md:block">
