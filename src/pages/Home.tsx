@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { TopBar } from '@/commons';
+import Footer from '@/commons/Footer';
 
 const HomePage: React.FC = () => {
   const quickMenuItems = [
@@ -173,6 +174,7 @@ const HomePage: React.FC = () => {
             ))}
           </div>
         </div>
+        <Footer />
       </div>
     </div>
   );
