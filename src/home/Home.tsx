@@ -4,17 +4,18 @@ import { TopBar } from "@/commons";
 import BookIcon from "@/assets/icon/ic_book.svg?react";
 import CalendarIcon from "@/assets/icon/ic_calendar.svg?react";
 import GraduationIcon from "@/assets/icon/ic_graduation.svg?react";
-import SearchIcon from "@/assets/icon/ic_search.svg?react";
 import EditIcon from "@/assets/icon/ic_edit.svg?react";
 import MagnifierIcon from "@/assets/icon/ic_magnifier.svg?react";
 import TitleSection from "@/components/commons/TitleSection";
 import QuickMenu from "@/components/home/QuickMenu";
+import SearchMain from "@/components/commons/SearchMain";
 
 const HomePage = () => {
   const isLoggedIn = false; // TODO: Replace with actual login state
   const userName = "김건국";
 
   const [activeTab, setActiveTab] = useState("전체");
+  const [searchValue, setSearchValue] = useState("");
 
   const quickMenuItems = [
     {
@@ -156,14 +157,11 @@ const HomePage = () => {
           </p>
 
           <div className="mt-4 md:mt-6 flex w-full items-center justify-center">
-            <div className="relative w-full max-w-180 md:max-w-233">
-              <input
-                type="text"
-                placeholder="이번 학기 성적 확인하기"
-                className="w-full rounded-2xl border-transparent bg-beige py-4 pl-6 text-base font-normal text-black placeholder-darkgray focus:outline-none md:border md:border-darkgray md:bg-white md:py-2 md:text-xl"
-              />
-              <SearchIcon className="absolute right-4 top-1/2 h-6 w-6 -translate-y-1/2 cursor-pointer text-darkgray" />
-            </div>
+            <SearchMain
+              value={searchValue}
+              onChange={setSearchValue}
+              placeholder="이번 학기 성적 확인하기"
+            />
           </div>
         </section>
 
