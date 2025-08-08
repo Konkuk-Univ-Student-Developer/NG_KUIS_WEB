@@ -1,8 +1,5 @@
 import { useState } from "react";
 import { TopBar } from "@/commons";
-import BookIcon from "@/assets/icon/ic_book.svg?react";
-import CalendarIcon from "@/assets/icon/ic_calendar.svg?react";
-import GraduationIcon from "@/assets/icon/ic_graduation.svg?react";
 import EditIcon from "@/assets/icon/ic_edit.svg?react";
 import MagnifierIcon from "@/assets/icon/ic_magnifier.svg?react";
 import TitleSection from "@/components/commons/TitleSection";
@@ -12,103 +9,18 @@ import ScheduleList from "@/components/home/ScheduleList";
 import NoticeList from "@/components/home/NoticeList";
 import Tab from "@/components/commons/Tab";
 import HomeHeader from "@/components/home/HomeHeader";
+import {
+  USER_INFO,
+  QUICK_MENU_ITEMS,
+  SCHOOL_LIFE_ITEMS,
+  NOTICE_TABS,
+  NOTICE_ITEMS,
+} from "@/constants/HomeConstants";
 
 const HomePage = () => {
-  const isLoggedIn = false;
-  const userName = "김건국";
-
+  const { isLoggedIn, userName } = USER_INFO;
   const [activeTab, setActiveTab] = useState("전체");
   const [searchValue, setSearchValue] = useState("");
-
-  const quickMenuItems = [
-    {
-      icon: <BookIcon className="size-6 md:size-11" />,
-      label: (
-        <>
-          <span className="block md:hidden">
-            성적
-            <br />
-            조회
-          </span>
-          <span className="hidden md:block">성적 조회</span>
-        </>
-      ),
-      path: "/grades",
-    },
-    {
-      icon: <CalendarIcon className="size-6 md:size-11" />,
-      label: (
-        <>
-          <span className="block md:hidden">
-            강의
-            <br />
-            시간표
-          </span>
-          <span className="hidden md:block">
-            종합
-            <br />
-            강의시간표
-          </span>
-        </>
-      ),
-      path: "/timetable",
-    },
-    {
-      icon: <GraduationIcon className="size-6 md:size-11" />,
-      label: (
-        <>
-          <span className="block md:hidden">
-            졸업
-            <br />
-            시뮬
-          </span>
-          <span className="hidden md:block">
-            졸업
-            <br />
-            시뮬레이션
-          </span>
-        </>
-      ),
-      path: "/graduation",
-    },
-    {
-      icon: <GraduationIcon className="size-6 md:size-11" />,
-      label: (
-        <>
-          <span className="block md:hidden">
-            장학
-            <br />
-            관리
-          </span>
-          <span className="hidden md:block">장학 관리</span>
-        </>
-      ),
-      path: "/scholarship",
-    },
-  ];
-
-  const schoolLifeItems = [
-    { title: "2학기 수강신청 시작", date: "D-3" },
-    { title: "2학기 수강신청 시작", date: "D-3" },
-    { title: "2학기 수강신청 시작", date: "D-3" },
-  ];
-
-  const noticeTabs = [
-    "전체",
-    "학사",
-    "장학",
-    "취창업",
-    "국제",
-    "학생",
-    "입학",
-    "일반",
-  ];
-
-  const noticeItems = [
-    { title: "2025년 2학기 조기 졸업 신청 안내", date: "2025.06.28" },
-    { title: "2025년 2학기 조기 졸업 신청 안내", date: "2025.06.28" },
-    { title: "2025년 2학기 조기 졸업 신청 안내", date: "2025.06.28" },
-  ];
 
   return (
     <div className="min-h-screen">
@@ -142,7 +54,7 @@ const HomePage = () => {
           />
 
           <div className="flex justify-between gap-3">
-            {quickMenuItems.map((item, i) => (
+            {QUICK_MENU_ITEMS.map((item, i) => (
               <QuickMenu
                 key={i}
                 icon={item.icon}
@@ -164,7 +76,7 @@ const HomePage = () => {
               }
               path="/quick-menu"
             />
-            <ScheduleList items={schoolLifeItems} />
+            <ScheduleList items={SCHOOL_LIFE_ITEMS} />
           </div>
 
           {/* 공지사항 */}
@@ -179,13 +91,13 @@ const HomePage = () => {
 
             <div className="hidden md:block">
               <Tab
-                tabs={noticeTabs}
+                tabs={NOTICE_TABS}
                 activeTab={activeTab}
                 onTabClick={setActiveTab}
               />
             </div>
 
-            <NoticeList items={noticeItems} />
+            <NoticeList items={NOTICE_ITEMS} />
           </div>
         </section>
       </main>
