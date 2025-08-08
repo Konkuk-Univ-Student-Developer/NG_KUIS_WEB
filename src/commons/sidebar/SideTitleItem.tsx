@@ -13,7 +13,7 @@ const SideTitleItem: React.FC<SideTitleItemProps> = ({
   children,
   className = "",
 }) => {
-  const baseClasses = "w-full p-3 text-sm text-start transition-colors";
+  const baseClasses = "w-full p-3 text-sm text-start transition-colors whitespace-nowrap";
   const activeClasses = "bg-white text-darkgreen font-semibold";
   const inactiveClasses = "text-black font-normal hover:bg-white/60";
 

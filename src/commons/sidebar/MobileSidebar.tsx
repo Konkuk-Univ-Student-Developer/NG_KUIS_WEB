@@ -1,6 +1,6 @@
 ﻿import React, { useState } from "react";
 
-import menuData from "./SidebarData";
+import menuData from "../../constants/SidebarConstants";
 import SideTitleList from "./SideTitleList";
 import SideDetailList from "./SideDetailList";
 
@@ -27,8 +27,13 @@ const MobileSidebar: React.FC = () => {
             categories={menuData}
             activeCategory={activeCategory}
             onCategoryClick={setActiveCategory}
+            listClassName="w-24 flex-col"
           />
-          <SideDetailList data={activeMenuData} />
+          <SideDetailList
+            data={activeMenuData}
+            listclassName="space-y-6 px-8 py-4"
+            itemclassName="grid grid-cols-2 gap-x-2 gap-y-1"
+          />
         </div>
       ) : (
         <div className="flex-1 flex items-center justify-center text-coolgray">
