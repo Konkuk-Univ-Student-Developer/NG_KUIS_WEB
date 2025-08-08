@@ -16,19 +16,25 @@ import {
   NOTICE_TABS,
   NOTICE_ITEMS,
 } from "@/constants/HomeConstants";
-
+import KUMark from "../assets/img/img_ku_mark.png";
 const HomePage = () => {
   const { isLoggedIn, userName } = USER_INFO;
   const [activeTab, setActiveTab] = useState("전체");
   const [searchValue, setSearchValue] = useState("");
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
       <TopBar
         isLoggedIn={isLoggedIn}
         onMenuClick={() => console.log("메뉴 클릭")}
         onLoginClick={() => console.log("로그인 클릭")}
         onProfileClick={() => console.log("프로필 클릭")}
+      />
+
+      <img
+        src={KUMark}
+        alt="Home Background"
+        className="hidden md:block absolute right-0 top-0 md:size-80 lg:size-100"
       />
 
       <main className="mx-auto px-5 py-6 md:px-24 md:py-13 flex flex-col gap-8 md:gap-18 md:max-w-350">
