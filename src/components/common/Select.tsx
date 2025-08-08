@@ -33,7 +33,7 @@ const Select: React.FC<SelectProps> = ({
         className={`w-full bg-beige rounded-[15px] pl-3 pr-2 py-2 flex items-center justify-between text-mobile-small ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-beige/80'
           } ${value ? 'text-black' : 'text-darkgray'}`}
       >
-        <span>{value || placeholder}</span>
+        <span className='overflow-hidden text-ellipsis whitespace-nowrap'>{value || placeholder}</span>
         <ChevronDown className={`w-4 h-4 text-darkgray transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 

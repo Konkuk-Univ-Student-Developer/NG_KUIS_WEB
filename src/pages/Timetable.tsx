@@ -9,6 +9,7 @@ interface CourseData {
   credit: number;
   professor: string;
   room: string;
+  time?: string;
 }
 
 // API 응답 타입 정의
@@ -28,7 +29,7 @@ interface ApiResponse {
 
 // 더미 데이터들
 const YEAR_OPTIONS = ['2024', '2025'];
-const SEMESTER_OPTIONS = ['1', '2', 'S', 'W'];
+const SEMESTER_OPTIONS = ['1학기', '2학기', '하계 계절학기', '동계 계절학기'];
 const CATEGORY_OPTIONS = ['전필', '전선', '반교', '선교', '지필', '지교', '일선', '교직', '전기', '기교', '핵교', '일교', '심교', '융필', '융선'];
 
 const COURSE_DATA: CourseData[] = [
@@ -38,7 +39,8 @@ const COURSE_DATA: CourseData[] = [
     subjectName: '이산수학',
     credit: 3,
     professor: '박소영',
-    room: '새501'
+    room: '새501',
+    time: '화 09-12 / 목 09-12'
   },
   {
     grade: 2,
@@ -46,7 +48,8 @@ const COURSE_DATA: CourseData[] = [
     subjectName: '자료구조',
     credit: 3,
     professor: '김철수',
-    room: '새502'
+    room: '새502',
+    time: '월 10-12 / 수 10-12'
   },
   {
     grade: 3,
@@ -54,7 +57,8 @@ const COURSE_DATA: CourseData[] = [
     subjectName: '데이터베이스',
     credit: 3,
     professor: '이영희',
-    room: '새503'
+    room: '새503',
+    time: '월 14-16 / 수 14-16'
   },
   {
     grade: 2,
@@ -62,7 +66,8 @@ const COURSE_DATA: CourseData[] = [
     subjectName: '운영체제',
     credit: 3,
     professor: '박민수',
-    room: '새504'
+    room: '새504',
+    time: '화 14-16 / 목 14-16'
   },
   {
     grade: 3,
@@ -70,7 +75,8 @@ const COURSE_DATA: CourseData[] = [
     subjectName: '알고리즘',
     credit: 3,
     professor: '정수현',
-    room: '새505'
+    room: '새505',
+    time: '월 16-18 / 수 16-18'
   },
   {
     grade: 4,
@@ -78,7 +84,8 @@ const COURSE_DATA: CourseData[] = [
     subjectName: '캡스톤디자인',
     credit: 3,
     professor: '최교수',
-    room: '새506'
+    room: '새506',
+    time: '목 16-19'
   }
 ];
 
@@ -170,50 +177,19 @@ interface DesktopViewProps {
   }>>;
 }
 
-// 상태에 따라 업데이트되는 개별 핸들러 함수들
-const updateProfessorQuery = (
-  setSearchQueries: React.Dispatch<React.SetStateAction<{
-    professor: string;
-    subjectCode: string;
-    subjectName: string;
-    department: string;
-  }>>
-) => (value: string) => {
-  setSearchQueries(prev => ({ ...prev, professor: value }));
-};
 
-const updateSubjectCodeQuery = (
-  setSearchQueries: React.Dispatch<React.SetStateAction<{
-    professor: string;
-    subjectCode: string;
-    subjectName: string;
-    department: string;
-  }>>
-) => (value: string) => {
-  setSearchQueries(prev => ({ ...prev, subjectCode: value }));
-};
 
-const updateSubjectNameQuery = (
-  setSearchQueries: React.Dispatch<React.SetStateAction<{
+interface DesktopViewProps {
+  days: string[];
+  times: string[];
+  schedule: Record<string, Array<{
+    time: string;
+    name: string;
+    location: string;
     professor: string;
-    subjectCode: string;
-    subjectName: string;
-    department: string;
-  }>>
-) => (value: string) => {
-  setSearchQueries(prev => ({ ...prev, subjectName: value }));
-};
-
-const updateDepartmentQuery = (
-  setSearchQueries: React.Dispatch<React.SetStateAction<{
-    professor: string;
-    subjectCode: string;
-    subjectName: string;
-    department: string;
-  }>>
-) => (value: string) => {
-  setSearchQueries(prev => ({ ...prev, department: value }));
-};
+    color: string;
+  }>>;
+}
 
 // MobileView 컴포넌트 분리
 const MobileView: React.FC<MobileViewProps> = ({
@@ -253,21 +229,21 @@ const MobileView: React.FC<MobileViewProps> = ({
           onChange={setSelectedYear}
           placeholder="강의년도"
           options={yearOptions}
-          className="flex-1"
+          className="flex-1 overflow-hidden"
         />
         <Select
           value={selectedSemester}
           onChange={setSelectedSemester}
           placeholder="강의학기"
           options={semesterOptions}
-          className="flex-1"
+          className="flex-1 overflow-hidden"
         />
         <Select
           value={selectedCategory}
           onChange={setSelectedCategory}
           placeholder="이수구분"
           options={categoryOptions}
-          className="flex-1"
+          className="flex-1 overflow-hidden"
         />
       </div>
 
@@ -278,28 +254,21 @@ const MobileView: React.FC<MobileViewProps> = ({
           className="flex-1"
           placeholder="교강사"
           value={searchQueries.professor}
-          onChange={updateProfessorQuery(setSearchQueries)}
+          onChange={(value) => setSearchQueries(prev => ({ ...prev, professor: value }))}
         />
         <SearchInput
           key="subjectCode-search"
           className="flex-1"
           placeholder="과목번호"
           value={searchQueries.subjectCode}
-          onChange={updateSubjectCodeQuery(setSearchQueries)}
-        />
-        <SearchInput
-          key="subjectName-search"
-          className="flex-1"
-          placeholder="교과목명"
-          value={searchQueries.subjectName}
-          onChange={updateSubjectNameQuery(setSearchQueries)}
+          onChange={(value) => setSearchQueries(prev => ({ ...prev, subjectCode: value }))}
         />
         <SearchInput
           key="department-search"
           className="flex-1"
           placeholder="학부(과)/전공"
           value={searchQueries.department}
-          onChange={updateDepartmentQuery(setSearchQueries)}
+          onChange={(value) => setSearchQueries(prev => ({ ...prev, department: value }))}
         />
       </div>
 
@@ -325,6 +294,7 @@ const MobileView: React.FC<MobileViewProps> = ({
                   <th className="px-4 py-3  text-mobile-small-bold text-black min-w-[60px] border-b border-lightgray">학점</th>
                   <th className="px-4 py-3  text-mobile-small-bold text-black min-w-[80px] border-b border-lightgray">담당교수</th>
                   <th className="px-4 py-3  text-mobile-small-bold text-black min-w-[80px] border-b border-lightgray">강의실</th>
+                  <th className="px-4 py-3  text-mobile-small-bold text-black min-w-[140px] border-b border-lightgray">수업시간</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-lightgray">
@@ -336,6 +306,7 @@ const MobileView: React.FC<MobileViewProps> = ({
                     <td className="px-4 py-3 text-mobile-small text-darkgray min-w-[60px]">{course.credit}</td>
                     <td className="px-4 py-3 text-mobile-small text-darkgray min-w-[80px]">{course.professor}</td>
                     <td className="px-4 py-3 text-mobile-small text-darkgray min-w-[80px]">{course.room}</td>
+                    <td className="px-4 py-3 text-mobile-small text-darkgray min-w-[140px]">{course.time || '-'}</td>
                   </tr>
                 ))}
               </tbody>
@@ -352,7 +323,8 @@ const MobileView: React.FC<MobileViewProps> = ({
               교과목명: course.subjectName,
               학점: course.credit.toString(),
               담당교수: course.professor,
-              강의실: course.room
+              강의실: course.room,
+              시간: course.time
             }} />
           ))}
         </div>
@@ -469,9 +441,9 @@ const DesktopView: React.FC<DesktopViewProps> = ({ days, times, schedule }) => (
 
 const TimetablePage: React.FC = () => {
   const [viewMode, setViewMode] = useState<'List' | 'Card'>('List');
-  const [selectedYear, setSelectedYear] = useState('2024');
-  const [selectedSemester, setSelectedSemester] = useState('1');
-  const [selectedCategory, setSelectedCategory] = useState('전필');
+  const [selectedYear, setSelectedYear] = useState('강의년도');
+  const [selectedSemester, setSelectedSemester] = useState('강의학기');
+  const [selectedCategory, setSelectedCategory] = useState('이수구분');
   const [searchQueries, setSearchQueries] = useState({
     professor: '',
     subjectCode: '',
