@@ -10,6 +10,7 @@ import TitleSection from "@/components/commons/TitleSection";
 import QuickMenu from "@/components/home/QuickMenu";
 import SearchMain from "@/components/commons/SearchMain";
 import ScheduleList from "@/components/home/ScheduleList";
+import NoticeList from "@/components/home/NoticeList";
 
 const HomePage = () => {
   const isLoggedIn = false; // TODO: Replace with actual login state
@@ -235,21 +236,7 @@ const HomePage = () => {
               </nav>
             </div>
 
-            <div className="divide-y">
-              {noticeItems.map((item, i) => (
-                <div className="flex justify-between items-center py-2 md:py-3">
-                  <div
-                    key={i}
-                    className="text-sm font-normal leading-[1.2] tracking-[-0.28px] cursor-pointer min-w-0 whitespace-nowrap overflow-hidden text-ellipsis md:text-xl md:font-normal md:leading-[2.0]"
-                  >
-                    {item.title}
-                  </div>
-                  <div className="hidden md:block md:text-xl md:font-normal md:leading-[2.0] md:text-coolgray">
-                    {item.date}
-                  </div>
-                </div>
-              ))}
-            </div>
+            <NoticeList items={noticeItems} />
           </div>
         </section>
       </main>
