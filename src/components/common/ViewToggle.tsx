@@ -13,10 +13,10 @@ const ViewToggle: React.FC<ViewToggleProps> = ({
   className = ""
 }) => {
   return (
-    <div className={`flex bg-beige rounded-[8px] p-1 ${className}`}>
+    <div className={`flex bg-beige rounded-[8px] p-[5px] ${className}`}>
       <button
         onClick={() => onChange('List')}
-        className={`px-3 py-2 rounded-[6px] flex items-center gap-2 transition-colors ${value === 'List'
+        className={`px-3 py-1.5 rounded-[3px] flex items-center gap-2 transition-colors ${value === 'List'
           ? 'bg-white text-darkgreen'
           : 'text-darkgray hover:text-black'
           }`}
@@ -26,7 +26,7 @@ const ViewToggle: React.FC<ViewToggleProps> = ({
       </button>
       <button
         onClick={() => onChange('Card')}
-        className={`px-3 py-2 rounded-[6px] flex items-center gap-2 transition-colors ${value === 'Card'
+        className={`px-3 py-1.5 rounded-[3px] flex items-center gap-2 transition-colors ${value === 'Card'
           ? 'bg-white text-darkgreen'
           : 'text-darkgray hover:text-black'
           }`}
