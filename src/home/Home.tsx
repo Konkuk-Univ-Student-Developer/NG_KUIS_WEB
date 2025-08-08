@@ -9,6 +9,7 @@ import MagnifierIcon from "@/assets/icon/ic_magnifier.svg?react";
 import TitleSection from "@/components/commons/TitleSection";
 import QuickMenu from "@/components/home/QuickMenu";
 import SearchMain from "@/components/commons/SearchMain";
+import ScheduleList from "@/components/commons/ScheduleList";
 
 const HomePage = () => {
   const isLoggedIn = false; // TODO: Replace with actual login state
@@ -19,7 +20,7 @@ const HomePage = () => {
 
   const quickMenuItems = [
     {
-      icon: <BookIcon />,
+      icon: <BookIcon className="size-6 md:size-11" />,
       label: (
         <>
           <span className="block md:hidden">
@@ -33,7 +34,7 @@ const HomePage = () => {
       path: "/grades",
     },
     {
-      icon: <CalendarIcon />,
+      icon: <CalendarIcon className="size-6 md:size-11" />,
       label: (
         <>
           <span className="block md:hidden">
@@ -51,7 +52,7 @@ const HomePage = () => {
       path: "/timetable",
     },
     {
-      icon: <GraduationIcon />,
+      icon: <GraduationIcon className="size-6 md:size-11" />,
       label: (
         <>
           <span className="block md:hidden">
@@ -69,7 +70,7 @@ const HomePage = () => {
       path: "/graduation",
     },
     {
-      icon: <GraduationIcon />,
+      icon: <GraduationIcon className="size-6 md:size-11" />,
       label: (
         <>
           <span className="block md:hidden">
@@ -196,24 +197,7 @@ const HomePage = () => {
               }
               path="/quick-menu"
             />
-
-            <div className="bg-beige rounded-[10px] py-5 px-6 space-y-4 md:rounded-2xl md:px-9 md:py-7 md:space-y-6">
-              {schoolLifeItems.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="flex justify-between items-center gap-x-4 text-sm font-normal leading-[1.2] tracking-[-0.28px] md:text-xl md:font-normal md:leading-[2.0] md:tracking-[-0.4]"
-                >
-                  <span className="min-w-0 whitespace-nowrap overflow-hidden text-ellipsis">
-                    {item.title}
-                    {item.title}
-                    {item.title}
-                  </span>
-                  <span className="flex-shrink-0 text-darkgreen text-sm font-semibold leading-[1.2] tracking-[-0.28px] md:text-xl md:font-bold md:leading-[2.0]">
-                    {item.date}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <ScheduleList items={schoolLifeItems} />
           </div>
 
           {/* 공지사항 */}
