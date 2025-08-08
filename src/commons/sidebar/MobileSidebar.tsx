@@ -1,8 +1,8 @@
 ﻿import React, { useState } from "react";
 
-import menuData from "../../constants/SidebarConstants";
-import SideTitleList from "./SideTitleList";
-import SideDetailList from "./SideDetailList";
+import menuData from "@/constants/SidebarConstants";
+import SideTitleList from "@/commons/sidebar/SideTitleList";
+import SideDetailList from "@/commons/sidebar/SideDetailList";
 
 const MobileSidebar: React.FC = () => {
   // const { closeSidebar } = useSidebarStore();
