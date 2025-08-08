@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { TopBar } from "@/commons";
 import BookIcon from "@/assets/icon/ic_book.svg?react";
 import CalendarIcon from "@/assets/icon/ic_calendar.svg?react";
@@ -12,9 +11,10 @@ import SearchMain from "@/components/commons/SearchMain";
 import ScheduleList from "@/components/home/ScheduleList";
 import NoticeList from "@/components/home/NoticeList";
 import Tab from "@/components/commons/Tab";
+import HomeHeader from "@/components/home/HomeHeader";
 
 const HomePage = () => {
-  const isLoggedIn = false; // TODO: Replace with actual login state
+  const isLoggedIn = false;
   const userName = "김건국";
 
   const [activeTab, setActiveTab] = useState("전체");
@@ -122,42 +122,7 @@ const HomePage = () => {
       <main className="mx-auto px-5 py-6 md:px-24 md:py-13 flex flex-col gap-8 md:gap-18 md:max-w-350">
         {/* Greeting */}
         <section className="text-left md:text-center">
-          <h2 className="text-black">
-            {isLoggedIn ? (
-              <div className="flex flex-col md:inline-block">
-                <span className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] md:text-4xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]">
-                  {userName}
-                  <span className="text-lg font-normal leading-[1.4] tracking-[-0.36px] text-black md:text-4xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]">
-                    {" 님,"}
-                  </span>
-                </span>
-                <span className="text-lg font-normal leading-[1.4] tracking-[-0.36px] md:hidden">
-                  안녕하세요.
-                </span>
-              </div>
-            ) : (
-              <div className="flex flex-col md:flex-row md:gap-2 md:justify-center">
-                <div className="inline-block">
-                  <Link
-                    to="/login"
-                    className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] border-b-2 border-darkgreen md:text-4xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]"
-                  >
-                    로그인
-                  </Link>
-                  <span className="text-lg font-normal leading-[1.4] tracking-[-0.36px] md:text-4xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]">
-                    이
-                  </span>
-                </div>
-                <span className="text-lg font-normal leading-[1.4] tracking-[-0.36px] md:text-4xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]">
-                  필요합니다
-                </span>
-              </div>
-            )}
-          </h2>
-
-          <p className="text-lg font-normal leading-[1.4] tracking-[-0.36px] text-black hidden md:block md:text-[28px] md:font-normal md:leading-[2.0] md:tracking-[-0.56]">
-            안녕하세요. 건국대학교 학사정보시스템입니다.
-          </p>
+          <HomeHeader isLoggedIn={isLoggedIn} userName={userName} />
 
           <div className="mt-4 md:mt-6 flex w-full items-center justify-center">
             <SearchMain
