@@ -4,13 +4,15 @@ import Logo from "@/commons/Logo";
 
 import MenuIcon from "@/assets/icon/ic_hamburger.svg?react";
 import UserIcon from "@/assets/icon/ic_user.svg?react";
-import Button from "./Button";
-import SessionTimer from "./Timer";
+import Button from "@/commons/Button";
+import SessionTimer from "@/commons/Timer";
 import useSidebarStore from "@/stores/sidebarStore";
+import { useNavigate } from "react-router-dom";
 
 const TopBar: React.FC = () => {
   const { isLoggedIn, login } = useAuthStore();
   const { toggleSidebar } = useSidebarStore();
+  const navigate = useNavigate();
   
   const navLinks = ["학사", "대학원", "오픈 데이터"];
 
@@ -22,7 +24,7 @@ const TopBar: React.FC = () => {
             <MenuIcon className="h-6 w-6" />
           </button>
           <div className="hidden md:block">
-            <Logo />
+            <Logo onClick={() => navigate("/")}/>
           </div>
           <nav className="hidden md:flex items-center gap-x-12">
             {navLinks.map((link) =>

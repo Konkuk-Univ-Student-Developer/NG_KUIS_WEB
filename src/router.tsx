@@ -30,7 +30,7 @@ const Router: React.FC = () => {
             }
           />
           <Route
-            path="grades"
+            path="1140302"
             element={
               <Suspense fallback={<PageLoader />}>
                 <GradePage />
@@ -38,7 +38,7 @@ const Router: React.FC = () => {
             }
           />
           <Route
-            path="timetable"
+            path="1130420"
             element={
               <Suspense fallback={<PageLoader />}>
                 <TimetablePage />
@@ -46,7 +46,7 @@ const Router: React.FC = () => {
             }
           />
           <Route
-            path="graduation"
+            path="1170201"
             element={
               <Suspense fallback={<PageLoader />}>
                 <GraduationPage />
@@ -54,7 +54,7 @@ const Router: React.FC = () => {
             }
           />
           <Route
-            path="scholarship"
+            path="1150502"
             element={
               <Suspense fallback={<PageLoader />}>
                 <ScholarshipPage />
@@ -62,18 +62,12 @@ const Router: React.FC = () => {
             }
           />
           <Route
-            path="courses"
-            element={
-              <div className="p-5 md:p-8">
-                <h1 className="text-darkgreen text-mobile-medium-bold md:text-3xl md:font-bold">강의 페이지 (개발 중)</h1>
-              </div>
-            }
-          />
-          <Route
             path="info"
             element={
               <div className="p-5 md:p-8">
-                <h1 className="text-darkgreen text-mobile-medium-bold md:text-3xl md:font-bold">학사정보 페이지 (개발 중)</h1>
+                <h1 className="text-darkgreen text-mobile-medium-bold md:text-3xl md:font-bold">
+                  공지사항 페이지
+                </h1>
               </div>
             }
           />
@@ -83,8 +77,10 @@ const Router: React.FC = () => {
             element={
               <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
-                  <h1 className="text-4xl font-bold text-darkgreen mb-4">404</h1>
-                  <p className="text-darkgray">페이지를 찾을 수 없습니다.</p>
+                  <h1 className="text-4xl font-bold text-darkgreen mb-4">
+                    404
+                  </h1>
+                  <p className="text-darkgray">개발 중인 페이지입니다.</p>
                 </div>
               </div>
             }

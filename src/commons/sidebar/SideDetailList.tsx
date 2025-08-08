@@ -2,8 +2,9 @@
 import SideDetailItem from "@/commons/sidebar/SideDetailItem";
 
 interface SubSection {
+  id: string;
   title: string;
-  items: string[];
+  items: {id: string, name: string}[];
 }
 
 interface SideDetailListProps {
@@ -35,7 +36,7 @@ const SideDetailList: React.FC<SideDetailListProps> = ({
             </h3>
             <div className={itemclassName}>
               {section.items.map((item) => (
-                <SideDetailItem key={item}>{item}</SideDetailItem>
+                <SideDetailItem key={item.id} href={item.id}>{item.name}</SideDetailItem>
               ))}
             </div>
           </section>
