@@ -1,6 +1,3 @@
-import ScheduleListItem from "./ScheduleListItem";
-
-// 목록 아이템의 타입 정의
 interface ScheduleItem {
   title: string;
   date: string;
@@ -18,7 +15,12 @@ const ScheduleList = ({ items }: ScheduleListProps) => {
           key={idx}
           className="flex justify-between items-center gap-x-4 text-sm font-normal leading-[1.2] tracking-[-0.28px] md:text-xl md:font-normal md:leading-[2.0] md:tracking-[-0.4]"
         >
-          <ScheduleListItem title={item.title} date={item.date} />
+          <span className="min-w-0 whitespace-nowrap overflow-hidden text-ellipsis">
+            {item.title}
+          </span>
+          <span className="flex-shrink-0 text-darkgreen text-sm font-semibold leading-[1.2] tracking-[-0.28px] md:text-xl md:font-bold md:leading-[2.0]">
+            {item.date}
+          </span>
         </div>
       ))}
     </div>
