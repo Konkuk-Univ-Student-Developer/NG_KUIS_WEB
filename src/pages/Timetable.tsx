@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { TopBar, Select, SearchInput, Pagination, CourseCard } from '@/commons';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, ViewToggle } from '@/components/commons';
+import { TopBar, Pagination, CourseCard } from '@/commons';
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, ViewToggle, Select, SearchInput } from '@/components/commons';
 import type { CourseData, ApiResponse } from '@/constants/TimetableConstants';
 import {
   YEAR_OPTIONS,
@@ -164,7 +164,7 @@ const MobileView: React.FC<MobileViewProps> = ({
     {/* Content - List or Card View */}
     {viewMode === 'List' ? (
       <Table>
-        <TableHeader className="border-t outline-1 outline-zinc-400 bg-beige">
+        <TableHeader className="border-t bg-beige">
           <TableRow className="[&>th]:text-center [&>th]:font-bold">
             <TableHead>학년</TableHead>
             <TableHead>과목번호</TableHead>

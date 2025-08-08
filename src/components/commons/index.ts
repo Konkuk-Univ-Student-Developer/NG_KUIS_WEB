@@ -10,3 +10,6 @@ export {
   TableCell,
   TableCaption,
 } from "./Table";
+export { default as TitleSection } from "./TitleSection";
+export { default as Select } from "./Select";
+export { default as SearchInput } from "./SearchInput";
