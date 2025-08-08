@@ -5,20 +5,25 @@ interface SideTitleListProps {
   categories: { category: string }[];
   activeCategory: string;
   onCategoryClick: (category: string) => void;
+  listClassName?: string;
+  itemClassName?: string;
 }
 
 const SideTitleList: React.FC<SideTitleListProps> = ({
   categories,
   activeCategory,
   onCategoryClick,
+  listClassName = "",
+  itemClassName = "",
 }) => {
   return (
-    <nav className="w-24 bg-beige flex flex-col overflow-y-auto">
+    <nav className={`bg-beige flex overflow-y-auto ${listClassName}`}>
       {categories.map((item) => (
         <SideTitleItem
           key={item.category}
           isActive={activeCategory === item.category}
           onClick={() => onCategoryClick(item.category)}
+          className={itemClassName}
         >
           {item.category}
         </SideTitleItem>
