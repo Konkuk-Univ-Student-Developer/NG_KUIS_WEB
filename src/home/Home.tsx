@@ -11,6 +11,7 @@ import QuickMenu from "@/components/home/QuickMenu";
 import SearchMain from "@/components/commons/SearchMain";
 import ScheduleList from "@/components/home/ScheduleList";
 import NoticeList from "@/components/home/NoticeList";
+import Tab from "@/components/commons/Tab";
 
 const HomePage = () => {
   const isLoggedIn = false; // TODO: Replace with actual login state
@@ -212,28 +213,11 @@ const HomePage = () => {
             />
 
             <div className="hidden md:block">
-              <nav className="flex items-center gap-x-2 rounded-[6px] bg-beige p-2 overflow-x-auto">
-                {noticeTabs.map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={`
-          flex-shrink-0
-          whitespace-nowrap rounded-[6px] py-2 px-3 text-center text-xl font-normal leading-[2.0]
-          transition-all duration-200 focus:outline-none 
-          focus-visible:ring-2 focus-visible:ring-darkgreen 
-          focus-visible:ring-offset-2 focus-visible:ring-offset-beige 
-          ${
-            activeTab === tab
-              ? "bg-white text-darkgreen shadow md:font-bold"
-              : "text-darkgray hover:bg-white/70"
-          }
-        `}
-                  >
-                    {tab}
-                  </button>
-                ))}
-              </nav>
+              <Tab
+                tabs={noticeTabs}
+                activeTab={activeTab}
+                onTabClick={setActiveTab}
+              />
             </div>
 
             <NoticeList items={noticeItems} />
