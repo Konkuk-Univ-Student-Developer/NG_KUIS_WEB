@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./Layout";
 
 // Lazy load pages for better performance
-const HomePage = lazy(() => import("./home/Home"));
+const HomePage = lazy(() => import("./pages/Home"));
 const GradePage = lazy(() => import("./pages/Grade"));
 const TimetablePage = lazy(() => import("./pages/Timetable"));
 const GraduationPage = lazy(() => import("./pages/Graduation"));
