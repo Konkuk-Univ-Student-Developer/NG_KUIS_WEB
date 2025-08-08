@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TopBar, Select, SearchInput, ViewToggle, Pagination, CourseCard } from '@/commons';
+import { Select, SearchInput, ViewToggle, Pagination, CourseCard } from '@/commons';
 
 const TimetablePage: React.FC = () => {
   const [viewMode, setViewMode] = useState<'List' | 'Card'>('List');
@@ -120,11 +120,6 @@ const TimetablePage: React.FC = () => {
   // Mobile View Component
   const MobileView = () => (
     <div className="min-h-screen bg-white">
-      <TopBar
-        isLoggedIn={false}
-        onMenuClick={() => console.log('메뉴 클릭')}
-        onLoginClick={() => console.log('로그인 클릭')}
-      />
 
       <div className="px-5 py-[25px] space-y-6">
         {/* Title */}

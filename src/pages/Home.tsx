@@ -24,13 +24,6 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen relative">
-      <TopBar
-        isLoggedIn={isLoggedIn}
-        onMenuClick={() => console.log("메뉴 클릭")}
-        onLoginClick={() => console.log("로그인 클릭")}
-        onProfileClick={() => console.log("프로필 클릭")}
-      />
-
       <img
         src={KUMark}
         alt="Home Background"
