@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { TopBar, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Select, SearchInput, ViewToggle, Pagination, CourseCard } from '@/components/common';
+import { TopBar, Select, SearchInput, Pagination, CourseCard } from '@/commons';
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, ViewToggle } from '@/components/commons';
 
 // Course 데이터 타입 정의 (API 응답 형태에 맞춤)
 interface CourseData {
