@@ -4,7 +4,7 @@ import Youtube from "@/assets/icon/ic_youtube.svg?react";
 
 function Footer() {
   return (
-    <footer className="w-full h-full px-6 md:px-24 py-8 bg-white border-t-[0.3px] border-darkgray flex flex-col md:flex-row justify-between items-center md:items-start text-darkgray">
+    <footer className="hidden md:flex w-full h-full px-6 md:px-24 py-8 bg-white border-t-[0.3px] border-darkgray flex-row justify-between items-center md:items-start text-darkgray">
       <div className="flex h-full flex-col py-3 justify-between items-start md:items-start">
         <div>
           <div className="text-sm font-semibold">건국대학교</div>

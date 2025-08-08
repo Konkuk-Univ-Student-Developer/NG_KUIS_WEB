@@ -10,8 +10,6 @@ import {
   DollarSign
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { TopBar } from '@/commons';
-import Footer from '@/commons/Footer';
 
 const HomePage: React.FC = () => {
   const quickMenuItems = [
@@ -51,13 +49,6 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white md:bg-gray-50">
-      {/* TopBar */}
-      <TopBar
-        isLoggedIn={false}
-        onMenuClick={() => console.log('메뉴 클릭')}
-        onLoginClick={() => console.log('로그인 클릭')}
-      />
-
       {/* Main Content */}
       <div className="px-5 py-[25px] space-y-8 md:max-w-7xl md:mx-auto md:px-8 md:py-12">
         {/* Desktop Title - Hidden on Mobile */}
@@ -174,7 +165,6 @@ const HomePage: React.FC = () => {
             ))}
           </div>
         </div>
-        <Footer />
       </div>
     </div>
   );

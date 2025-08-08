@@ -11,7 +11,7 @@ const WebSidebar: React.FC = () => {
   );
 
   return (
-    <div className="hidden md:block absolute left-0 top-16 w-full bg-beige shadow-lg border-t z-40">
+    <div className="hidden md:block absolute left-0 top-16 w-full bg-beige shadow-lg z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SideTitleList
           categories={menuData}
