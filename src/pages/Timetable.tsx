@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TopBar, Select, SearchInput, ViewToggle, Pagination, CourseCard } from '@/components/common';
+import { TopBar, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Select, SearchInput, ViewToggle, Pagination, CourseCard } from '@/components/common';
 
 // Course 데이터 타입 정의 (API 응답 형태에 맞춤)
 interface CourseData {
@@ -279,58 +279,55 @@ const MobileView: React.FC<MobileViewProps> = ({
           onChange={setViewMode}
         />
       </div>
+    </div>
 
-      {/* Content - List or Card View */}
-      {viewMode === 'List' ? (
-        /* Table with horizontal scroll */
-        <div className="bg-white rounded-[8px] border border-lightgray overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-max text-center">
-              <thead className="bg-beige">
-                <tr>
-                  <th className="px-4 py-3 text-mobile-small-bold text-black min-w-[20px] border-b border-lightgray">학년</th>
-                  <th className="px-4 py-3 text-mobile-small-bold text-black min-w-[80px] border-b border-lightgray">과목번호</th>
-                  <th className="px-4 py-3text-mobile-small-bold text-black min-w-[120px] border-b border-lightgray">교과목명</th>
-                  <th className="px-4 py-3  text-mobile-small-bold text-black min-w-[60px] border-b border-lightgray">학점</th>
-                  <th className="px-4 py-3  text-mobile-small-bold text-black min-w-[80px] border-b border-lightgray">담당교수</th>
-                  <th className="px-4 py-3  text-mobile-small-bold text-black min-w-[80px] border-b border-lightgray">강의실</th>
-                  <th className="px-4 py-3  text-mobile-small-bold text-black min-w-[140px] border-b border-lightgray">수업시간</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-lightgray">
-                {courseData.map((course, index) => (
-                  <tr key={index} className="hover:bg-beige/50 transition-colors">
-                    <td className="px-4 py-3 text-mobile-small text-darkgray min-w-[20px]">{course.grade}</td>
-                    <td className="px-4 py-3 text-mobile-small text-darkgray min-w-[80px]">{course.subjectCode}</td>
-                    <td className="px-4 py-3 text-mobile-small text-black font-medium min-w-[120px]">{course.subjectName}</td>
-                    <td className="px-4 py-3 text-mobile-small text-darkgray min-w-[60px]">{course.credit}</td>
-                    <td className="px-4 py-3 text-mobile-small text-darkgray min-w-[80px]">{course.professor}</td>
-                    <td className="px-4 py-3 text-mobile-small text-darkgray min-w-[80px]">{course.room}</td>
-                    <td className="px-4 py-3 text-mobile-small text-darkgray min-w-[140px]">{course.time || '-'}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      ) : (
-        /* Card View */
-        <div className="space-y-3">
+    {/* Content - List or Card View */}
+    {viewMode === 'List' ? (
+      <Table>
+        <TableHeader className="border-t outline-1 outline-zinc-400 bg-beige">
+          <TableRow className="[&>th]:text-center [&>th]:font-bold">
+            <TableHead>학년</TableHead>
+            <TableHead>과목번호</TableHead>
+            <TableHead>교과목명</TableHead>
+            <TableHead>학점</TableHead>
+            <TableHead>담당교수</TableHead>
+            <TableHead>강의실</TableHead>
+            <TableHead>수업시간</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody className="[&>tr]:hover:bg-gray-100">
           {courseData.map((course, index) => (
-            <CourseCard key={index} course={{
-              학년: course.grade.toString(),
-              과목번호: course.subjectCode,
-              교과목명: course.subjectName,
-              학점: course.credit.toString(),
-              담당교수: course.professor,
-              강의실: course.room,
-              시간: course.time
-            }} />
+            <TableRow key={index} className="[&>td]:text-center">
+              <TableCell>{course.grade}</TableCell>
+              <TableCell>{course.subjectCode}</TableCell>
+              <TableCell>{course.subjectName}</TableCell>
+              <TableCell>{course.credit}</TableCell>
+              <TableCell>{course.professor}</TableCell>
+              <TableCell>{course.room}</TableCell>
+              <TableCell>{course.time || '-'}</TableCell>
+            </TableRow>
           ))}
-        </div>
-      )}
+        </TableBody>
+      </Table>
+    ) : (
+      /* Card View */
+      <div className="px-5 space-y-3">
+        {courseData.map((course, index) => (
+          <CourseCard key={index} course={{
+            학년: course.grade.toString(),
+            과목번호: course.subjectCode,
+            교과목명: course.subjectName,
+            학점: course.credit.toString(),
+            담당교수: course.professor,
+            강의실: course.room,
+            시간: course.time
+          }} />
+        ))}
+      </div>
+    )}
 
-      {/* Pagination */}
+    {/* Pagination */}
+    <div className="px-5 py-6">
       <Pagination
         currentPage={currentPage}
         totalPages={apiResponse.totalPages}
@@ -455,7 +452,7 @@ const TimetablePage: React.FC = () => {
   // Conditional rendering based on viewport
   return (
     <>
-      <div className="md:hidden">
+      <div className="md:hidden select-none">
         <MobileView
           viewMode={viewMode}
           selectedYear={selectedYear}
