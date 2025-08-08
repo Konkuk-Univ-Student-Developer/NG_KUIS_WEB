@@ -9,7 +9,7 @@ import MagnifierIcon from "@/assets/icon/ic_magnifier.svg?react";
 import TitleSection from "@/components/commons/TitleSection";
 import QuickMenu from "@/components/home/QuickMenu";
 import SearchMain from "@/components/commons/SearchMain";
-import ScheduleList from "@/components/commons/ScheduleList";
+import ScheduleList from "@/components/home/ScheduleList";
 
 const HomePage = () => {
   const isLoggedIn = false; // TODO: Replace with actual login state
