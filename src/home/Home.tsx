@@ -4,7 +4,7 @@ import EditIcon from "@/assets/icon/ic_edit.svg?react";
 import MagnifierIcon from "@/assets/icon/ic_magnifier.svg?react";
 import TitleSection from "@/components/commons/TitleSection";
 import QuickMenu from "@/components/home/QuickMenu";
-import SearchMain from "@/components/commons/SearchMain";
+import SearchMain from "@/components/home/SearchMain";
 import ScheduleList from "@/components/home/ScheduleList";
 import NoticeList from "@/components/home/NoticeList";
 import Tab from "@/components/commons/Tab";
