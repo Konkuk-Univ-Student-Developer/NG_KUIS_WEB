@@ -16,18 +16,18 @@ const StatusCircle: React.FC<StatusCircleProps> = ({
   const subText = `조기졸업: ${canGraduateEarly ? "Y" : "N"}`;
 
   return (
-    <div className="inline-flex flex-col items-center justify-center gap-2 md:gap-3">
+    <div className="inline-flex flex-col items-center justify-center gap-1 md:gap-3">
       <div
         className={`
           flex flex-col items-center justify-center rounded-full
-          h-28 w-28 p-6
+          h-18 w-18 p-6
           md:h-[148px] md:w-[148px] md:px-[46px] md:py-[30px]
           ${circleBgColor} 
         `}
       >
         <div
           className="text-center font-bold text-white
-            text-2xl leading-tight
+            text-lg leading-tight
             md:text-[28px] md:leading-[56px]"
         >
           {displayText}
@@ -36,7 +36,7 @@ const StatusCircle: React.FC<StatusCircleProps> = ({
 
       <div
         className="text-center text-darkgray
-        text-sm leading-normal 
+        text-xs leading-normal 
         md:text-base md:leading-loose"
       >
         {subText}
