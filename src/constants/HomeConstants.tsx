@@ -2,11 +2,6 @@ import BookIcon from "@/assets/icon/ic_book.svg?react";
 import CalendarIcon from "@/assets/icon/ic_calendar.svg?react";
 import GraduationIcon from "@/assets/icon/ic_graduation.svg?react";
 
-export const USER_INFO = {
-  isLoggedIn: false,
-  userName: "김건국",
-};
-
 export const QUICK_MENU_ITEMS = [
   {
     icon: <BookIcon className="size-6 md:size-11" />,

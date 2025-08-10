@@ -3,19 +3,19 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import svgr from "vite-plugin-svgr";
-import Fonts from "unplugin-fonts/vite";
+import Unfonts from "unplugin-fonts/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     react(),
     svgr(),
-    Fonts({
+    Unfonts({
       google: {
         families: [
           {
             name: "Noto Sans",
-            styles: "wght@400;600;700",
+            styles: "wght@200;300;400;600;700",
           },
         ],
         display: "swap",
@@ -27,5 +27,5 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
-  },
+  }
 });
