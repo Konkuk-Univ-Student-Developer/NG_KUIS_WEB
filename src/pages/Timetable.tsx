@@ -92,11 +92,7 @@ const MobileView: React.FC<MobileViewProps> = ({
   apiResponse
 }) => (
   <div className="min-h-screen bg-white">
-    <TopBar
-      isLoggedIn={false}
-      onMenuClick={() => console.log('메뉴 클릭')}
-      onLoginClick={() => console.log('로그인 클릭')}
-    />
+    <TopBar />
 
     <div className="px-5 py-[25px] space-y-6">
       {/* Title */}
