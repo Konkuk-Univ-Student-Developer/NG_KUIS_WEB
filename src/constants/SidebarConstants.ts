@@ -1,4 +1,4 @@
-﻿const menuData = [
+﻿export const MENU_DATA = [
   {
     id: "1100000",
     category: "학공통",
@@ -149,9 +149,7 @@
       {
         id: "1140300",
         title: "성적조회",
-        items: [
-          { id: "1140302", name: "성적조회" },
-        ],
+        items: [{ id: "1140302", name: "성적조회" }],
       },
       {
         id: "1140500",
@@ -216,9 +214,7 @@
       {
         id: "1170200",
         title: "졸업자관리",
-        items: [
-          { id: "1170201", name: "졸업 시뮬레이션" },
-        ],
+        items: [{ id: "1170201", name: "졸업 시뮬레이션" }],
       },
       {
         id: "1170500",
@@ -364,4 +360,8 @@
   },
 ];
 
-export default menuData;
+export const TITLE_TABS = [
+  "학사",
+  "대학원",
+  "오픈 데이터"
+];

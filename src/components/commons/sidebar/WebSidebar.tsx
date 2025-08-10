@@ -1,12 +1,12 @@
 ﻿import React, { useState } from "react";
-import menuData from "@/constants/SidebarConstants";
+import { MENU_DATA } from "@/constants/SidebarConstants";
 import SideTitleList from "@/components/commons/sidebar/SideTitleList";
 import SideDetailList from "@/components/commons/sidebar/SideDetailList";
 
 const WebSidebar: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState("학적");
 
-  const activeMenuData = menuData.find(
+  const activeMenuData = MENU_DATA.find(
     (menu) => menu.category === activeCategory
   );
 
@@ -14,7 +14,7 @@ const WebSidebar: React.FC = () => {
     <div className="hidden md:block absolute left-0 top-16 w-full bg-beige shadow-lg z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SideTitleList
-          categories={menuData}
+          categories={MENU_DATA}
           activeCategory={activeCategory}
           onCategoryClick={setActiveCategory}
           listClassName="flex-row min-h-12"
