@@ -6,6 +6,7 @@ import Layout from "./Layout";
 const HomePage = lazy(() => import("./pages/Home"));
 const GradePage = lazy(() => import("./pages/Grade"));
 const TimetablePage = lazy(() => import("./pages/Timetable"));
+const DetailLectureSchedulePage = lazy(() => import("./pages/detailLectureSchedule"));
 const GraduationPage = lazy(() => import("./pages/Graduation"));
 const ScholarshipPage = lazy(() => import("./pages/Scholarship"));
 
@@ -42,6 +43,14 @@ const Router: React.FC = () => {
             element={
               <Suspense fallback={<PageLoader />}>
                 <TimetablePage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="timetable/:subjectCode"
+            element={
+              <Suspense fallback={<PageLoader />}>
+                <DetailLectureSchedulePage />
               </Suspense>
             }
           />

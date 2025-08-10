@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Pagination, CourseCard } from '@/components/commons';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, ViewToggle, Select, SearchInput } from '@/components/commons';
 import type { CourseData, ApiResponse } from '@/constants/TimetableConstants';
@@ -90,129 +91,135 @@ const MobileView: React.FC<MobileViewProps> = ({
   categoryOptions,
   courseData,
   apiResponse
-}) => (
-  <div className="min-h-screen bg-white">
-    <div className="px-5 py-[25px] space-y-6">
-      {/* Title */}
-      <h1 className="text-darkgreen w-72 h-7 justify-center  text-lg font-bold leading-relaxed">종합강의시간표</h1>
+}) => {
+  const navigate = useNavigate();
+  const goDetail = (subjectCode: string) => navigate(`/timetable/${subjectCode}`);
+  return (
+    <div className="min-h-screen bg-white">
+      <div className="px-5 py-[25px] space-y-6">
+        {/* Title */}
+        <h1 className="text-darkgreen w-72 h-7 justify-center  text-lg font-bold leading-relaxed">종합강의시간표</h1>
 
-      {/* Filter Dropdowns */}
-      <div className="flex gap-3">
-        <Select
-          value={selectedYear}
-          onChange={setSelectedYear}
-          placeholder="강의년도"
-          options={yearOptions}
-          className="flex-1"
-        />
-        <Select
-          value={selectedSemester}
-          onChange={setSelectedSemester}
-          placeholder="강의학기"
-          options={semesterOptions}
-          className="flex-1"
-        />
-        <Select
-          value={selectedCategory}
-          onChange={setSelectedCategory}
-          placeholder="이수구분"
-          options={categoryOptions}
-          className="flex-1"
-        />
+        {/* Filter Dropdowns */}
+        <div className="flex gap-3">
+          <Select
+            value={selectedYear}
+            onChange={setSelectedYear}
+            placeholder="강의년도"
+            options={yearOptions}
+            className="flex-1"
+          />
+          <Select
+            value={selectedSemester}
+            onChange={setSelectedSemester}
+            placeholder="강의학기"
+            options={semesterOptions}
+            className="flex-1"
+          />
+          <Select
+            value={selectedCategory}
+            onChange={setSelectedCategory}
+            placeholder="이수구분"
+            options={categoryOptions}
+            className="flex-1"
+          />
+        </div>
+
+        {/* Search Inputs */}
+        <div className="flex gap-3">
+          <SearchInput
+            key="professor-search"
+            className="flex-1"
+            placeholder="교강사"
+            value={searchQueries.professor}
+            onChange={(value) => setSearchQueries(prev => ({ ...prev, professor: value }))}
+          />
+          <SearchInput
+            key="subjectCode-search"
+            className="flex-1"
+            placeholder="과목번호"
+            value={searchQueries.subjectCode}
+            onChange={(value) => setSearchQueries(prev => ({ ...prev, subjectCode: value }))}
+          />
+          <SearchInput
+            key="department-search"
+            className="flex-1"
+            placeholder="학부(과)/전공"
+            value={searchQueries.department}
+            onChange={(value) => setSearchQueries(prev => ({ ...prev, department: value }))}
+          />
+        </div>
+
+        {/* View Mode Toggle */}
+        <div className="flex justify-end">
+          <ViewToggle
+            value={viewMode}
+            onChange={setViewMode}
+          />
+        </div>
       </div>
 
-      {/* Search Inputs */}
-      <div className="flex gap-3">
-        <SearchInput
-          key="professor-search"
-          className="flex-1"
-          placeholder="교강사"
-          value={searchQueries.professor}
-          onChange={(value) => setSearchQueries(prev => ({ ...prev, professor: value }))}
-        />
-        <SearchInput
-          key="subjectCode-search"
-          className="flex-1"
-          placeholder="과목번호"
-          value={searchQueries.subjectCode}
-          onChange={(value) => setSearchQueries(prev => ({ ...prev, subjectCode: value }))}
-        />
-        <SearchInput
-          key="department-search"
-          className="flex-1"
-          placeholder="학부(과)/전공"
-          value={searchQueries.department}
-          onChange={(value) => setSearchQueries(prev => ({ ...prev, department: value }))}
-        />
-      </div>
-
-      {/* View Mode Toggle */}
-      <div className="flex justify-end">
-        <ViewToggle
-          value={viewMode}
-          onChange={setViewMode}
-        />
-      </div>
-    </div>
-
-    {/* Content - List or Card View */}
-    {viewMode === 'List' ? (
-      <Table>
-        <TableHeader className="border-t bg-beige">
-          <TableRow className="[&>th]:text-center [&>th]:font-bold">
-            <TableHead>학년</TableHead>
-            <TableHead>과목번호</TableHead>
-            <TableHead>교과목명</TableHead>
-            <TableHead>학점</TableHead>
-            <TableHead>담당교수</TableHead>
-            <TableHead>강의실</TableHead>
-            <TableHead>수업시간</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody className="[&>tr]:hover:bg-gray-100">
-          {courseData.map((course, index) => (
-            <TableRow key={index} className="[&>td]:text-center">
-              <TableCell>{course.grade}</TableCell>
-              <TableCell>{course.subjectCode}</TableCell>
-              <TableCell>{course.subjectName}</TableCell>
-              <TableCell>{course.credit}</TableCell>
-              <TableCell>{course.professor}</TableCell>
-              <TableCell>{course.room}</TableCell>
-              <TableCell>{course.time || '-'}</TableCell>
+      {/* Content - List or Card View */}
+      {viewMode === 'List' ? (
+        <Table>
+          <TableHeader className="border-t bg-beige">
+            <TableRow className="[&>th]:text-center [&>th]:font-bold">
+              <TableHead>학년</TableHead>
+              <TableHead>과목번호</TableHead>
+              <TableHead>교과목명</TableHead>
+              <TableHead>학점</TableHead>
+              <TableHead>담당교수</TableHead>
+              <TableHead>강의실</TableHead>
+              <TableHead>수업시간</TableHead>
             </TableRow>
+          </TableHeader>
+          <TableBody className="[&>tr]:hover:bg-gray-100">
+            {courseData.map((course, index) => (
+              <TableRow key={index} className="[&>td]:text-center cursor-pointer" onClick={() => goDetail(course.subjectCode)}>
+                <TableCell>{course.grade}</TableCell>
+                <TableCell>{course.subjectCode}</TableCell>
+                <TableCell>{course.subjectName}</TableCell>
+                <TableCell>{course.credit}</TableCell>
+                <TableCell>{course.professor}</TableCell>
+                <TableCell>{course.room}</TableCell>
+                <TableCell>{course.time || '-'}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      ) : (
+        /* Card View */
+        <div className="px-5 space-y-3">
+          {courseData.map((course, index) => (
+            <div key={index} onClick={() => goDetail(course.subjectCode)} className="cursor-pointer">
+              <CourseCard course={{
+                학년: course.grade.toString(),
+                과목번호: course.subjectCode,
+                교과목명: course.subjectName,
+                학점: course.credit.toString(),
+                담당교수: course.professor,
+                강의실: course.room,
+                시간: course.time,
+                이수구분: course.category,
+                학과: course.department,
+                평가: course.evaluation
+              }} />
+            </div>
           ))}
-        </TableBody>
-      </Table>
-    ) : (
-      /* Card View */
-      <div className="px-5 space-y-3">
-        {courseData.map((course, index) => (
-          <CourseCard key={index} course={{
-            학년: course.grade.toString(),
-            과목번호: course.subjectCode,
-            교과목명: course.subjectName,
-            학점: course.credit.toString(),
-            담당교수: course.professor,
-            강의실: course.room,
-            시간: course.time,
-            이수구분: course.category,
-            학과: course.department,
-            평가: course.evaluation
-          }} />
-        ))}
-      </div>
-    )}
+        </div>
+      )}
 
-    {/* Pagination */}
-    <div className="px-5 py-6">
-      <Pagination
-        currentPage={currentPage}
-        totalPages={apiResponse.totalPages}
-        onPageChange={setCurrentPage}
-      />
+      {/* Pagination */}
+      <div className="px-5 py-6">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={apiResponse.totalPages}
+          onPageChange={setCurrentPage}
+        />
+      </div>
     </div>
-  </div>
-);
+  )
+};
 
 // DesktopView 컴포넌트 분리
 const DesktopView: React.FC<DesktopViewProps> = ({ days, times, schedule }) => (
