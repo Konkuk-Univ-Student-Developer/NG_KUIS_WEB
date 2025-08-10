@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search } from 'lucide-react';
+import SearchIcon from "@/assets/icon/ic_search.svg?react";
 
 interface SearchInputProps {
   placeholder?: string;
@@ -33,7 +33,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           className={`flex-1 min-w-0 bg-transparent text-mobile-small placeholder-darkgray border-0 focus:ring-0 focus:outline-none ${disabled ? 'opacity-50 cursor-not-allowed' : ''
             }`}
         />
-        <Search className="w-4 h-4 text-darkgray shrink-0" />
+        <SearchIcon className="text-darkgray shrink-0" />
       </div>
     </div>
   );
