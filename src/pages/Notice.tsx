@@ -4,6 +4,7 @@ import Tab from "@/components/commons/Tab";
 import { NOTICE_TABS } from "@/constants/NoticeConstants";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { useState } from "react";
+import NoticeList from "@/components/notice/NoticeList";
 
 const Notice = () => {
   const [activeTab, setActiveTab] = useState("전체");
@@ -15,7 +16,7 @@ const Notice = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6 md:block md:px-16 lg:px-24 md:py-13">
+    <div className="flex flex-col gap-6 md:mx-auto md:max-w-350 md:block md:px-16 lg:px-24 md:py-13">
       <h2 className="text-xl font-bold leading-[1.4] text-darkgreen mt-2 ml-5 md:m-0 md:pb-18 md:text-center md:text-4xl md:font-bold md:leading-[2.0]">
         공지사항
       </h2>
@@ -29,7 +30,7 @@ const Notice = () => {
         />
       </div>
 
-      <div className="mx-4 md:mx-auto md:flex md:items-center md:justify-between">
+      <div className="mx-4 md:mx-auto md:flex md:items-center md:justify-between md:pb-12">
         <h3 className="hidden text-[32px] font-bold leading-[1.4] text-darkgreen md:block">
           {activeTab}
         </h3>
@@ -44,6 +45,8 @@ const Notice = () => {
           </div>
         </div>
       </div>
+
+      <NoticeList />
     </div>
   );
 };
