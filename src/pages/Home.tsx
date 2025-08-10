@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TopBar } from "@/commons";
+import { TopBar } from "@/components/commons";
 import EditIcon from "@/assets/icon/ic_edit.svg?react";
 import MagnifierIcon from "@/assets/icon/ic_magnifier.svg?react";
 import TitleSection from "@/components/commons/TitleSection";

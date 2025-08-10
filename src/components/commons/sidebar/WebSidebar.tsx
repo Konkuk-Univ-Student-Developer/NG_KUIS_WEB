@@ -1,7 +1,7 @@
 ﻿import React, { useState } from "react";
 import menuData from "@/constants/SidebarConstants";
-import SideTitleList from "@/commons/sidebar/SideTitleList";
-import SideDetailList from "@/commons/sidebar/SideDetailList";
+import SideTitleList from "@/components/commons/sidebar/SideTitleList";
+import SideDetailList from "@/components/commons/sidebar/SideDetailList";
 
 const WebSidebar: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState("학적");

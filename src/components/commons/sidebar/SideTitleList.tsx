@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import SideTitleItem from "@/commons/sidebar/SideTitleItem";
+import SideTitleItem from "@/components/commons/sidebar/SideTitleItem";
 
 interface SideTitleListProps {
   categories: { category: string }[];

@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import SideDetailItem from "@/commons/sidebar/SideDetailItem";
+import SideDetailItem from "@/components/commons/sidebar/SideDetailItem";
 
 interface SubSection {
   id: string;

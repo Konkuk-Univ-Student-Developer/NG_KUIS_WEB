@@ -1,10 +1,10 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { TopBar } from '@/commons';
-import WebSidebar from '@/commons/sidebar/WebSidebar';
-import MobileSidebar from '@/commons/sidebar/MobileSidebar';
+import { TopBar } from '@/components/commons';
+import WebSidebar from '@/components/commons/sidebar/WebSidebar';
+import MobileSidebar from '@/components/commons/sidebar/MobileSidebar';
 import useSidebarStore from '@/stores/sidebarStore';
-import Footer from '@/commons/Footer';
+import Footer from '@/components/commons/Footer';
 
 const Layout: React.FC = () => {
   const { isSidebarOpen } = useSidebarStore();

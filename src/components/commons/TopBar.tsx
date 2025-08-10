@@ -1,11 +1,11 @@
 import React from "react";
 import useAuthStore from "@/stores/authStore";
-import Logo from "@/commons/Logo";
+import Logo from "@/components/commons/Logo";
 
 import MenuIcon from "@/assets/icon/ic_hamburger.svg?react";
 import UserIcon from "@/assets/icon/ic_user.svg?react";
-import Button from "@/commons/Button";
-import SessionTimer from "@/commons/Timer";
+import Button from "@/components/commons/Button";
+import SessionTimer from "@/components/commons/Timer";
 import useSidebarStore from "@/stores/sidebarStore";
 import { useNavigate } from "react-router-dom";
 
