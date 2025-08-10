@@ -27,7 +27,7 @@ const SearchBar = ({ placeholder = "검색하기", onSearch }: SearchBarProps) =
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
-        className="h-11 w-full rounded-2xl bg-beige pl-6 pr-12 text-sm font-normal leading-[1.2] text-darkgray placeholder:text-darkgray focus:outline-none focus:ring-2 focus:ring-darkgreen/50 md:h-14 md:text-xl md:leading-[2.0]"
+        className="h-11 w-full rounded-2xl bg-beige pl-6 pr-12 text-black text-sm font-normal leading-[1.2] placeholder:text-darkgray focus:outline-none md:h-14 md:text-xl md:leading-[2.0]"
       />
       <SearchIcon
         onClick={handleSearch}
