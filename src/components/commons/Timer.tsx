@@ -1,9 +1,9 @@
 ﻿import React, { useState, useEffect } from "react";
-
-const INITIAL_TIME_IN_SECONDS = 120 * 60;
+import { SESSION_DURATION_SECONDS } from "@/constants/TimerConstants";
+import { formatTime } from "@/utils/timer";
 
 const SessionTimer: React.FC = () => {
-  const [seconds, setSeconds] = useState(INITIAL_TIME_IN_SECONDS);
+  const [seconds, setSeconds] = useState(SESSION_DURATION_SECONDS);
 
   useEffect(() => {
     if (seconds <= 0) return;
@@ -15,11 +15,8 @@ const SessionTimer: React.FC = () => {
   }, [seconds]);
 
   const handleExtendSession = () => {
-    setSeconds(INITIAL_TIME_IN_SECONDS);
+    setSeconds(SESSION_DURATION_SECONDS);
   };
-
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
 
   return (
     <div className="relative h-10 w-[132px] text-xs">
@@ -29,8 +26,8 @@ const SessionTimer: React.FC = () => {
       >
         연장
       </div>
-      <div className="absolute right-0 top-0 z-20 flex h-full w-20 items-center justify-center rounded-full bg-beige text-darkgreen font-semibold">
-        {`${minutes}분 ${String(remainingSeconds).padStart(2, "0")}초`}
+      <div className="absolute right-0 top-0 z-20 flex h-full w-20 items-center justify-center rounded-full bg-beige font-semibold text-darkgreen">
+        {formatTime(seconds)}
       </div>
     </div>
   );
