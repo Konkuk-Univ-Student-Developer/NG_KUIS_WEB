@@ -7,6 +7,10 @@ export interface CourseData {
   professor: string;
   room: string;
   time?: string;
+  // Added for UI tags/metadata
+  category?: string; // e.g., 전필/전선 등
+  department?: string; // e.g., 컴퓨터공학
+  evaluation?: string; // e.g., 절대평가 (A/B/F)
 }
 
 // API 응답 타입 정의
@@ -37,7 +41,10 @@ export const COURSE_DATA: CourseData[] = [
     credit: 3,
     professor: '박소영',
     room: '새501',
-    time: '화 09-12 / 목 09-12'
+    time: '화 09-12 / 목 09-12',
+    category: '전선',
+    department: '컴퓨터공학',
+    evaluation: '절대평가 (A/B/F)'
   },
   {
     grade: 2,
@@ -46,7 +53,10 @@ export const COURSE_DATA: CourseData[] = [
     credit: 3,
     professor: '김철수',
     room: '새502',
-    time: '월 10-12 / 수 10-12'
+    time: '월 10-12 / 수 10-12',
+    category: '전선',
+    department: '컴퓨터공학',
+    evaluation: '절대평가 (A/B/F)'
   },
   {
     grade: 3,
@@ -55,7 +65,10 @@ export const COURSE_DATA: CourseData[] = [
     credit: 3,
     professor: '이영희',
     room: '새503',
-    time: '월 14-16 / 수 14-16'
+    time: '월 14-16 / 수 14-16',
+    category: '전선',
+    department: '컴퓨터공학',
+    evaluation: '절대평가 (A/B/F)'
   },
   {
     grade: 2,
@@ -64,7 +77,10 @@ export const COURSE_DATA: CourseData[] = [
     credit: 3,
     professor: '박민수',
     room: '새504',
-    time: '화 14-16 / 목 14-16'
+    time: '화 14-16 / 목 14-16',
+    category: '전선',
+    department: '컴퓨터공학',
+    evaluation: '절대평가 (A/B/F)'
   },
   {
     grade: 3,
@@ -73,7 +89,10 @@ export const COURSE_DATA: CourseData[] = [
     credit: 3,
     professor: '정수현',
     room: '새505',
-    time: '월 16-18 / 수 16-18'
+    time: '월 16-18 / 수 16-18',
+    category: '전선',
+    department: '컴퓨터공학',
+    evaluation: '절대평가 (A/B/F)'
   },
   {
     grade: 4,
@@ -82,7 +101,10 @@ export const COURSE_DATA: CourseData[] = [
     credit: 3,
     professor: '최교수',
     room: '새506',
-    time: '목 16-19'
+    time: '목 16-19',
+    category: '전선',
+    department: '컴퓨터공학',
+    evaluation: '절대평가 (A/B/F)'
   }
 ];
 

@@ -2,19 +2,37 @@ import React from 'react';
 import { ExternalLink } from 'lucide-react';
 
 interface CourseCardProps {
+  // Note: Timetable page maps CourseData (from constants) into this localized shape.
   course: {
     학년: string;
-    과목번호: string;
-    교과목명: string;
-    학점: string;
-    담당교수: string;
-    강의실: string;
-    시간?: string;
-    과목코드?: string;
+    과목번호: string; // subjectCode
+    교과목명: string; // subjectName
+    학점: string; // credit
+    담당교수: string; // professor
+    강의실: string; // room
+    시간?: string; // time
+    과목코드?: string; // optional
+    이수구분?: string; // category
+    학과?: string; // department
+    평가?: string; // evaluation summary
+    학수번호?: string; // subjectCode, optional
   };
   onEnroll?: () => void;
   onAddToWishlist?: () => void;
 }
+
+const Tag: React.FC<{ label: string }> = ({ label }) => (
+  <span className="bg-darkgreen text-white px-3 py-2 w-12 h-8 rounded-xl whitespace-nowrap">
+    {label}
+  </span>
+);
+
+// Figma-style Chip for meta information (학년/학과/평가)
+const Chip: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <span className="bg-white text-darkgray px-4 py-1 rounded-[10px] text-mobile-small text-center whitespace-nowrap">
+    {children}
+  </span>
+);
 
 const CourseCard: React.FC<CourseCardProps> = ({
   course,
@@ -22,52 +40,46 @@ const CourseCard: React.FC<CourseCardProps> = ({
   onAddToWishlist = () => console.log('3학점 클릭')
 }) => {
   return (
-    <div className="bg-beige rounded-[10px] p-4 mb-3">
+    <div className="self-stretch px-3 py-4 bg-beige rounded-[20px]">
       {/* Header */}
-      <div className="flex justify-between items-start mb-3">
-        <div className="flex-1">
-          <div className="text-darkgray text-mobile-extrasmall mb-1">
-            {course.과목코드 || 'COA&A8723'}
+      <div className="flex justify-between items-start">
+        <div className="flex-1 min-w-0 mb-1">
+          <div className="text-darkgray truncate mb-1">
+            {course.학수번호 ?? "C0AA8723"}
           </div>
-          <h3 className="text-black text-mobile-small-bold leading-tight mb-1">
-            분산시스템및컴퓨팅
-          </h3>
-          <div className="text-darkgray text-mobile-small">
+          <span className="justify-center text-black font-semibold">
+            {course.교과목명}
+          </span>
+          <span className="ml-2 text-darkgray truncate">
             {course.담당교수}
-          </div>
+          </span>
         </div>
-        <div className="flex gap-2 ml-3">
-          <button
-            onClick={onEnroll}
-            className="bg-darkgreen text-white px-3 py-1 rounded-[6px] text-mobile-extrasmall-bold whitespace-nowrap"
-          >
-            전선
+        <div className="flex gap-2 ml-3 shrink-0">
+          <button onClick={onEnroll}>
+            <Tag label={course.이수구분 ?? '전선'} />
           </button>
-          <button
-            onClick={onAddToWishlist}
-            className="bg-darkgreen text-white px-3 py-1 rounded-[6px] text-mobile-extrasmall-bold whitespace-nowrap"
-          >
-            {course.학점}학점
+          <button onClick={onAddToWishlist}>
+            <Tag label={`${course.학점}학점`} />
           </button>
         </div>
       </div>
 
       {/* Course Details */}
-      <div className="flex justify-between items-center mb-3">
-        <div className="text-darkgray text-mobile-extrasmall">
-          {course.강의실} 수 15-16 {course.과목번호}
+      <div className="flex justify-between items-center">
+        <div className="text-darkgray text-mobile-extrasmall truncate">
+          {course.강의실}  {course.시간 ?? ''}  {course.과목번호}
         </div>
-        <ExternalLink className="w-4 h-4 text-darkgray" />
       </div>
 
       {/* Bottom Info */}
-      <div className="pt-3 border-t border-darkgray/20">
+      <div className="pt-5">
         <div className="flex justify-between items-center">
-          <div className="flex gap-3 text-mobile-extrasmall text-darkgray">
-            <span>{course.학년}학년</span>
-            <span>컴퓨터공학</span>
-            <span>절대평가 (A/B/F)</span>
+          <div className="flex gap-2.5 flex-wrap">
+            <Chip>{course.학년}학년</Chip>
+            <Chip>{course.학과 ?? '컴퓨터공학'}</Chip>
+            <Chip>{course.평가 ?? '절대평가 (A/B/F)'}</Chip>
           </div>
+          <ExternalLink className="w-6 h-6 text-darkgray" />
         </div>
       </div>
     </div>

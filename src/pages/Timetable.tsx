@@ -194,7 +194,10 @@ const MobileView: React.FC<MobileViewProps> = ({
             학점: course.credit.toString(),
             담당교수: course.professor,
             강의실: course.room,
-            시간: course.time
+            시간: course.time,
+            이수구분: course.category,
+            학과: course.department,
+            평가: course.evaluation
           }} />
         ))}
       </div>
