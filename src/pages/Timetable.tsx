@@ -109,21 +109,21 @@ const MobileView: React.FC<MobileViewProps> = ({
           onChange={setSelectedYear}
           placeholder="강의년도"
           options={yearOptions}
-          className="flex-1 overflow-hidden"
+          className="flex-1"
         />
         <Select
           value={selectedSemester}
           onChange={setSelectedSemester}
           placeholder="강의학기"
           options={semesterOptions}
-          className="flex-1 overflow-hidden"
+          className="flex-1"
         />
         <Select
           value={selectedCategory}
           onChange={setSelectedCategory}
           placeholder="이수구분"
           options={categoryOptions}
-          className="flex-1 overflow-hidden"
+          className="flex-1"
         />
       </div>
 
@@ -318,9 +318,9 @@ const DesktopView: React.FC<DesktopViewProps> = ({ days, times, schedule }) => (
 
 const TimetablePage: React.FC = () => {
   const [viewMode, setViewMode] = useState<'List' | 'Card'>('List');
-  const [selectedYear, setSelectedYear] = useState('강의년도');
-  const [selectedSemester, setSelectedSemester] = useState('강의학기');
-  const [selectedCategory, setSelectedCategory] = useState('이수구분');
+  const [selectedYear, setSelectedYear] = useState('');
+  const [selectedSemester, setSelectedSemester] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [searchQueries, setSearchQueries] = useState({
     professor: '',
     subjectCode: '',

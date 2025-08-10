@@ -30,7 +30,7 @@ const Select: React.FC<SelectProps> = ({
       <button
         onClick={() => setIsOpen(!isOpen)}
         disabled={disabled}
-        className={`w-full bg-beige rounded-[15px] pl-3 pr-2 py-2 flex items-center justify-between text-mobile-small ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-beige/80'
+        className={`w-full bg-beige rounded-[15px] pl-3 pr-2 py-2 flex items-center justify-between text-mobile-small ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-beige/80 cursor-pointer'
           } ${value ? 'text-black' : 'text-darkgray'}`}
       >
         <span className='overflow-hidden text-ellipsis whitespace-nowrap'>{value || placeholder}</span>
@@ -38,12 +38,12 @@ const Select: React.FC<SelectProps> = ({
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-lightgray rounded-[15px] shadow-lg z-10 max-h-48 overflow-y-auto cursor-pointer">
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-lightgray rounded-[15px] shadow-lg z-50 max-h-48 overflow-y-auto cursor-pointer">
           {options && options.map((option) =>
             <button
               key={option}
               onClick={() => handleSelect(option)}
-              className="w-full pl-3 pr-2 py-2 text-left text-mobile-small hover:bg-beige transition-colors"
+              className="w-full pl-3 pr-2 py-2 text-left text-mobile-small hover:bg-beige transition-colors cursor-pointer"
             >
               {option}
             </button>
