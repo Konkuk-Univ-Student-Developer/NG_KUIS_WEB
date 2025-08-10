@@ -26,8 +26,8 @@
   --magenta: #e91e63;
   --yellow: #ffeb3b;
   --violet: #9c27b0;
-  --blue: #2196f3;
-  --danger: #f44336;
+  --blue: #61a7dd;
+  --danger: #dd3412;
 }
 
 * {
@@ -49,8 +49,8 @@
   --color-magenta: #e91e63;
   --color-yellow: #ffeb3b;
   --color-violet: #9c27b0;
-  --color-blue: #2196f3;
-  --color-danger: #f44336;
+  --color-blue: #61a7dd;
+  --color-danger: #dd3412;
 }
 
 @layer base {
