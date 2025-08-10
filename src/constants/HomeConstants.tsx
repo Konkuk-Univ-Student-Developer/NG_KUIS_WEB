@@ -51,7 +51,7 @@ export const QUICK_MENU_ITEMS = [
         </span>
       </>
     ),
-    path: "/graduation",
+    path: "/1170201",
   },
   {
     icon: <GraduationIcon className="size-6 md:size-11" />,
