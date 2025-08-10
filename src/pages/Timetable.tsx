@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TopBar, Pagination, CourseCard } from '@/commons';
+import { TopBar, Pagination, CourseCard } from '@/components/commons';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, ViewToggle, Select, SearchInput } from '@/components/commons';
 import type { CourseData, ApiResponse } from '@/constants/TimetableConstants';
 import {
