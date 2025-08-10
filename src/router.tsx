@@ -30,7 +30,7 @@ const Router: React.FC = () => {
             }
           />
           <Route
-            path="1140302"
+            path="grades"
             element={
               <Suspense fallback={<PageLoader />}>
                 <GradePage />
@@ -38,7 +38,7 @@ const Router: React.FC = () => {
             }
           />
           <Route
-            path="1130420"
+            path="timetable"
             element={
               <Suspense fallback={<PageLoader />}>
                 <TimetablePage />
@@ -46,7 +46,7 @@ const Router: React.FC = () => {
             }
           />
           <Route
-            path="1170201"
+            path="graduation"
             element={
               <Suspense fallback={<PageLoader />}>
                 <GraduationPage />
@@ -54,7 +54,7 @@ const Router: React.FC = () => {
             }
           />
           <Route
-            path="1150502"
+            path="scholarship"
             element={
               <Suspense fallback={<PageLoader />}>
                 <ScholarshipPage />

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TopBar, Pagination, CourseCard } from '@/components/commons';
+import { Pagination, CourseCard } from '@/components/commons';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, ViewToggle, Select, SearchInput } from '@/components/commons';
 import type { CourseData, ApiResponse } from '@/constants/TimetableConstants';
 import {
@@ -92,8 +92,6 @@ const MobileView: React.FC<MobileViewProps> = ({
   apiResponse
 }) => (
   <div className="min-h-screen bg-white">
-    <TopBar />
-
     <div className="px-5 py-[25px] space-y-6">
       {/* Title */}
       <h1 className="text-darkgreen w-72 h-7 justify-center  text-lg font-bold leading-relaxed">종합강의시간표</h1>
