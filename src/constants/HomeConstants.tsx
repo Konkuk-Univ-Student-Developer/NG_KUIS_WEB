@@ -80,17 +80,6 @@ export const SCHOOL_LIFE_ITEMS = [
   { title: "총장배 축구대회 결승전", date: "D-7" },
 ];
 
-export const NOTICE_TABS = [
-  "전체",
-  "학사",
-  "장학",
-  "취창업",
-  "국제",
-  "학생",
-  "입학",
-  "일반",
-];
-
 export const NOTICE_ITEMS = [
   { title: "2025년 2학기 조기 졸업 신청 안내", date: "2025.06.28" },
   { title: "2025년 하계방학 단축근무 안내", date: "2025.06.25" },
