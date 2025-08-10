@@ -1,4 +1,4 @@
-﻿import TitleSection from "../commons/TitleSection";
+﻿import TitleSection from "@/components/commons/TitleSection";
 
 const CompletedCredits: React.FC = () => {
   return (

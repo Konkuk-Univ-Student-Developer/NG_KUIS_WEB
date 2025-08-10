@@ -116,3 +116,124 @@ export const USER_INFO_FIELDS: ListTableField[] = [
     mobile: { table: 3, widthClass: "w-1/5" },
   },
 ];
+
+/**
+ * 원전공 정보 데이터
+ */
+export const PRIMARY_MAJOR_FIELDS: ListTableField[] = [
+  {
+    id: "primaryMajorName",
+    label: "전공명",
+    value: "컴퓨터공학부",
+    desktop: { row: 1, widthClass: "w-3/12" },
+    mobile: { table: 1, widthClass: "w-4/12" },
+  },
+  {
+    id: "primaryCollegeName",
+    label: "대학명",
+    value: "공과대학",
+    desktop: { row: 1, widthClass: "w-2/12" },
+    mobile: { table: 1, widthClass: "w-3/12" },
+  },
+  {
+    id: "primaryApplyYear",
+    label: "신청년도",
+    value: "2022",
+    desktop: { row: 1, widthClass: "w-1/12" },
+    mobile: { table: 1, widthClass: "w-3/12" },
+  },
+  {
+    id: "primaryApplySemester",
+    label: "신청학기",
+    value: "1학기",
+    desktop: { row: 1, widthClass: "w-1/12" },
+    mobile: { table: 1, widthClass: "w-2/12" },
+  },
+  {
+    id: "primaryThesisType",
+    label: "논문유형",
+    value: "졸업논문",
+    desktop: { row: 1, widthClass: "w-1/12" },
+    mobile: { table: 2, widthClass: "w-1/4" },
+  },
+  {
+    id: "primaryThesisTitle",
+    label: "논문제목",
+    value: "데이터 기반 UI/UX 개선 연구",
+    desktop: { row: 1, widthClass: "w-3/12" },
+    mobile: { table: 2, widthClass: "w-2/4" },
+  },
+  {
+    id: "primaryPassStatus",
+    label: "합격",
+    value: "Y",
+    desktop: { row: 1, widthClass: "w-1/12" },
+    mobile: { table: 2, widthClass: "w-1/4" },
+  },
+];
+
+/**
+ * 복수전공 정보 데이터 (데이터가 없는 경우를 가정한 예시)
+ */
+export const SECONDARY_MAJOR_FIELDS: ListTableField[] = [
+  {
+    id: "secondaryMajorName",
+    label: "전공명",
+    value: "-",
+    desktop: { row: 1, widthClass: "w-3/12" },
+    mobile: { table: 1, widthClass: "w-4/12" },
+  },
+  {
+    id: "secondaryCollegeName",
+    label: "대학명",
+    value: "-",
+    desktop: { row: 1, widthClass: "w-2/12" },
+    mobile: { table: 1, widthClass: "w-3/12" },
+  },
+  {
+    id: "secondaryApplyYear",
+    label: "신청년도",
+    value: "-",
+    desktop: { row: 1, widthClass: "w-1/12" },
+    mobile: { table: 1, widthClass: "w-3/12" },
+  },
+  {
+    id: "secondaryApplySemester",
+    label: "신청학기",
+    value: "-",
+    desktop: { row: 1, widthClass: "w-1/12" },
+    mobile: { table: 1, widthClass: "w-2/12" },
+  },
+  {
+    id: "secondaryThesisType",
+    label: "논문유형",
+    value: "-",
+    desktop: { row: 1, widthClass: "w-1/12" },
+    mobile: { table: 2, widthClass: "w-1/4" },
+  },
+  {
+    id: "secondaryThesisTitle",
+    label: "논문제목",
+    value: "-",
+    desktop: { row: 1, widthClass: "w-3/12" },
+    mobile: { table: 2, widthClass: "w-2/4" },
+  },
+  {
+    id: "secondaryPassStatus",
+    label: "합격",
+    value: "-",
+    desktop: { row: 1, widthClass: "w-1/12" },
+    mobile: { table: 2, widthClass: "w-1/4" },
+  },
+];
+
+export const USER_MAJOR_INFO = [
+  {
+    title: "원전공",
+    fields: PRIMARY_MAJOR_FIELDS,
+  },
+  {
+    title: "복수전공",
+    fields: SECONDARY_MAJOR_FIELDS,
+  },
+];

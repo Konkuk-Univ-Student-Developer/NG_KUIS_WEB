@@ -16,7 +16,7 @@ const ResponsiveListTable: React.FC<ResponsiveListTableProps> = ({
     const row2 = fields.filter((f) => f.desktop.row === 2);
 
     return (
-      <div className="flex-col w-full gap-4 hidden md:flex">
+      <div className="flex-col w-full md:gap-4 lg:justify-between lg:h-full lg:py-2 hidden md:flex">
         {row1.length > 0 && (
           <GraduationTable
             headers={row1.map((f) => ({

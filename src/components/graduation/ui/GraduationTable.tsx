@@ -11,7 +11,8 @@ const GraduationTable: React.FC<TableProps> = ({
   values,
   headerBgColor = "bg-beige",
 }) => {
-  const cellBaseClasses = "flex justify-center items-center p-2 flex-shrink-0";
+  const cellBaseClasses =
+    "flex justify-center items-center p-2 flex-shrink-0 break-keep";
 
   const headerTextClasses =
     "text-black text-sm md:text-lg font-bold text-center";
