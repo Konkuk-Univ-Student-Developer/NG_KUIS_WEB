@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { TopBar } from "@/components/commons";
 import EditIcon from "@/assets/icon/ic_edit.svg?react";
 import MagnifierIcon from "@/assets/icon/ic_magnifier.svg?react";
 import TitleSection from "@/components/commons/TitleSection";
@@ -10,15 +9,16 @@ import NoticeList from "@/components/home/NoticeList";
 import Tab from "@/components/commons/Tab";
 import HomeHeader from "@/components/home/HomeHeader";
 import {
-  USER_INFO,
   QUICK_MENU_ITEMS,
   SCHOOL_LIFE_ITEMS,
   NOTICE_TABS,
   NOTICE_ITEMS,
 } from "@/constants/HomeConstants";
 import KUMark from "../assets/img/img_ku_mark.png";
+import useAuthStore from "@/stores/authStore";
+
 const HomePage = () => {
-  const { isLoggedIn, userName } = USER_INFO;
+  const { isLoggedIn, userName } = useAuthStore();
   const [activeTab, setActiveTab] = useState("전체");
   const [searchValue, setSearchValue] = useState("");
 
