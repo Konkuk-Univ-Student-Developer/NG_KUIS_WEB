@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronDown } from 'lucide-react';
+import { DownArrowIcon } from "@/assets/icon";
 
 interface SelectProps {
   value: string;
@@ -34,7 +34,7 @@ const Select: React.FC<SelectProps> = ({
           } ${value ? 'text-black' : 'text-darkgray'}`}
       >
         <span className='overflow-hidden text-ellipsis whitespace-nowrap'>{value || placeholder}</span>
-        <ChevronDown className={`w-4 h-4 text-darkgray transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <DownArrowIcon className={`w-4 h-4 text-darkgray transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {isOpen && (
