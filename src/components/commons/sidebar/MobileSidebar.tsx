@@ -1,17 +1,16 @@
 ﻿import React, { useState } from "react";
 
 import ArrowLeft from "@/assets/icon/ic_arrow_left.svg?react";
-import { MENU_DATA, TITLE_TABS } from "@/constants/SidebarConstants";
+import { MENU_DATA } from "@/constants/SidebarConstants";
 import SideTitleList from "@/components/commons/sidebar/SideTitleList";
 import SideDetailList from "@/components/commons/sidebar/SideDetailList";
 import TitleSection from "@/components/commons/TitleSection";
 import useSidebarStore from "@/stores/sidebarStore";
-import Tab from "@/components/commons/Tab";
 
 const MobileSidebar: React.FC = () => {
   const { closeSidebar } = useSidebarStore();
   const [activeCategory, setActiveCategory] = useState("학적");
-  const [activeTab, setActiveTab] = useState("학사");
+  const [activeTab, ] = useState("학사");
 
   const activeMenuData = MENU_DATA.find(
     (menu) => menu.category === activeCategory
@@ -26,14 +25,7 @@ const MobileSidebar: React.FC = () => {
           onClick={closeSidebar}
           iconPosition="left"
         />
-        <div className="w-64">
-          <Tab
-            tabs={TITLE_TABS}
-            activeTab={activeTab}
-            variant="fit"
-            onTabClick={setActiveTab}
-          />
-        </div>
+        {/* [todo] : Tabs 컴포넌트로 학사/대학원 추가 필요 */}
       </div>
 
       {activeTab === "학사" ? (
