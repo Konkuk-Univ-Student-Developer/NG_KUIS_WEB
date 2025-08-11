@@ -1,14 +1,14 @@
 ﻿import React from "react";
-import CreditInfoCard from "@/components/graduation/ui/CreditInfoCard";
+import CreditInfoCard from "@/components/graduation/CreditInfoCard";
 import {
   CREDIT_SUMMARY_DATA,
   USER_INFO_FIELDS,
   USER_MAJOR_INFO
 } from "@/constants/GraduationConstants";
 import TitleSection from "@/components/commons/TitleSection";
-import ResponsiveListTable from "@/components/graduation/ui/ResponsiveTable";
-import StatusCircle from "@/components/graduation/ui/GraduationStatus";
-import Subtitle from "@/components/graduation/ui/SubTitle";
+import ResponsiveListTable from "@/components/graduation/ResponsiveTable";
+import StatusCircle from "@/components/graduation/GraduationStatus";
+import Subtitle from "@/components/graduation/SubTitle";
 
 const GrduationSummary: React.FC = () => {
   return (
