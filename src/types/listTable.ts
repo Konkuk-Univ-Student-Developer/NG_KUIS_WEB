@@ -3,7 +3,7 @@
 export interface ListTableField {
   id: string;
   label: string;
-  value: React.ReactNode;
+  value: React.ReactNode[];
 
   // 웹(desktop)/태블릿
   desktop: {
@@ -16,4 +16,6 @@ export interface ListTableField {
     table: number; // 몇 번째 테이블에 위치하는지
     widthClass: string; // 너비 클래스
   };
+
+  fontcolor?: string; // 글자 색상 (선택적)
 }
