@@ -11,9 +11,9 @@ import HomeHeader from "@/components/home/HomeHeader";
 import {
   QUICK_MENU_ITEMS,
   SCHOOL_LIFE_ITEMS,
-  NOTICE_TABS,
   NOTICE_ITEMS,
 } from "@/constants/HomeConstants";
+import { NOTICE_TABS } from "@/constants/NoticeConstants";
 import KUMark from "../assets/img/img_ku_mark.png";
 import useAuthStore from "@/stores/authStore";
 
@@ -85,7 +85,7 @@ const HomePage = () => {
               icon={
                 <MagnifierIcon className="size-6 cursor-pointer md:size-12" />
               }
-              path="/quick-menu"
+              path="/notice"
             />
 
             <div className="hidden md:block">

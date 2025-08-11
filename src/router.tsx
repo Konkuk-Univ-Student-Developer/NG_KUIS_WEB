@@ -8,6 +8,7 @@ const GradePage = lazy(() => import("./pages/Grade"));
 const TimetablePage = lazy(() => import("./pages/Timetable"));
 const GraduationPage = lazy(() => import("./pages/Graduation"));
 const ScholarshipPage = lazy(() => import("./pages/Scholarship"));
+const NoticePage = lazy(() => import("./pages/Notice"));
 
 // Loading component
 const PageLoader: React.FC = () => (
@@ -69,6 +70,14 @@ const Router: React.FC = () => {
                   공지사항 페이지
                 </h1>
               </div>
+            }
+          />
+          <Route
+            path="notice"
+            element={
+              <Suspense fallback={<PageLoader />}>
+                <NoticePage />
+              </Suspense>
             }
           />
           {/* 404 Page */}
