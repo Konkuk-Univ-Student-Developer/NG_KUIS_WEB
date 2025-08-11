@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import GraduationTable from "@/components/graduation/ui/GraduationTable";
+import GraduationTable from "@/components/graduation/GraduationTable";
 import { type ListTableField } from "@/types/listTable";
 
 interface ResponsiveListTableProps {
