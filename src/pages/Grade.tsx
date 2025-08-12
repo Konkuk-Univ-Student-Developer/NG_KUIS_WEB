@@ -53,7 +53,7 @@ const Grade = () => {
       </h2>
 
       {/* Tabs */}
-      <div className="mx-4 md:m-0 md:pb-6">
+      <div className="mx-4 md:m-0 md:pb-18">
         <Tab
           tabs={GRADE_TABS}
           activeTab={activeTab}
@@ -63,7 +63,7 @@ const Grade = () => {
       </div>
 
       {/* Summary and Term Title Row */}
-      <div className="mx-4 md:m-0 md:flex md:gap-8 md:items-end">
+      <div className="mx-4 md:m-0 md:flex md:gap-30 md:pb-18 md:items-end">
         {/* Term Title */}
         <div className="md:flex-1">
           <h3 className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] md:text-2xl md:leading-[2.0]">
@@ -73,8 +73,8 @@ const Grade = () => {
 
         {/* Summary */}
         <div className="mt-4 md:mt-0 md:flex-1">
-          <div className="rounded-xl bg-beige p-4 md:rounded-2xl md:p-6">
-            <div className="grid grid-cols-3 gap-4 md:gap-8">
+          <div className="rounded-[15px] bg-beige p-4 md:rounded-[20px] md:py-6 md:px-8">
+            <div className="grid grid-cols-3 md:gap-2">
               <div className="flex flex-col gap-1">
                 <span className="text-darkgray text-sm md:text-base">
                   평점 평균
@@ -120,7 +120,7 @@ const Grade = () => {
       </div>
 
       {/* Grades Table */}
-      <div className="mx-4 md:m-0 mt-18 md:mt-18">
+      <div className="mx-4 md:m-0  md:pb-13">
         <div className="bg-white rounded-[8px] border border-lightgray overflow-hidden">
           <div className="overflow-x-auto md:overflow-visible">
             {/* Header */}
@@ -160,7 +160,7 @@ const Grade = () => {
                   key={row.no}
                   className="px-4 py-3 hover:bg-beige/50 transition-colors min-w-max md:min-w-full"
                 >
-                  <div className="grid grid-cols-10 gap-4 text-mobile-small md:gap-2">
+                  <div className="grid grid-cols-10 gap-2 text-mobile-small md:gap-1">
                     <div className="text-black font-medium min-w-[48px] md:min-w-0 text-center">
                       {row.no}
                     </div>
