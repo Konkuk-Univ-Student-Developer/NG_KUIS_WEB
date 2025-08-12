@@ -161,35 +161,35 @@ const Grade = () => {
                   className="px-4 py-3 hover:bg-beige/50 transition-colors min-w-max md:min-w-full"
                 >
                   <div className="grid grid-cols-10 gap-4 text-mobile-small md:gap-2">
-                    <div className="text-darkgray min-w-[48px] md:min-w-0 text-center">
+                    <div className="text-black font-medium min-w-[48px] md:min-w-0 text-center">
                       {row.no}
                     </div>
-                    <div className="text-darkgray min-w-[100px] md:min-w-0 text-center">
+                    <div className="text-black font-medium min-w-[100px] md:min-w-0 text-center">
                       {row.학수번호}
                     </div>
-                    <div className="text-darkgray min-w-[90px] md:min-w-0 text-center">
+                    <div className="text-black font-medium min-w-[90px] md:min-w-0 text-center">
                       {row.과목번호}
                     </div>
                     <div className="text-black font-medium min-w-[160px] md:min-w-0 text-center">
                       {row.과목명}
                     </div>
-                    <div className="text-darkgray min-w-[90px] md:min-w-0 text-center">
+                    <div className="text-black font-medium min-w-[90px] md:min-w-0 text-center">
                       {row.담당교수}
                     </div>
-                    <div className="text-darkgray min-w-[60px] md:min-w-0 text-center">
+                    <div className="text-black font-medium min-w-[60px] md:min-w-0 text-center">
                       {row.학점}
                     </div>
-                    <div className="text-darkgray min-w-[80px] md:min-w-0 text-center">
+                    <div className="text-black font-medium min-w-[80px] md:min-w-0 text-center">
                       {row.이수구분}
                     </div>
-                    <div className="text-darkgray min-w-[60px] md:min-w-0 text-center">
+                    <div className="text-black font-medium min-w-[60px] md:min-w-0 text-center">
                       {row.등급}
                     </div>
-                    <div className="text-darkgray min-w-[110px] md:min-w-0 text-center">
+                    <div className="text-black font-medium min-w-[110px] md:min-w-0 text-center">
                       {row.성적평가방법}
                     </div>
                     <div className="min-w-[110px] md:min-w-0 text-center">
-                      <ArrowDownIcon className="w-4 h-4 text-darkgreen cursor-pointer hover:opacity-70 mx-auto" />
+                      <ArrowDownIcon className="w-6 h-6 text-darkgreen cursor-pointer hover:opacity-70 mx-auto" />
                     </div>
                   </div>
                 </div>
