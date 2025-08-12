@@ -125,7 +125,7 @@ const Grade = () => {
           <div className="overflow-x-auto md:overflow-visible">
             {/* Header */}
             <div className="bg-beige px-4 py-3 border-b border-lightgray min-w-max md:min-w-full">
-              <div className="grid grid-cols-10 gap-4 text-mobile-small-bold text-black font-bold md:gap-2">
+              <div className="grid grid-cols-10 gap-2 text-mobile-small-bold text-black font-bold md:gap-1">
                 <div className="min-w-[48px] md:min-w-0 text-center">No</div>
                 <div className="min-w-[100px] md:min-w-0 text-center">
                   학수번호
