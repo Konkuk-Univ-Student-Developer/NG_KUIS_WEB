@@ -2,7 +2,8 @@ import { useState } from 'react';
 import Tab from '@/components/commons/Tab';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import ArrowDownIcon from '@/assets/icon/ic_arrow_down.svg?react';
-import ArrowUpIcon from '@/assets/icon/ic_arrow_up.svg?react'; // 추가된 import
+import ArrowUpIcon from '@/assets/icon/ic_arrow_up.svg?react';
+import { GRADE_TABS } from '@/constants/GradeConstants';
 
 type GradeItem = {
   no: number;
@@ -27,12 +28,6 @@ type DetailGrade = {
   토론: { score: number; max: number };
   기타5: { score: number; max: number };
 };
-
-const GRADE_TABS = [
-  '정규학기 성적 조회',
-  '계절학기 성적 조회',
-  '전체 성적 조회',
-];
 
 const SAMPLE_GRADES: GradeItem[] = Array.from({ length: 6 }).map((_, i) => ({
   no: i + 1,
