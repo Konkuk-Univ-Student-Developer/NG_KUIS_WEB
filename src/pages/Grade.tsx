@@ -5,6 +5,7 @@ import ArrowDownIcon from '@/assets/icon/ic_arrow_down.svg?react';
 import ArrowUpIcon from '@/assets/icon/ic_arrow_up.svg?react';
 import { GRADE_TABS } from '@/constants/GradeConstants';
 import TermGradeTitle from '@/components/grade/TermGradeTitle';
+import TermGradeSummary from '@/components/grade/TermGradeSummary';
 
 type GradeItem = {
   no: number;
@@ -60,13 +61,6 @@ const Grade = () => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const tabVariant = isDesktop ? 'fit' : 'full';
 
-  const avgGpa = 4.5;
-  const gpaScale = 4.5;
-  const earnedCredits = 18;
-  const attemptedCredits = 18;
-  const academicWarning = 'N';
-  const honors = 'Y';
-
   const toggleRow = (rowNo: number) => {
     setExpandedRows((prev) => {
       const newSet = new Set(prev);
@@ -102,51 +96,7 @@ const Grade = () => {
         <TermGradeTitle year={2025} semester={1} />
 
         {/* Summary */}
-        <div className="mt-4 md:mt-0 md:flex-1">
-          <div className="rounded-[15px] bg-beige p-4 md:rounded-[20px] md:py-6 md:px-8">
-            <div className="grid grid-cols-3 md:gap-2">
-              <div className="flex flex-col gap-1">
-                <span className="text-darkgray text-sm md:text-base">
-                  평점 평균
-                </span>
-                <div className="flex items-end gap-1">
-                  <span className="text-darkgreen font-bold text-2xl md:text-3xl">
-                    {avgGpa}
-                  </span>
-                  <span className="text-darkgray text-base md:text-lg">
-                    / {gpaScale}
-                  </span>
-                </div>
-              </div>
-              <div className="flex flex-col gap-1">
-                <span className="text-darkgray text-sm md:text-base">
-                  취득학점 / 신청학점
-                </span>
-                <div className="flex items-end gap-1">
-                  <span className="text-darkgreen font-bold text-2xl md:text-3xl">
-                    {earnedCredits}
-                  </span>
-                  <span className="text-darkgray text-base md:text-lg">
-                    / {attemptedCredits}
-                  </span>
-                </div>
-              </div>
-              <div className="flex flex-col gap-1">
-                <span className="text-darkgray text-sm md:text-base">
-                  학사경고 / 우등구분
-                </span>
-                <div className="flex items-end gap-2">
-                  <span className="text-darkgreen font-bold text-2xl md:text-3xl">
-                    {academicWarning}
-                  </span>
-                  <span className="text-darkgray text-base md:text-lg">
-                    / {honors}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <TermGradeSummary />
       </div>
 
       {/* Grades Table */}
