@@ -4,6 +4,7 @@ import useMediaQuery from '@/hooks/useMediaQuery';
 import ArrowDownIcon from '@/assets/icon/ic_arrow_down.svg?react';
 import ArrowUpIcon from '@/assets/icon/ic_arrow_up.svg?react';
 import { GRADE_TABS } from '@/constants/GradeConstants';
+import TermGradeTitle from '@/components/grade/TermGradeTitle';
 
 type GradeItem = {
   no: number;
@@ -98,11 +99,7 @@ const Grade = () => {
       {/* Summary and Term Title Row */}
       <div className="mx-4 md:m-0 md:flex md:gap-30 md:pb-18 md:items-end">
         {/* Term Title */}
-        <div className="md:flex-1">
-          <h3 className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] md:text-2xl md:leading-[2.0]">
-            2025년 1학기
-          </h3>
-        </div>
+        <TermGradeTitle year={2025} semester={1} />
 
         {/* Summary */}
         <div className="mt-4 md:mt-0 md:flex-1">
