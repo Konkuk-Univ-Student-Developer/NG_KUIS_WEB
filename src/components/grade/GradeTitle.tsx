@@ -1,9 +1,9 @@
-interface TermGradeTitleProps {
+interface GradeTitleProps {
   year: number;
   semester: 1 | 2 | 'summer' | 'winter';
 }
 
-const TermGradeTitle = ({ year, semester }: TermGradeTitleProps) => {
+const GradeTitle = ({ year, semester }: GradeTitleProps) => {
   const getSemesterText = (semester: 1 | 2 | 'summer' | 'winter') => {
     switch (semester) {
       case 1:
@@ -28,4 +28,4 @@ const TermGradeTitle = ({ year, semester }: TermGradeTitleProps) => {
   );
 };
 
-export default TermGradeTitle;
+export default GradeTitle;
