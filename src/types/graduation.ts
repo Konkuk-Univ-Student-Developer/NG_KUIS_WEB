@@ -56,3 +56,16 @@ export interface MobileAccordionTableProps {
   headerBgColor?: string;
   group: RowGroup;
 }
+
+export interface CreditInfoCardProps {
+  title: string;
+  value: number | string;
+  unit: string;
+}
+
+export interface CreditSubSectionProps {
+  id: string;
+  title: string;
+  card: CreditInfoCardProps[];
+  table: ResponsiveListTableProps;
+}
