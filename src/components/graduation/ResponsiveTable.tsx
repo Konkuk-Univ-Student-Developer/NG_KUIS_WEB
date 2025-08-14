@@ -23,9 +23,15 @@ const ResponsiveTable: React.FC<ResponsiveListTableProps> = ({
       fields.map((field) => ({
         content:
           field.id === "detailsStatus" ? (
-            <a href={`/details/${row.id}`} className="text-blue underline">
+            <button
+              type="button"
+              className="text-blue underline"
+              onClick={() => {
+                document.getElementById(String(row.desktopLink))?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }}
+            >
               {field.render ? field.render(row[field.id], row) : row[field.id]}
-            </a>
+            </button>
           ) : field.render
           ? field.render(row[field.id], row)
           : row[field.id],

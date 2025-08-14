@@ -265,7 +265,7 @@ export const CREDITS_SUMMARY_ROWS: RowData[] = [
     remainingCredits: "3",
     detailsStatus: "상세과목 보기",
     rowType: "accordion",
-    desktopLink: "#general-basic-courses",
+    desktopLink: "general-basic-courses",
   },
   {
     majorDivision: "원전공",
@@ -275,7 +275,7 @@ export const CREDITS_SUMMARY_ROWS: RowData[] = [
     remainingCredits: "0",
     detailsStatus: "상세과목 보기",
     rowType: "accordion",
-    desktopLink: "#advanced-basic-courses",
+    desktopLink: "advanced-basic-courses",
   },
   {
     majorDivision: "원전공",
@@ -285,7 +285,7 @@ export const CREDITS_SUMMARY_ROWS: RowData[] = [
     remainingCredits: "0",
     detailsStatus: "상세과목 보기",
     rowType: "accordion",
-    desktopLink: "#based-basic-courses",
+    desktopLink: "based-basic-courses",
   },
   {
     majorDivision: "원전공",
@@ -295,7 +295,7 @@ export const CREDITS_SUMMARY_ROWS: RowData[] = [
     remainingCredits: "0",
     detailsStatus: "상세과목 보기",
     rowType: "accordion",
-    desktopLink: "#designated-basic-courses",
+    desktopLink: "designated-basic-courses",
   },
   {
     majorDivision: "원전공",
@@ -305,7 +305,7 @@ export const CREDITS_SUMMARY_ROWS: RowData[] = [
     remainingCredits: "0",
     detailsStatus: "상세과목 보기",
     rowType: "accordion",
-    desktopLink: "#designated-required-courses",
+    desktopLink: "designated-required-courses",
   },
   {
     majorDivision: "원전공",
@@ -315,7 +315,7 @@ export const CREDITS_SUMMARY_ROWS: RowData[] = [
     remainingCredits: "0",
     detailsStatus: "상세과목 보기",
     rowType: "accordion",
-    desktopLink: "#major-required-courses",
+    desktopLink: "major-required-courses",
   },
   {
     majorDivision: "원전공",
@@ -325,7 +325,7 @@ export const CREDITS_SUMMARY_ROWS: RowData[] = [
     remainingCredits: "0",
     detailsStatus: "상세과목 보기",
     rowType: "accordion",
-    desktopLink: "#major-required-elective-courses",
+    desktopLink: "major-required-elective-courses",
   },
   {
     majorDivision: "원전공",
@@ -335,7 +335,7 @@ export const CREDITS_SUMMARY_ROWS: RowData[] = [
     remainingCredits: "0",
     detailsStatus: "상세과목 보기",
     rowType: "accordion",
-    desktopLink: "#major-general-courses",
+    desktopLink: "major-general-courses",
   },
   {
     majorDivision: "원전공",
@@ -345,7 +345,7 @@ export const CREDITS_SUMMARY_ROWS: RowData[] = [
     remainingCredits: "0",
     detailsStatus: "상세과목 보기",
     rowType: "accordion",
-    desktopLink: "#general-elective-courses",
+    desktopLink: "general-elective-courses",
   },
   {
     majorDivision: "원전공",
@@ -355,7 +355,7 @@ export const CREDITS_SUMMARY_ROWS: RowData[] = [
     remainingCredits: "0",
     detailsStatus: "상세과목 보기",
     rowType: "accordion",
-    desktopLink: "#other",
+    desktopLink: "other",
   },
 ];
 
