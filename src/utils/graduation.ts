@@ -1,4 +1,4 @@
-﻿export const getStatusStyle = (status: React.ReactNode) => {
+﻿export const getStatusStyle = (status: unknown) => {
   switch (status) {
     case "합격":
       return "text-blue font-bold";

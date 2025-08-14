@@ -1,7 +1,7 @@
 ﻿import GraduationSummary from "@/components/graduation/GraduationSummary";
 import GraduationAudit from "@/components/graduation/GraduationAudit";
 import CompletedCredits from "@/components/graduation/CompletedCredits";
-import type { ListTableField } from "@/types/listTable";
+import type { ColumnConfig, RowData } from "@/types/graduation";
 
 export const GRADUATION_TABS = ["결과 요약", "졸업 사정", "취득학점확인원"];
 
@@ -23,280 +23,302 @@ export const TAB_COMPONENTS: { [key: string]: React.FC } = {
   "취득학점확인원": CompletedCredits,
 };
 
-export const USER_INFO_FIELDS: ListTableField[] = [
-  // --- Desktop: Row 1 / Mobile: Table 1 ---
-  {
-    id: "studentId",
-    label: "학번",
-    value: ["20201999"],
-    desktop: { row: 1, widthClass: "w-2/13" },
-    mobile: { table: 1, widthClass: "w-1/4" },
-  },
-  {
-    id: "name",
-    label: "성명",
-    value: ["김건국"],
-    desktop: { row: 1, widthClass: "w-2/13" },
-    mobile: { table: 1, widthClass: "w-1/4" },
-  },
-  {
-    id: "birthDate",
-    label: "생년월일",
-    value: ["030403"],
-    desktop: { row: 1, widthClass: "w-2/13" },
-    mobile: { table: 1, widthClass: "w-1/4" },
-  },
-  {
-    id: "gender",
-    label: "성별",
-    value: ["남"],
-    desktop: { row: 1, widthClass: "w-1/13" },
-    mobile: { table: 1, widthClass: "w-1/4" },
-  },
+// UI 정의
+export const USER_INFO_COLUMNS: ColumnConfig[] = [
+  { id: "studentId", label: "학번", desktop: { row: 1, widthClass: "w-2/13" }, mobile: { table: 1, widthClass: "w-1/4" } },
+  { id: "name", label: "성명", desktop: { row: 1, widthClass: "w-2/13" }, mobile: { table: 1, widthClass: "w-1/4" } },
+  { id: "birthDate", label: "생년월일", desktop: { row: 1, widthClass: "w-2/13" }, mobile: { table: 1, widthClass: "w-1/4" } },
+  { id: "gender", label: "성별", desktop: { row: 1, widthClass: "w-1/13" }, mobile: { table: 1, widthClass: "w-1/4" } },
 
-  // --- Desktop: Row 1 / Mobile: Table 2 ---
-  {
-    id: "entryYear",
-    label: "입학년도",
-    value: ["2022"],
-    desktop: { row: 1, widthClass: "w-2/13" },
-    mobile: { table: 2, widthClass: "w-1/4" },
-  },
-  {
-    id: "entrySemester",
-    label: "입학학기",
-    value: ["1학기"],
-    desktop: { row: 1, widthClass: "w-2/13" },
-    mobile: { table: 2, widthClass: "w-1/4" },
-  },
-  {
-    id: "entryType",
-    label: "입학구분",
-    value: ["수시1"],
-    desktop: { row: 1, widthClass: "w-2/13" },
-    mobile: { table: 2, widthClass: "w-1/4" },
-  },
+  { id: "entryYear", label: "입학년도", desktop: { row: 1, widthClass: "w-2/13" }, mobile: { table: 2, widthClass: "w-1/4" } },
+  { id: "entrySemester", label: "입학학기", desktop: { row: 1, widthClass: "w-2/13" }, mobile: { table: 2, widthClass: "w-1/4" } },
+  { id: "entryType", label: "입학구분", desktop: { row: 1, widthClass: "w-2/13" }, mobile: { table: 2, widthClass: "w-1/4" } },
 
-  // --- Desktop: Row 2 / Mobile: Table 2 ---
-  {
-    id: "studentType",
-    label: "학생구분",
-    value: ["일반"],
-    desktop: { row: 2, widthClass: "w-2/12" },
-    mobile: { table: 2, widthClass: "w-1/4" },
-  },
+  { id: "studentType", label: "학생구분", desktop: { row: 2, widthClass: "w-2/12" }, mobile: { table: 2, widthClass: "w-1/4" } },
 
-  // --- Desktop: Row 2 / Mobile: Table 3 ---
+  { id: "major", label: "학과(부)/전공", desktop: { row: 2, widthClass: "w-3/12" }, mobile: { table: 3, widthClass: "w-2/5" } },
+  { id: "college", label: "대학명", desktop: { row: 2, widthClass: "w-3/12" }, mobile: { table: 3, widthClass: "w-1/5" } },
+  { id: "grade", label: "학년", desktop: { row: 2, widthClass: "w-2/12" }, mobile: { table: 3, widthClass: "w-1/5" } },
+  { id: "status", label: "학적상태", desktop: { row: 2, widthClass: "w-2/12" }, mobile: { table: 3, widthClass: "w-1/5" } },
+];
+
+// 더미 데이터
+export const USER_INFO_ROWS: RowData[] = [
   {
-    id: "major",
-    label: "학과(부)/전공",
-    value: ["컴퓨터공학부"],
-    desktop: { row: 2, widthClass: "w-3/12" },
-    mobile: { table: 3, widthClass: "w-2/5" }, // 모바일에서는 이 칸이 좀 더 넓으므로 비율 조정
-  },
-  {
-    id: "college",
-    label: "대학명",
-    value: ["공과대학"],
-    desktop: { row: 2, widthClass: "w-3/12" },
-    mobile: { table: 3, widthClass: "w-1/5" },
-  },
-  {
-    id: "grade",
-    label: "학년",
-    value: ["4학년"],
-    desktop: { row: 2, widthClass: "w-2/12" },
-    mobile: { table: 3, widthClass: "w-1/5" },
-  },
-  {
-    id: "status",
-    label: "학적상태",
-    value: ["재학생"],
-    desktop: { row: 2, widthClass: "w-2/12" },
-    mobile: { table: 3, widthClass: "w-1/5" },
+    studentId: "20201999",
+    name: "김건국",
+    birthDate: "030403",
+    gender: "남",
+    entryYear: "2022",
+    entrySemester: "1학기",
+    entryType: "수시1",
+    studentType: "일반",
+    major: "컴퓨터공학부",
+    college: "공과대학",
+    grade: "4학년",
+    status: "재학생",
   },
 ];
 
-/**
- * 원전공 정보 데이터
- */
-export const PRIMARY_MAJOR_FIELDS: ListTableField[] = [
+
+export const PRIMARY_MAJOR_COLUMNS: ColumnConfig[] = [
   {
     id: "primaryMajorName",
     label: "전공명",
-    value: ["컴퓨터공학부"],
     desktop: { row: 1, widthClass: "w-3/12" },
     mobile: { table: 1, widthClass: "w-4/12" },
   },
   {
     id: "primaryCollegeName",
     label: "대학명",
-    value: ["공과대학"],
     desktop: { row: 1, widthClass: "w-2/12" },
     mobile: { table: 1, widthClass: "w-3/12" },
   },
   {
     id: "primaryApplyYear",
     label: "신청년도",
-    value: ["2022"],
     desktop: { row: 1, widthClass: "w-1/12" },
     mobile: { table: 1, widthClass: "w-3/12" },
   },
   {
     id: "primaryApplySemester",
     label: "신청학기",
-    value: ["1학기"],
     desktop: { row: 1, widthClass: "w-1/12" },
     mobile: { table: 1, widthClass: "w-2/12" },
   },
   {
     id: "primaryThesisType",
     label: "논문유형",
-    value: ["졸업논문"],
     desktop: { row: 1, widthClass: "w-1/12" },
     mobile: { table: 2, widthClass: "w-1/4" },
   },
   {
     id: "primaryThesisTitle",
     label: "논문제목",
-    value: ["데이터 기반 UI/UX 개선 연구"],
     desktop: { row: 1, widthClass: "w-3/12" },
     mobile: { table: 2, widthClass: "w-2/4" },
   },
   {
     id: "primaryPassStatus",
     label: "합격",
-    value: ["Y"],
     desktop: { row: 1, widthClass: "w-1/12" },
     mobile: { table: 2, widthClass: "w-1/4" },
   },
 ];
 
-/**
- * 복수전공 정보 데이터 (데이터가 없는 경우를 가정한 예시)
- */
-export const SECONDARY_MAJOR_FIELDS: ListTableField[] = [
+export const PRIMARY_MAJOR_ROWS: RowData[] = [
+  {
+    primaryMajorName: "컴퓨터공학부",
+    primaryCollegeName: "공과대학",
+    primaryApplyYear: "2022",
+    primaryApplySemester: "1학기",
+    primaryThesisType: "졸업논문",
+    primaryThesisTitle: "데이터 기반 UI/UX 개선 연구",
+    primaryPassStatus: "Y",
+  },
+];
+
+export const SECONDARY_MAJOR_COLUMNS: ColumnConfig[] = [
   {
     id: "secondaryMajorName",
     label: "전공명",
-    value: ["-"],
     desktop: { row: 1, widthClass: "w-3/12" },
     mobile: { table: 1, widthClass: "w-4/12" },
   },
   {
     id: "secondaryCollegeName",
     label: "대학명",
-    value: ["-"],
     desktop: { row: 1, widthClass: "w-2/12" },
     mobile: { table: 1, widthClass: "w-3/12" },
   },
   {
     id: "secondaryApplyYear",
     label: "신청년도",
-    value: ["-"],
     desktop: { row: 1, widthClass: "w-1/12" },
     mobile: { table: 1, widthClass: "w-3/12" },
   },
   {
     id: "secondaryApplySemester",
     label: "신청학기",
-    value: ["-"],
     desktop: { row: 1, widthClass: "w-1/12" },
     mobile: { table: 1, widthClass: "w-2/12" },
   },
   {
     id: "secondaryThesisType",
     label: "논문유형",
-    value: ["-"],
     desktop: { row: 1, widthClass: "w-1/12" },
     mobile: { table: 2, widthClass: "w-1/4" },
   },
   {
     id: "secondaryThesisTitle",
     label: "논문제목",
-    value: ["-"],
     desktop: { row: 1, widthClass: "w-3/12" },
     mobile: { table: 2, widthClass: "w-2/4" },
   },
   {
     id: "secondaryPassStatus",
     label: "합격",
-    value: ["-"],
     desktop: { row: 1, widthClass: "w-1/12" },
     mobile: { table: 2, widthClass: "w-1/4" },
+  },
+];
+
+export const SECONDARY_MAJOR_ROWS: RowData[] = [
+  {
+    secondaryMajorName: "-",
+    secondaryCollegeName: "-",
+    secondaryApplyYear: "-",
+    secondaryApplySemester: "-",
+    secondaryThesisType: "-",
+    secondaryThesisTitle: "-",
+    secondaryPassStatus: "-",
   },
 ];
 
 export const USER_MAJOR_INFO = [
   {
     title: "원전공",
-    fields: PRIMARY_MAJOR_FIELDS,
+    rows: PRIMARY_MAJOR_ROWS,
+    columns: PRIMARY_MAJOR_COLUMNS,
   },
   {
     title: "복수전공",
-    fields: SECONDARY_MAJOR_FIELDS,
+    rows: SECONDARY_MAJOR_ROWS,
+    columns: SECONDARY_MAJOR_COLUMNS,
   },
 ];
 
-export const GRADUATION_AUDIT_BASIC_DATA = [
+export const GRADUATION_AUDIT_COLUMNS: ColumnConfig[] = [
   {
     id: "no",
     label: "No",
-    value: ["1", "2", "3"],
     desktop: { row: 1, widthClass: "w-1/20" },
     mobile: { table: 1, widthClass: "w-1/12" },
   },
   {
     id: "content",
     label: "요건 내용",
-    value: [
-      "교양학점(영역별 이수학점 및 총 이수학점 조건)",
-      "교양학점(영역별 이수학점 및 총 이수학점 조건)",
-      "교양학점(영역별 이수학점 및 총 이수학점 조건)",
-    ],
     desktop: { row: 1, widthClass: "w-8/20" },
     mobile: { table: 1, widthClass: "w-7/12" },
   },
   {
     id: "standard",
     label: "기준",
-    value: ["12과목", "12과목", "12과목"],
     desktop: { row: 1, widthClass: "w-2/20" },
     mobile: { table: 0, widthClass: "w-2/12" },
   },
   {
     id: "acquired",
     label: "취득",
-    value: ["12과목", "12과목", "12과목"],
     desktop: { row: 1, widthClass: "w-2/20" },
     mobile: { table: 0, widthClass: "w-2/12" },
   },
   {
     id: "deficient",
     label: "부족",
-    value: ["0과목", "0과목", "0과목"],
     desktop: { row: 1, widthClass: "w-2/20" },
     mobile: { table: 0, widthClass: "w-2/12" },
   },
   {
     id: "details",
     label: "세부항목",
-    value: ["-", "-", "-"],
     desktop: { row: 1, widthClass: "w-3/20" },
     mobile: { table: 0, widthClass: "w-6/12" },
   },
   {
     id: "status",
     label: "합격",
-    value: ["합격", "불합", "합격"],
     desktop: { row: 1, widthClass: "w-2/20" },
     mobile: { table: 1, widthClass: "w-2/12" },
   },
   {
     id: "detailsStatus",
     label: "상세보기",
-    value: [""],
     desktop: { row: 0, widthClass: "w-2/20" },
     mobile: { table: 1, widthClass: "w-2/12" },
   },
 ];
+
+export const GRADUATION_AUDIT_ROWS: RowData[] = [
+  {
+    no: "1",
+    content: "교양학점(영역별 이수학점 및 총 이수학점 조건)",
+    standard: "12과목",
+    acquired: "12과목",
+    deficient: "0과목",
+    details: "-",
+    status: "합격",
+    detailsStatus: "",
+    rowType: "accordion",
+  },
+  {
+    no: "2",
+    content: "교양학점(영역별 이수학점 및 총 이수학점 조건)",
+    standard: "12과목",
+    acquired: "12과목",
+    deficient: "0과목",
+    details: "-",
+    status: "불합",
+    detailsStatus: "",
+    rowType: "accordion",
+  },
+];
+
+export const CREDITS_SUMMARY_COLUMNS: ColumnConfig[] = [
+  {
+    id: "majorDivision",
+    label: "전공구분",
+    desktop: { row: 1, widthClass: "w-5/24" },
+    mobile: { table: 1, widthClass: "w-5/24" },
+  },
+  {
+    id: "courseType",
+    label: "이수구분",
+    desktop: { row: 1, widthClass: "w-4/24" },
+    mobile: { table: 1, widthClass: "w-4/24" },
+  },
+  {
+    id: "standardCredits",
+    label: "기준",
+    desktop: { row: 1, widthClass: "w-3/24" },
+    mobile: { table: 1, widthClass: "w-3/24" },
+  },
+  {
+    id: "acquiredCredits",
+    label: "취득",
+    desktop: { row: 1, widthClass: "w-3/24" },
+    mobile: { table: 1, widthClass: "w-3/24" },
+  },
+  {
+    id: "remainingCredits",
+    label: "잔여",
+    desktop: { row: 1, widthClass: "w-3/24" },
+    mobile: { table: 1, widthClass: "w-3/24" },
+  },
+  {
+    id: "details",
+    label: "상세보기",
+    desktop: { row: 1, widthClass: "w-6/24" },
+    mobile: { table: 1, widthClass: "w-6/24" },
+  },
+];
+
+export const CREDITS_SUMMARY_ROWS: RowData[] = [
+  {
+    majorDivision: "원전공",
+    courseType: "기교",
+    standardCredits: "15",
+    acquiredCredits: "12",
+    remainingCredits: "3",
+    details: "",
+  },
+  {
+    majorDivision: "원전공",
+    courseType: "심교",
+    standardCredits: "12",
+    acquiredCredits: "20",
+    remainingCredits: "0",
+    details: "",
+  },
+];
+
