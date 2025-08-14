@@ -1,13 +1,61 @@
-﻿import TitleSection from "@/components/commons/TitleSection";
+﻿import React from "react";
+import TitleSection from "@/components/commons/TitleSection";
+import ResponsiveListTable from "@/components/graduation/ResponsiveTable";
+import {
+  CREDITS_SUMMARY_COLUMNS,
+  CREDITS_SUMMARY_ROWS,
+  SUBSECTION_DETAILS_DATA
+} from "@/constants/GraduationConstants";
+import CreditInfoCard from "@/components/graduation/CreditInfoCard";
+import { CREDIT_DATA } from "@/constants/GraduationConstants";
+import CreditSubSection from "@/components/graduation/CreditSubSection";
 
 const CompletedCredits: React.FC = () => {
   return (
     <div className="flex flex-col md:mx-auto md:max-w-350 py-4 gap-12">
       <div>
         <TitleSection title="졸업요건별 취득학점 내역" />
+        <div className="w-full flex flex-col lg:flex-row justify-between items-start gap-6">
+          <div className="order-2 md:order-2 lg:order-1 w-full lg:w-4/6">
+            <ResponsiveListTable
+              rows={CREDITS_SUMMARY_ROWS}
+              columns={CREDITS_SUMMARY_COLUMNS}
+            />
+          </div>
+          <div className="order-1 md:order-1 lg:order-2 w-full lg:w-2/6 flex flex-row justify-center md:grid md:grid-cols-2 gap-3 md:gap-12 bg-beige rounded-2xl px-6 py-4 md:px-9 md:py-6">
+            {CREDIT_DATA.map((data, index) => (
+              <CreditInfoCard
+                key={index}
+                title={data.title}
+                value={data.value}
+                unit={data.unit}
+              />
+            ))}
+          </div>
+        </div>
       </div>
       <div>
         <TitleSection title="선택 교양 이수" />
+      </div>
+      <div>
+        <TitleSection title="영어 강의" />
+      </div>
+      <div>
+        <TitleSection title="중복 과목" />
+      </div>
+      <div>
+        <TitleSection title="중복 과목" />
+      </div>
+      <div className="hidden md:block pt-6">
+        {SUBSECTION_DETAILS_DATA.map((sectionData) => (
+          <CreditSubSection
+            key={sectionData.id}
+            id={sectionData.id}
+            title={sectionData.title}
+            card={sectionData.card}
+            table={sectionData.table}
+          />
+        ))}
       </div>
       <div className="w-full text-center justify-center text-darkgray text-xs">
         ※ 과목별 이수구분 변경 및 성적이의신청 후 변경 된 내용 본인 확인 필수.

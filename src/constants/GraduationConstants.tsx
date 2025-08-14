@@ -1,7 +1,7 @@
 ﻿import GraduationSummary from "@/components/graduation/GraduationSummary";
 import GraduationAudit from "@/components/graduation/GraduationAudit";
 import CompletedCredits from "@/components/graduation/CompletedCredits";
-import type { ColumnConfig, RowData } from "@/types/graduation";
+import type { ColumnConfig, CreditSubSectionProps, RowData } from "@/types/graduation";
 
 export const GRADUATION_TABS = ["결과 요약", "졸업 사정", "취득학점확인원"];
 
@@ -23,7 +23,6 @@ export const TAB_COMPONENTS: { [key: string]: React.FC } = {
   "취득학점확인원": CompletedCredits,
 };
 
-// UI 정의
 export const USER_INFO_COLUMNS: ColumnConfig[] = [
   { id: "studentId", label: "학번", desktop: { row: 1, widthClass: "w-2/13" }, mobile: { table: 1, widthClass: "w-1/4" } },
   { id: "name", label: "성명", desktop: { row: 1, widthClass: "w-2/13" }, mobile: { table: 1, widthClass: "w-1/4" } },
@@ -42,7 +41,6 @@ export const USER_INFO_COLUMNS: ColumnConfig[] = [
   { id: "status", label: "학적상태", desktop: { row: 2, widthClass: "w-2/12" }, mobile: { table: 3, widthClass: "w-1/5" } },
 ];
 
-// 더미 데이터
 export const USER_INFO_ROWS: RowData[] = [
   {
     studentId: "20201999",
@@ -251,7 +249,7 @@ export const CREDITS_SUMMARY_COLUMNS: ColumnConfig[] = [
     mobile: { table: 1, widthClass: "w-3/24" },
   },
   {
-    id: "details",
+    id: "detailsStatus",
     label: "상세보기",
     desktop: { row: 1, widthClass: "w-6/24" },
     mobile: { table: 1, widthClass: "w-6/24" },
@@ -265,7 +263,9 @@ export const CREDITS_SUMMARY_ROWS: RowData[] = [
     standardCredits: "15",
     acquiredCredits: "12",
     remainingCredits: "3",
-    details: "",
+    detailsStatus: "상세과목 보기",
+    rowType: "accordion",
+    desktopLink: "#general-basic-courses",
   },
   {
     majorDivision: "원전공",
@@ -273,7 +273,429 @@ export const CREDITS_SUMMARY_ROWS: RowData[] = [
     standardCredits: "12",
     acquiredCredits: "20",
     remainingCredits: "0",
-    details: "",
+    detailsStatus: "상세과목 보기",
+    rowType: "accordion",
+    desktopLink: "#advanced-basic-courses",
+  },
+  {
+    majorDivision: "원전공",
+    courseType: "반교",
+    standardCredits: "12",
+    acquiredCredits: "20",
+    remainingCredits: "0",
+    detailsStatus: "상세과목 보기",
+    rowType: "accordion",
+    desktopLink: "#based-basic-courses",
+  },
+  {
+    majorDivision: "원전공",
+    courseType: "지교",
+    standardCredits: "12",
+    acquiredCredits: "20",
+    remainingCredits: "0",
+    detailsStatus: "상세과목 보기",
+    rowType: "accordion",
+    desktopLink: "#designated-basic-courses",
+  },
+  {
+    majorDivision: "원전공",
+    courseType: "지필",
+    standardCredits: "12",
+    acquiredCredits: "20",
+    remainingCredits: "0",
+    detailsStatus: "상세과목 보기",
+    rowType: "accordion",
+    desktopLink: "#designated-required-courses",
+  },
+  {
+    majorDivision: "원전공",
+    courseType: "전필",
+    standardCredits: "12",
+    acquiredCredits: "20",
+    remainingCredits: "0",
+    detailsStatus: "상세과목 보기",
+    rowType: "accordion",
+    desktopLink: "#major-required-courses",
+  },
+  {
+    majorDivision: "원전공",
+    courseType: "전필+전선",
+    standardCredits: "12",
+    acquiredCredits: "20",
+    remainingCredits: "0",
+    detailsStatus: "상세과목 보기",
+    rowType: "accordion",
+    desktopLink: "#major-required-elective-courses",
+  },
+  {
+    majorDivision: "원전공",
+    courseType: "전기",
+    standardCredits: "12",
+    acquiredCredits: "20",
+    remainingCredits: "0",
+    detailsStatus: "상세과목 보기",
+    rowType: "accordion",
+    desktopLink: "#major-general-courses",
+  },
+  {
+    majorDivision: "원전공",
+    courseType: "일선",
+    standardCredits: "12",
+    acquiredCredits: "20",
+    remainingCredits: "0",
+    detailsStatus: "상세과목 보기",
+    rowType: "accordion",
+    desktopLink: "#general-elective-courses",
+  },
+  {
+    majorDivision: "원전공",
+    courseType: "기타",
+    standardCredits: "12",
+    acquiredCredits: "20",
+    remainingCredits: "0",
+    detailsStatus: "상세과목 보기",
+    rowType: "accordion",
+    desktopLink: "#other",
+  },
+];
+
+// 테이블 컬럼 구조 정의
+export const DETAILS_TABLE_COLUMNS: ColumnConfig[] = [
+  { id: "year", label: "수강 연도", desktop: { row: 1, widthClass: "w-2/24" } },
+  {
+    id: "semester",
+    label: "수강 학기",
+    desktop: { row: 1, widthClass: "w-2/24" },
+  },
+  {
+    id: "gradeLevel",
+    label: "수강 학년",
+    desktop: { row: 1, widthClass: "w-2/24" },
+  },
+  {
+    id: "courseCode",
+    label: "학수번호",
+    desktop: { row: 1, widthClass: "w-3/24" },
+  },
+  {
+    id: "courseName",
+    label: "과목명",
+    desktop: { row: 1, widthClass: "w-9/24" },
+  },
+  {
+    id: "classification",
+    label: "분류",
+    desktop: { row: 1, widthClass: "w-2/24" },
+  },
+  {
+    id: "credits",
+    label: "학점",
+    desktop: { row: 1, widthClass: "w-2/24" },
+  },
+  { id: "grade", label: "성적", desktop: { row: 1, widthClass: "w-2/24" } },
+];
+
+// 모든 과목 구분에 대한 데이터
+export const SUBSECTION_DETAILS_DATA: CreditSubSectionProps[] = [
+  {
+    id: "general-basic-courses",
+    title: "기초교양",
+    card: [
+      { title: "취득 학점", value: "12", unit: "학점" },
+      { title: "평점", value: "4.1", unit: "/4.5" },
+    ],
+    table: {
+      columns: DETAILS_TABLE_COLUMNS,
+      rows: [
+        {
+          year: "2022",
+          semester: "1학기",
+          gradeLevel: "1",
+          courseCode: "HOSU101",
+          courseName: "글쓰기",
+          classification: "기교",
+          credits: "3",
+          grade: "A+",
+        },
+        {
+          year: "2022",
+          semester: "2학기",
+          gradeLevel: "1",
+          courseCode: "HOSU102",
+          courseName: "영어",
+          classification: "기교",
+          credits: "3",
+          grade: "A0",
+        },
+        {
+          year: "2023",
+          semester: "1학기",
+          gradeLevel: "2",
+          courseCode: "HOSU201",
+          courseName: "제2외국어",
+          classification: "기교",
+          credits: "3",
+          grade: "B+",
+        },
+      ],
+    },
+  },
+  {
+    id: "advanced-basic-courses",
+    title: "심화교양",
+    card: [
+      { title: "취득 학점", value: "9", unit: "학점" },
+      { title: "평점", value: "4.5", unit: "/4.5" },
+    ],
+    table: {
+      columns: DETAILS_TABLE_COLUMNS,
+      rows: [
+        {
+          year: "2023",
+          semester: "2학기",
+          gradeLevel: "2",
+          courseCode: "HOSU301",
+          courseName: "문학과 인간",
+          classification: "심교",
+          credits: "3",
+          grade: "A+",
+        },
+        {
+          year: "2024",
+          semester: "1학기",
+          gradeLevel: "3",
+          courseCode: "HOSU302",
+          courseName: "역사와 사회",
+          classification: "심교",
+          credits: "3",
+          grade: "A+",
+        },
+      ],
+    },
+  },
+  {
+    id: "based-basic-courses",
+    title: "기반교양",
+    card: [
+      { title: "취득 학점", value: "6", unit: "학점" },
+      { title: "평점", value: "4.0", unit: "/4.5" },
+    ],
+    table: {
+      columns: DETAILS_TABLE_COLUMNS,
+      rows: [
+        {
+          year: "2022",
+          semester: "1학기",
+          gradeLevel: "1",
+          courseCode: "CSCE101",
+          courseName: "컴퓨팅사고",
+          classification: "반교",
+          credits: "3",
+          grade: "A+",
+        },
+      ],
+    },
+  },
+  {
+    id: "designated-basic-courses",
+    title: "지정교양",
+    card: [
+      { title: "취득 학점", value: "3", unit: "학점" },
+      { title: "평점", value: "3.5", unit: "/4.5" },
+    ],
+    table: {
+      columns: DETAILS_TABLE_COLUMNS,
+      rows: [
+        {
+          year: "2022",
+          semester: "2학기",
+          gradeLevel: "1",
+          courseCode: "MATH101",
+          courseName: "미적분학",
+          classification: "지교",
+          credits: "3",
+          grade: "B+",
+        },
+      ],
+    },
+  },
+  {
+    id: "designated-required-courses",
+    title: "지정필수",
+    card: [
+      { title: "취득 학점", value: "3", unit: "학점" },
+      { title: "평점", value: "4.0", unit: "/4.5" },
+    ],
+    table: {
+      columns: DETAILS_TABLE_COLUMNS,
+      rows: [
+        {
+          year: "2023",
+          semester: "1학기",
+          gradeLevel: "2",
+          courseCode: "STAT201",
+          courseName: "통계학개론",
+          classification: "지필",
+          credits: "3",
+          grade: "A0",
+        },
+      ],
+    },
+  },
+  {
+    id: "major-required-courses",
+    title: "전공필수",
+    card: [
+      { title: "취득 학점", value: "21", unit: "학점" },
+      { title: "평점", value: "4.3", unit: "/4.5" },
+    ],
+    table: {
+      columns: DETAILS_TABLE_COLUMNS,
+      rows: [
+        {
+          year: "2023",
+          semester: "1학기",
+          gradeLevel: "2",
+          courseCode: "CSCE203",
+          courseName: "자료구조",
+          classification: "전필",
+          credits: "3",
+          grade: "A+",
+        },
+        {
+          year: "2023",
+          semester: "2학기",
+          gradeLevel: "2",
+          courseCode: "CSCE204",
+          courseName: "알고리즘",
+          classification: "전필",
+          credits: "3",
+          grade: "A+",
+        },
+        {
+          year: "2024",
+          semester: "1학기",
+          gradeLevel: "3",
+          courseCode: "CSCE301",
+          courseName: "운영체제",
+          classification: "전필",
+          credits: "3",
+          grade: "A0",
+        },
+      ],
+    },
+  },
+  {
+    id: "major-required-elective-courses",
+    title: "전필+전선",
+    card: [
+      { title: "취득 학점", value: "50", unit: "학점" },
+      { title: "평점", value: "4.1", unit: "/4.5" },
+    ],
+    table: {
+      columns: DETAILS_TABLE_COLUMNS,
+      rows: [
+        {
+          year: "2024",
+          semester: "2학기",
+          gradeLevel: "3",
+          courseCode: "CSCE305",
+          courseName: "데이터베이스",
+          classification: "전선",
+          credits: "3",
+          grade: "A+",
+        },
+        {
+          year: "2025",
+          semester: "1학기",
+          gradeLevel: "4",
+          courseCode: "CSCE401",
+          courseName: "컴퓨터네트워크",
+          classification: "전선",
+          credits: "3",
+          grade: "B+",
+        },
+      ],
+    },
+  },
+  {
+    id: "major-general-courses",
+    title: "전기",
+    card: [
+      { title: "취득 학점", value: "3", unit: "학점" },
+      { title: "평점", value: "4.5", unit: "/4.5" },
+    ],
+    table: {
+      columns: DETAILS_TABLE_COLUMNS,
+      rows: [
+        {
+          year: "2024",
+          semester: "1학기",
+          gradeLevel: "3",
+          courseCode: "CSCE390",
+          courseName: "산학협력프로젝트",
+          classification: "전기",
+          credits: "3",
+          grade: "P",
+        },
+      ],
+    },
+  },
+  {
+    id: "general-elective-courses",
+    title: "일반선택",
+    card: [
+      { title: "취득 학점", value: "6", unit: "학점" },
+      { title: "평점", value: "3.7", unit: "/4.5" },
+    ],
+    table: {
+      columns: DETAILS_TABLE_COLUMNS,
+      rows: [
+        {
+          year: "2024",
+          semester: "여름학기",
+          gradeLevel: "3",
+          courseCode: "ARTS101",
+          courseName: "현대미술의 이해",
+          classification: "일선",
+          credits: "3",
+          grade: "A0",
+        },
+        {
+          year: "2025",
+          semester: "1학기",
+          gradeLevel: "4",
+          courseCode: "MUSI202",
+          courseName: "서양음악사",
+          classification: "일선",
+          credits: "3",
+          grade: "B+",
+        },
+      ],
+    },
+  },
+  {
+    id: "other",
+    title: "기타",
+    card: [
+      { title: "취득 학점", value: "1", unit: "학점" },
+      { title: "평점", value: "N/A", unit: "" },
+    ],
+    table: {
+      columns: DETAILS_TABLE_COLUMNS,
+      rows: [
+        {
+          year: "2022",
+          semester: "1학기",
+          gradeLevel: "1",
+          courseCode: "GEDU001",
+          courseName: "미래설계상담1",
+          classification: "기타",
+          credits: "1",
+          grade: "P",
+        },
+      ],
+    },
   },
 ];
 

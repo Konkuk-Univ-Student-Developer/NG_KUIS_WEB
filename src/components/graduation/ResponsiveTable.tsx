@@ -7,7 +7,7 @@ import type {
   RowData,
   RowGroup,
 } from "@/types/graduation";
-import MobileAccordionTable from "./MobileAccordionTable";
+import MobileAccordionTable from "@/components/graduation/MobileAccordionTable";
 
 const ResponsiveTable: React.FC<ResponsiveListTableProps> = ({
   columns,
@@ -21,7 +21,12 @@ const ResponsiveTable: React.FC<ResponsiveListTableProps> = ({
   ) => {
     return rowList.map((row) =>
       fields.map((field) => ({
-        content: field.render
+        content:
+          field.id === "detailsStatus" ? (
+            <a href={`/details/${row.id}`} className="text-blue underline">
+              {field.render ? field.render(row[field.id], row) : row[field.id]}
+            </a>
+          ) : field.render
           ? field.render(row[field.id], row)
           : row[field.id],
         widthClass: field[view]?.widthClass || "",
@@ -81,7 +86,7 @@ const ResponsiveTable: React.FC<ResponsiveListTableProps> = ({
         {rowGroups.map((group, groupIndex) => {
           switch (group.type) {
             case "accordion": {
-              return <MobileAccordionTable columns={columns} headerBgColor={headerBgColor} group={group} />;
+              return <MobileAccordionTable key={groupIndex} columns={columns} headerBgColor={headerBgColor} group={group} />;
             }
 
             case "default": {
