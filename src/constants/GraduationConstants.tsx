@@ -1,7 +1,7 @@
 ﻿import GraduationSummary from "@/components/graduation/GraduationSummary";
 import GraduationAudit from "@/components/graduation/GraduationAudit";
 import CompletedCredits from "@/components/graduation/CompletedCredits";
-import type { ColumnConfig, CreditSubSectionProps, RowData } from "@/types/graduation";
+import type { ColumnConfig, CreditSubSectionProps, RowData, SubjectRowData } from "@/types/graduation";
 
 export const GRADUATION_TABS = ["결과 요약", "졸업 사정", "취득학점확인원"];
 
@@ -760,6 +760,58 @@ export const CREDITS_ELECTIVE_GENERAL_ROWS: RowData[] = [
     content: "취창업",
     standard: "1",
     acquired: "1",
+  },
+];
+
+export const DUPLICATE_SUBJECTS_COLUMNS: ColumnConfig[] = [
+  {
+    id: "courseCode",
+    label: "학수번호",
+    desktop: { row: 1, widthClass: "w-4/16" },
+  },
+  {
+    id: "courseName",
+    label: "과목명",
+    desktop: { row: 1, widthClass: "w-6/16" },
+  },
+  {
+    id: "classification",
+    label: "이수구분",
+    desktop: { row: 1, widthClass: "w-2/16" },
+  },
+  {
+    id: "credits",
+    label: "학점",
+    desktop: { row: 1, widthClass: "w-2/16" },
+  },
+  {
+    id: "grade",
+    label: "성적",
+    desktop: { row: 1, widthClass: "w-2/16" },
+  },
+];
+
+export const DUPLICATE_SUBJECTS_ROWS: SubjectRowData[] = [
+  {
+    courseCode: "GEDU001",
+    courseName: "미래설계상담1",
+    classification: "기타",
+    credits: "1",
+    grade: "P",
+  },
+  {
+    courseCode: "GEDU001",
+    courseName: "미래설계상담1",
+    classification: "기타",
+    credits: "1",
+    grade: "P",
+  },
+  {
+    courseCode: "GEDU001",
+    courseName: "미래설계상담1",
+    classification: "기타",
+    credits: "1",
+    grade: "P",
   },
 ];
 
