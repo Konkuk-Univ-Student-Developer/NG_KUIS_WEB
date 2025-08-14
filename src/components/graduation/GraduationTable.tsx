@@ -1,10 +1,5 @@
-﻿import React from "react";
-
-interface TableProps {
-  headers: { content: React.ReactNode; widthClass: string }[];
-  rows: { content: React.ReactNode; widthClass: string; textColor?:string }[][];
-  headerBgColor?: string;
-}
+﻿import type { TableProps } from "@/types/graduation";
+import React from "react";
 
 const GraduationTable: React.FC<TableProps> = ({
   headers,
@@ -19,6 +14,7 @@ const GraduationTable: React.FC<TableProps> = ({
 
   return (
     <div className="flex flex-col rounded overflow-hidden border border-coolgray">
+      {/* Header */}
       <div className={`flex ${headerBgColor}`}>
         {headers.map((header, index) => (
           <div
@@ -32,20 +28,24 @@ const GraduationTable: React.FC<TableProps> = ({
         ))}
       </div>
 
+      {/* Body */}
       {rows.map((row, rowIndex) => (
         <div key={rowIndex} className="flex bg-white border-t border-coolgray">
-          {row.map((cell, cellIndex) => (
-            <div
-              key={cellIndex}
-              className={`${cellBaseClasses} ${cell.widthClass} ${
-                cellIndex > 0 ? "border-l border-coolgray" : ""
-              }`}
-            >
-              <div className={cell.textColor || valueTextClasses}>
-                  {cell.content}
+          {row.map((cell, cellIndex) => {
+            const textStyle = cell.textColor
+              ? `${valueTextClasses} ${cell.textColor}`
+              : valueTextClasses;
+            return (
+              <div
+                key={cellIndex}
+                className={`${cellBaseClasses} ${cell.widthClass} ${
+                  cellIndex > 0 ? "border-l border-coolgray" : ""
+                }`}
+              >
+                <div className={textStyle}>{cell.content}</div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       ))}
     </div>

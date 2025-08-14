@@ -1,8 +1,6 @@
 ﻿import TitleSection from "@/components/commons/TitleSection";
 import ResponsiveListTable from "@/components/graduation/ResponsiveTable";
-import {
-  GRADUATION_AUDIT_BASIC_DATA
-} from "@/constants/GraduationConstants";
+import { GRADUATION_AUDIT_COLUMNS, GRADUATION_AUDIT_ROWS } from "@/constants/GraduationConstants";
 
 const GraduationAudit: React.FC = () => {
   return (
@@ -10,13 +8,19 @@ const GraduationAudit: React.FC = () => {
       <div>
         <TitleSection title="학사 졸업 요건 충족 여부" />
         <div className="order-2 md:order-2 lg:order-1 w-full">
-          <ResponsiveListTable fields={GRADUATION_AUDIT_BASIC_DATA} />
+          <ResponsiveListTable
+            rows={GRADUATION_AUDIT_ROWS}
+            columns={GRADUATION_AUDIT_COLUMNS}
+          />
         </div>
       </div>
       <div>
         <TitleSection title="전공별 졸업 요건 충족 여부" />
         <div className="order-2 md:order-2 lg:order-1 w-full">
-          <ResponsiveListTable fields={GRADUATION_AUDIT_BASIC_DATA} />
+          <ResponsiveListTable
+            rows={GRADUATION_AUDIT_ROWS}
+            columns={GRADUATION_AUDIT_COLUMNS}
+          />
         </div>
       </div>
     </div>

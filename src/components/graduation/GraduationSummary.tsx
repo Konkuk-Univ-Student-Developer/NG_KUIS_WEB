@@ -2,8 +2,9 @@
 import CreditInfoCard from "@/components/graduation/CreditInfoCard";
 import {
   CREDIT_SUMMARY_DATA,
-  USER_INFO_FIELDS,
-  USER_MAJOR_INFO
+  USER_INFO_COLUMNS,
+  USER_INFO_ROWS,
+  USER_MAJOR_INFO,
 } from "@/constants/GraduationConstants";
 import TitleSection from "@/components/commons/TitleSection";
 import ResponsiveListTable from "@/components/graduation/ResponsiveTable";
@@ -18,7 +19,11 @@ const GrduationSummary: React.FC = () => {
 
         <div className="flex flex-col w-full gap-4 md:flex-col lg:flex-row md:justify-between">
           <div className="order-2 md:order-2 lg:order-1 w-full">
-            <ResponsiveListTable fields={USER_INFO_FIELDS} />
+            <ResponsiveListTable
+              columns={USER_INFO_COLUMNS}
+              rows={USER_INFO_ROWS}
+              headerBgColor="bg-beige"
+            />
           </div>
 
           <div className="order-1 md:order-1 lg:order-2 self-stretch flex flex-row justify-between py-3 px-8 md:py-6 md:px-10 gap-2 md:gap-8 bg-beige rounded-[15px]">
@@ -42,7 +47,11 @@ const GrduationSummary: React.FC = () => {
           {USER_MAJOR_INFO.map((major) => (
             <div key={major.title}>
               <Subtitle title={major.title} />
-              <ResponsiveListTable fields={major.fields} />
+              <ResponsiveListTable
+                columns={major.columns}
+                rows={major.rows}
+                headerBgColor="bg-beige"
+              />
             </div>
           ))}
         </div>

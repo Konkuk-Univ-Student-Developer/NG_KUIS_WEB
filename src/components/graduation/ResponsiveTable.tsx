@@ -1,64 +1,56 @@
 ﻿import React from "react";
 import GraduationTable from "@/components/graduation/GraduationTable";
-import { type ListTableField } from "@/types/listTable";
 import MobileAccordionRow from "@/components/graduation/MobileAccordionRow";
 import { getStatusStyle } from "@/utils/graduation";
+import type { ColumnConfig, ResponsiveListTableProps, RowData } from "@/types/graduation";
 
-interface ResponsiveListTableProps {
-  fields: ListTableField[];
-  headerBgColor?: string;
-}
-
-const ResponsiveListTable: React.FC<ResponsiveListTableProps> = ({
-  fields,
+const ResponsiveTable: React.FC<ResponsiveListTableProps> = ({
+  columns,
+  rows,
   headerBgColor,
 }) => {
+  /** 공용 데이터 매핑 */
+  const createDataRows = (
+    fields: ColumnConfig[],
+    rowList: RowData[],
+    view: "desktop" | "mobile"
+  ) => {
+    return rowList.map((row) =>
+      fields.map((field) => ({
+        content: field.render
+          ? field.render(row[field.id], row)
+          : row[field.id],
+        widthClass: field[view]?.widthClass || "",
+        textColor:
+          field.id === "status" ? getStatusStyle(row[field.id]) : undefined,
+      }))
+    );
+  };
+
+  /** ------------------- DESKTOP ------------------- */
   const DesktopView = () => {
-    const row1Fields = fields.filter((f) => f.desktop.row === 1);
-    const row2Fields = fields.filter((f) => f.desktop.row === 2);
-
-    const createDataRows = (
-      fieldSet: ListTableField[],
-      view: "desktop" | "mobile"
-    ) => {
-      if (!fieldSet || fieldSet.length === 0) return [];
-      const numRows = fieldSet[0]?.value.length || 0;
-      if (numRows === 0) return [];
-
-      return Array.from({ length: numRows }, (_, rowIndex) =>
-        fieldSet.map((field) => ({
-          content: field.value[rowIndex],
-          widthClass: field[view].widthClass,
-          textColor:
-            field.id === "status"
-              ? getStatusStyle(field.value[rowIndex])
-              : undefined,
-        }))
-      );
-    };
-
-    const desktopRows1 = createDataRows(row1Fields, "desktop");
-    const desktopRows2 = createDataRows(row2Fields, "desktop");
+    const row1Fields = columns.filter((f) => f.desktop?.row === 1);
+    const row2Fields = columns.filter((f) => f.desktop?.row === 2);
 
     return (
-      <div className="flex-col w-full md:gap-4 lg:justify-between lg:h-full lg:py-2 hidden md:flex">
-        {desktopRows1.length > 0 && (
+      <div className="hidden md:flex flex-col w-full md:gap-4 lg:justify-between lg:h-full lg:py-2">
+        {row1Fields.length > 0 && (
           <GraduationTable
             headers={row1Fields.map((f) => ({
               content: f.label,
-              widthClass: f.desktop.widthClass,
+              widthClass: f.desktop?.widthClass || "",
             }))}
-            rows={desktopRows1}
+            rows={createDataRows(row1Fields, rows, "desktop")}
             headerBgColor={headerBgColor}
           />
         )}
-        {desktopRows2.length > 0 && (
+        {row2Fields.length > 0 && (
           <GraduationTable
             headers={row2Fields.map((f) => ({
               content: f.label,
-              widthClass: f.desktop.widthClass,
+              widthClass: f.desktop?.widthClass || "",
             }))}
-            rows={desktopRows2}
+            rows={createDataRows(row2Fields, rows, "desktop")}
             headerBgColor={headerBgColor}
           />
         )}
@@ -66,88 +58,64 @@ const ResponsiveListTable: React.FC<ResponsiveListTableProps> = ({
     );
   };
 
+  /** ------------------- MOBILE ------------------- */
   const MobileView = () => {
-    const isAccordion = fields.some((f) => f.mobile.table === 0);
-    const numRows = fields[0]?.value.length || 0;
+    if (rows.length === 0) return null;
 
-    if (numRows === 0) return null;
+    // 컬럼을 mobile.table 값 기준으로 그룹화
+    const tables: Record<number, ColumnConfig[]> = {};
+    columns.forEach((col) => {
+      const idx = col.mobile?.table ?? 1;
+      if (!tables[idx]) tables[idx] = [];
+      tables[idx].push(col);
+    });
 
-    if (isAccordion) {
-      const mainMobileFields = fields.filter((f) => f.mobile.table > 0);
-      const detailMobileFields = fields.filter((f) => f.mobile.table === 0);
-
-      return (
-        <div className="flex flex-col md:hidden">
-          <div className="flex flex-col rounded overflow-hidden border border-coolgray">
-            <div className={`flex ${headerBgColor || "bg-beige"}`}>
-              {mainMobileFields.map((header, index) => (
-                <div
-                  key={index}
-                  className={`flex justify-center items-center p-2 flex-shrink-0 break-keep ${
-                    header.mobile.widthClass
-                  } text-black text-sm md:text-lg font-bold text-center ${
-                    index > 0 ? "border-l border-coolgray" : ""
-                  }`}
-                >
-                  {header.label}
-                </div>
-              ))}
-            </div>
-            <div>
-              {Array.from({ length: numRows }).map((_, rowIndex) => (
-                <div
-                  key={rowIndex}
-                >
-                  <MobileAccordionRow
-                    rowIndex={rowIndex}
-                    mainFields={mainMobileFields}
-                    detailFields={detailMobileFields}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      );
-    } else {
-      const tables = fields.reduce((acc, field) => {
-        const tableIndex = field.mobile.table - 1;
-        if (!acc[tableIndex]) acc[tableIndex] = [];
-        acc[tableIndex].push(field);
-        return acc;
-      }, [] as ListTableField[][]);
-
-      return (
-        <div className="flex flex-col gap-4 md:hidden">
-          {tables.map((tableFields, index) => {
-            if (!tableFields || tableFields.length === 0) return null;
-
-            const dataRows = Array.from({ length: numRows }, (_, rIndex) =>
-              tableFields.map((field) => ({
-                content: field.value[rIndex],
-                widthClass: field.mobile.widthClass,
-                textColor:
-                  field.id === "status"
-                    ? getStatusStyle(field.value[rIndex])
-                    : undefined,
-              }))
+    return (
+      <div className="flex flex-col md:hidden gap-4">
+        {rows.map((row, rowIndex) => {
+          // 1) 아코디언 row
+          if (row.rowType === "accordion") {
+            const mainCols = columns.filter((c) => (c.mobile?.table ?? 1) > 0);
+            const detailCols = columns.filter(
+              (c) => (c.mobile?.table ?? 1) === 0
             );
-
             return (
-              <GraduationTable
-                key={index}
-                headers={tableFields.map((f) => ({
-                  content: f.label,
-                  widthClass: f.mobile.widthClass,
-                }))}
-                rows={dataRows}
-                headerBgColor={headerBgColor}
+              <MobileAccordionRow
+                key={rowIndex}
+                rowData={row}
+                mainColumns={mainCols}
+                detailColumns={detailCols}
               />
             );
-          })}
-        </div>
-      );
-    }
+          }
+
+          // 2) 커스텀 row
+          if (row.rowType === "custom" && row.customRenderer) {
+            return <div key={rowIndex}>{row.customRenderer}</div>;
+          }
+
+          // 3) 일반 테이블 row
+          return Object.entries(tables).map(([tableIndex, cols]) => (
+            <GraduationTable
+              key={`${rowIndex}-${tableIndex}`}
+              headers={cols.map((f) => ({
+                content: f.label,
+                widthClass: f.mobile?.widthClass || "",
+              }))}
+              rows={[
+                cols.map((f) => ({
+                  content: f.render ? f.render(row[f.id], row) : row[f.id],
+                  widthClass: f.mobile?.widthClass || "",
+                  textColor:
+                    f.id === "status" ? getStatusStyle(row[f.id]) : undefined,
+                })),
+              ]}
+              headerBgColor={headerBgColor}
+            />
+          ));
+        })}
+      </div>
+    );
   };
 
   return (
@@ -158,4 +126,4 @@ const ResponsiveListTable: React.FC<ResponsiveListTableProps> = ({
   );
 };
 
-export default ResponsiveListTable;
+export default ResponsiveTable;
