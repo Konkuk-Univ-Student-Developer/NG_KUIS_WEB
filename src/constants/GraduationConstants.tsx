@@ -258,6 +258,7 @@ export const CREDITS_SUMMARY_COLUMNS: ColumnConfig[] = [
 
 export const CREDITS_SUMMARY_ROWS: RowData[] = [
   {
+    id: "general-basic-courses",
     majorDivision: "원전공",
     courseType: "기교",
     standardCredits: "15",
@@ -268,6 +269,7 @@ export const CREDITS_SUMMARY_ROWS: RowData[] = [
     desktopLink: "general-basic-courses",
   },
   {
+    id: "advanced-basic-courses",
     majorDivision: "원전공",
     courseType: "심교",
     standardCredits: "12",
@@ -278,6 +280,7 @@ export const CREDITS_SUMMARY_ROWS: RowData[] = [
     desktopLink: "advanced-basic-courses",
   },
   {
+    id: "based-basic-courses",
     majorDivision: "원전공",
     courseType: "반교",
     standardCredits: "12",
@@ -288,6 +291,7 @@ export const CREDITS_SUMMARY_ROWS: RowData[] = [
     desktopLink: "based-basic-courses",
   },
   {
+    id: "designated-basic-courses",
     majorDivision: "원전공",
     courseType: "지교",
     standardCredits: "12",
@@ -298,6 +302,7 @@ export const CREDITS_SUMMARY_ROWS: RowData[] = [
     desktopLink: "designated-basic-courses",
   },
   {
+    id: "designated-required-courses",
     majorDivision: "원전공",
     courseType: "지필",
     standardCredits: "12",
@@ -308,6 +313,7 @@ export const CREDITS_SUMMARY_ROWS: RowData[] = [
     desktopLink: "designated-required-courses",
   },
   {
+    id: "major-required-courses",
     majorDivision: "원전공",
     courseType: "전필",
     standardCredits: "12",
@@ -318,6 +324,7 @@ export const CREDITS_SUMMARY_ROWS: RowData[] = [
     desktopLink: "major-required-courses",
   },
   {
+    id: "major-required-elective-courses",
     majorDivision: "원전공",
     courseType: "전필+전선",
     standardCredits: "12",
@@ -328,6 +335,7 @@ export const CREDITS_SUMMARY_ROWS: RowData[] = [
     desktopLink: "major-required-elective-courses",
   },
   {
+    id: "major-general-courses",
     majorDivision: "원전공",
     courseType: "전기",
     standardCredits: "12",
@@ -338,6 +346,7 @@ export const CREDITS_SUMMARY_ROWS: RowData[] = [
     desktopLink: "major-general-courses",
   },
   {
+    id: "general-elective-courses",
     majorDivision: "원전공",
     courseType: "일선",
     standardCredits: "12",
@@ -348,6 +357,7 @@ export const CREDITS_SUMMARY_ROWS: RowData[] = [
     desktopLink: "general-elective-courses",
   },
   {
+    id: "other",
     majorDivision: "원전공",
     courseType: "기타",
     standardCredits: "12",

@@ -8,6 +8,7 @@ import type {
   RowGroup,
 } from "@/types/graduation";
 import MobileAccordionTable from "@/components/graduation/MobileAccordionTable";
+import MobileExpandableTable from "@/components/graduation/MobileExpandableTable";
 
 const ResponsiveTable: React.FC<ResponsiveListTableProps> = ({
   columns,
@@ -79,10 +80,10 @@ const ResponsiveTable: React.FC<ResponsiveListTableProps> = ({
       const type = row.rowType || "default";
       const lastGroup = acc[acc.length - 1];
 
-      if (lastGroup && lastGroup.type === type && type !== "custom") {
-      lastGroup.items.push({ row, originalIndex: index });
+      if (lastGroup && lastGroup.type === type) {
+        lastGroup.items.push({ row, originalIndex: index });
       } else {
-      acc.push({ type, items: [{ row, originalIndex: index }] });
+        acc.push({ type, items: [{ row, originalIndex: index }] });
       }
       return acc;
     }, []);
@@ -92,7 +93,14 @@ const ResponsiveTable: React.FC<ResponsiveListTableProps> = ({
         {rowGroups.map((group, groupIndex) => {
           switch (group.type) {
             case "accordion": {
-              return <MobileAccordionTable key={groupIndex} columns={columns} headerBgColor={headerBgColor} group={group} />;
+              return (
+                <MobileAccordionTable
+                  key={groupIndex}
+                  columns={columns}
+                  headerBgColor={headerBgColor}
+                  group={group}
+                />
+              );
             }
 
             case "default": {
@@ -141,10 +149,21 @@ const ResponsiveTable: React.FC<ResponsiveListTableProps> = ({
               );
             }
 
-            case "custom":
-              return group.items.map(({ row, originalIndex }) => (
-                <div key={originalIndex}>{row.customRenderer}</div>
-              ));
+            case "custom": {
+              const mainCols = columns.filter(
+                (c) => (c.mobile?.table ?? 1) > 0
+              );
+
+              return (
+                <MobileExpandableTable
+                  key={groupIndex}
+                  mainColumns={mainCols}
+                  group={group}
+                  headerBgColor={headerBgColor}
+                  renderDetails={(row) => row.customRenderer}
+                />
+              );
+            }
 
             default:
               return null;
