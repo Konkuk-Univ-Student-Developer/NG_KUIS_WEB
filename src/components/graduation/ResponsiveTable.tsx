@@ -1,15 +1,19 @@
 ﻿import React from "react";
 import GraduationTable from "@/components/graduation/GraduationTable";
-import MobileAccordionRow from "@/components/graduation/MobileAccordionRow";
 import { getStatusStyle } from "@/utils/graduation";
-import type { ColumnConfig, ResponsiveListTableProps, RowData } from "@/types/graduation";
+import type {
+  ColumnConfig,
+  ResponsiveListTableProps,
+  RowData,
+  RowGroup,
+} from "@/types/graduation";
+import MobileAccordionTable from "./MobileAccordionTable";
 
 const ResponsiveTable: React.FC<ResponsiveListTableProps> = ({
   columns,
   rows,
   headerBgColor,
 }) => {
-  /** 공용 데이터 매핑 */
   const createDataRows = (
     fields: ColumnConfig[],
     rowList: RowData[],
@@ -27,7 +31,7 @@ const ResponsiveTable: React.FC<ResponsiveListTableProps> = ({
     );
   };
 
-  /** ------------------- DESKTOP ------------------- */
+  /** ------------------- DESKTOPs ------------------- */
   const DesktopView = () => {
     const row1Fields = columns.filter((f) => f.desktop?.row === 1);
     const row2Fields = columns.filter((f) => f.desktop?.row === 2);
@@ -60,59 +64,80 @@ const ResponsiveTable: React.FC<ResponsiveListTableProps> = ({
 
   /** ------------------- MOBILE ------------------- */
   const MobileView = () => {
-    if (rows.length === 0) return null;
+    const rowGroups = rows.reduce<RowGroup[]>((acc, row, index) => {
+      const type = row.rowType || "default";
+      const lastGroup = acc[acc.length - 1];
 
-    // 컬럼을 mobile.table 값 기준으로 그룹화
-    const tables: Record<number, ColumnConfig[]> = {};
-    columns.forEach((col) => {
-      const idx = col.mobile?.table ?? 1;
-      if (!tables[idx]) tables[idx] = [];
-      tables[idx].push(col);
-    });
+      if (lastGroup && lastGroup.type === type && type !== "custom") {
+      lastGroup.items.push({ row, originalIndex: index });
+      } else {
+      acc.push({ type, items: [{ row, originalIndex: index }] });
+      }
+      return acc;
+    }, []);
 
     return (
-      <div className="flex flex-col md:hidden gap-4">
-        {rows.map((row, rowIndex) => {
-          // 1) 아코디언 row
-          if (row.rowType === "accordion") {
-            const mainCols = columns.filter((c) => (c.mobile?.table ?? 1) > 0);
-            const detailCols = columns.filter(
-              (c) => (c.mobile?.table ?? 1) === 0
-            );
-            return (
-              <MobileAccordionRow
-                key={rowIndex}
-                rowData={row}
-                mainColumns={mainCols}
-                detailColumns={detailCols}
-              />
-            );
-          }
+      <div className="flex flex-col md:hidden">
+        {rowGroups.map((group, groupIndex) => {
+          switch (group.type) {
+            case "accordion": {
+              return <MobileAccordionTable columns={columns} headerBgColor={headerBgColor} group={group} />;
+            }
 
-          // 2) 커스텀 row
-          if (row.rowType === "custom" && row.customRenderer) {
-            return <div key={rowIndex}>{row.customRenderer}</div>;
-          }
+            case "default": {
+              const tableIndexes = [
+                ...new Set(
+                  columns.map((c) => c.mobile?.table).filter((t) => t && t > 0)
+                ),
+              ].sort((a, b) => (a || 0) - (b || 0));
 
-          // 3) 일반 테이블 row
-          return Object.entries(tables).map(([tableIndex, cols]) => (
-            <GraduationTable
-              key={`${rowIndex}-${tableIndex}`}
-              headers={cols.map((f) => ({
-                content: f.label,
-                widthClass: f.mobile?.widthClass || "",
-              }))}
-              rows={[
-                cols.map((f) => ({
-                  content: f.render ? f.render(row[f.id], row) : row[f.id],
-                  widthClass: f.mobile?.widthClass || "",
-                  textColor:
-                    f.id === "status" ? getStatusStyle(row[f.id]) : undefined,
-                })),
-              ]}
-              headerBgColor={headerBgColor}
-            />
-          ));
+              return (
+                <div key={groupIndex} className="flex flex-col gap-4">
+                  {tableIndexes.map((tableIndex) => {
+                    const tableCols = columns.filter(
+                      (c) => c.mobile?.table === tableIndex
+                    );
+                    if (tableCols.length === 0) return null;
+
+                    const tableHeaders = tableCols.map((col) => ({
+                      content: col.label,
+                      widthClass: col.mobile?.widthClass || "",
+                    }));
+
+                    const tableRows = group.items.map(({ row }) =>
+                      tableCols.map((col) => ({
+                        content: col.render
+                          ? col.render(row[col.id], row)
+                          : row[col.id],
+                        widthClass: col.mobile?.widthClass || "",
+                        textColor:
+                          col.id === "status"
+                            ? getStatusStyle(row[col.id])
+                            : undefined,
+                      }))
+                    );
+
+                    return (
+                      <GraduationTable
+                        key={tableIndex}
+                        headers={tableHeaders}
+                        rows={tableRows}
+                        headerBgColor={headerBgColor}
+                      />
+                    );
+                  })}
+                </div>
+              );
+            }
+
+            case "custom":
+              return group.items.map(({ row, originalIndex }) => (
+                <div key={originalIndex}>{row.customRenderer}</div>
+              ));
+
+            default:
+              return null;
+          }
         })}
       </div>
     );

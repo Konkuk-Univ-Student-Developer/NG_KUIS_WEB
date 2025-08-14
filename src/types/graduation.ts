@@ -31,6 +31,13 @@ export interface ColumnConfig {
   render?: (value: unknown, row: RowData) => React.ReactNode;
 }
 
+export interface RowGroup {
+  type: string;
+  items: { 
+    row: RowData; 
+    originalIndex: number }[];
+};
+
 export interface ResponsiveListTableProps {
   columns: ColumnConfig[];
   rows: RowData[];
@@ -42,4 +49,10 @@ export interface MobileAccordionRowProps {
   mainColumns: ColumnConfig[];
   detailColumns: ColumnConfig[];
   headerBgColor?: string;
+}
+
+export interface MobileAccordionTableProps {
+  columns: ColumnConfig[];
+  headerBgColor?: string;
+  group: RowGroup;
 }
