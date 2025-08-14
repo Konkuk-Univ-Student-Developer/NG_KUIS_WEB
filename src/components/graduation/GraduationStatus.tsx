@@ -1,14 +1,10 @@
-﻿import React from "react";
+﻿import type { StatusCircleProps } from "@/types/graduation";
 
-interface StatusCircleProps {
-  status: "pass" | "non-pass";
-  canGraduateEarly: boolean;
-}
-
-const StatusCircle: React.FC<StatusCircleProps> = ({
+function StatusCircle ({
   status,
   canGraduateEarly,
-}) => {
+}: StatusCircleProps) {
+  
   const isPass = status === "pass";
   const circleBgColor = isPass ? "bg-blue" : "bg-danger";
   const displayText = isPass ? "PASS" : "FAIL";

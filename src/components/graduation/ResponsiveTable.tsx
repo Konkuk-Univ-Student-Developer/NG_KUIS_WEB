@@ -1,5 +1,4 @@
-﻿import React from "react";
-import GraduationTable from "@/components/graduation/GraduationTable";
+﻿import GraduationTable from "@/components/graduation/GraduationTable";
 import { getStatusStyle } from "@/utils/graduation";
 import type {
   ColumnConfig,
@@ -10,11 +9,12 @@ import type {
 import MobileAccordionTable from "@/components/graduation/MobileAccordionTable";
 import MobileExpandableTable from "@/components/graduation/MobileExpandableTable";
 
-const ResponsiveTable: React.FC<ResponsiveListTableProps> = ({
+function ResponsiveTable ({
   columns,
   rows,
   headerBgColor,
-}) => {
+}: ResponsiveListTableProps) {
+
   const createDataRows = (
     fields: ColumnConfig[],
     rowList: RowData[],

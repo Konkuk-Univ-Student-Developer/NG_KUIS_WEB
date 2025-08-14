@@ -1,15 +1,10 @@
-﻿import React from "react";
-import type { ColumnConfig, RowData } from "@/types/graduation";
+﻿import type { MobileAccordionDetailsProps } from "@/types/graduation";
 
-interface MobileAccordionDetailsProps {
-  rowData: RowData;
-  detailColumns: ColumnConfig[];
-}
-
-const MobileAccordionRow: React.FC<MobileAccordionDetailsProps> = ({
+function MobileAccordionRow ({
   rowData,
   detailColumns,
-}) => {
+}: MobileAccordionDetailsProps) {
+  
   return (
     <div className="p-4 bg-beige border-t border-coolgray">
       <div className="flex flex-col rounded overflow-hidden border border-darkgray">

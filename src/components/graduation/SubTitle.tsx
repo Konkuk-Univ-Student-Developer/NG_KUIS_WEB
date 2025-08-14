@@ -1,10 +1,4 @@
-﻿import React from "react";
-
-interface SubtitleProps {
-  title: string;
-}
-
-const Subtitle: React.FC<SubtitleProps> = ({ title }) => {
+﻿function Subtitle({ title }: { title: string }) {
   const subtitleClasses = `
     self-stretch text-darkgray text-base md:text-xl leading-[48px]
     md:pb-2

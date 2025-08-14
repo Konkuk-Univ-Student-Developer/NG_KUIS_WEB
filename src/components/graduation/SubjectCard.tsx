@@ -1,19 +1,5 @@
 ﻿import type { SubjectRowData } from "@/types/graduation";
-import React from "react";
-
-const InfoTag: React.FC<{ label: string | number; widthClass: string }> = ({
-  label,
-  widthClass,
-}) => (
-  <div
-    className={`relative flex justify-center items-center px-3 py-2 ${widthClass}`}
-  >
-    <div className="absolute inset-0 bg-[#eef0e4] rounded-xl z-0"></div>
-    <span className="relative z-10 text-center text-black text-sm font-semibold leading-tight">
-      {label}
-    </span>
-  </div>
-);
+import InfoTag from "./InfoTag";
 
 function SubjectCard({
   courseCode,
@@ -25,6 +11,7 @@ function SubjectCard({
   semester,
   gradeLevel,
 }: SubjectRowData) {
+
   const showDetails = year && semester && gradeLevel;
 
   return (

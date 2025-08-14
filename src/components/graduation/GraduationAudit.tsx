@@ -2,7 +2,7 @@
 import ResponsiveListTable from "@/components/graduation/ResponsiveTable";
 import { GRADUATION_AUDIT_COLUMNS, GRADUATION_AUDIT_ROWS } from "@/constants/GraduationConstants";
 
-const GraduationAudit: React.FC = () => {
+function GraduationAudit() {
   return (
     <div className="flex flex-col md:mx-auto md:max-w-350 py-4 gap-12">
       <div>

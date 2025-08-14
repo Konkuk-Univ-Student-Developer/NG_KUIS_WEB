@@ -3,7 +3,13 @@ import ResponsiveListTable from '@/components/graduation/ResponsiveTable';
 import CreditInfoCard from "@/components/graduation/CreditInfoCard";
 import type { CreditSubSectionProps } from "@/types/graduation";
 
-function CreditSubSection({ id, title, card, table } : CreditSubSectionProps){
+function CreditSubSection({ 
+  id, 
+  title, 
+  card, 
+  table 
+}: CreditSubSectionProps){
+  
   return (
     <div id={id} className="pb-16">
       <div className="flex flex-row justify-between items-end pb-6">

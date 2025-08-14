@@ -1,4 +1,4 @@
-﻿import React, { useMemo } from "react";
+﻿import { useMemo } from "react";
 import TitleSection from "@/components/commons/TitleSection";
 import ResponsiveListTable from "@/components/graduation/ResponsiveTable";
 import {
@@ -16,7 +16,7 @@ import CreditSubSection from "@/components/graduation/CreditSubSection";
 import SubjectCard from "@/components/graduation/SubjectCard";
 import type { RowData } from "@/types/graduation";
 
-const CompletedCredits: React.FC = () => {
+function CompletedCredits() {
   const combinedRows: RowData[] = useMemo(() => {
     return CREDITS_SUMMARY_ROWS.map((summaryRow) => {
       const detailSection = SUBSECTION_DETAILS_DATA.find(
@@ -27,7 +27,7 @@ const CompletedCredits: React.FC = () => {
         ...summaryRow,
         rowType: "custom",
         customRenderer: (
-          <div className="flex flex-col gap-3 p-2">
+          <div className="flex flex-col gap-3 p-2 border-t border-coolgray">
             {detailSection ? (
               detailSection.table.rows.map((course) => (
                 <SubjectCard {...course} />

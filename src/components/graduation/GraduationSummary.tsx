@@ -1,5 +1,4 @@
-﻿import React from "react";
-import CreditInfoCard from "@/components/graduation/CreditInfoCard";
+﻿import CreditInfoCard from "@/components/graduation/CreditInfoCard";
 import {
   CREDIT_SUMMARY_DATA,
   USER_INFO_COLUMNS,
@@ -11,7 +10,7 @@ import ResponsiveListTable from "@/components/graduation/ResponsiveTable";
 import StatusCircle from "@/components/graduation/GraduationStatus";
 import Subtitle from "@/components/graduation/SubTitle";
 
-const GrduationSummary: React.FC = () => {
+function GrduationSummary() {
   return (
     <div className="flex flex-col md:mx-auto md:max-w-350 py-4 gap-12">
       <div>

@@ -7,14 +7,8 @@ import {
   valueTextClasses,
 } from "@/constants/GraduationConstants";
 import { getStatusStyle } from "@/utils/graduation";
-import type { ColumnConfig, RowData, RowGroup } from "@/types/graduation";
+import type { MobileExpandableTableProps } from "@/types/graduation";
 
-interface MobileExpandableTableProps {
-  mainColumns: ColumnConfig[];
-  group: RowGroup;
-  headerBgColor?: string;
-  renderDetails: (row: RowData) => React.ReactNode;
-}
 
 function MobileExpandableTable({
   mainColumns,
@@ -22,6 +16,7 @@ function MobileExpandableTable({
   headerBgColor,
   renderDetails,
 }: MobileExpandableTableProps) {
+
   const [openStates, setOpenStates] = useState<Record<number, boolean>>({});
 
   const handleToggleRow = (index: number) => {

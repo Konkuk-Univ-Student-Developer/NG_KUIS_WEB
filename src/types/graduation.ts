@@ -49,6 +49,28 @@ export interface RowGroup {
     originalIndex: number }[];
 };
 
+export interface StatusCircleProps {
+  status: "pass" | "non-pass";
+  canGraduateEarly: boolean;
+}
+
+export interface MobileAccordionDetailsProps {
+  rowData: RowData;
+  detailColumns: ColumnConfig[];
+}
+
+export interface InfoTagProps {
+  label: string | number; 
+  widthClass: string
+}
+
+export interface MobileExpandableTableProps {
+  mainColumns: ColumnConfig[];
+  group: RowGroup;
+  headerBgColor?: string;
+  renderDetails: (row: RowData) => React.ReactNode;
+}
+
 export interface ResponsiveListTableProps {
   columns: ColumnConfig[];
   rows: RowData[];

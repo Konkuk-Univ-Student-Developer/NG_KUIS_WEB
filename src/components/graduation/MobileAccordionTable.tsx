@@ -7,6 +7,7 @@ function MobileAccordionTable({
   headerBgColor,
   group,
 }: MobileAccordionTableProps) {
+  
   const mainCols = columns.filter((c) => (c.mobile?.table ?? 1) > 0);
   const detailCols = columns.filter((c) => (c.mobile?.table ?? 1) === 0);
 

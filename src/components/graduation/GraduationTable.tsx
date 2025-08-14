@@ -1,12 +1,11 @@
 ﻿import { cellBaseClasses, headerTextClasses, valueTextClasses } from "@/constants/GraduationConstants";
 import type { TableProps } from "@/types/graduation";
-import React from "react";
 
-const GraduationTable: React.FC<TableProps> = ({
+function GraduationTable ({
   headers,
   rows,
   headerBgColor = "bg-beige",
-}) => {
+}: TableProps) {
 
   return (
     <div className="flex flex-col rounded overflow-hidden border border-coolgray">

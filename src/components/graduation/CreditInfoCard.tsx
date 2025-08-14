@@ -1,6 +1,11 @@
 ﻿import type { CreditInfoCardProps } from "@/types/graduation";
 
-const CreditInfoCard = ({ title, value, unit }: CreditInfoCardProps) => {
+function CreditInfoCard ({ 
+  title, 
+  value, 
+  unit 
+}: CreditInfoCardProps) {
+  
   return (
     <div className="flex flex-col">
       <span className="text-black text-sm md:text-lg font-normal flex-shrink-0 whitespace-nowrap">
