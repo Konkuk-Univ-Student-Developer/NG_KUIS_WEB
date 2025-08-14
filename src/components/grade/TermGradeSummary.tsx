@@ -29,9 +29,7 @@ const TermGradeSummary = ({
       <div className="rounded-[15px] bg-beige p-4 md:rounded-[20px] md:py-6 md:px-8">
         <div className="grid grid-cols-3 md:gap-2">
           <div className="flex flex-col gap-1">
-            <span className="text-darkgray text-sm md:text-base">
-              평점 평균
-            </span>
+            <span className="text-black text-sm md:text-base">평점 평균</span>
             <div className="flex items-end gap-1">
               <span className="text-darkgreen font-bold text-2xl md:text-3xl">
                 {avgGpa}
@@ -42,7 +40,7 @@ const TermGradeSummary = ({
             </div>
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-darkgray text-sm md:text-base">
+            <span className="text-black  text-sm md:text-base">
               취득학점 / 신청학점
             </span>
             <div className="flex items-end gap-1">
@@ -55,7 +53,7 @@ const TermGradeSummary = ({
             </div>
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-darkgray text-sm md:text-base">
+            <span className="text-black text-sm md:text-base">
               학사경고 / 우등구분
             </span>
             <div className="flex items-end gap-2">
