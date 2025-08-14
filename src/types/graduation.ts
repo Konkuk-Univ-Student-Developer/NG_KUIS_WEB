@@ -23,6 +23,17 @@ export type RowData = {
   customRenderer?: React.ReactNode;
 };
 
+export type SubjectRowData = RowData & {
+  year?: string;
+  semester?: string;
+  gradeLevel?: string;
+  courseCode?: string;
+  courseName?: string;
+  classification?: string;
+  credits?: string | number;
+  grade?: string;
+};
+
 export interface ColumnConfig {
   id: string;
   label: string;
