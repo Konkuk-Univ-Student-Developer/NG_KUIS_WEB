@@ -709,6 +709,60 @@ export const SUBSECTION_DETAILS_DATA: CreditSubSectionProps[] = [
   },
 ];
 
+export const CREDITS_ELECTIVE_GENERAL_COLUMNS: ColumnConfig[] = [
+  {
+    id: "content",
+    label: "기초 교양 영역",
+    desktop: { row: 1, widthClass: "w-4/8" },
+    mobile: { table: 1, widthClass: "w-8/12" },
+  },
+  {
+    id: "standard",
+    label: "기준",
+    desktop: { row: 1, widthClass: "w-2/8" },
+    mobile: { table: 1, widthClass: "w-2/12" },
+  },
+  {
+    id: "acquired",
+    label: "취득",
+    desktop: { row: 1, widthClass: "w-2/8" },
+    mobile: { table: 1, widthClass: "w-2/12" },
+  },
+];
+
+export const CREDITS_ELECTIVE_GENERAL_ROWS: RowData[] = [
+  {
+    no: "1",
+    content: "SW",
+    standard: "2",
+    acquired: "2",
+  },
+  {
+    no: "2",
+    content: "글쓰기",
+    standard: "1",
+    acquired: "1",
+  },
+  {
+    no: "3",
+    content: "외국어",
+    standard: "1",
+    acquired: "0",
+  },
+  {
+    no: "4",
+    content: "인성",
+    standard: "1",
+    acquired: "1",
+  },
+  {
+    no: "5",
+    content: "취창업",
+    standard: "1",
+    acquired: "1",
+  },
+];
+
 
 export const cellBaseClasses = "flex justify-center items-center p-2 flex-shrink-0 break-keep";
 export const headerTextClasses = "text-black text-sm md:text-lg font-bold text-center";

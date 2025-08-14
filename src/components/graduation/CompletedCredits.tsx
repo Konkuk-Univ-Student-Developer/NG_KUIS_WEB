@@ -6,6 +6,8 @@ import {
   CREDITS_SUMMARY_ROWS,
   SUBSECTION_DETAILS_DATA,
   CREDIT_DATA,
+  CREDITS_ELECTIVE_GENERAL_ROWS,
+  CREDITS_ELECTIVE_GENERAL_COLUMNS,
 } from "@/constants/GraduationConstants";
 import CreditInfoCard from "@/components/graduation/CreditInfoCard";
 import CreditSubSection from "@/components/graduation/CreditSubSection";
@@ -64,11 +66,28 @@ const CompletedCredits: React.FC = () => {
         </div>
       </div>
 
-      <div>
-        <TitleSection title="선택 교양 이수" />
-      </div>
-      <div>
-        <TitleSection title="영어 강의" />
+      {/* todo: 더미데이터 모두 실제 데이터로 바꿀 것 */}
+      <div className="flex flex-col md:flex-row justify-between gap-16">
+        <div className="md:w-4/6">
+          <TitleSection title="선택 교양 이수" />
+          <div className="flex flex-col md:flex-row gap-8 md:gap-12">
+            <ResponsiveListTable
+              rows={CREDITS_ELECTIVE_GENERAL_ROWS}
+              columns={CREDITS_ELECTIVE_GENERAL_COLUMNS}
+            />
+            <ResponsiveListTable
+              rows={CREDITS_ELECTIVE_GENERAL_ROWS}
+              columns={CREDITS_ELECTIVE_GENERAL_COLUMNS}
+            />
+          </div>
+        </div>
+        <div className="md:w-2/6">
+          <TitleSection title="영어 강의" />
+          <ResponsiveListTable
+            rows={CREDITS_ELECTIVE_GENERAL_ROWS}
+            columns={CREDITS_ELECTIVE_GENERAL_COLUMNS}
+          />
+        </div>
       </div>
       <div>
         <TitleSection title="중복 과목" />
