@@ -29,8 +29,8 @@ const TimetablePage: React.FC = () => {
   const goDetail = (subjectCode: string) => navigate(subjectCode);
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="px-5 py-[25px] space-y-6">
+    <div className="min-h-screen bg-white md:mx-24">
+      <div className="px-5 py-[25px] space-y-6 md:px-16 md:pt-[72px] md:pb-12">
         {/* Title */}
         <TitleSection title="종합강의시간표" icon={<EditIcon className="size-6 cursor-pointer md:size-12" />} path="/quick-menu"
         />
@@ -91,35 +91,37 @@ const TimetablePage: React.FC = () => {
 
       {/* Content - List or Card View */}
       {viewMode === 'List' ? (
-        <Table>
-          <TableHeader className="border-t bg-beige">
-            <TableRow className="[&>th]:text-center [&>th]:font-bold">
-              <TableHead>학년</TableHead>
-              <TableHead>과목번호</TableHead>
-              <TableHead>교과목명</TableHead>
-              <TableHead>학점</TableHead>
-              <TableHead>담당교수</TableHead>
-              <TableHead>강의실</TableHead>
-              <TableHead>수업시간</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody className="[&>tr]:hover:bg-gray-100">
-            {COURSE_DATA.map((course, index) => (
-              <TableRow key={index} className="[&>td]:text-center cursor-pointer" onClick={() => goDetail(course.subjectCode)}>
-                <TableCell>{course.grade}</TableCell>
-                <TableCell>{course.subjectCode}</TableCell>
-                <TableCell>{course.subjectName}</TableCell>
-                <TableCell>{course.credit}</TableCell>
-                <TableCell>{course.professor}</TableCell>
-                <TableCell>{course.room}</TableCell>
-                <TableCell>{course.time || '-'}</TableCell>
+        <div className="md:px-16">
+          <Table>
+            <TableHeader className="border-t bg-beige">
+              <TableRow className="[&>th]:text-center [&>th]:font-bold md:[&>th]:text-xl md:[&>th]:font-normal">
+                <TableHead>학년</TableHead>
+                <TableHead>과목번호</TableHead>
+                <TableHead>교과목명</TableHead>
+                <TableHead>학점</TableHead>
+                <TableHead>담당교수</TableHead>
+                <TableHead>강의실</TableHead>
+                <TableHead>수업시간</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody className="[&>tr]:hover:bg-gray-100">
+              {COURSE_DATA.map((course, index) => (
+                <TableRow key={index} className="[&>td]:text-center md:[&>td]:text-base cursor-pointer" onClick={() => goDetail(course.subjectCode)}>
+                  <TableCell>{course.grade}</TableCell>
+                  <TableCell>{course.subjectCode}</TableCell>
+                  <TableCell>{course.subjectName}</TableCell>
+                  <TableCell>{course.credit}</TableCell>
+                  <TableCell>{course.professor}</TableCell>
+                  <TableCell>{course.room}</TableCell>
+                  <TableCell>{course.time || '-'}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       ) : (
         /* Card View */
-        <div className="px-5 space-y-3">
+        <div className="px-5 space-y-3 md:px-16">
           {COURSE_DATA.map((course, index) => (
             <div key={index} onClick={() => goDetail(course.subjectCode)} className="cursor-pointer">
               <CourseCard course={course} />
@@ -129,7 +131,7 @@ const TimetablePage: React.FC = () => {
       )}
 
       {/* Pagination */}
-      <div className="px-5 py-6">
+      <div className="px-5 py-6 md:px-16">
         <Pagination
           currentPage={currentPage}
           totalPages={MOCK_API_RESPONSE.totalPages}
