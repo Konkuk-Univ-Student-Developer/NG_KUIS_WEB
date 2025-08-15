@@ -1,17 +1,28 @@
 import SearchBar from "@/components/commons/SearchBar";
 import Tab from "@/components/commons/Tab";
-import { NOTICE_TABS } from "@/constants/NoticeConstants";
+import { NOTICE_CATEGORY_MAP, NOTICE_TABS } from "@/constants/NoticeConstants";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { useState } from "react";
 import NoticeList from "@/components/notice/NoticeList";
+import { useNotices } from "@/api/hooks/notice/useNotices";
 
 const Notice = () => {
+  const {
+    notices,
+    isLoading,
+    error,
+    setCategory,
+    setSearchQuery,
+    handleToggleBookmark,
+  } = useNotices();
+
   const [activeTab, setActiveTab] = useState("전체");
   const isMobile = useMediaQuery("(min-width: 768px)");
   const tabVariant = isMobile ? "distributed" : "full";
 
-  const handleSearch = (query: string) => {
-    console.log("검색어:", query);
+  const handleTabClick = (tab: string) => {
+    setActiveTab(tab);
+    setCategory(NOTICE_CATEGORY_MAP[tab]);
   };
 
   return (
@@ -25,7 +36,7 @@ const Notice = () => {
           tabs={NOTICE_TABS}
           activeTab={activeTab}
           variant={tabVariant}
-          onTabClick={setActiveTab}
+          onTabClick={handleTabClick}
         />
       </div>
 
@@ -35,11 +46,17 @@ const Notice = () => {
         </h3>
 
         <div className="md:w-[400px]">
-          <SearchBar placeholder="검색하기" onSearch={handleSearch} />
+          <SearchBar placeholder="검색하기" onSearch={setSearchQuery} />
         </div>
       </div>
 
-      <NoticeList />
+      {isLoading ? (
+        <div>로딩 중...</div>
+      ) : error ? (
+        <div>{error}</div>
+      ) : (
+        <NoticeList notices={notices} onToggleBookmark={handleToggleBookmark} />
+      )}
     </div>
   );
 };
