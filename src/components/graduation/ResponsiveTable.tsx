@@ -75,8 +75,7 @@ function ResponsiveTable ({
             row[field.id]
           ),
         widthClass: field[view]?.widthClass || "",
-        textColor:
-          field.id === "result" ? getStatusStyle(row[field.id]) : undefined,
+        textColor: getStatusStyle(field.id, row)
       }))
     );
   };
@@ -167,10 +166,7 @@ function ResponsiveTable ({
                           ? col.render(row[col.id], row)
                           : row[col.id],
                         widthClass: col.mobile?.widthClass || "",
-                        textColor:
-                          col.id === "result"
-                            ? getStatusStyle(row[col.id])
-                            : undefined,
+                        textColor: getStatusStyle(col.id, row)
                       }))
                     );
 

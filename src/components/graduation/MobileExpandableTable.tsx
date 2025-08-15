@@ -6,8 +6,8 @@ import {
   headerTextClasses,
   valueTextClasses,
 } from "@/constants/GraduationConstants";
-import { getStatusStyle } from "@/utils/graduation";
 import type { MobileExpandableTableProps } from "@/types/graduation";
+import { getStatusStyle } from "@/utils/graduation";
 
 
 function MobileExpandableTable({
@@ -55,10 +55,7 @@ function MobileExpandableTable({
             onClick={() => handleToggleRow(originalIndex)}
           >
             {mainColumns.map((col, idx) => {
-              const statusColor =
-                col.id === "result"
-                  ? getStatusStyle(row[col.id])
-                  : "text-gray-800";
+              const statusColor = getStatusStyle(col.id, row);
               const isExpandableIndicator = col.id === "detailsStatus";
 
               return (
