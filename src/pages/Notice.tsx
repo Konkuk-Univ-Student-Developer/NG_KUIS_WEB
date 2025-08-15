@@ -3,18 +3,12 @@ import Tab from "@/components/commons/Tab";
 import { NOTICE_CATEGORY_MAP, NOTICE_TABS } from "@/constants/NoticeConstants";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { useState } from "react";
-import NoticeList from "@/components/notice/NoticeList";
 import { useNotices } from "@/api/hooks/notice/useNotices";
+import NoticeList from "@/components/notice/NoticeList";
 
 const Notice = () => {
-  const {
-    notices,
-    isLoading,
-    error,
-    setCategory,
-    setSearchQuery,
-    handleToggleBookmark,
-  } = useNotices();
+  const { notices, setCategory, setSearchQuery, handleToggleBookmark } =
+    useNotices();
 
   const [activeTab, setActiveTab] = useState("전체");
   const isMobile = useMediaQuery("(min-width: 768px)");
@@ -50,13 +44,7 @@ const Notice = () => {
         </div>
       </div>
 
-      {isLoading ? (
-        <div>로딩 중...</div>
-      ) : error ? (
-        <div>{error}</div>
-      ) : (
-        <NoticeList notices={notices} onToggleBookmark={handleToggleBookmark} />
-      )}
+      <NoticeList notices={notices} onToggleBookmark={handleToggleBookmark} />
     </div>
   );
 };

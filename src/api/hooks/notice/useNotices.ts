@@ -12,21 +12,14 @@ export const useNotices = () => {
   });
 
   const [notices, setNotices] = useState<NoticeList[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchNotices = async () => {
-      setIsLoading(true);
-      setError(null);
       try {
         const data = await getNotices(params);
         setNotices(data.content);
       } catch (err) {
         console.error("Failed to fetch notices:", err);
-        setError("공지사항을 불러오는 데 실패했습니다.");
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -56,8 +49,6 @@ export const useNotices = () => {
 
   return {
     notices,
-    isLoading,
-    error,
     setCategory,
     setSearchQuery,
     handleToggleBookmark,

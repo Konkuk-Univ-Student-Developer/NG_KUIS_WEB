@@ -19,23 +19,7 @@ const HomePage = () => {
   const [activeTab, setActiveTab] = useState("전체");
   const [searchValue, setSearchValue] = useState("");
 
-  const { homeData, isLoading, error } = useHomeData();
-
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        로딩 중...
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        {error}
-      </div>
-    );
-  }
+  const { homeData } = useHomeData();
 
   return (
     <div className="min-h-screen relative">
