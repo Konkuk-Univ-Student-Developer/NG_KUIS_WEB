@@ -16,6 +16,7 @@ const Tab = ({ tabs, activeTab, variant = "full", onTabClick }: TabProps) => {
   transition-all duration-200 focus:outline-none 
   focus-visible:ring-2 focus-visible:ring-darkgreen 
   focus-visible:ring-offset-2 focus-visible:ring-offset-beige
+  cursor-pointer
 `;
 
   return (
