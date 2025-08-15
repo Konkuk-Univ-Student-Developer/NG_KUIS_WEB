@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-
+import { useState } from "react";
 import Tab from "@/components/commons/Tab";
 import { GRADUATION_TABS, TAB_COMPONENTS } from "@/constants/GraduationConstants";
 
-const GraduationPage: React.FC = () => {
+function GraduationPage() {
   const [activeTab, setActiveTab] = useState(GRADUATION_TABS[0]);
   const ActiveComponent = TAB_COMPONENTS[activeTab];
+  const MEMBER_ID = import.meta.env.VITE_MEMBER_ID;
 
   return (
     <div className="flex flex-col gap-6 md:mx-auto md:max-w-350 py-8 md:block md:px-16 lg:px-24 md:py-12">
@@ -22,7 +22,7 @@ const GraduationPage: React.FC = () => {
       </div>
 
       <div className="px-5 md:px-0">
-        {ActiveComponent && <ActiveComponent />}
+        {ActiveComponent && <ActiveComponent member={MEMBER_ID} />}
       </div>
     </div>
   );
