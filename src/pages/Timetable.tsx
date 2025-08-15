@@ -152,18 +152,7 @@ const MobileView: React.FC<MobileViewProps> = ({
         <div className="px-5 space-y-3">
           {COURSE_DATA.map((course, index) => (
             <div key={index} onClick={() => goDetail(course.subjectCode)} className="cursor-pointer">
-              <CourseCard course={{
-                학년: course.grade.toString(),
-                과목번호: course.subjectCode,
-                교과목명: course.subjectName,
-                학점: course.credit.toString(),
-                담당교수: course.professor,
-                강의실: course.room,
-                시간: course.time,
-                이수구분: course.category,
-                학과: course.department,
-                평가: course.evaluation
-              }} />
+              <CourseCard course={course} />
             </div>
           ))}
         </div>
@@ -290,18 +279,7 @@ const DesktopView: React.FC<MobileViewProps> = ({
           <div className="grid grid-cols-2 xl:grid-cols-3 gap-4">
             {COURSE_DATA.map((course, index) => (
               <div key={index} onClick={() => goDetail(course.subjectCode)} className="cursor-pointer">
-                <CourseCard course={{
-                  학년: course.grade.toString(),
-                  과목번호: course.subjectCode,
-                  교과목명: course.subjectName,
-                  학점: course.credit.toString(),
-                  담당교수: course.professor,
-                  강의실: course.room,
-                  시간: course.time,
-                  이수구분: course.category,
-                  학과: course.department,
-                  평가: course.evaluation
-                }} />
+                <CourseCard course={course} />
               </div>
             ))}
           </div>
