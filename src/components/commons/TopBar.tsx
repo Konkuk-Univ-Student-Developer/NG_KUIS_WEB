@@ -18,7 +18,7 @@ const TopBar: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <header className="relative z-50 w-full bg-white px-8 shadow-[0px_5px_4px_0px_rgba(0,0,0,0.1)] sm:px-6">
+    <header className="fixed top-0 left-0 z-50 w-full bg-white px-8 shadow-[0px_5px_4px_0px_rgba(0,0,0,0.1)] sm:px-6">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between md:h-16">
         <div className="flex items-center gap-x-12">
           <button type="button" className="md:hidden" onClick={toggleSidebar}>
