@@ -11,7 +11,7 @@ interface Notice {
 
 interface NoticeRowProps {
   notice: Notice;
-  onToggleFavorite: (id: number) => void;
+  onToggleFavorite: (id: number, isFavorite: boolean) => void;
 }
 
 const NoticeRow = ({ notice, onToggleFavorite }: NoticeRowProps) => {
@@ -21,7 +21,7 @@ const NoticeRow = ({ notice, onToggleFavorite }: NoticeRowProps) => {
     <div className="flex gap-4 w-full px-5 items-center border-b-[0.5px] h-10 border-coolgray text-center text-sm font-normal leading-[1.2]">
       <div
         className="flex basis-[15%] justify-center md:basis-[10%] cursor-pointer"
-        onClick={() => onToggleFavorite(notice.id)}
+        onClick={() => onToggleFavorite(notice.id, notice.isFavorite)}
       >
         <Star
           className={`size-5 ${

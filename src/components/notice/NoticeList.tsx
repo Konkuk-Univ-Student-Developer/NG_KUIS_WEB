@@ -4,7 +4,7 @@ import type { NoticeData } from "@/api/noticeApi";
 
 interface NoticeListProps {
   notices: NoticeData[];
-  onToggleBookmark: (id: number) => void;
+  onToggleBookmark: (id: number, isBookmarked: boolean) => void;
 }
 
 const NoticeList = ({ notices, onToggleBookmark }: NoticeListProps) => {
