@@ -41,3 +41,11 @@ export const getNotices = async (
   );
   return response;
 };
+
+export const addBookmark = async (noticeId: number): Promise<void> => {
+  await http.post(`/api/v1/notices/${noticeId}/bookmark`);
+};
+
+export const deleteBookmark = async (noticeId: number): Promise<void> => {
+  await http.delete(`/api/v1/notices/${noticeId}/bookmark`);
+};

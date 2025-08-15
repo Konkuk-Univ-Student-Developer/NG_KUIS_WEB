@@ -1,5 +1,7 @@
 import {
   getNotices,
+  addBookmark,
+  deleteBookmark,
   type GetNoticesParams,
   type NoticeData,
 } from "@/api/noticeApi";
@@ -21,7 +23,7 @@ export const useNotices = () => {
         setNotices(data.content);
         setTotalPages(data.totalPages);
       } catch (err) {
-        console.error("Failed to fetch notices:", err);
+        console.error("공지사항 조회 실패:", err);
       }
     };
 
@@ -44,15 +46,29 @@ export const useNotices = () => {
   }, []);
 
   // 즐겨찾기(북마크) 상태 토글 함수
-  const handleToggleBookmark = useCallback((id: number) => {
-    setNotices((currentNotices) =>
-      currentNotices.map((notice) =>
-        notice.id === id
-          ? { ...notice, isBookMarked: !notice.isBookMarked }
-          : notice
-      )
-    );
-  }, []);
+  const handleToggleBookmark = useCallback(
+    async (id: number, isBookmarked: boolean) => {
+      const originalNotices = [...notices];
+
+      setNotices((currentNotices) =>
+        currentNotices.map((notice) =>
+          notice.id === id ? { ...notice, isBookMarked: !isBookmarked } : notice
+        )
+      );
+
+      try {
+        if (isBookmarked) {
+          await deleteBookmark(id);
+        } else {
+          await addBookmark(id);
+        }
+      } catch (err) {
+        console.error("북마크 토글 실패:", err);
+        setNotices(originalNotices);
+      }
+    },
+    [notices]
+  );
 
   return {
     notices,
