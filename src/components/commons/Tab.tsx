@@ -1,9 +1,7 @@
-type TabVariant = "fit" | "full" | "distributed";
-
 interface TabProps {
   tabs: string[];
   activeTab: string;
-  variant?: TabVariant;
+  variant?: "fit" | "full" | "distributed";
   onTabClick: (tab: string) => void;
 }
 
@@ -29,11 +27,10 @@ const Tab = ({ tabs, activeTab, variant = "full", onTabClick }: TabProps) => {
           className={`
           ${buttonBaseClasses}
           ${variant === "distributed" ? "flex-1" : ""}
-          ${
-            activeTab === tab
+          ${activeTab === tab
               ? "bg-white text-darkgreen shadow font-bold"
               : "text-darkgray hover:bg-white/70 font-normal"
-          }
+            }
         `}
         >
           {tab}
