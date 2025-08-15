@@ -1,9 +1,9 @@
 import { http } from "@/api/fetch";
-import type { NoticeResponse } from "@/api/noticeApi";
+import type { NoticeData } from "@/api/noticeApi";
 
 export interface HomeDataResponse {
   nickname: string;
-  noticeResponses: NoticeResponse[];
+  noticeResponses: NoticeData[];
 }
 
 export const getHomeData = async (): Promise<HomeDataResponse> => {
