@@ -159,7 +159,7 @@ function CompletedCredits({ member }: GraduationTabProps) {
         ))}
       </div>
 
-      <div className="w-full text-center text-darkgray text-xs break-keep">
+      <div className="w-full text-center text-darkgray text-[11px] md:text-xs break-keep">
         ※과목별 이수구분 변경 및 성적이의신청 후 변경 된 내용 본인 확인 필수.
         <br />
         (이수구분 오류 및 정정사항 미확인으로 인한 불이익을 받지 않도록 주의)
