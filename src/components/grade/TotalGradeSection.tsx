@@ -8,7 +8,7 @@ const TotalGradeSection: React.FC = () => {
   const currentSemester = 1;
 
   return (
-    <div>
+    <div className="pb-4">
       {/* 헤더 섹션 */}
       <div className="pb-4">
         <div className="flex flex-col md:flex-row md:gap-8 md:items-end">
