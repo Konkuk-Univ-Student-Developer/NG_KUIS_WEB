@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Pagination, CourseCard } from '@/components/commons';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, ViewToggle, Select, SearchInput } from '@/components/commons';
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, Tab, Select, SearchInput } from '@/components/commons';
 import type { CourseData, ApiResponse } from '@/constants/TimetableConstants';
 import {
   YEAR_OPTIONS,
@@ -122,9 +122,11 @@ const MobileView: React.FC<MobileViewProps> = ({
 
         {/* View Mode Toggle */}
         <div className="flex justify-end">
-          <ViewToggle
-            value={viewMode}
-            onChange={setViewMode}
+          <Tab
+            tabs={['List', 'Card']}
+            activeTab={viewMode}
+            variant="fit"
+            onTabClick={(tab) => setViewMode(tab as 'List' | 'Card')}
           />
         </div>
       </div>
@@ -219,7 +221,12 @@ const DesktopView: React.FC<MobileViewProps> = ({
         {/* 헤더: 제목 + 뷰 토글 */}
         <div className="flex items-center justify-between">
           <h1 className="text-darkgreen text-2xl font-bold">종합강의시간표</h1>
-          <ViewToggle value={viewMode} onChange={setViewMode} />
+          <Tab
+            tabs={['List', 'Card']}
+            activeTab={viewMode}
+            variant="fit"
+            onTabClick={(tab) => setViewMode(tab as 'List' | 'Card')}
+          />
         </div>
 
         {/* 필터군: Select 3개 + Search 3개 */}
