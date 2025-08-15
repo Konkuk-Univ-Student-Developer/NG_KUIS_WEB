@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Pagination, CourseCard } from '@/components/commons';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, Tab, Select, SearchInput } from '@/components/commons';
-import type { CourseData, ApiResponse } from '@/constants/TimetableConstants';
 
 import {
   YEAR_OPTIONS,
@@ -23,7 +22,6 @@ interface MobileViewProps {
   searchQueries: {
     professor: string;
     subjectCode: string;
-    subjectName: string;
     department: string;
   };
   currentPage: number;
@@ -36,15 +34,9 @@ interface MobileViewProps {
   setSearchQueries: React.Dispatch<React.SetStateAction<{
     professor: string;
     subjectCode: string;
-    subjectName: string;
     department: string;
   }>>;
   setCurrentPage: (page: number) => void;
-  yearOptions: string[];
-  semesterOptions: string[];
-  categoryOptions: string[];
-  courseData: CourseData[];
-  apiResponse: ApiResponse;
 }
 
 // MobileView 컴포넌트 분리
@@ -56,12 +48,7 @@ const MobileView: React.FC<MobileViewProps> = ({
   setViewMode,
   setFilters,
   setSearchQueries,
-  setCurrentPage,
-  yearOptions,
-  semesterOptions,
-  categoryOptions,
-  courseData,
-  apiResponse
+  setCurrentPage
 }) => {
   const navigate = useNavigate();
   const goDetail = (subjectCode: string) => navigate(`/timetable/${subjectCode}`);
@@ -77,21 +64,21 @@ const MobileView: React.FC<MobileViewProps> = ({
             value={filters.year}
             onChange={(value) => setFilters(prev => ({ ...prev, year: value }))}
             placeholder="강의년도"
-            options={yearOptions}
+            options={YEAR_OPTIONS}
             className="flex-1"
           />
           <Select
             value={filters.semester}
             onChange={(value) => setFilters(prev => ({ ...prev, semester: value }))}
             placeholder="강의학기"
-            options={semesterOptions}
+            options={SEMESTER_OPTIONS}
             className="flex-1"
           />
           <Select
             value={filters.category}
             onChange={(value) => setFilters(prev => ({ ...prev, category: value }))}
             placeholder="이수구분"
-            options={categoryOptions}
+            options={CATEGORY_OPTIONS}
             className="flex-1"
           />
         </div>
@@ -147,7 +134,7 @@ const MobileView: React.FC<MobileViewProps> = ({
             </TableRow>
           </TableHeader>
           <TableBody className="[&>tr]:hover:bg-gray-100">
-            {courseData.map((course, index) => (
+            {COURSE_DATA.map((course, index) => (
               <TableRow key={index} className="[&>td]:text-center cursor-pointer" onClick={() => goDetail(course.subjectCode)}>
                 <TableCell>{course.grade}</TableCell>
                 <TableCell>{course.subjectCode}</TableCell>
@@ -163,7 +150,7 @@ const MobileView: React.FC<MobileViewProps> = ({
       ) : (
         /* Card View */
         <div className="px-5 space-y-3">
-          {courseData.map((course, index) => (
+          {COURSE_DATA.map((course, index) => (
             <div key={index} onClick={() => goDetail(course.subjectCode)} className="cursor-pointer">
               <CourseCard course={{
                 학년: course.grade.toString(),
@@ -186,7 +173,7 @@ const MobileView: React.FC<MobileViewProps> = ({
       <div className="px-5 py-6">
         <Pagination
           currentPage={currentPage}
-          totalPages={apiResponse.totalPages}
+          totalPages={MOCK_API_RESPONSE.totalPages}
           onPageChange={setCurrentPage}
         />
       </div>
@@ -202,12 +189,7 @@ const DesktopView: React.FC<MobileViewProps> = ({
   setViewMode,
   setFilters,
   setSearchQueries,
-  setCurrentPage,
-  yearOptions,
-  semesterOptions,
-  categoryOptions,
-  courseData,
-  apiResponse
+  setCurrentPage
 }) => {
   const navigate = useNavigate();
   const goDetail = (subjectCode: string) => navigate(`/timetable/${subjectCode}`);
@@ -233,21 +215,21 @@ const DesktopView: React.FC<MobileViewProps> = ({
               value={filters.year}
               onChange={(value) => setFilters(prev => ({ ...prev, year: value }))}
               placeholder="강의년도"
-              options={yearOptions}
+              options={YEAR_OPTIONS}
               className="w-full"
             />
             <Select
               value={filters.semester}
               onChange={(value) => setFilters(prev => ({ ...prev, semester: value }))}
               placeholder="강의학기"
-              options={semesterOptions}
+              options={SEMESTER_OPTIONS}
               className="w-full"
             />
             <Select
               value={filters.category}
               onChange={(value) => setFilters(prev => ({ ...prev, category: value }))}
               placeholder="이수구분"
-              options={categoryOptions}
+              options={CATEGORY_OPTIONS}
               className="w-full"
             />
           </div>
@@ -290,7 +272,7 @@ const DesktopView: React.FC<MobileViewProps> = ({
                 </TableRow>
               </TableHeader>
               <TableBody className="[&>tr]:hover:bg-gray-100">
-                {courseData.map((course, index) => (
+                {COURSE_DATA.map((course, index) => (
                   <TableRow key={index} className="[&>td]:text-center cursor-pointer" onClick={() => goDetail(course.subjectCode)}>
                     <TableCell>{course.grade}</TableCell>
                     <TableCell>{course.subjectCode}</TableCell>
@@ -306,7 +288,7 @@ const DesktopView: React.FC<MobileViewProps> = ({
           </div>
         ) : (
           <div className="grid grid-cols-2 xl:grid-cols-3 gap-4">
-            {courseData.map((course, index) => (
+            {COURSE_DATA.map((course, index) => (
               <div key={index} onClick={() => goDetail(course.subjectCode)} className="cursor-pointer">
                 <CourseCard course={{
                   학년: course.grade.toString(),
@@ -329,7 +311,7 @@ const DesktopView: React.FC<MobileViewProps> = ({
         <div className="flex justify-end">
           <Pagination
             currentPage={currentPage}
-            totalPages={apiResponse.totalPages}
+            totalPages={MOCK_API_RESPONSE.totalPages}
             onPageChange={setCurrentPage}
           />
         </div>
@@ -348,7 +330,6 @@ const TimetablePage: React.FC = () => {
   const [searchQueries, setSearchQueries] = useState({
     professor: '',
     subjectCode: '',
-    subjectName: '',
     department: ''
   });
   const [currentPage, setCurrentPage] = useState(1);
@@ -366,11 +347,6 @@ const TimetablePage: React.FC = () => {
           setFilters={setFilters}
           setSearchQueries={setSearchQueries}
           setCurrentPage={setCurrentPage}
-          yearOptions={YEAR_OPTIONS}
-          semesterOptions={SEMESTER_OPTIONS}
-          categoryOptions={CATEGORY_OPTIONS}
-          courseData={COURSE_DATA}
-          apiResponse={MOCK_API_RESPONSE}
         />
       </div>
       <div className="hidden md:block">
@@ -383,11 +359,6 @@ const TimetablePage: React.FC = () => {
           setFilters={setFilters}
           setSearchQueries={setSearchQueries}
           setCurrentPage={setCurrentPage}
-          yearOptions={YEAR_OPTIONS}
-          semesterOptions={SEMESTER_OPTIONS}
-          categoryOptions={CATEGORY_OPTIONS}
-          courseData={COURSE_DATA}
-          apiResponse={MOCK_API_RESPONSE}
         />
       </div>
     </>
