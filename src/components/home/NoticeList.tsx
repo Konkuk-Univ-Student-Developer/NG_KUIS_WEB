@@ -1,7 +1,7 @@
-import type { NoticeResponse } from "@/api/homeApi";
+import type { NoticeData } from "@/api/noticeApi";
 
 interface NoticeListProps {
-  items: NoticeResponse[];
+  items: NoticeData[];
 }
 
 const NoticeList = ({ items }: NoticeListProps) => {

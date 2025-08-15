@@ -1,6 +1,6 @@
 import { http } from "@/api/fetch";
 
-export interface NoticeList {
+export interface NoticeData {
   id: number;
   categoryId: number;
   categoryName: string;
@@ -20,7 +20,7 @@ export interface GetNoticesParams {
 }
 
 export interface NoticeResponse {
-  content: NoticeList[];
+  content: NoticeData[];
   pageNumber: number;
   pageSize: number;
   totalElements: number;

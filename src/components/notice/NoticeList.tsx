@@ -1,9 +1,9 @@
 import NoticeRow from "./NoticeRow";
 import NoticeTitle from "./NoticeTitle";
-import type { NoticeList } from "@/api/noticeApi";
+import type { NoticeData } from "@/api/noticeApi";
 
 interface NoticeListProps {
-  notices: NoticeList[];
+  notices: NoticeData[];
   onToggleBookmark: (id: number) => void;
 }
 

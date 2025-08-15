@@ -1,7 +1,7 @@
 import {
   getNotices,
   type GetNoticesParams,
-  type NoticeList,
+  type NoticeData,
 } from "@/api/noticeApi";
 import { useState, useEffect, useCallback } from "react";
 
@@ -11,7 +11,7 @@ export const useNotices = () => {
     size: 20,
   });
 
-  const [notices, setNotices] = useState<NoticeList[]>([]);
+  const [notices, setNotices] = useState<NoticeData[]>([]);
 
   useEffect(() => {
     const fetchNotices = async () => {
