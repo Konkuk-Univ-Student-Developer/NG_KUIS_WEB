@@ -8,16 +8,18 @@ import { useState, useEffect, useCallback } from "react";
 export const useNotices = () => {
   const [params, setParams] = useState<GetNoticesParams>({
     page: 0,
-    size: 20,
+    size: 15,
   });
 
   const [notices, setNotices] = useState<NoticeData[]>([]);
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     const fetchNotices = async () => {
       try {
         const data = await getNotices(params);
         setNotices(data.content);
+        setTotalPages(data.totalPages);
       } catch (err) {
         console.error("Failed to fetch notices:", err);
       }
@@ -36,6 +38,11 @@ export const useNotices = () => {
     setParams((prev) => ({ ...prev, title: query || undefined, page: 0 }));
   }, []);
 
+  // 페이지 변경 함수
+  const setPage = useCallback((page: number) => {
+    setParams((prev) => ({ ...prev, page: page - 1 }));
+  }, []);
+
   // 즐겨찾기(북마크) 상태 토글 함수
   const handleToggleBookmark = useCallback((id: number) => {
     setNotices((currentNotices) =>
@@ -49,6 +56,9 @@ export const useNotices = () => {
 
   return {
     notices,
+    totalPages,
+    currentPage: params.page ? params.page + 1 : 1,
+    setPage,
     setCategory,
     setSearchQuery,
     handleToggleBookmark,
