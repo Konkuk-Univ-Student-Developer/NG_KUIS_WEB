@@ -56,7 +56,7 @@ function MobileExpandableTable({
           >
             {mainColumns.map((col, idx) => {
               const statusColor =
-                col.id === "status"
+                col.id === "result"
                   ? getStatusStyle(row[col.id])
                   : "text-gray-800";
               const isExpandableIndicator = col.id === "detailsStatus";

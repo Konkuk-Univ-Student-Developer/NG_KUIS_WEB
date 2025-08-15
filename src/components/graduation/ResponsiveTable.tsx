@@ -15,6 +15,40 @@ function ResponsiveTable ({
   headerBgColor,
 }: ResponsiveListTableProps) {
 
+  if (!rows || rows.length === 0) {
+    const desktopHeaders = columns.filter((c) => (c.desktop?.row ?? 0) > 0);
+    const desktopTableHeaders = desktopHeaders.map((f) => ({
+      content: f.label,
+      widthClass: f.desktop?.widthClass || "",
+    }));
+
+    return (
+      <>
+        <div className="hidden md:block">
+          <GraduationTable
+            headers={desktopTableHeaders}
+            rows={[
+              [
+                {
+                  content: (
+                    <p>
+                      데이터가 존재하지 않습니다.
+                    </p>
+                  ),
+                  widthClass: "w-1/1"
+                },
+              ],
+            ]}
+            headerBgColor={headerBgColor}
+          />
+        </div>
+        <div className="md:hidden w-full text-center py-10 text-gray-500 bg-gray-50 rounded-lg">
+          데이터가 없습니다
+        </div>
+      </>
+    );
+  }
+
   const createDataRows = (
     fields: ColumnConfig[],
     rowList: RowData[],
@@ -28,17 +62,21 @@ function ResponsiveTable ({
               type="button"
               className="text-blue underline"
               onClick={() => {
-                document.getElementById(String(row.desktopLink))?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                document
+                  .getElementById(String(row.desktopLink))
+                  ?.scrollIntoView({ behavior: "smooth", block: "center" });
               }}
             >
               {field.render ? field.render(row[field.id], row) : row[field.id]}
             </button>
-          ) : field.render
-          ? field.render(row[field.id], row)
-          : row[field.id],
+          ) : field.render ? (
+            field.render(row[field.id], row)
+          ) : (
+            row[field.id]
+          ),
         widthClass: field[view]?.widthClass || "",
         textColor:
-          field.id === "status" ? getStatusStyle(row[field.id]) : undefined,
+          field.id === "result" ? getStatusStyle(row[field.id]) : undefined,
       }))
     );
   };
@@ -130,7 +168,7 @@ function ResponsiveTable ({
                           : row[col.id],
                         widthClass: col.mobile?.widthClass || "",
                         textColor:
-                          col.id === "status"
+                          col.id === "result"
                             ? getStatusStyle(row[col.id])
                             : undefined,
                       }))
