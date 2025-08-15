@@ -1,13 +1,13 @@
-import TermGradeTable from '@/components/grade/TermGradeTable';
+import React from 'react';
+import TotalGradeSection from './TotalGradeSection';
 
-const TermGrade: React.FC = () => {
-  // 정규학기 관련 상태 관리 (예: 선택된 연도/학기)
-
+const TotalGrade: React.FC = () => {
   return (
-    <>
-      <TermGradeTable />
-    </>
+    <div className="mx-4 md:m-0">
+      <TotalGradeSection />
+      <TotalGradeSection />
+    </div>
   );
 };
 
-export default TermGrade;
+export default TotalGrade;
