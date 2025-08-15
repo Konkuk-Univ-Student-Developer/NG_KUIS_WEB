@@ -1,4 +1,3 @@
-import Filter from "@/components/commons/Filter";
 import SearchBar from "@/components/commons/SearchBar";
 import Tab from "@/components/commons/Tab";
 import { NOTICE_TABS } from "@/constants/NoticeConstants";
@@ -35,14 +34,8 @@ const Notice = () => {
           {activeTab}
         </h3>
 
-        <div className="flex items-center gap-4 md:gap-6">
-          <div className="flex-shrink-0 w-25 md:w-[150px] md:flex-shrink">
-            <Filter placeholder="제목" />
-          </div>
-
-          <div className="flex-grow md:w-[400px] md:flex-grow-0">
-            <SearchBar placeholder="검색하기" onSearch={handleSearch} />
-          </div>
+        <div className="md:w-[400px]">
+          <SearchBar placeholder="검색하기" onSearch={handleSearch} />
         </div>
       </div>
 
