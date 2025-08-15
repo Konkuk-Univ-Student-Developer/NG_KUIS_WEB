@@ -7,6 +7,7 @@ interface TermGradeTableRowProps {
   grade: GradeItem;
   detailGrade: DetailGrade;
   isExpanded: boolean;
+  isLastRow?: boolean;
   onToggle: () => void;
 }
 
@@ -14,16 +15,17 @@ const TermGradeTableRow = ({
   grade,
   detailGrade,
   isExpanded,
+  isLastRow = false,
   onToggle,
 }: TermGradeTableRowProps) => {
   return (
     <div>
       <div
         className={`px-4 py-3 hover:bg-beige/50 transition-colors min-w-max md:min-w-full ${
-          !isExpanded ? 'border-b border-lightgray' : ''
+          !isExpanded && !isLastRow ? 'border-b border-coolgray' : ''
         }`}
       >
-        <div className="grid grid-cols-10 gap-2 text-mobile-small md:gap-1">
+        <div className="grid grid-cols-10 gap-2 text-mobile-small md:text-desktop-regular md:gap-1">
           <div className="text-black font-medium min-w-[48px] md:min-w-0 text-center">
             {grade.no}
           </div>

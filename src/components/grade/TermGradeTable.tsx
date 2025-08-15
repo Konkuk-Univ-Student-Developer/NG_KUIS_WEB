@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import TermGradeTableHeader from './TermGradeTableHeader';
 import TermGradeTableRow from './TermGradeTableRow';
 
 export interface GradeItem {
@@ -67,17 +66,36 @@ const TermGradeTable = () => {
   };
 
   return (
-    <div className="mx-4 md:m-0 md:pb-13">
-      <div className="bg-white rounded-[8px] border border-lightgray overflow-hidden">
+    <div className=" md:m-0 md:pb-13">
+      <div className="bg-white rounded-[8px] border border-coolgray overflow-hidden">
         <div className="overflow-x-auto md:overflow-visible">
-          <TermGradeTableHeader />
+          {/* 테이블 헤더 */}
+          <div className="bg-beige px-4 py-3 border-b border-coolgray min-w-max md:min-w-full">
+            <div className="grid grid-cols-10 gap-2 text-mobile-small-bold md:text-desktop-small-bold text-black font-bold md:gap-1">
+              <div className="min-w-[48px] md:min-w-0 text-center">No</div>
+              <div className="min-w-[100px] md:min-w-0 text-center">학수번호</div>
+              <div className="min-w-[90px] md:min-w-0 text-center">과목번호</div>
+              <div className="min-w-[160px] md:min-w-0 text-center">과목명</div>
+              <div className="min-w-[90px] md:min-w-0 text-center">담당교수</div>
+              <div className="min-w-[60px] md:min-w-0 text-center">학점</div>
+              <div className="min-w-[80px] md:min-w-0 text-center">이수구분</div>
+              <div className="min-w-[60px] md:min-w-0 text-center">등급</div>
+              <div className="min-w-[110px] md:min-w-0 text-center">성적평가방법</div>
+              <div className="min-w-[110px] md:min-w-0 text-center">
+                상세성적 보기
+              </div>
+            </div>
+          </div>
+          
+          {/* 테이블 로우들 */}
           <div>
-            {SAMPLE_GRADES.map((row) => (
+            {SAMPLE_GRADES.map((row, index) => (
               <TermGradeTableRow
                 key={row.no}
                 grade={row}
                 detailGrade={SAMPLE_DETAIL_GRADES}
                 isExpanded={expandedRows.has(row.no)}
+                isLastRow={index === SAMPLE_GRADES.length - 1}
                 onToggle={() => toggleRow(row.no)}
               />
             ))}
