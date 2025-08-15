@@ -1,15 +1,19 @@
 ﻿import GraduationSummary from "@/components/graduation/GraduationSummary";
 import GraduationAudit from "@/components/graduation/GraduationAudit";
 import CompletedCredits from "@/components/graduation/CompletedCredits";
-import type { ColumnConfig, GraduationTabProps } from "@/types/graduation";
+import type { ColumnConfig } from "@/types/graduation";
 
-export const GRADUATION_TABS = ["결과 요약", "졸업 사정", "취득학점확인원"];
-
-export const TAB_COMPONENTS: { [key: string]: React.FC<GraduationTabProps> } = {
+export const TAB_COMPONENTS = {
   "결과 요약": GraduationSummary,
   "졸업 사정": GraduationAudit,
-  "취득학점확인원": CompletedCredits,
+  취득학점확인원: CompletedCredits,
 };
+
+export const GRADUATION_TABS = Object.keys(
+  TAB_COMPONENTS
+) as (keyof typeof TAB_COMPONENTS)[];
+
+export type GraduationTab = keyof typeof TAB_COMPONENTS;
 
 export const CREDIT_SUMMARY_DATA = [
   { title: "총 취득 학점", value: 122, unit: "/132" },

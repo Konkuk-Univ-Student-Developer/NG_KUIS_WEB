@@ -1,11 +1,26 @@
 import { useState } from "react";
 import Tab from "@/components/commons/Tab";
-import { GRADUATION_TABS, TAB_COMPONENTS } from "@/constants/GraduationConstants";
+import {
+  GRADUATION_TABS,
+  TAB_COMPONENTS,
+  type GraduationTab,
+} from "@/constants/GraduationConstants";
 
 function GraduationPage() {
-  const [activeTab, setActiveTab] = useState(GRADUATION_TABS[0]);
-  const ActiveComponent = TAB_COMPONENTS[activeTab];
   const MEMBER_ID = import.meta.env.VITE_MEMBER_ID;
+  const [activeTab, setActiveTab] = useState<GraduationTab>(GRADUATION_TABS[0]);
+
+  const ActiveComponent = TAB_COMPONENTS[activeTab];
+
+  const handleTabClick = (tab: string) => {
+    const isKnownTab = (t: string): t is GraduationTab => {
+      return GRADUATION_TABS.includes(t as GraduationTab);
+    };
+
+    if (isKnownTab(tab)) {
+      setActiveTab(tab);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-6 md:mx-auto md:max-w-350 py-8 md:block md:px-16 lg:px-24 md:py-12">
@@ -16,16 +31,16 @@ function GraduationPage() {
         <Tab
           tabs={GRADUATION_TABS}
           activeTab={activeTab}
-          onTabClick={setActiveTab}
+          onTabClick={handleTabClick}
           variant="fit"
         />
       </div>
 
       <div className="px-5 md:px-0">
-        {ActiveComponent && <ActiveComponent member={MEMBER_ID} />}
+        <ActiveComponent member={MEMBER_ID} />
       </div>
     </div>
   );
-};
+}
 
 export default GraduationPage;
