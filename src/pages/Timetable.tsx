@@ -8,11 +8,7 @@ import {
   SEMESTER_OPTIONS,
   CATEGORY_OPTIONS,
   COURSE_DATA,
-  MOCK_API_RESPONSE,
-  DAYS,
-  TIMES,
-  SCHEDULE,
-  COURSE_LIST
+  MOCK_API_RESPONSE
 } from '@/constants/TimetableConstants';
 
 // Props 타입 정의
@@ -44,32 +40,6 @@ interface MobileViewProps {
   categoryOptions: string[];
   courseData: CourseData[];
   apiResponse: ApiResponse;
-}
-
-interface DesktopViewProps {
-  days: string[];
-  times: string[];
-  schedule: Record<string, Array<{
-    time: string;
-    name: string;
-    location: string;
-    professor: string;
-    color: string;
-  }>>;
-}
-
-
-
-interface DesktopViewProps {
-  days: string[];
-  times: string[];
-  schedule: Record<string, Array<{
-    time: string;
-    name: string;
-    location: string;
-    professor: string;
-    color: string;
-  }>>;
 }
 
 // MobileView 컴포넌트 분리
@@ -221,104 +191,148 @@ const MobileView: React.FC<MobileViewProps> = ({
   )
 };
 
-// DesktopView 컴포넌트 분리
-const DesktopView: React.FC<DesktopViewProps> = ({ days, times, schedule }) => (
-  <div className="min-h-screen bg-gray-50 p-8">
-    <div className="max-w-7xl mx-auto">
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold text-darkgreen">강의 시간표</h1>
-        <div className="flex items-center gap-4">
-          <select className="px-4 py-2 border rounded-lg">
-            <option>2024년 2학기</option>
-            <option>2024년 1학기</option>
-          </select>
-          <button className="px-4 py-2 bg-darkgreen text-white rounded-lg hover:bg-darkgreen/90">
-            시간표 내보내기
-          </button>
-        </div>
-      </div>
+const DesktopView: React.FC<MobileViewProps> = ({
+  viewMode,
+  selectedYear,
+  selectedSemester,
+  selectedCategory,
+  searchQueries,
+  currentPage,
+  setViewMode,
+  setSelectedYear,
+  setSelectedSemester,
+  setSelectedCategory,
+  setSearchQueries,
+  setCurrentPage,
+  yearOptions,
+  semesterOptions,
+  categoryOptions,
+  courseData,
+  apiResponse
+}) => {
+  const navigate = useNavigate();
+  const goDetail = (subjectCode: string) => navigate(`/timetable/${subjectCode}`);
 
-      {/* 시간표 그리드 */}
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-        <div className="grid grid-cols-6 border-b">
-          <div className="p-4 bg-gray-50"></div>
-          {days.map(day => (
-            <div key={day} className="p-4 text-center font-semibold border-l">
-              {day}
-            </div>
-          ))}
+  return (
+    <div className="min-h-screen bg-white">
+      <div className="max-w-7xl mx-auto px-8 py-10 space-y-8">
+        {/* 헤더: 제목 + 뷰 토글 */}
+        <div className="flex items-center justify-between">
+          <h1 className="text-darkgreen text-2xl font-bold">종합강의시간표</h1>
+          <ViewToggle value={viewMode} onChange={setViewMode} />
         </div>
 
-        {times.map(time => (
-          <div key={time} className="grid grid-cols-6 border-b">
-            <div className="p-4 bg-gray-50 text-sm text-gray-600">
-              {time}
-            </div>
-            {days.map(day => (
-              <div key={`${day}-${time}`} className="p-2 border-l min-h-[80px] relative">
-                {schedule[day]?.map((cls, idx) => {
-                  if (cls.time.startsWith(time)) {
-                    return (
-                      <div
-                        key={idx}
-                        className={`absolute inset-2 p-2 rounded border-2 ${cls.color}`}
-                        style={{
-                          height: cls.time.includes('17:00') ? '160px' : '120px',
-                          zIndex: 10
-                        }}
-                      >
-                        <p className="font-semibold text-sm">{cls.name}</p>
-                        <p className="text-xs text-gray-600 mt-1">{cls.location}</p>
-                        <p className="text-xs text-gray-600">{cls.professor}</p>
-                      </div>
-                    );
-                  }
-                  return null;
-                })}
+        {/* 필터군: Select 3개 + Search 3개 */}
+        <div className="space-y-4">
+          <div className="grid grid-cols-3 gap-4">
+            <Select
+              value={selectedYear}
+              onChange={setSelectedYear}
+              placeholder="강의년도"
+              options={yearOptions}
+              className="w-full"
+            />
+            <Select
+              value={selectedSemester}
+              onChange={setSelectedSemester}
+              placeholder="강의학기"
+              options={semesterOptions}
+              className="w-full"
+            />
+            <Select
+              value={selectedCategory}
+              onChange={setSelectedCategory}
+              placeholder="이수구분"
+              options={categoryOptions}
+              className="w-full"
+            />
+          </div>
+
+          <div className="grid grid-cols-3 gap-4">
+            <SearchInput
+              key="professor-search-desktop"
+              placeholder="교강사"
+              value={searchQueries.professor}
+              onChange={(value) => setSearchQueries(prev => ({ ...prev, professor: value }))}
+            />
+            <SearchInput
+              key="subjectCode-search-desktop"
+              placeholder="과목번호"
+              value={searchQueries.subjectCode}
+              onChange={(value) => setSearchQueries(prev => ({ ...prev, subjectCode: value }))}
+            />
+            <SearchInput
+              key="department-search-desktop"
+              placeholder="학부(과)/전공"
+              value={searchQueries.department}
+              onChange={(value) => setSearchQueries(prev => ({ ...prev, department: value }))}
+            />
+          </div>
+        </div>
+
+        {/* 콘텐츠: List 또는 Card */}
+        {viewMode === 'List' ? (
+          <div className="bg-white border rounded-lg overflow-hidden">
+            <Table>
+              <TableHeader className="border-t bg-beige">
+                <TableRow className="[&>th]:text-center [&>th]:font-bold">
+                  <TableHead>학년</TableHead>
+                  <TableHead>과목번호</TableHead>
+                  <TableHead>교과목명</TableHead>
+                  <TableHead>학점</TableHead>
+                  <TableHead>담당교수</TableHead>
+                  <TableHead>강의실</TableHead>
+                  <TableHead>수업시간</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody className="[&>tr]:hover:bg-gray-100">
+                {courseData.map((course, index) => (
+                  <TableRow key={index} className="[&>td]:text-center cursor-pointer" onClick={() => goDetail(course.subjectCode)}>
+                    <TableCell>{course.grade}</TableCell>
+                    <TableCell>{course.subjectCode}</TableCell>
+                    <TableCell>{course.subjectName}</TableCell>
+                    <TableCell>{course.credit}</TableCell>
+                    <TableCell>{course.professor}</TableCell>
+                    <TableCell>{course.room}</TableCell>
+                    <TableCell>{course.time || '-'}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 xl:grid-cols-3 gap-4">
+            {courseData.map((course, index) => (
+              <div key={index} onClick={() => goDetail(course.subjectCode)} className="cursor-pointer">
+                <CourseCard course={{
+                  학년: course.grade.toString(),
+                  과목번호: course.subjectCode,
+                  교과목명: course.subjectName,
+                  학점: course.credit.toString(),
+                  담당교수: course.professor,
+                  강의실: course.room,
+                  시간: course.time,
+                  이수구분: course.category,
+                  학과: course.department,
+                  평가: course.evaluation
+                }} />
               </div>
             ))}
           </div>
-        ))}
-      </div>
+        )}
 
-      {/* 수업 상세 정보 */}
-      <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white rounded-lg shadow-sm p-6">
-          <h2 className="text-xl font-semibold mb-4">수강 과목 목록</h2>
-          <div className="space-y-3">
-            {COURSE_LIST.map((course, idx) => (
-              <div key={idx} className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50">
-                <div>
-                  <p className="font-medium">{course.name} ({course.code})</p>
-                  <p className="text-sm text-gray-600">{course.time} · {course.professor}</p>
-                </div>
-                <span className="text-sm font-medium">{course.credit}학점</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <h2 className="text-xl font-semibold mb-4">학점 요약</h2>
-          <div className="space-y-3">
-            <div className="flex justify-between">
-              <span className="text-gray-600">총 신청학점</span>
-              <span className="font-medium">12학점</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600">전공</span>
-              <span className="font-medium">12학점</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600">교양</span>
-              <span className="font-medium">0학점</span>
-            </div>
-          </div>
+        {/* 페이지네이션 */}
+        <div className="flex justify-end">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={apiResponse.totalPages}
+            onPageChange={setCurrentPage}
+          />
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const TimetablePage: React.FC = () => {
   const [viewMode, setViewMode] = useState<'List' | 'Card'>('List');
@@ -359,9 +373,23 @@ const TimetablePage: React.FC = () => {
       </div>
       <div className="hidden md:block">
         <DesktopView
-          days={DAYS}
-          times={TIMES}
-          schedule={SCHEDULE}
+          viewMode={viewMode}
+          selectedYear={selectedYear}
+          selectedSemester={selectedSemester}
+          selectedCategory={selectedCategory}
+          searchQueries={searchQueries}
+          currentPage={currentPage}
+          setViewMode={setViewMode}
+          setSelectedYear={setSelectedYear}
+          setSelectedSemester={setSelectedSemester}
+          setSelectedCategory={setSelectedCategory}
+          setSearchQueries={setSearchQueries}
+          setCurrentPage={setCurrentPage}
+          yearOptions={YEAR_OPTIONS}
+          semesterOptions={SEMESTER_OPTIONS}
+          categoryOptions={CATEGORY_OPTIONS}
+          courseData={COURSE_DATA}
+          apiResponse={MOCK_API_RESPONSE}
         />
       </div>
     </>
