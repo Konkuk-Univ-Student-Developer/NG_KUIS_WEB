@@ -3,24 +3,36 @@ import TitleSection from "@/components/commons/TitleSection";
 import ResponsiveListTable from "@/components/graduation/ResponsiveTable";
 import {
   CREDITS_SUMMARY_COLUMNS,
-  CREDITS_SUMMARY_ROWS,
-  SUBSECTION_DETAILS_DATA,
-  CREDIT_DATA,
-  CREDITS_ELECTIVE_GENERAL_ROWS,
   CREDITS_ELECTIVE_GENERAL_COLUMNS,
-  DUPLICATE_SUBJECTS_ROWS,
   DUPLICATE_SUBJECTS_COLUMNS,
+  CREDITS_ELECTIVE_ADVANCED_COLUMNS,
+  CREDITS_ENGLISH_COLUMNS,
 } from "@/constants/GraduationConstants";
 import CreditInfoCard from "@/components/graduation/CreditInfoCard";
 import CreditSubSection from "@/components/graduation/CreditSubSection";
 import SubjectCard from "@/components/graduation/SubjectCard";
-import type { RowData } from "@/types/graduation";
+import type { GraduationTabProps, RowData } from "@/types/graduation";
+import { useCreditData } from "@/api/hooks/graduation/useCreditData";
 
-function CompletedCredits() {
+function CompletedCredits({ member }: GraduationTabProps) {
+  const {
+    isLoading,
+    isError,
+    creditSummaryData,
+    creditsSummaryRows,
+    electiveGeneralRows,
+    electiveAdvancedRows,
+    englishCountsRows,
+    duplicateSubjectsRows,
+    subsectionDetailsData,
+  } = useCreditData(member);
+
   const combinedRows: RowData[] = useMemo(() => {
-    return CREDITS_SUMMARY_ROWS.map((summaryRow) => {
-      const detailSection = SUBSECTION_DETAILS_DATA.find(
-        (detail) => detail.id === summaryRow.id
+    if (!creditsSummaryRows || !subsectionDetailsData) return [];
+
+    return creditsSummaryRows.map((summaryRow) => {
+      const detailSection = subsectionDetailsData.find(
+        (detail) => detail.id === summaryRow.desktopLink
       );
 
       return {
@@ -28,9 +40,19 @@ function CompletedCredits() {
         rowType: "custom",
         customRenderer: (
           <div className="flex flex-col gap-3 p-2 border-t border-coolgray">
-            {detailSection ? (
-              detailSection.table.rows.map((course) => (
-                <SubjectCard {...course} />
+            {detailSection && detailSection.table.rows.length > 0 ? (
+              detailSection.table.rows.map((course, index) => (
+                <SubjectCard
+                  key={index}
+                  courseYear={course.courseYear}
+                  semester={course.semester === "FIRST" ? "1학기" : "2학기"}
+                  gradeLevel={course.gradeLevel}
+                  courseNumber={course.courseNumber}
+                  courseName={course.courseName}
+                  divisionLabel={course.divisionLabel}
+                  credit={course.credit}
+                  letterGrade={course.letterGrade}
+                />
               ))
             ) : (
               <p className="p-4 text-center text-gray-500">
@@ -41,7 +63,14 @@ function CompletedCredits() {
         ),
       };
     });
-  }, []);
+  }, [creditsSummaryRows, subsectionDetailsData]);
+
+  if (isLoading) {
+    return <div>데이터를 불러오는 중입니다...</div>;
+  }
+  if (isError) {
+    return <div>데이터를 불러오는 중 오류가 발생했습니다.</div>;
+  }
 
   return (
     <div className="flex flex-col md:mx-auto md:max-w-350 py-4 gap-12">
@@ -56,7 +85,7 @@ function CompletedCredits() {
           </div>
 
           <div className="order-1 lg:order-2 w-full lg:w-2/6 flex flex-row justify-center md:grid md:grid-cols-2 gap-3 md:gap-12 bg-beige rounded-2xl px-6 py-4 md:px-9 md:py-6">
-            {CREDIT_DATA.map((data, index) => (
+            {creditSummaryData.map((data, index) => (
               <CreditInfoCard
                 key={index}
                 title={data.title}
@@ -68,26 +97,25 @@ function CompletedCredits() {
         </div>
       </div>
 
-      {/* todo: 더미데이터 모두 실제 데이터로 바꿀 것 */}
       <div className="flex flex-col md:flex-row justify-between gap-12 md:gap-16">
         <div className="md:w-4/6">
           <TitleSection title="선택 교양 이수" />
           <div className="flex flex-col md:flex-row gap-8 md:gap-12">
             <ResponsiveListTable
-              rows={CREDITS_ELECTIVE_GENERAL_ROWS}
+              rows={electiveGeneralRows}
               columns={CREDITS_ELECTIVE_GENERAL_COLUMNS}
             />
             <ResponsiveListTable
-              rows={CREDITS_ELECTIVE_GENERAL_ROWS}
-              columns={CREDITS_ELECTIVE_GENERAL_COLUMNS}
+              rows={electiveAdvancedRows}
+              columns={CREDITS_ELECTIVE_ADVANCED_COLUMNS}
             />
           </div>
         </div>
         <div className="md:w-2/6">
           <TitleSection title="영어 강의" />
           <ResponsiveListTable
-            rows={CREDITS_ELECTIVE_GENERAL_ROWS}
-            columns={CREDITS_ELECTIVE_GENERAL_COLUMNS}
+            rows={englishCountsRows}
+            columns={CREDITS_ENGLISH_COLUMNS}
           />
         </div>
       </div>
@@ -95,25 +123,32 @@ function CompletedCredits() {
         <TitleSection title="중복 과목" />
         <div className="hidden md:block">
           <ResponsiveListTable
-            rows={DUPLICATE_SUBJECTS_ROWS}
+            rows={duplicateSubjectsRows}
             columns={DUPLICATE_SUBJECTS_COLUMNS}
           />
         </div>
         <div className="md:hidden px-3 py-4 bg-beige rounded-[10px] flex flex-col items-center gap-3">
-          {DUPLICATE_SUBJECTS_ROWS.map((sectionData) => (
-            <SubjectCard
-              courseCode={sectionData.courseCode}
-              courseName={sectionData.courseName}
-              classification={sectionData.classification}
-              credits={sectionData.credits}
-              grade={sectionData.grade}
-            />
-          ))}
+          {duplicateSubjectsRows && duplicateSubjectsRows.length > 0 ? (
+            duplicateSubjectsRows.map((subject, index) => (
+              <SubjectCard
+                key={index}
+                courseNumber={subject.courseNumber}
+                courseName={subject.courseName}
+                divisionLabel={subject.category}
+                credit={subject.credit}
+                letterGrade={subject.letterGrade || ""}
+              />
+            ))
+          ) : (
+            <p className="w-full py-4 text-center text-gray-500">
+              중복 과목이 없습니다.
+            </p>
+          )}
         </div>
       </div>
 
       <div className="hidden md:block pt-6">
-        {SUBSECTION_DETAILS_DATA.map((sectionData) => (
+        {subsectionDetailsData.map((sectionData) => (
           <CreditSubSection
             key={sectionData.id}
             id={sectionData.id}
@@ -134,6 +169,6 @@ function CompletedCredits() {
       </div>
     </div>
   );
-};
+}
 
 export default CompletedCredits;
