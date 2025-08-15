@@ -19,4 +19,3 @@ export {
 export { default as Timer } from "./Timer";
 export { default as TitleSection } from "./TitleSection";
 export { default as TopBar } from "./TopBar";
-export { default as ViewToggle } from "./ViewToggle";
