@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Pagination, CourseCard } from '@/components/commons';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, Tab, Select, SearchInput } from '@/components/commons';
 import type { CourseData, ApiResponse } from '@/constants/TimetableConstants';
+
 import {
   YEAR_OPTIONS,
   SEMESTER_OPTIONS,
@@ -14,9 +15,11 @@ import {
 // Props 타입 정의
 interface MobileViewProps {
   viewMode: 'List' | 'Card';
-  selectedYear: string;
-  selectedSemester: string;
-  selectedCategory: string;
+  filters: {
+    year: string;
+    semester: string;
+    category: string;
+  };
   searchQueries: {
     professor: string;
     subjectCode: string;
@@ -25,9 +28,11 @@ interface MobileViewProps {
   };
   currentPage: number;
   setViewMode: (mode: 'List' | 'Card') => void;
-  setSelectedYear: (year: string) => void;
-  setSelectedSemester: (semester: string) => void;
-  setSelectedCategory: (category: string) => void;
+  setFilters: React.Dispatch<React.SetStateAction<{
+    year: string;
+    semester: string;
+    category: string;
+  }>>;
   setSearchQueries: React.Dispatch<React.SetStateAction<{
     professor: string;
     subjectCode: string;
@@ -45,15 +50,11 @@ interface MobileViewProps {
 // MobileView 컴포넌트 분리
 const MobileView: React.FC<MobileViewProps> = ({
   viewMode,
-  selectedYear,
-  selectedSemester,
-  selectedCategory,
+  filters,
   searchQueries,
   currentPage,
   setViewMode,
-  setSelectedYear,
-  setSelectedSemester,
-  setSelectedCategory,
+  setFilters,
   setSearchQueries,
   setCurrentPage,
   yearOptions,
@@ -73,22 +74,22 @@ const MobileView: React.FC<MobileViewProps> = ({
         {/* Filter Dropdowns */}
         <div className="flex gap-3">
           <Select
-            value={selectedYear}
-            onChange={setSelectedYear}
+            value={filters.year}
+            onChange={(value) => setFilters(prev => ({ ...prev, year: value }))}
             placeholder="강의년도"
             options={yearOptions}
             className="flex-1"
           />
           <Select
-            value={selectedSemester}
-            onChange={setSelectedSemester}
+            value={filters.semester}
+            onChange={(value) => setFilters(prev => ({ ...prev, semester: value }))}
             placeholder="강의학기"
             options={semesterOptions}
             className="flex-1"
           />
           <Select
-            value={selectedCategory}
-            onChange={setSelectedCategory}
+            value={filters.category}
+            onChange={(value) => setFilters(prev => ({ ...prev, category: value }))}
             placeholder="이수구분"
             options={categoryOptions}
             className="flex-1"
@@ -195,15 +196,11 @@ const MobileView: React.FC<MobileViewProps> = ({
 
 const DesktopView: React.FC<MobileViewProps> = ({
   viewMode,
-  selectedYear,
-  selectedSemester,
-  selectedCategory,
+  filters,
   searchQueries,
   currentPage,
   setViewMode,
-  setSelectedYear,
-  setSelectedSemester,
-  setSelectedCategory,
+  setFilters,
   setSearchQueries,
   setCurrentPage,
   yearOptions,
@@ -233,22 +230,22 @@ const DesktopView: React.FC<MobileViewProps> = ({
         <div className="space-y-4">
           <div className="grid grid-cols-3 gap-4">
             <Select
-              value={selectedYear}
-              onChange={setSelectedYear}
+              value={filters.year}
+              onChange={(value) => setFilters(prev => ({ ...prev, year: value }))}
               placeholder="강의년도"
               options={yearOptions}
               className="w-full"
             />
             <Select
-              value={selectedSemester}
-              onChange={setSelectedSemester}
+              value={filters.semester}
+              onChange={(value) => setFilters(prev => ({ ...prev, semester: value }))}
               placeholder="강의학기"
               options={semesterOptions}
               className="w-full"
             />
             <Select
-              value={selectedCategory}
-              onChange={setSelectedCategory}
+              value={filters.category}
+              onChange={(value) => setFilters(prev => ({ ...prev, category: value }))}
               placeholder="이수구분"
               options={categoryOptions}
               className="w-full"
@@ -343,9 +340,11 @@ const DesktopView: React.FC<MobileViewProps> = ({
 
 const TimetablePage: React.FC = () => {
   const [viewMode, setViewMode] = useState<'List' | 'Card'>('List');
-  const [selectedYear, setSelectedYear] = useState('');
-  const [selectedSemester, setSelectedSemester] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [filters, setFilters] = useState({
+    year: '',
+    semester: '',
+    category: ''
+  });
   const [searchQueries, setSearchQueries] = useState({
     professor: '',
     subjectCode: '',
@@ -357,18 +356,14 @@ const TimetablePage: React.FC = () => {
   // Conditional rendering based on viewport
   return (
     <>
-      <div className="md:hidden select-none">
+      <div className="md:hidden">
         <MobileView
           viewMode={viewMode}
-          selectedYear={selectedYear}
-          selectedSemester={selectedSemester}
-          selectedCategory={selectedCategory}
+          filters={filters}
           searchQueries={searchQueries}
           currentPage={currentPage}
           setViewMode={setViewMode}
-          setSelectedYear={setSelectedYear}
-          setSelectedSemester={setSelectedSemester}
-          setSelectedCategory={setSelectedCategory}
+          setFilters={setFilters}
           setSearchQueries={setSearchQueries}
           setCurrentPage={setCurrentPage}
           yearOptions={YEAR_OPTIONS}
@@ -381,15 +376,11 @@ const TimetablePage: React.FC = () => {
       <div className="hidden md:block">
         <DesktopView
           viewMode={viewMode}
-          selectedYear={selectedYear}
-          selectedSemester={selectedSemester}
-          selectedCategory={selectedCategory}
+          filters={filters}
           searchQueries={searchQueries}
           currentPage={currentPage}
           setViewMode={setViewMode}
-          setSelectedYear={setSelectedYear}
-          setSelectedSemester={setSelectedSemester}
-          setSelectedCategory={setSelectedCategory}
+          setFilters={setFilters}
           setSearchQueries={setSearchQueries}
           setCurrentPage={setCurrentPage}
           yearOptions={YEAR_OPTIONS}
