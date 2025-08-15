@@ -10,3 +10,7 @@ declare module "*.png" {
   const value: any;
   export default value;
 }
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
