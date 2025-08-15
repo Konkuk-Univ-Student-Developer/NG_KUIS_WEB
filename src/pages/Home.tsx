@@ -8,19 +8,34 @@ import ScheduleList from "@/components/home/ScheduleList";
 import NoticeList from "@/components/home/NoticeList";
 import Tab from "@/components/commons/Tab";
 import HomeHeader from "@/components/home/HomeHeader";
-import {
-  QUICK_MENU_ITEMS,
-  SCHOOL_LIFE_ITEMS,
-  NOTICE_ITEMS,
-} from "@/constants/HomeConstants";
+import { QUICK_MENU_ITEMS, SCHOOL_LIFE_ITEMS } from "@/constants/HomeConstants";
 import { NOTICE_TABS } from "@/constants/NoticeConstants";
 import KUMark from "../assets/img/img_ku_mark.png";
 import useAuthStore from "@/stores/authStore";
+import { useHomeData } from "@/api/hooks/home/useHome";
 
 const HomePage = () => {
-  const { isLoggedIn, userName } = useAuthStore();
+  const { isLoggedIn } = useAuthStore();
   const [activeTab, setActiveTab] = useState("전체");
   const [searchValue, setSearchValue] = useState("");
+
+  const { homeData, isLoading, error } = useHomeData();
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        로딩 중...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        {error}
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen relative">
@@ -33,7 +48,7 @@ const HomePage = () => {
       <main className="mx-auto px-5 py-6 md:px-24 md:py-13 flex flex-col gap-8 md:gap-18 md:max-w-350">
         {/* Greeting */}
         <section className="text-left md:text-center">
-          <HomeHeader isLoggedIn={isLoggedIn} userName={userName} />
+          <HomeHeader isLoggedIn={isLoggedIn} userName={homeData?.nickname} />
 
           <div className="mt-4 md:mt-6 flex w-full items-center justify-center">
             <SearchMain
@@ -96,7 +111,7 @@ const HomePage = () => {
               />
             </div>
 
-            <NoticeList items={NOTICE_ITEMS} />
+            <NoticeList items={homeData?.noticeResponses || []} />
           </div>
         </section>
       </main>
