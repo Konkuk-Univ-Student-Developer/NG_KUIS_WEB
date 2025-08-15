@@ -1,16 +1,5 @@
 import { http } from "@/api/fetch";
-
-export interface NoticeResponse {
-  id: number;
-  categoryId: number;
-  categoryName: string;
-  title: string;
-  link: string;
-  pubDate: string;
-  author: string;
-  description: string;
-  isBookMarked: boolean;
-}
+import type { NoticeResponse } from "@/api/noticeApi";
 
 export interface HomeDataResponse {
   nickname: string;
