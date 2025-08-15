@@ -6,7 +6,7 @@ import { GRADE_TABS, TAB_COMPONENTS } from '@/constants/GradeConstants';
 const Grade = () => {
   const [activeTab, setActiveTab] = useState(GRADE_TABS[0]);
   const isDesktop = useMediaQuery('(min-width: 768px)');
-  const tabVariant = isDesktop ? 'fit' : 'full';
+  const tabVariant = isDesktop ? 'fit' : 'distributed';
   const ActiveComponent = TAB_COMPONENTS[activeTab];
 
   return (
