@@ -25,9 +25,9 @@ const Pagination: React.FC<PaginationProps> = ({
     <button
       key={page}
       onClick={() => handlePageChange(page)}
-      className={`flex items-center justify-center min-w-[28px] h-[34px] transition-colors cursor-pointer ${page === currentPage
-        ? 'text-darkgreen font-bold text-lg'
-        : 'text-black hover:text-darkgreen font-normal text-lg'
+      className={`flex items-center justify-center min-w-[28px] md:min-w-[36px] h-[34px] md:h-[42px] transition-colors cursor-pointer ${page === currentPage
+        ? 'text-darkgreen font-bold text-lg md:text-xl'
+        : 'text-black hover:text-darkgreen font-normal text-lg md:text-xl'
         }`}
     >
       {page}
@@ -40,13 +40,13 @@ const Pagination: React.FC<PaginationProps> = ({
       <button
         onClick={() => handlePageChange(1)}
         disabled={currentPage === 1}
-        className={`flex items-center justify-center w-8 h-8 transition-colors cursor-pointer ${currentPage === 1
+        className={`flex items-center justify-center w-8 md:w-10 h-8 md:h-10 transition-colors cursor-pointer ${currentPage === 1
           ? 'text-lightgray'
           : 'text-black hover:text-darkgreen'
           }`}
       >
         <PrevDoubleArrowIcon
-          className="w-5 h-5"
+          className="w-5 md:w-6 h-5 md:h-6"
           aria-label="First Page"
         />
       </button>
@@ -55,13 +55,13 @@ const Pagination: React.FC<PaginationProps> = ({
       <button
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className={`flex items-center justify-center w-8 h-8 transition-colors cursor-pointer ${currentPage === 1
+        className={`flex items-center justify-center w-8 md:w-10 h-8 md:h-10 transition-colors cursor-pointer ${currentPage === 1
           ? 'text-lightgray'
           : 'text-black hover:text-darkgreen'
           }`}
       >
         <PrevArrowIcon
-          className="w-5 h-5"
+          className="w-5 md:w-6 h-5 md:h-6"
           aria-label="Previous Page"
         />
       </button>
@@ -79,7 +79,7 @@ const Pagination: React.FC<PaginationProps> = ({
                 {renderPageButton(1)}
                 {renderPageButton(2)}
                 {renderPageButton(3)}
-                <div className="flex items-center justify-center w-[20px] h-[34px] text-black text-lg font-normal">...</div>
+                <div className="flex items-center justify-center w-[20px] md:w-[24px] h-[34px] md:h-[42px] text-black text-lg md:text-xl font-normal">...</div>
                 {renderPageButton(totalPages)}
               </>
             )}
@@ -88,11 +88,11 @@ const Pagination: React.FC<PaginationProps> = ({
             {currentPage > 3 && currentPage < totalPages - 2 && (
               <>
                 {renderPageButton(1)}
-                <div className="flex items-center justify-center w-[20px] h-[34px] text-black text-lg font-normal">...</div>
+                <div className="flex items-center justify-center w-[20px] md:w-[24px] h-[34px] md:h-[42px] text-black text-lg md:text-xl font-normal">...</div>
                 {renderPageButton(currentPage - 1)}
                 {renderPageButton(currentPage)}
                 {renderPageButton(currentPage + 1)}
-                <div className="flex items-center justify-center w-[20px] h-[34px] text-black text-lg font-normal">...</div>
+                <div className="flex items-center justify-center w-[20px] md:w-[24px] h-[34px] md:h-[42px] text-black text-lg md:text-xl font-normal">...</div>
                 {renderPageButton(totalPages)}
               </>
             )}
@@ -101,7 +101,7 @@ const Pagination: React.FC<PaginationProps> = ({
             {currentPage >= totalPages - 2 && (
               <>
                 {renderPageButton(1)}
-                <div className="flex items-center justify-center w-[20px] h-[34px] text-black text-lg font-normal">...</div>
+                <div className="flex items-center justify-center w-[20px] md:w-[24px] h-[34px] md:h-[42px] text-black text-lg md:text-xl font-normal">...</div>
                 {renderPageButton(totalPages - 2)}
                 {renderPageButton(totalPages - 1)}
                 {renderPageButton(totalPages)}
@@ -115,13 +115,13 @@ const Pagination: React.FC<PaginationProps> = ({
       <button
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className={`flex items-center justify-center w-8 h-8 transition-colors cursor-pointer ${currentPage === totalPages
+        className={`flex items-center justify-center w-8 md:w-10 h-8 md:h-10 transition-colors cursor-pointer ${currentPage === totalPages
           ? 'text-lightgray'
           : 'text-black hover:text-darkgreen'
           }`}
       >
         <NextArrowIcon
-          className="w-5 h-5"
+          className="w-5 md:w-6 h-5 md:h-6"
           aria-label="Next Page"
         />
       </button>
@@ -130,13 +130,13 @@ const Pagination: React.FC<PaginationProps> = ({
       <button
         onClick={() => handlePageChange(totalPages)}
         disabled={currentPage === totalPages}
-        className={`flex items-center justify-center w-8 h-8 transition-colors cursor-pointer ${currentPage === totalPages
+        className={`flex items-center justify-center w-8 md:w-10 h-8 md:h-10 transition-colors cursor-pointer ${currentPage === totalPages
           ? 'text-lightgray'
           : 'text-black hover:text-darkgreen'
           }`}
       >
         <NextDoubleArrowIcon
-          className="w-5 h-5"
+          className="w-5 md:w-6 h-5 md:h-6"
           aria-label="Last Page"
         />
       </button>
