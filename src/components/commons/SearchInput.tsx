@@ -30,7 +30,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           value={value}
           onChange={handleChange}
           disabled={disabled}
-          className={`flex-1 min-w-0 bg-transparent text-mobile-small placeholder-darkgray border-0 focus:ring-0 focus:outline-none ${disabled ? 'opacity-50 cursor-not-allowed' : ''
+          className={`flex-1 min-w-0 bg-transparent text-mobile-small md:text-base placeholder-darkgray border-0 focus:ring-0 focus:outline-none ${disabled ? 'opacity-50 cursor-not-allowed' : ''
             }`}
         />
         <SearchIcon className="w-4 h-4 text-darkgray shrink-0" />
