@@ -25,7 +25,7 @@ const TermGradeTableRow = ({
           !isExpanded && !isLastRow ? 'border-b border-coolgray' : ''
         }`}
       >
-        <div className="grid grid-cols-10 gap-2 text-mobile-small md:text-desktop-regular md:gap-1">
+        <div className="grid grid-cols-10 gap-2 text-mobile-small md:text-desktop-small md:gap-1">
           <div className="text-black font-medium min-w-[48px] md:min-w-0 text-center">
             {grade.no}
           </div>

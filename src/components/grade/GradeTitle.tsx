@@ -1,19 +1,16 @@
 interface GradeTitleProps {
   year: number;
-  semester: 1 | 2 | 'summer' | 'winter';
+  semester: 1 | 2;
 }
 
 const GradeTitle = ({ year, semester }: GradeTitleProps) => {
-  const getSemesterText = (semester: 1 | 2 | 'summer' | 'winter') => {
+  const getSemesterText = (semester: 1 | 2) => {
     switch (semester) {
       case 1:
         return '1학기';
       case 2:
         return '2학기';
-      case 'summer':
-        return '여름 계절학기';
-      case 'winter':
-        return '겨울 계절학기';
+
       default:
         return '';
     }

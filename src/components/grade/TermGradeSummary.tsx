@@ -52,12 +52,12 @@ const TermGradeSummary = ({
               </span>
             </div>
           </div>
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-3">
             <span className="text-black text-sm md:text-base">
               학사경고 / 우등구분
             </span>
             <div className="flex items-end gap-2">
-              <span className="text-darkgreen font-bold text-2xl md:text-3xl">
+              <span className="text-darkgray text-base md:text-lg">
                 {academicWarning}
               </span>
               <span className="text-darkgray text-base md:text-lg">
