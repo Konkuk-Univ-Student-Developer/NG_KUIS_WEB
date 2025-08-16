@@ -1,12 +1,13 @@
-import type { TermGradeSummaryData, TermGradeSummaryProps } from '@/types/grade';
+import type { TermGradeSummaryProps } from '@/types/grade';
+import { DEFAULT_VALUES } from '@/constants/GradeConstants';
 
 const TermGradeSummary = ({
-  avgGpa = 4.5,
-  gpaScale = 4.5,
-  earnedCredits = 18,
-  attemptedCredits = 18,
-  academicWarning = 'N',
-  honors = 'Y',
+  avgGpa = DEFAULT_VALUES.avgGpa,
+  gpaScale = DEFAULT_VALUES.gpaScale,
+  earnedCredits = DEFAULT_VALUES.earnedCredits,
+  attemptedCredits = DEFAULT_VALUES.attemptedCredits,
+  academicWarning = DEFAULT_VALUES.academicWarning,
+  honors = DEFAULT_VALUES.honors,
 }: TermGradeSummaryProps) => {
   return (
     <div className="mt-4 md:mt-0 md:flex-1">

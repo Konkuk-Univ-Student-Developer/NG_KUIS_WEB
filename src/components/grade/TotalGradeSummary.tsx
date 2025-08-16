@@ -1,13 +1,14 @@
-import type { TotalGradeSummaryData, TotalGradeSummaryProps } from '@/types/grade';
+import type { TotalGradeSummaryProps } from '@/types/grade';
+import { DEFAULT_VALUES } from '@/constants/GradeConstants';
 
 const TotalGradeSummary = ({
-  avgGpa = 4.5,
-  gpaScale = 4.5,
-  earnedCredits = 18,
-  attemptedCredits = 18,
-  percentage = 100.0,
-  rank = 1,
-  allStudents = 171,
+  avgGpa = DEFAULT_VALUES.avgGpa,
+  gpaScale = DEFAULT_VALUES.gpaScale,
+  earnedCredits = DEFAULT_VALUES.earnedCredits,
+  attemptedCredits = DEFAULT_VALUES.attemptedCredits,
+  percentage = DEFAULT_VALUES.percentage,
+  rank = DEFAULT_VALUES.rank,
+  allStudents = DEFAULT_VALUES.allStudents,
 }: TotalGradeSummaryProps) => {
   return (
     <div className="mt-4 md:mt-0 md:flex-1 md:min-w-[800px]">

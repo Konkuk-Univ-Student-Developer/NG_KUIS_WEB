@@ -1,6 +1,4 @@
-// Grade 관련 공통 타입들
-
-// 성적 평가 항목 타입
+// 상세 성적 점수 타입
 export interface ScoreItem {
   score: number;
   max: number;
@@ -34,7 +32,7 @@ export interface GradeItem {
 
 // 전체 성적 요약 타입
 export interface TotalGradeItem {
-  구분: string;
+  구분: '학점' | '평점평균' | '백분율' | '전체석차';
   전공: string | number;
   교양: string | number;
   다전공: string | number;
@@ -43,10 +41,10 @@ export interface TotalGradeItem {
   교직: string | number;
   기타: string | number;
   총취득학점: string | number;
-  총신청학점: string | number;
-  총포기학점: string | number;
-  총FN학점: string | number;
-  만점: string | number;
+  총신청학점?: string | number; // 학점 구분에서만 사용
+  총포기학점?: string | number; // 학점 구분에서만 사용
+  총FN학점?: string | number; // 학점 구분에서만 사용
+  만점?: string | number; // 평점평균, 백분율 구분에서만 사용
 }
 
 // 전체 학기별 성적 타입
@@ -71,7 +69,7 @@ export interface TermGradeSummaryData {
   honors: string;
 }
 
-// 전체 성적 요약 타입
+// 전체 학기별 성적 요약 타입
 export interface TotalGradeSummaryData {
   avgGpa: number;
   gpaScale: number;
@@ -94,7 +92,7 @@ export interface TermGradeSummaryProps {
   honors?: string;
 }
 
-// 전체 성적 요약 Props
+// 전체 학기별 성적 요약 Props
 export interface TotalGradeSummaryProps {
   avgGpa?: number;
   gpaScale?: number;
@@ -136,4 +134,3 @@ export interface TotalTermGradeTableRowProps {
   grade: TotalTermGradeItem;
   isLastRow?: boolean;
 }
-

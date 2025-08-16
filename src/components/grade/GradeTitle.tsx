@@ -1,7 +1,8 @@
 import type { GradeTitleProps } from '@/types/grade';
+import { SEMESTERS } from '@/constants/GradeConstants';
 
 const GradeTitle = ({ year, semester }: GradeTitleProps) => {
-  const getSemesterText = (semester: 1 | 2) => {
+  const getSemesterText = (semester: typeof SEMESTERS[number]) => {
     switch (semester) {
       case 1:
         return '1학기';

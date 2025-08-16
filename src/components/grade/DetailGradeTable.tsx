@@ -1,22 +1,11 @@
 import type { DetailGrade } from '@/types/grade';
+import { GRADE_CATEGORIES } from '@/constants/GradeConstants';
 
 interface DetailGradeTableProps {
   detailGrade: DetailGrade;
 }
 
 const DetailGradeTable = ({ detailGrade }: DetailGradeTableProps) => {
-  const categories = [
-    '출석',
-    '중간고사',
-    '기말고사',
-    '과제물',
-    '프로젝트',
-    '퀴즈',
-    '발표',
-    '토론',
-    '기타5',
-  ] as const;
-
   return (
     <div className="border-b border-coolgray bg-gray-50 min-w-[1704px] md:min-w-full">
       <div className="p-4 md:p-6">
@@ -24,7 +13,7 @@ const DetailGradeTable = ({ detailGrade }: DetailGradeTableProps) => {
           {/* Header */}
           <div className="bg-darkgreen text-white px-4 py-2 min-w-max md:min-w-full">
             <div className="grid grid-cols-9 gap-2 text-mobile-small-bold font-bold text-center">
-              {categories.map((category) => (
+              {GRADE_CATEGORIES.map((category) => (
                 <div key={category} className="min-w-[90px] md:min-w-0">
                   {category}
                 </div>
@@ -35,7 +24,7 @@ const DetailGradeTable = ({ detailGrade }: DetailGradeTableProps) => {
           {/* 만점 기준 */}
           <div className="bg-beige px-4 py-2 border-b border-coolgray min-w-max md:min-w-full">
             <div className="grid grid-cols-9 gap-2 text-mobile-small text-center">
-              {categories.map((category) => (
+              {GRADE_CATEGORIES.map((category) => (
                 <div
                   key={`${category}-max`}
                   className="text-black min-w-[90px] md:min-w-0"
@@ -49,7 +38,7 @@ const DetailGradeTable = ({ detailGrade }: DetailGradeTableProps) => {
           {/* 학생 점수 */}
           <div className="bg-white px-4 py-2 min-w-max md:min-w-full">
             <div className="grid grid-cols-9 gap-2 text-mobile-small text-center">
-              {categories.map((category) => (
+              {GRADE_CATEGORIES.map((category) => (
                 <div
                   key={`${category}-score`}
                   className="text-black min-w-[90px] md:min-w-0"
