@@ -51,7 +51,7 @@ const TopBar: React.FC = () => {
         </div>
 
         <div className="md:hidden">
-          <Logo />
+          <Logo onClick={() => navigate("/")} />
         </div>
 
         <div className="flex items-center gap-x-3 md:gap-x-6">

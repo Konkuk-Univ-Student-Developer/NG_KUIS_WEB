@@ -1,9 +1,7 @@
-type TabVariant = "fit" | "full" | "distributed";
-
 interface TabProps {
   tabs: string[];
   activeTab: string;
-  variant?: TabVariant;
+  variant?: "fit" | "full" | "distributed";
   onTabClick: (tab: string) => void;
 }
 
@@ -14,10 +12,11 @@ const Tab = ({ tabs, activeTab, variant = "full", onTabClick }: TabProps) => {
   `;
 
   const buttonBaseClasses = `
-  flex-shrink-0 whitespace-nowrap rounded-[6px] py-1.5 md:py-2 px-3 text-center text-[18px] leading-[1.4] md:text-xl md:leading-[2.0]
+  flex-shrink-0 whitespace-nowrap rounded-[6px] py-1.5 md:py-0 px-3 text-center text-[18px] leading-[1.4] md:text-xl md:leading-[2.0]
   transition-all duration-200 focus:outline-none 
   focus-visible:ring-2 focus-visible:ring-darkgreen 
   focus-visible:ring-offset-2 focus-visible:ring-offset-beige
+  cursor-pointer
 `;
 
   return (
@@ -29,11 +28,10 @@ const Tab = ({ tabs, activeTab, variant = "full", onTabClick }: TabProps) => {
           className={`
           ${buttonBaseClasses}
           ${variant === "distributed" ? "flex-1" : ""}
-          ${
-            activeTab === tab
+          ${activeTab === tab
               ? "bg-white text-darkgreen shadow font-bold"
               : "text-darkgray hover:bg-white/70 font-normal"
-          }
+            }
         `}
         >
           {tab}
