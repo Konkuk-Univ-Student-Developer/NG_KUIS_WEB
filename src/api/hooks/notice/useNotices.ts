@@ -32,12 +32,12 @@ export const useNotices = () => {
 
   // 카테고리 변경 함수
   const setCategory = useCallback((categoryId: number | undefined) => {
-    setParams((prev) => ({ ...prev, category: categoryId, page: 0 }));
+    setParams((prev) => ({ ...prev, categoryId: categoryId, page: 0 }));
   }, []);
 
   // 검색어 변경 함수
   const setSearchQuery = useCallback((query: string) => {
-    setParams((prev) => ({ ...prev, title: query || undefined, page: 0 }));
+    setParams((prev) => ({ ...prev, keyword: query || undefined, page: 0 }));
   }, []);
 
   // 페이지 변경 함수

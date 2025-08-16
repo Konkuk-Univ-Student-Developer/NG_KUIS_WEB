@@ -13,10 +13,10 @@ export interface NoticeData {
 }
 
 export interface GetNoticesParams {
-  category?: number;
+  categoryId?: number;
+  keyword?: string;
   page?: number;
   size?: number;
-  title?: string;
 }
 
 export interface NoticeResponse {
@@ -32,7 +32,9 @@ export const getNotices = async (
   params: GetNoticesParams
 ): Promise<NoticeResponse> => {
   const cleanParams = Object.fromEntries(
-    Object.entries(params).filter(([, value]) => value !== undefined)
+    Object.entries(params).filter(
+      ([, value]) => value !== undefined && value !== ""
+    )
   ) as Record<string, string>;
 
   const { response } = await http.get<NoticeResponse>(
