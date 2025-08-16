@@ -1,20 +1,5 @@
 import TotalGradeTableRow from './TotalGradeTableRow';
-
-export interface TotalGradeItem {
-  구분: string;
-  전공: string | number;
-  교양: string | number;
-  다전공: string | number;
-  부전공: string | number;
-  연계전공: string | number;
-  교직: string | number;
-  기타: string | number;
-  총취득학점: string | number;
-  총신청학점: string | number;
-  총포기학점: string | number;
-  총FN학점: string | number;
-  만점: string | number;
-}
+import type { TotalGradeItem } from '@/types/grade';
 
 const SAMPLE_TOTAL_GRADES: TotalGradeItem[] = [
   {

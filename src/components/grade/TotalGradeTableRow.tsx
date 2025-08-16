@@ -1,4 +1,4 @@
-import type { TotalGradeItem } from './TotalGradeTable';
+import type { TotalGradeItem } from '@/types/grade';
 
 interface TotalGradeTableRowProps {
   grade: TotalGradeItem;

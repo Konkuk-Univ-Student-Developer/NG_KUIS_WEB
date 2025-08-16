@@ -1,30 +1,7 @@
 import { useState } from 'react';
 
 import TermGradeTableRow from './TermGradeTableRow';
-
-export interface GradeItem {
-  no: number;
-  학수번호: string;
-  과목번호: string;
-  과목명: string;
-  담당교수: string;
-  학점: number;
-  이수구분: string;
-  등급: string;
-  성적평가방법: string;
-}
-
-export interface DetailGrade {
-  출석: { score: number; max: number };
-  중간고사: { score: number; max: number };
-  기말고사: { score: number; max: number };
-  과제물: { score: number; max: number };
-  프로젝트: { score: number; max: number };
-  퀴즈: { score: number; max: number };
-  발표: { score: number; max: number };
-  토론: { score: number; max: number };
-  기타5: { score: number; max: number };
-}
+import type { GradeItem, DetailGrade } from '@/types/grade';
 
 const SAMPLE_GRADES: GradeItem[] = Array.from({ length: 6 }).map((_, i) => ({
   no: i + 1,

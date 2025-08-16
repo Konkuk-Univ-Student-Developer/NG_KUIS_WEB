@@ -1,4 +1,4 @@
-import type { DetailGrade } from './TermGradeTable';
+import type { DetailGrade } from '@/types/grade';
 
 interface DetailGradeTableProps {
   detailGrade: DetailGrade;

@@ -1,15 +1,5 @@
 import TotalTermGradeTableRow from './TotalTermGradeTableRow';
-
-export interface TotalTermGradeItem {
-  이수구분: string;
-  학수번호: string;
-  과목명: string;
-  학점: number;
-  등급: string;
-  인정구분: string;
-  삭제구분: string;
-  삭제일자: string;
-}
+import type { TotalTermGradeItem } from '@/types/grade';
 
 const SAMPLE_TOTALTERMGRADES: TotalTermGradeItem[] = Array.from({
   length: 6,

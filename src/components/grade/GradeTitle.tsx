@@ -1,7 +1,4 @@
-interface GradeTitleProps {
-  year: number;
-  semester: 1 | 2;
-}
+import type { GradeTitleProps } from '@/types/grade';
 
 const GradeTitle = ({ year, semester }: GradeTitleProps) => {
   const getSemesterText = (semester: 1 | 2) => {

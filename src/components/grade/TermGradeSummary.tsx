@@ -1,20 +1,4 @@
-export interface TermGradeSummaryData {
-  avgGpa: number;
-  gpaScale: number;
-  earnedCredits: number;
-  attemptedCredits: number;
-  academicWarning: string;
-  honors: string;
-}
-
-interface TermGradeSummaryProps {
-  avgGpa?: number;
-  gpaScale?: number;
-  earnedCredits?: number;
-  attemptedCredits?: number;
-  academicWarning?: string;
-  honors?: string;
-}
+import type { TermGradeSummaryData, TermGradeSummaryProps } from '@/types/grade';
 
 const TermGradeSummary = ({
   avgGpa = 4.5,

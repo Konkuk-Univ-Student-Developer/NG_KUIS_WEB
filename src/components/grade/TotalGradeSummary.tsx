@@ -1,22 +1,4 @@
-export interface TotalGradeSummaryData {
-  avgGpa: number;
-  gpaScale: number;
-  earnedCredits: number;
-  attemptedCredits: number;
-  percentage: number;
-  rank: number;
-  allStudents: number;
-}
-
-interface TotalGradeSummaryProps {
-  avgGpa?: number;
-  gpaScale?: number;
-  earnedCredits?: number;
-  attemptedCredits?: number;
-  percentage?: number;
-  rank?: number;
-  allStudents?: number;
-}
+import type { TotalGradeSummaryData, TotalGradeSummaryProps } from '@/types/grade';
 
 const TotalGradeSummary = ({
   avgGpa = 4.5,

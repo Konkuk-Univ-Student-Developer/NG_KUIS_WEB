@@ -1,7 +1,7 @@
 import ArrowDownIcon from '@/assets/icon/ic_arrow_down.svg?react';
 import ArrowUpIcon from '@/assets/icon/ic_arrow_up.svg?react';
 import DetailGradeTable from './DetailGradeTable';
-import type { GradeItem, DetailGrade } from './TermGradeTable';
+import type { GradeItem, DetailGrade } from '@/types/grade';
 
 interface TermGradeTableRowProps {
   grade: GradeItem;
