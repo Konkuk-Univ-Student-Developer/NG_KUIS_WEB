@@ -1,4 +1,5 @@
 import type { NoticeData } from "@/types/notice";
+import { formatDate } from "@/utils/date";
 
 interface NoticeListProps {
   items: NoticeData[];
@@ -16,7 +17,7 @@ const NoticeList = ({ items }: NoticeListProps) => {
             {item.title}
           </div>
           <div className="hidden md:block md:text-xl md:font-normal md:leading-[2.0] md:text-coolgray">
-            {item.pubDate}
+            {formatDate(item.pubDate, "full")}
           </div>
         </div>
       ))}

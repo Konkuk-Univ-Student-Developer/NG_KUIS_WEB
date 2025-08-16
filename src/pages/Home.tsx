@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EditIcon from "@/assets/icon/ic_edit.svg?react";
 import MagnifierIcon from "@/assets/icon/ic_magnifier.svg?react";
 import TitleSection from "@/components/commons/TitleSection";
@@ -9,11 +9,13 @@ import NoticeList from "@/components/home/NoticeList";
 import Tab from "@/components/commons/Tab";
 import HomeHeader from "@/components/home/HomeHeader";
 import { QUICK_MENU_ITEMS } from "@/constants/HomeConstants";
-import { NOTICE_TABS } from "@/constants/NoticeConstants";
+import { NOTICE_CATEGORY_MAP, NOTICE_TABS } from "@/constants/NoticeConstants";
 import KUMark from "../assets/img/img_ku_mark.png";
 import useAuthStore from "@/stores/authStore";
 import { useHomeData } from "@/api/hooks/home/useHome";
 import { useCalendars } from "@/api/hooks/home/useCalendars";
+import { useNotices } from "@/api/hooks/notice/useNotices";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 const HomePage = () => {
   const { isLoggedIn } = useAuthStore();
@@ -22,6 +24,17 @@ const HomePage = () => {
 
   const { homeData } = useHomeData();
   const { calendars } = useCalendars();
+  const { notices, setCategory } = useNotices(3);
+
+  const isMobile = useMediaQuery("(max-width: 767px)");
+
+  useEffect(() => {
+    if (isMobile) {
+      setCategory(NOTICE_CATEGORY_MAP["전체"]);
+    } else {
+      setCategory(NOTICE_CATEGORY_MAP[activeTab]);
+    }
+  }, [activeTab, isMobile, setCategory]);
 
   return (
     <div className="min-h-screen relative">
@@ -97,7 +110,7 @@ const HomePage = () => {
               />
             </div>
 
-            <NoticeList items={homeData?.noticeResponses || []} />
+            <NoticeList items={notices} />
           </div>
         </section>
       </main>

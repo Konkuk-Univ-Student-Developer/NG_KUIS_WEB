@@ -15,7 +15,7 @@ export const getNotices = async (
     )
   ) as Record<string, string>;
 
-  const { response } = await http.get<NoticeResponse>(`notices`, cleanParams);
+  const { response } = await http.get<NoticeResponse>(`/notices`, cleanParams);
   return response;
 };
 
@@ -27,10 +27,10 @@ export const deleteBookmark = async (noticeId: number): Promise<void> => {
   await http.delete(`/notices/${noticeId}/bookmark`);
 };
 
-export const useNotices = () => {
+export const useNotices = (initialSize: number = 15) => {
   const [params, setParams] = useState<GetNoticesParams>({
     page: 0,
-    size: 15,
+    size: initialSize,
   });
 
   const [notices, setNotices] = useState<NoticeData[]>([]);
