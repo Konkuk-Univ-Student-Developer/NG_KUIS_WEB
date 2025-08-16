@@ -62,7 +62,7 @@ export const GRADUATION_AUDIT_COLUMNS: ColumnConfig[] = [
     mobile: { table: 1, widthClass: "w-7/12" },
   },
   {
-    id: "critierion",
+    id: "criterion",
     label: "기준",
     desktop: { row: 1, widthClass: "w-2/20" },
     mobile: { table: 0, widthClass: "w-2/12" },
@@ -140,14 +140,42 @@ export const CREDITS_SUMMARY_COLUMNS: ColumnConfig[] = [
 
 
 export const DETAILS_TABLE_COLUMNS: ColumnConfig[] = [
-  { id: "courseYear", label: "수강 연도", desktop: { row: 1, widthClass: "w-2/24" } },
-  { id: "semester", label: "수강 학기", desktop: { row: 1, widthClass: "w-2/24" } },
-  { id: "gradeLevel", label: "수강 학년", desktop: { row: 1, widthClass: "w-2/24" } },
-  { id: "courseNumber", label: "학수번호", desktop: { row: 1, widthClass: "w-3/24" } },
-  { id: "courseName", label: "과목명", desktop: { row: 1, widthClass: "w-9/24" } },
-  { id: "divisionLabel", label: "분류", desktop: { row: 1, widthClass: "w-2/24" } },
-  { id: "credit", label: "학점", desktop: { row: 1, widthClass: "w-2/24" } },
-  { id: "letterGrade", label: "성적", desktop: { row: 1, widthClass: "w-2/24" } },
+  {
+    id: "courseYear",
+    label: "수강 연도",
+    desktop: { row: 1, widthClass: "w-2/24" },
+  },
+  {
+    id: "semester",
+    label: "수강 학기",
+    desktop: { row: 1, widthClass: "w-2/24" },
+  },
+  {
+    id: "gradeLevel",
+    label: "수강 학년",
+    desktop: { row: 1, widthClass: "w-2/24" },
+  },
+  {
+    id: "courseNumber",
+    label: "학수번호",
+    desktop: { row: 1, widthClass: "w-3/24" },
+  },
+  {
+    id: "courseName",
+    label: "과목명",
+    desktop: { row: 1, widthClass: "w-9/24" },
+  },
+  {
+    id: "divisionLabel",
+    label: "분류",
+    desktop: { row: 1, widthClass: "w-4/24" },
+  },
+  { id: "credit", label: "학점", desktop: { row: 1, widthClass: "w-1/24" } },
+  {
+    id: "letterGrade",
+    label: "성적",
+    desktop: { row: 1, widthClass: "w-1/24" },
+  },
 ];
 
 

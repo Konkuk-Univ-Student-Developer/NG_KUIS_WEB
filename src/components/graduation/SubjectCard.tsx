@@ -29,7 +29,7 @@ function SubjectCard({
 
         {/* Right Section: Tags */}
         <div className="flex justify-start items-center gap-2">
-          <InfoTag label={divisionLabel ?? "-"} widthClass="w-[50px]" />
+          <InfoTag label={divisionLabel ?? "-"} widthClass="w-[72px]" />
           <InfoTag label={`${credit ?? 0}학점`} widthClass="w-[58px]" />
           <InfoTag label={letterGrade ?? "-"} widthClass="w-[42px]" />
         </div>
