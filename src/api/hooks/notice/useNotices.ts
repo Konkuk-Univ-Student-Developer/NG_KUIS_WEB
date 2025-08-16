@@ -50,11 +50,18 @@ export const useNotices = () => {
     async (id: number, isBookmarked: boolean) => {
       const originalNotices = [...notices];
 
-      setNotices((currentNotices) =>
-        currentNotices.map((notice) =>
-          notice.id === id ? { ...notice, isBookMarked: !isBookmarked } : notice
-        )
+      const updatedNotices = notices.map((notice) =>
+        notice.id === id ? { ...notice, isBookMarked: !isBookmarked } : notice
       );
+
+      updatedNotices.sort((a, b) => {
+        if (a.isBookMarked !== b.isBookMarked) {
+          return a.isBookMarked ? -1 : 1;
+        }
+        return new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime();
+      });
+
+      setNotices(updatedNotices);
 
       try {
         if (isBookmarked) {
