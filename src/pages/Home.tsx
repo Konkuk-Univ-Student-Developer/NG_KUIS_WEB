@@ -8,11 +8,12 @@ import ScheduleList from "@/components/home/ScheduleList";
 import NoticeList from "@/components/home/NoticeList";
 import Tab from "@/components/commons/Tab";
 import HomeHeader from "@/components/home/HomeHeader";
-import { QUICK_MENU_ITEMS, SCHOOL_LIFE_ITEMS } from "@/constants/HomeConstants";
+import { QUICK_MENU_ITEMS } from "@/constants/HomeConstants";
 import { NOTICE_TABS } from "@/constants/NoticeConstants";
 import KUMark from "../assets/img/img_ku_mark.png";
 import useAuthStore from "@/stores/authStore";
 import { useHomeData } from "@/api/hooks/home/useHome";
+import { useCalendars } from "@/api/hooks/home/useCalendars";
 
 const HomePage = () => {
   const { isLoggedIn } = useAuthStore();
@@ -20,6 +21,7 @@ const HomePage = () => {
   const [searchValue, setSearchValue] = useState("");
 
   const { homeData } = useHomeData();
+  const { calendars } = useCalendars();
 
   return (
     <div className="min-h-screen relative">
@@ -74,7 +76,7 @@ const HomePage = () => {
               }
               path="/quick-menu"
             />
-            <ScheduleList items={SCHOOL_LIFE_ITEMS} />
+            <ScheduleList items={calendars} />
           </div>
 
           {/* 공지사항 */}

@@ -68,9 +68,3 @@ export const QUICK_MENU_ITEMS = [
     path: "/scholarship",
   },
 ];
-
-export const SCHOOL_LIFE_ITEMS = [
-  { title: "2학기 수강신청 시작", date: "D-3" },
-  { title: "여름 계절학기 성적 확인", date: "D-5" },
-  { title: "총장배 축구대회 결승전", date: "D-7" },
-];
