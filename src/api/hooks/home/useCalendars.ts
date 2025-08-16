@@ -3,7 +3,7 @@ import type { CalendarItem, CalendarResponse } from "@/types/home";
 import { http } from "@/api/fetch";
 
 export const getCalendars = async (): Promise<CalendarResponse> => {
-  const { response } = await http.get<CalendarResponse>(`/api/v1/calendars`);
+  const { response } = await http.get<CalendarResponse>(`/calendars`);
   return response;
 };
 

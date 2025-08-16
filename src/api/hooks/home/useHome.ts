@@ -4,7 +4,7 @@ import { type HomeDataResponse } from "@/types/home";
 import { http } from "@/api/fetch";
 
 export const getHomeData = async (): Promise<HomeDataResponse> => {
-  const { response } = await http.get<HomeDataResponse>(`/api/v1/home`);
+  const { response } = await http.get<HomeDataResponse>(`/home`);
   return response;
 };
 

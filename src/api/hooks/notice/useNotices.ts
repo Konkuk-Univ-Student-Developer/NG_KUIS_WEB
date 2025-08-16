@@ -15,19 +15,16 @@ export const getNotices = async (
     )
   ) as Record<string, string>;
 
-  const { response } = await http.get<NoticeResponse>(
-    `/api/v1/notices`,
-    cleanParams
-  );
+  const { response } = await http.get<NoticeResponse>(`notices`, cleanParams);
   return response;
 };
 
 export const addBookmark = async (noticeId: number): Promise<void> => {
-  await http.post(`/api/v1/notices/${noticeId}/bookmark`);
+  await http.post(`/notices/${noticeId}/bookmark`);
 };
 
 export const deleteBookmark = async (noticeId: number): Promise<void> => {
-  await http.delete(`/api/v1/notices/${noticeId}/bookmark`);
+  await http.delete(`/notices/${noticeId}/bookmark`);
 };
 
 export const useNotices = () => {
