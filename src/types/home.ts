@@ -1,5 +1,5 @@
 import { http } from "@/api/fetch";
-import type { NoticeData } from "@/api/noticeApi";
+import type { NoticeData } from "@/types/notice";
 
 export interface HomeDataResponse {
   nickname: string;

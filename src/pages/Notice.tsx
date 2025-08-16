@@ -5,10 +5,18 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import { useState } from "react";
 import { useNotices } from "@/api/hooks/notice/useNotices";
 import NoticeList from "@/components/notice/NoticeList";
+import { Pagination } from "@/components/commons";
 
 const Notice = () => {
-  const { notices, setCategory, setSearchQuery, handleToggleBookmark } =
-    useNotices();
+  const {
+    notices,
+    totalPages,
+    currentPage,
+    setPage,
+    setCategory,
+    setSearchQuery,
+    handleToggleBookmark,
+  } = useNotices();
 
   const [activeTab, setActiveTab] = useState("전체");
   const isMobile = useMediaQuery("(min-width: 768px)");
@@ -45,6 +53,11 @@ const Notice = () => {
       </div>
 
       <NoticeList notices={notices} onToggleBookmark={handleToggleBookmark} />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setPage}
+      />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import type { NoticeData } from "@/api/noticeApi";
+import type { NoticeData } from "@/types/notice";
 
 interface NoticeListProps {
   items: NoticeData[];

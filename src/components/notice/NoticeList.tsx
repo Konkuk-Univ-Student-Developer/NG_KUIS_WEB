@@ -1,6 +1,6 @@
 import NoticeRow from "./NoticeRow";
 import NoticeTitle from "./NoticeTitle";
-import type { NoticeData } from "@/api/noticeApi";
+import type { NoticeData } from "@/types/notice";
 
 interface NoticeListProps {
   notices: NoticeData[];

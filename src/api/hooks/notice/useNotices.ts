@@ -4,7 +4,7 @@ import {
   deleteBookmark,
   type GetNoticesParams,
   type NoticeData,
-} from "@/api/noticeApi";
+} from "@/types/notice";
 import { useState, useEffect, useCallback } from "react";
 
 export const useNotices = () => {
