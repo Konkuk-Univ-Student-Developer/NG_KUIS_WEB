@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 interface BaseTitleSectionProps {
   title: string;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   iconPosition?: "left" | "right";
 }
 
@@ -13,7 +13,7 @@ interface TitleWithLink extends BaseTitleSectionProps {
 
 interface TitleWithAction extends BaseTitleSectionProps {
   path?: never;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 type TitleSectionProps = TitleWithLink | TitleWithAction;
@@ -32,7 +32,7 @@ const TitleSection = (props: TitleSectionProps) => {
   );
 
   const TitleText = (
-    <h3 className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] md:text-4xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]">
+    <h3 className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] md:text-3xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]">
       {title}
     </h3>
   );

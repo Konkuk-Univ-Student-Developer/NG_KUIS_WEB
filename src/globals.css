@@ -19,15 +19,15 @@
   --darkgray: #656f76;
   --lightgray: #ecebe3;
   --coolgray: #b1b3b4;
-  --warmgray: #795548;
+  --warmgray: #b0cda6;
 
   /* Accent Colors */
   --orange: #f0a704;
   --magenta: #e91e63;
   --yellow: #ffeb3b;
   --violet: #9c27b0;
-  --blue: #2196f3;
-  --danger: #f44336;
+  --blue: #61a7dd;
+  --danger: #dd3412;
 }
 
 * {
@@ -44,13 +44,13 @@
   --color-darkgray: #656f76;
   --color-lightgray: #ecebe3;
   --color-coolgray: #b1b3b4;
-  --color-warmgray: #795548;
+  --color-warmgray: #b0cda6;
   --color-orange: #f0a704;
   --color-magenta: #e91e63;
   --color-yellow: #ffeb3b;
   --color-violet: #9c27b0;
-  --color-blue: #2196f3;
-  --color-danger: #f44336;
+  --color-blue: #61a7dd;
+  --color-danger: #dd3412;
 }
 
 @layer base {

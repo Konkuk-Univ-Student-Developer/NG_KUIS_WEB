@@ -1,140 +1,165 @@
-import FirstPageIcon from "@/assets/icon/ic_first_page.svg?react";
-import LastPageIcon from "@/assets/icon/ic_last_page.svg?react";
-import NextPageIcon from "@/assets/icon/ic_next_page.svg?react";
-import PrevPageIcon from "@/assets/icon/ic_prev_page.svg?react";
+import React from "react";
+import {
+  PrevArrowIcon,
+  PrevDoubleArrowIcon,
+  NextArrowIcon,
+  NextDoubleArrowIcon,
+} from "@/assets/icon";
 
 interface PaginationProps {
-  currentPage: number; // 현재 페이지 (1부터 시작)
-  totalPages: number; // 전체 페이지 수
+  currentPage: number;
+  totalPages: number;
   onPageChange: (page: number) => void;
+  className?: string;
 }
 
-const Pagination = ({
+const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
   onPageChange,
-}: PaginationProps) => {
-  // 표시할 페이지 번호 목록을 계산하는 로직
-  const getPageNumbers = () => {
-    const pageNumbers = [];
-    const maxPagesToShow = 5; // 한 번에 보여줄 최대 페이지 번호 개수
-
-    if (totalPages <= maxPagesToShow) {
-      for (let i = 1; i <= totalPages; i++) {
-        pageNumbers.push(i);
-      }
-    } else {
-      let startPage = Math.max(1, currentPage - 2);
-      let endPage = Math.min(totalPages, currentPage + 2);
-
-      if (currentPage < 3) {
-        endPage = maxPagesToShow;
-      }
-      if (currentPage > totalPages - 2) {
-        startPage = totalPages - maxPagesToShow + 1;
-      }
-
-      for (let i = startPage; i <= endPage; i++) {
-        pageNumbers.push(i);
-      }
+  className = "",
+}) => {
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      onPageChange(page);
     }
-    return pageNumbers;
   };
 
-  const pageNumbers = getPageNumbers();
-  const isFirstPage = currentPage === 1;
-  const isLastPage = currentPage === totalPages;
-
-  if (totalPages <= 1) {
-    return null; // 페이지가 하나 이하면 페이지네이션을 표시하지 않음
-  }
+  // 항상 첫/마지막 페이지는 고정 노출, 가운데 숫자와 ... 만 가변
+  const renderPageButton = (page: number) => (
+    <button
+      key={page}
+      onClick={() => handlePageChange(page)}
+      className={`flex items-center justify-center min-w-[28px] md:min-w-[36px] h-[34px] md:h-[42px] transition-colors cursor-pointer ${
+        page === currentPage
+          ? "text-darkgreen font-bold text-lg md:text-xl"
+          : "text-black hover:text-darkgreen font-normal text-lg md:text-xl"
+      }`}
+    >
+      {page}
+    </button>
+  );
 
   return (
-    <nav className="flex items-center justify-center gap-2 md:gap-4 my-8">
-      {/* 맨 처음 페이지로 */}
+    <div className={`flex items-center justify-center gap-0 py-5 ${className}`}>
+      {/* First Page */}
       <button
-        onClick={() => onPageChange(1)}
-        disabled={isFirstPage}
-        className="disabled:opacity-50"
+        onClick={() => handlePageChange(1)}
+        disabled={currentPage === 1}
+        className={`flex items-center justify-center w-8 md:w-10 h-8 md:h-10 transition-colors cursor-pointer ${
+          currentPage === 1
+            ? "text-lightgray"
+            : "text-black hover:text-darkgreen"
+        }`}
       >
-        <FirstPageIcon />
-      </button>
-      {/* 이전 페이지로 */}
-      <button
-        onClick={() => onPageChange(currentPage - 1)}
-        disabled={isFirstPage}
-        className="disabled:opacity-50"
-      >
-        <PrevPageIcon />
-      </button>
-
-      {/* 페이지 번호들 */}
-      {pageNumbers[0] > 1 && (
-        <>
-          <PageButton page={1} onPageChange={onPageChange} />
-          {pageNumbers[0] > 2 && <span className="text-gray-500">...</span>}
-        </>
-      )}
-
-      {pageNumbers.map((page) => (
-        <PageButton
-          key={page}
-          page={page}
-          isActive={currentPage === page}
-          onPageChange={onPageChange}
+        <PrevDoubleArrowIcon
+          className="w-5 md:w-6 h-5 md:h-6"
+          aria-label="First Page"
         />
-      ))}
-
-      {pageNumbers[pageNumbers.length - 1] < totalPages && (
-        <>
-          {pageNumbers[pageNumbers.length - 1] < totalPages - 1 && (
-            <span className="text-gray-500">...</span>
-          )}
-          <PageButton page={totalPages} onPageChange={onPageChange} />
-        </>
-      )}
-
-      {/* 다음 페이지로 */}
-      <button
-        onClick={() => onPageChange(currentPage + 1)}
-        disabled={isLastPage}
-        className="disabled:opacity-50"
-      >
-        <NextPageIcon />
       </button>
-      {/* 맨 끝 페이지로 */}
+
+      {/* Previous Page */}
       <button
-        onClick={() => onPageChange(totalPages)}
-        disabled={isLastPage}
-        className="disabled:opacity-50"
+        onClick={() => handlePageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className={`flex items-center justify-center w-8 md:w-10 h-8 md:h-10 transition-colors cursor-pointer ${
+          currentPage === 1
+            ? "text-lightgray"
+            : "text-black hover:text-darkgreen"
+        }`}
       >
-        <LastPageIcon />
+        <PrevArrowIcon
+          className="w-5 md:w-6 h-5 md:h-6"
+          aria-label="Previous Page"
+        />
       </button>
-    </nav>
+
+      {/* Page Numbers */}
+      <div className="flex items-center">
+        {totalPages <= 4 ? (
+          // 전체 페이지 수가 작으면 모두 노출
+          Array.from({ length: totalPages }, (_, i) => renderPageButton(i + 1))
+        ) : (
+          <>
+            {/* 처음 구간: 1 2 3 ... 10 */}
+            {currentPage <= 3 && (
+              <>
+                {renderPageButton(1)}
+                {renderPageButton(2)}
+                {renderPageButton(3)}
+                <div className="flex items-center justify-center w-[20px] md:w-[24px] h-[34px] md:h-[42px] text-black text-lg md:text-xl font-normal">
+                  ...
+                </div>
+                {renderPageButton(totalPages)}
+              </>
+            )}
+
+            {/* 중간 구간: 1 ... 4 ... 10 */}
+            {currentPage > 3 && currentPage < totalPages - 2 && (
+              <>
+                {renderPageButton(1)}
+                <div className="flex items-center justify-center w-[20px] md:w-[24px] h-[34px] md:h-[42px] text-black text-lg md:text-xl font-normal">
+                  ...
+                </div>
+                {renderPageButton(currentPage - 1)}
+                {renderPageButton(currentPage)}
+                {renderPageButton(currentPage + 1)}
+                <div className="flex items-center justify-center w-[20px] md:w-[24px] h-[34px] md:h-[42px] text-black text-lg md:text-xl font-normal">
+                  ...
+                </div>
+                {renderPageButton(totalPages)}
+              </>
+            )}
+
+            {/* 마지막 구간: 1 ... 8 9 10 */}
+            {currentPage >= totalPages - 2 && (
+              <>
+                {renderPageButton(1)}
+                <div className="flex items-center justify-center w-[20px] md:w-[24px] h-[34px] md:h-[42px] text-black text-lg md:text-xl font-normal">
+                  ...
+                </div>
+                {renderPageButton(totalPages - 2)}
+                {renderPageButton(totalPages - 1)}
+                {renderPageButton(totalPages)}
+              </>
+            )}
+          </>
+        )}
+      </div>
+
+      {/* Next Page */}
+      <button
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        className={`flex items-center justify-center w-8 md:w-10 h-8 md:h-10 transition-colors cursor-pointer ${
+          currentPage === totalPages
+            ? "text-lightgray"
+            : "text-black hover:text-darkgreen"
+        }`}
+      >
+        <NextArrowIcon
+          className="w-5 md:w-6 h-5 md:h-6"
+          aria-label="Next Page"
+        />
+      </button>
+
+      {/* Last Page */}
+      <button
+        onClick={() => handlePageChange(totalPages)}
+        disabled={currentPage === totalPages}
+        className={`flex items-center justify-center w-8 md:w-10 h-8 md:h-10 transition-colors cursor-pointer ${
+          currentPage === totalPages
+            ? "text-lightgray"
+            : "text-black hover:text-darkgreen"
+        }`}
+      >
+        <NextDoubleArrowIcon
+          className="w-5 md:w-6 h-5 md:h-6"
+          aria-label="Last Page"
+        />
+      </button>
+    </div>
   );
 };
-
-// 페이지 번호 버튼 컴포넌트
-const PageButton = ({
-  page,
-  isActive,
-  onPageChange,
-}: {
-  page: number;
-  isActive?: boolean;
-  onPageChange: (page: number) => void;
-}) => (
-  <button
-    onClick={() => onPageChange(page)}
-    className={`w-8 h-8 flex items-center justify-center text-base rounded
-      ${
-        isActive
-          ? "font-bold text-darkgreen"
-          : "font-normal text-black hover:bg-gray-100"
-      }`}
-  >
-    {page}
-  </button>
-);
 
 export default Pagination;
