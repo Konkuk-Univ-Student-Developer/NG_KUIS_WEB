@@ -9,7 +9,6 @@ import {
   COURSE_DATA,
   MOCK_API_RESPONSE
 } from '@/constants/TimetableConstants';
-import { EditIcon } from 'lucide-react';
 
 const TimetablePage: React.FC = () => {
   const [viewMode, setViewMode] = useState<'List' | 'Card'>('List');
@@ -32,7 +31,7 @@ const TimetablePage: React.FC = () => {
     <div className="min-h-screen bg-white md:mx-24">
       <div className="px-5 py-[25px] space-y-6 md:px-16 md:pt-[72px] md:pb-12">
         {/* Title */}
-        <TitleSection title="종합강의시간표" icon={<EditIcon className="size-6 cursor-pointer md:size-12" />} path="/quick-menu"
+        <TitleSection title="종합강의시간표" icon={<></>} path="/quick-menu"
         />
 
         {/* Filters and Search - 모바일: 2줄, 데스크톱: 1줄 */}

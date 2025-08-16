@@ -27,19 +27,21 @@ const CourseCard: React.FC<CourseCardProps> = ({
   onAddToWishlist = () => console.log('학점 클릭')
 }) => {
   return (
-    <div className="self-stretch px-3 py-4 bg-beige rounded-[20px]">
+    <div className="self-stretch px-3 py-4 bg-beige hover:brightness-90 transition-all duration-200 rounded-[20px]">
       {/* Header */}
       <div className="flex justify-between items-start">
         <div className="flex-1 min-w-0 mb-1">
-          <div className="text-darkgray truncate mb-1">
+          <div className="text-darkgray truncate">
             {course.subjectCode}
           </div>
-          <span className="justify-center text-black font-semibold">
-            {course.subjectName}
-          </span>
-          <span className="ml-2 text-darkgray truncate">
-            {course.professor}
-          </span>
+          <div className="mt-1">
+            <span className="justify-center text-black font-semibold">
+              {course.subjectName}
+            </span>
+            <span className="ml-2 text-darkgray truncate">
+              {course.professor}
+            </span>
+          </div>
         </div>
         <div className="flex gap-2 ml-3 shrink-0">
           <button onClick={onEnroll}>
