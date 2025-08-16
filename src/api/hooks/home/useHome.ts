@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import useAuthStore from "@/stores/authStore";
-import { getHomeData, type HomeDataResponse } from "@/types/home";
+import { type HomeDataResponse } from "@/types/home";
+import { http } from "@/api/fetch";
+
+export const getHomeData = async (): Promise<HomeDataResponse> => {
+  const { response } = await http.get<HomeDataResponse>(`/api/v1/home`);
+  return response;
+};
 
 export const useHomeData = () => {
   const { isLoggedIn } = useAuthStore();
