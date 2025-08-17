@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import EditIcon from "@/assets/icon/ic_edit.svg?react";
 import MagnifierIcon from "@/assets/icon/ic_magnifier.svg?react";
 import TitleSection from "@/components/commons/TitleSection";
 import QuickMenu from "@/components/home/QuickMenu";
-import SearchMain from "@/components/home/SearchMain";
+import SearchMain, { type SearchResult } from "@/components/home/SearchMain";
 import ScheduleList from "@/components/home/ScheduleList";
 import NoticeList from "@/components/home/NoticeList";
 import Tab from "@/components/commons/Tab";
@@ -16,11 +16,18 @@ import { useHomeData } from "@/api/hooks/home/useHome";
 import { useCalendars } from "@/api/hooks/home/useCalendars";
 import { useNotices } from "@/api/hooks/notice/useNotices";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { useNavigate } from "react-router-dom";
+import { MENU_DATA } from "@/constants/SidebarConstants";
 
 const HomePage = () => {
   const { isLoggedIn } = useAuthStore();
   const [activeTab, setActiveTab] = useState("전체");
+
   const [searchValue, setSearchValue] = useState("");
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const navigate = useNavigate();
+  const searchContainerRef = useRef<HTMLDivElement>(null);
 
   const { homeData } = useHomeData();
   const { calendars } = useCalendars();
@@ -36,6 +43,41 @@ const HomePage = () => {
     }
   }, [activeTab, isMobile, setCategory]);
 
+  const handleSearch = () => {
+    if (!searchValue.trim()) {
+      setSearchResults([]);
+      setShowDropdown(false);
+      return;
+    }
+
+    const results: SearchResult[] = [];
+    const query = searchValue.toLowerCase();
+
+    MENU_DATA.forEach((category) => {
+      category.subSections.forEach((subSection) => {
+        subSection.items.forEach((item) => {
+          if (item.name.toLowerCase().includes(query)) {
+            results.push({
+              id: item.id,
+              name: item.name,
+              path: `${category.category} > ${subSection.title}`,
+            });
+          }
+        });
+      });
+    });
+
+    setSearchResults(results);
+    setShowDropdown(true);
+  };
+
+  const handleResultClick = (id: string) => {
+    navigate(`/${id}`);
+    setSearchValue("");
+    setSearchResults([]);
+    setShowDropdown(false);
+  };
+
   return (
     <div className="min-h-screen relative">
       <img
@@ -49,11 +91,18 @@ const HomePage = () => {
         <section className="text-left md:text-center">
           <HomeHeader isLoggedIn={isLoggedIn} userName={homeData?.nickname} />
 
-          <div className="mt-4 md:mt-6 flex w-full items-center justify-center">
+          <div
+            ref={searchContainerRef}
+            className="mt-4 md:mt-6 flex w-full items-center justify-center"
+          >
             <SearchMain
               value={searchValue}
               onChange={setSearchValue}
               placeholder="이번 학기 성적 확인하기"
+              onSearch={handleSearch}
+              results={searchResults}
+              showResults={showDropdown}
+              onResultClick={handleResultClick}
             />
           </div>
         </section>
