@@ -240,7 +240,7 @@ const DetailLecture: React.FC = () => {
       </div>
       <div className="flex flex-col gap-3">
         {isDesktop ? (
-          <DesktopBasicInfoTables lectureData={lectureData} variant="desktop" />
+          <DesktopBasicInfoTables lectureData={lectureData} courseData={courseData} variant="desktop" />
         ) : (
           <>
             <BasicInfoTable data={[mapCourseData(lectureData)]} type="courseInfo" variant="mobile" />
@@ -264,17 +264,19 @@ const DetailLecture: React.FC = () => {
         <Badge key={index} label={tag} variant="default" size={isDesktop ? "xl" : "md"} />
       )) || (
           <>
-            {lectureData.department && <Badge label={lectureData.department} variant="default" size={isDesktop ? "xl" : "md"} />}
-            {courseData?.method && <Badge label={courseData.method} variant="default" size={isDesktop ? "xl" : "md"} />}
+            {!isDesktop && lectureData.department && <Badge label={lectureData.department} variant="default" size="md" />}
+            {!isDesktop && courseData?.method && <Badge label={courseData.method} variant="default" size="md" />}
           </>
         )}
     </div>
   );
 
   const renderChartsAndProfessor = () => (
-    <div className={`grid ${isDesktop ? 'grid-cols-3' : 'grid-cols-2'} gap-4`}>
+    <div className={`grid ${isDesktop ? 'grid-cols-4' : 'grid-cols-2'} gap-4`}>
       <BLearningChart />
-      <CoreCompetencyChart />
+      <div className={isDesktop ? 'col-span-2' : ''}>
+        <CoreCompetencyChart />
+      </div>
       {isDesktop && (
         <div className="grid grid-cols-1">
           <div className={`${isDesktop ? 'p-6' : 'p-4'} bg-white rounded-[20px] shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100`}>

@@ -370,7 +370,7 @@ export const VerticalTable: React.FC<VerticalTableProps> = ({ rows, className = 
 };
 
 // Desktop 기본정보 데이터 매핑 함수들
-export const mapDesktopBasicData = (lectureData: any) => {
+export const mapDesktopBasicData = (lectureData: any, courseData?: any) => {
   const basic1 = {
     grade: lectureData.grade || '-',
     courseCode: lectureData.courseCode || '-',
@@ -386,7 +386,7 @@ export const mapDesktopBasicData = (lectureData: any) => {
     openDept: lectureData.openDept || lectureData.department || '-',
     targetDept: lectureData.targetDept || lectureData.department || '-',
     requestDept: lectureData.requestDept || '-',
-    note: lectureData.note || '-'
+    note: lectureData.note || courseData?.method || '-'
   };
 
   const basic3 = {
@@ -408,14 +408,16 @@ export const mapDesktopBasicData = (lectureData: any) => {
 // Desktop 3개 테이블 컴포넌트
 export interface DesktopBasicInfoTablesProps {
   lectureData: any;
+  courseData?: any;
   variant?: 'mobile' | 'desktop';
 }
 
 export const DesktopBasicInfoTables: React.FC<DesktopBasicInfoTablesProps> = ({ 
   lectureData, 
+  courseData,
   variant = 'desktop' 
 }) => {
-  const { basic1, basic2, basic3 } = mapDesktopBasicData(lectureData);
+  const { basic1, basic2, basic3 } = mapDesktopBasicData(lectureData, courseData);
   
   return (
     <div className="flex flex-col gap-4">
