@@ -249,8 +249,12 @@ const DetailLecture: React.FC = () => {
         )}
         {renderTags()}
       </div>
-      {renderCharts()}
-      {renderProfessorInfo()}
+      {isDesktop ? renderChartsAndProfessor() : (
+        <>
+          {renderChartsAndProfessor()}
+          {renderProfessorInfo()}
+        </>
+      )}
     </div>
   );
 
@@ -267,10 +271,54 @@ const DetailLecture: React.FC = () => {
     </div>
   );
 
-  const renderCharts = () => (
+  const renderChartsAndProfessor = () => (
     <div className={`grid ${isDesktop ? 'grid-cols-3' : 'grid-cols-2'} gap-4`}>
       <BLearningChart />
       <CoreCompetencyChart />
+      {isDesktop && (
+        <div className="grid grid-cols-1">
+          <div className={`${isDesktop ? 'p-6' : 'p-4'} bg-white rounded-[20px] shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100`}>
+            <div className="flex flex-col h-full justify-between">
+              <div>
+                <div className={`text-black ${isDesktop ? 'text-base' : 'text-xs'} font-normal font-['Noto_Sans'] mb-1`}>
+                  담당교수 정보
+                </div>
+                <div className={`text-black ${isDesktop ? 'text-xl' : 'text-sm'} font-semibold font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'} mb-4`}>
+                  {lectureData.professorInfo?.name || lectureData.professor}
+                </div>
+              </div>
+              <div className={`${isDesktop ? 'px-4 py-3' : 'px-3 py-2'} bg-beige rounded-2xl`}>
+                <div className={`space-y-${isDesktop ? '3' : '2'}`}>
+                  <div className="flex justify-between">
+                    <span className={`text-gray-500 ${isDesktop ? 'text-xl' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'}`}>
+                      이메일
+                    </span>
+                    <span className={`text-black ${isDesktop ? 'text-xl' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'}`}>
+                      {lectureData.professorInfo?.email || '-'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className={`text-gray-500 ${isDesktop ? 'text-xl' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'}`}>
+                      연락처
+                    </span>
+                    <span className={`text-black ${isDesktop ? 'text-xl' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'}`}>
+                      {lectureData.professorInfo?.phone || '-'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className={`text-gray-500 ${isDesktop ? 'text-xl' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'}`}>
+                      상담 가능 시간
+                    </span>
+                    <span className={`text-black ${isDesktop ? 'text-xl' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'}`}>
+                      {lectureData.professorInfo?.consultationHours || '-'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 
@@ -279,7 +327,7 @@ const DetailLecture: React.FC = () => {
       <div className={`${isDesktop ? 'p-6' : 'p-4'} bg-white rounded-[20px] shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100`}>
         <div className="flex flex-col h-full justify-between">
           <div>
-            <div className={`text-black ${isDesktop ? 'text-sm' : 'text-[10px]'} font-normal font-['Noto_Sans'] mb-1`}>
+            <div className={`text-black ${isDesktop ? 'text-base' : 'text-xs'} font-normal font-['Noto_Sans'] mb-1`}>
               담당교수 정보
             </div>
             <div className={`text-black ${isDesktop ? 'text-xl' : 'text-sm'} font-semibold font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'} mb-4`}>

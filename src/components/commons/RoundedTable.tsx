@@ -31,10 +31,10 @@ export const tableStyles = {
       bodyRow: "bg-white"
     },
     cell: {
-      headerBase: "border-zinc-400 px-3 py-2.5 text-center text-black text-sm font-bold font-['Noto_Sans'] leading-5",
-      bodyBase: "border-zinc-400 px-3 py-2.5 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-5",
-      firstHeader: "border-zinc-400 px-2 py-2.5 text-center text-black text-sm font-bold font-['Noto_Sans'] leading-5",
-      bodyBold: "border-zinc-400 px-3 py-2.5 text-center text-black text-sm font-bold font-['Noto_Sans'] leading-5"
+      headerBase: "border-zinc-400 px-3 py-2 text-center text-black text-sm font-bold font-['Noto_Sans'] leading-5",
+      bodyBase: "border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-5",
+      firstHeader: "border-zinc-400 px-2 py-2 text-center text-black text-sm font-bold font-['Noto_Sans'] leading-5",
+      bodyBold: "border-zinc-400 px-3 py-2 text-center text-black text-sm font-bold font-['Noto_Sans'] leading-5"
     },
     evaluation: {
       expandRow: "bg-white cursor-pointer hover:bg-gray-50",
@@ -337,13 +337,13 @@ export const VerticalTable: React.FC<VerticalTableProps> = ({ rows, className = 
           {rows.map((row, idx) => (
             <tr key={idx}>
               <td 
-                className={`border-r ${idx === rows.length - 1 ? '' : 'border-b'} border-zinc-400 bg-beige px-2 py-${row.rowSpan ? '4' : variant === 'desktop' ? '3' : '2'} text-center text-black ${textSize} font-semibold font-['Noto_Sans'] align-middle whitespace-normal ${leadingSize}`}
+                className={`border-r ${idx === rows.length - 1 ? '' : 'border-b'} border-zinc-400 bg-beige px-2 py-${row.rowSpan ? '4' : '2'} text-center text-black ${textSize} font-semibold font-['Noto_Sans'] align-middle whitespace-normal ${leadingSize}`}
                 style={{ wordBreak: 'keep-all' }}
                 rowSpan={row.rowSpan}
               >
                 {row.label}
               </td>
-              <td className={`${idx === rows.length - 1 ? '' : 'border-b'} border-zinc-400 bg-white px-3 py-${variant === 'desktop' ? '3' : '2'}`}>
+              <td className={`${idx === rows.length - 1 ? '' : 'border-b'} border-zinc-400 bg-white px-3 py-2`}>
                 {row.isCheckList && Array.isArray(row.value) ? (
                   <div className={variant === 'desktop' ? "grid grid-cols-5 gap-4" : "flex flex-col gap-1"}>
                     {row.value.map((item, itemIdx) => (
