@@ -1,5 +1,5 @@
 import React from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, TooltipProps } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 
 interface BLearningData {
   name: string;
@@ -14,7 +14,7 @@ const BLearningChart: React.FC = () => {
     { name: '실시간', value: 4, color: '#036B3F' },
   ];
 
-  const CustomTooltip: React.FC<TooltipProps<ValueType, NameType>> = ({ active, payload }) => {
+  const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length > 0) {
       const dataItem = payload[0];
       if (dataItem && dataItem.value !== undefined && dataItem.name !== undefined) {
@@ -58,8 +58,8 @@ const BLearningChart: React.FC = () => {
           {data.map((item, index) => (
             <div key={index} className="flex flex-col items-center">
               <div className="flex items-center gap-1">
-                <div 
-                  className="w-2 h-2 rounded-full" 
+                <div
+                  className="w-2 h-2 rounded-full"
                   style={{ backgroundColor: item.color, opacity: 0.6 }}
                 />
                 <span className="text-zinc-800 text-xs font-semibold font-['Inter'] leading-none">

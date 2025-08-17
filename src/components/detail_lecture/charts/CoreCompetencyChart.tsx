@@ -1,6 +1,5 @@
 import React from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, TooltipProps } from 'recharts';
-import type { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 
 interface CompetencyData {
   name: string;
@@ -21,7 +20,7 @@ const CoreCompetencyChart: React.FC = () => {
   // Filter out 0 values for pie chart but keep them for legend
   const chartData = data.filter(item => item.value > 0);
 
-  const CustomTooltip: React.FC<TooltipProps<ValueType, NameType>> = ({ active, payload }) => {
+  const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length > 0) {
       const dataItem = payload[0];
       if (dataItem && dataItem.value !== undefined && dataItem.name !== undefined) {
