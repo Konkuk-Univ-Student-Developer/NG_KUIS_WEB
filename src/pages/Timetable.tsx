@@ -25,7 +25,9 @@ const TimetablePage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const navigate = useNavigate();
-  const goDetail = (courseCode: string) => navigate(courseCode);
+  const goDetail = (courseCode: string, courseData?: any) => {
+    navigate(courseCode, { state: { courseData } });
+  };
 
   return (
     <div className="min-h-screen bg-white md:mx-24">
@@ -105,7 +107,7 @@ const TimetablePage: React.FC = () => {
             </TableHeader>
             <TableBody className="[&>tr]:hover:bg-gray-100">
               {COURSE_DATA.map((course, index) => (
-                <TableRow key={index} className="[&>td]:text-center md:[&>td]:text-base cursor-pointer" onClick={() => goDetail(course.courseCode)}>
+                <TableRow key={index} className="[&>td]:text-center md:[&>td]:text-base cursor-pointer" onClick={() => goDetail(course.courseCode, course)}>
                   <TableCell>{course.grade}</TableCell>
                   <TableCell>{course.courseNumber}</TableCell>
                   <TableCell>{course.courseName}</TableCell>
@@ -123,7 +125,7 @@ const TimetablePage: React.FC = () => {
         <div className="px-5 md:px-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-[36px] justify-items-center">
             {COURSE_DATA.map((course, index) => (
-              <div key={index} onClick={() => goDetail(course.courseCode)} className="cursor-pointer w-full">
+              <div key={index} onClick={() => goDetail(course.courseCode, course)} className="cursor-pointer w-full">
                 <CourseCard course={course} />
               </div>
             ))}
