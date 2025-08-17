@@ -215,7 +215,7 @@ const DetailLecture: React.FC = () => {
                       {lectureData.category || lectureData.classification || '-'}
                     </td>
                     <td className="border-r border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                      {lectureData.courseNumber || lectureData.subjectNumber || '-'}
+                      {lectureData.courseNumber || '-'}
                     </td>
                     <td className="px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
                       {lectureData.credit || 3}
@@ -277,14 +277,16 @@ const DetailLecture: React.FC = () => {
           </div>
 
           {/* Charts Section */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             {/* B-Learning Chart */}
             <BLearningChart data={lectureData.chartData?.bLearning} />
 
             {/* Core Competency Chart */}
             <CoreCompetencyChart data={lectureData.chartData?.coreCompetency} />
+          </div>
 
-            {/* Professor Info Card */}
+          {/* Professor Info Card */}
+          <div className="grid grid-cols-1">
             <div className="p-4 bg-white rounded-[20px] shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100">
               <div className="flex flex-col h-full justify-between">
                 <div>
@@ -337,15 +339,15 @@ const DetailLecture: React.FC = () => {
             <table className="w-full border-collapse">
               <tbody>
                 <tr>
-                  <td className="border-r border-b border-zinc-400 bg-beige px-2 py-4 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle" rowSpan={1}>
-                    핵심역량<br />강의목표
+                  <td className="border-r border-b border-zinc-400 bg-beige px-2 py-4 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle whitespace-normal" style={{ wordBreak: 'keep-all' }} rowSpan={1}>
+                    핵심역량 강의목표
                   </td>
                   <td className="border-b border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
                     {lectureData.competencyGoals?.coreCompetencyGoal || '스스로 학습할 수 있는 능력'}
                   </td>
                 </tr>
                 <tr>
-                  <td className="border-r border-b border-zinc-400 bg-beige px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                  <td className="border-r border-b border-zinc-400 bg-beige px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none whitespace-normal" style={{ wordBreak: 'keep-all' }}>
                     주 전공역량
                   </td>
                   <td className="border-b border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
@@ -353,55 +355,55 @@ const DetailLecture: React.FC = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td className="border-r border-b border-zinc-400 bg-beige px-2 py-3 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
-                    주 전공역량<br />정의
+                  <td className="border-r border-b border-zinc-400 bg-beige px-2 py-3 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle whitespace-normal" style={{ wordBreak: 'keep-all' }}>
+                    주 전공역량 정의
                   </td>
                   <td className="border-b border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                    {lectureData.competencyGoals?.mainCompetencyDefinition || '스스로 학습 어쩌고'}
+                    {lectureData.competencyGoals?.mainCompetencyDefinition || '스스로 학습할 수 있는 역량'}
                   </td>
                 </tr>
                 <tr>
-                  <td className="border-r border-b border-zinc-400 bg-beige px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
-                    보조<br />전공역량1
+                  <td className="border-r border-b border-zinc-400 bg-beige px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle whitespace-normal" style={{ wordBreak: 'keep-all' }}>
+                    보조 전공역량1
                   </td>
                   <td className="border-b border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
                     {lectureData.competencyGoals?.subCompetency1 || '대규모 SW의 협동 개발 능력 (상)'}
                   </td>
                 </tr>
                 <tr>
-                  <td className="border-r border-b border-zinc-400 bg-beige px-2 py-3 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
-                    보조<br />전공역량1 정의
+                  <td className="border-r border-b border-zinc-400 bg-beige px-2 py-3 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle whitespace-normal" style={{ wordBreak: 'keep-all' }}>
+                    보조 전공역량1 정의
                   </td>
                   <td className="border-b border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                    {lectureData.competencyGoals?.subCompetency1Definition || '스스로 학습 어쩌고'}
+                    {lectureData.competencyGoals?.subCompetency1Definition || '스스로 학습할 수 있는 역량'}
                   </td>
                 </tr>
                 <tr>
-                  <td className="border-r border-b border-zinc-400 bg-beige px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
-                    보조<br />전공역량2
+                  <td className="border-r border-b border-zinc-400 bg-beige px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle whitespace-normal" style={{ wordBreak: 'keep-all' }}>
+                    보조 전공역량2
                   </td>
                   <td className=" border-b border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
                     {lectureData.competencyGoals?.subCompetency2 || '대규모 SW의 협동 개발 능력 (상)'}
                   </td>
                 </tr>
                 <tr>
-                  <td className="border-r border-b border-zinc-400 bg-beige px-2 py-3 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
-                    보조<br />전공역량2 정의
+                  <td className="border-r border-b border-zinc-400 bg-beige px-2 py-3 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle whitespace-normal" style={{ wordBreak: 'keep-all' }}>
+                    보조 전공역량2 정의
                   </td>
                   <td className=" border-b border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                    {lectureData.competencyGoals?.subCompetency2Definition || '스스로 학습 어쩌고'}
+                    {lectureData.competencyGoals?.subCompetency2Definition || '스스로 학습할 수 있는 역량'}
                   </td>
                 </tr>
                 <tr>
-                  <td className="border-r border-b border-zinc-400 bg-beige px-2 py-4 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
-                    역량기반<br />교육목표
+                  <td className="border-r border-b border-zinc-400 bg-beige px-2 py-4 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle whitespace-normal" style={{ wordBreak: 'keep-all' }}>
+                    역량기반 교육목표
                   </td>
                   <td className="border-b border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
                     {lectureData.competencyGoals?.competencyBasedGoal || '대규모 SW의 협동 개발 능력 (상)'}
                   </td>
                 </tr>
                 <tr>
-                  <td className="border-r border-zinc-400 bg-beige px-2 py-4 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                  <td className="border-r border-zinc-400 bg-beige px-2 py-4 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none whitespace-normal" style={{ wordBreak: 'keep-all' }}>
                     직무역량
                   </td>
                   <td className="bg-white px-3 py-2">

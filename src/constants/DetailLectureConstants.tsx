@@ -70,9 +70,10 @@ export interface LectureDetail {
   subjectCode: string; // e.g., '0312'
   subjectName: string; // e.g., '이산수학'
   subjectNameEng?: string; // English name
-  courseCode?: string; // 학수번호
+  courseCode?: string; // 학수번호 (e.g., BBAB67057)
   classification?: string; // 이수구분
-  subjectNumber?: string; // 과목번호
+  courseNumber?: string; // 4자리 과목번호 (e.g., 0702, 1203)
+  subjectNumber?: string; // Legacy field - use courseNumber instead
   grade?: number; // 학년
   professor: string;
   professorInfo?: ProfessorInfo;
@@ -101,7 +102,7 @@ export interface LectureDetail {
   rating?: number; // 강의 평점
 }
 
-// Minimal demo dataset keyed by subjectCode
+// Minimal demo dataset keyed by courseCode (학수번호)
 export const LECTURE_DETAILS: Record<string, LectureDetail> = {
   "BBAB12012": {
     subjectCode: "BBAB12012",
@@ -109,7 +110,8 @@ export const LECTURE_DETAILS: Record<string, LectureDetail> = {
     subjectNameEng: "DISTRIBUTED SYSTEM & COMPUTING",
     courseCode: "BBAB12012",
     classification: "전선",
-    subjectNumber: "3143",
+    courseNumber: "3143",
+    subjectNumber: "3143", // Legacy field
     grade: 4,
     professor: "임민규",
     professorInfo: {
@@ -128,13 +130,13 @@ export const LECTURE_DETAILS: Record<string, LectureDetail> = {
     graduateEnrolled: 0,
     tags: ["컴퓨터공학부", "캡스톤(A/B/F제)"],
     competencyGoals: {
-      coreCompetencyGoal: "스스로 학습 어쩌고",
+      coreCompetencyGoal: "스스로 학습할 수 있는 역량",
       mainCompetency: "대규모 SW의 협동 개발 능력 (상)",
-      mainCompetencyDefinition: "스스로 학습 어쩌고",
+      mainCompetencyDefinition: "스스로 학습할 수 있는 역량",
       subCompetency1: "대규모 SW의 협동 개발 능력 (상)",
-      subCompetency1Definition: "스스로 학습 어쩌고",
+      subCompetency1Definition: "스스로 학습할 수 있는 역량",
       subCompetency2: "대규모 SW의 협동 개발 능력 (상)",
-      subCompetency2Definition: "스스로 학습 어쩌고",
+      subCompetency2Definition: "스스로 학습할 수 있는 역량",
       competencyBasedGoal: "대규모 SW의 협동 개발 능력 (상)",
       jobCompetencies: ["문제해결능력", "기술능력"]
     },

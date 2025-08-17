@@ -1,11 +1,11 @@
 // Course 데이터 타입 정의 (API 응답 형태에 맞춤)
 export interface CourseData {
   id: number;
-  courseCode: string;
+  courseCode: string;     // 학수번호 (e.g., BBAB67057)
   courseName: string;
   professor: string;
   schedule: string;
-  courseNumber: string;
+  courseNumber: string;   // 4자리 과목번호 (e.g., 0702, 1203)
   courseCategory: string;
   grade: number;
   departmentName: string;
@@ -55,7 +55,7 @@ export const COURSE_DATA: CourseData[] = [
     courseName: "졸업프로젝트2(종합설계)",
     professor: "정갑주",
     schedule: "월15-18(공C487), 수15-18(공C487)",
-    courseNumber: "1203103",
+    courseNumber: "1203",
     courseCategory: "전선",
     grade: 4,
     departmentName: "컴퓨터공학부",
@@ -68,7 +68,7 @@ export const COURSE_DATA: CourseData[] = [
     courseName: "졸업프로젝트2(종합설계)",
     professor: "김두현",
     schedule: "화15-18(신공1213), 목15-18(신공1213)",
-    courseNumber: "1203103",
+    courseNumber: "1203",
     courseCategory: "전선",
     grade: 4,
     departmentName: "컴퓨터공학부",
@@ -81,7 +81,7 @@ export const COURSE_DATA: CourseData[] = [
     courseName: "수치방법론",
     professor: "차영운",
     schedule: "화10-12(공B475), 목10-12(공B475)",
-    courseNumber: "702107",
+    courseNumber: "0702",
     courseCategory: "전선",
     grade: 2,
     departmentName: "컴퓨터공학부",
@@ -94,7 +94,7 @@ export const COURSE_DATA: CourseData[] = [
     courseName: "수치방법론",
     professor: "차영운",
     schedule: "화07-09(공A602), 목07-09(공B352)",
-    courseNumber: "702107",
+    courseNumber: "0702",
     courseCategory: "전선",
     grade: 2,
     departmentName: "컴퓨터공학부",
@@ -107,7 +107,7 @@ export const COURSE_DATA: CourseData[] = [
     courseName: "전공심화프로젝트(종합설계)",
     professor: "김두현",
     schedule: "화11-14(새502), 목11-14(새502)",
-    courseNumber: "9900108",
+    courseNumber: "9900",
     courseCategory: "전선",
     grade: 3,
     departmentName: "컴퓨터공학부",
@@ -120,7 +120,7 @@ export const COURSE_DATA: CourseData[] = [
     courseName: "전공심화프로젝트(종합설계)",
     professor: "김두현",
     schedule: "화03-06(새502), 목03-06(새502)",
-    courseNumber: "9900108",
+    courseNumber: "9900",
     courseCategory: "전선",
     grade: 3,
     departmentName: "컴퓨터공학부",
@@ -133,7 +133,7 @@ export const COURSE_DATA: CourseData[] = [
     courseName: "전공기초프로젝트(종합설계)",
     professor: "차리서",
     schedule: "화13-16(새403), 금13-16(새403)",
-    courseNumber: "9900107",
+    courseNumber: "9900",
     courseCategory: "전선",
     grade: 2,
     departmentName: "컴퓨터공학부",
@@ -146,7 +146,7 @@ export const COURSE_DATA: CourseData[] = [
     courseName: "전공기초프로젝트(종합설계)",
     professor: "차리서",
     schedule: "화09-12(새403), 금09-12(새403)",
-    courseNumber: "9900107",
+    courseNumber: "9900",
     courseCategory: "전선",
     grade: 2,
     departmentName: "컴퓨터공학부",

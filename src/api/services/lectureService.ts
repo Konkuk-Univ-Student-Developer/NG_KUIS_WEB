@@ -2,8 +2,8 @@ import type { LectureDetail } from '@/constants/DetailLectureConstants';
 
 interface LecturePlanParams {
   year: string;
-  courseCode: string;
-  courseNumber: string;
+  courseCode: string;     // 학수번호 (e.g., BBAB67057)
+  courseNumber: string;   // 4자리 과목번호 (e.g., 0702, 1203)
 }
 
 /**
@@ -54,8 +54,12 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
     console.log('📊 Extracting basic information...');
     result.subjectName = getTableCellByHeader('교과목명') || getTableCellByHeader('과목명');
     result.subjectNameEng = getTableCellByHeader('영문명');
-    result.courseCode = getTableCellByHeader('학수번호');
-    result.courseNumber = getTableCellByHeader('과목번호');
+    result.courseCode = getTableCellByHeader('학수번호');  // e.g., BBAB67057
+    result.courseNumber = getTableCellByHeader('과목번호'); // Should be 4-digit like 0702
+    // If courseNumber is longer than 4 digits, truncate to first 4
+    if (result.courseNumber && result.courseNumber.length > 4) {
+      result.courseNumber = result.courseNumber.substring(0, 4);
+    }
     result.grade = parseInt(getTableCellByHeader('학년')) || undefined;
     result.credit = parseFloat(getTableCellByHeader('학점')) || undefined;
     result.category = getTableCellByHeader('이수구분');
