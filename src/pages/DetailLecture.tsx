@@ -14,8 +14,8 @@ import { useLecturePlan, useMergedLectureData } from '@/api/hooks/lecture/useLec
 // 섹션 스타일 상수 (DetailLecture 전용)
 const styles = {
   section: {
-    title: "text-[#036B3F] text-lg font-semibold font-['Noto_Sans'] leading-7",
-    wrapper: "flex flex-col gap-5"
+    title: "text-[#036B3F] text-lg md:text-2xl font-semibold font-['Noto_Sans'] leading-7",
+    wrapper: "flex flex-col gap-5 md:gap-6 md:mt-9"
   }
 };
 
@@ -28,6 +28,7 @@ const DetailLecture: React.FC = () => {
 
   // Media query for responsive behavior (md breakpoint: 768px)
   const isDesktop = useMediaQuery('(min-width: 768px)');
+  const isLargeDesktop = useMediaQuery('(min-width: 1440px)');
 
   // Get course data from navigation state
   const courseData = location.state?.courseData as CourseData | undefined;
@@ -249,7 +250,9 @@ const DetailLecture: React.FC = () => {
         )}
         {renderTags()}
       </div>
-      {isDesktop ? renderChartsAndProfessor() : (
+      {isDesktop ? (
+        renderChartsAndProfessor()
+      ) : (
         <>
           {renderChartsAndProfessor()}
           {renderProfessorInfo()}
@@ -271,58 +274,82 @@ const DetailLecture: React.FC = () => {
     </div>
   );
 
-  const renderChartsAndProfessor = () => (
-    <div className={`grid ${isDesktop ? 'grid-cols-4' : 'grid-cols-2'} gap-4`}>
-      <BLearningChart />
-      <div className={isDesktop ? 'col-span-2' : ''}>
-        <CoreCompetencyChart />
-      </div>
-      {isDesktop && (
-        <div className="grid grid-cols-1">
-          <div className={`${isDesktop ? 'p-6' : 'p-4'} bg-white rounded-[20px] shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100`}>
-            <div className="flex flex-col h-full justify-between">
-              <div>
-                <div className={`text-black ${isDesktop ? 'text-base' : 'text-xs'} font-normal font-['Noto_Sans'] mb-1`}>
-                  담당교수 정보
-                </div>
-                <div className={`text-black ${isDesktop ? 'text-xl' : 'text-sm'} font-semibold font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'} mb-4`}>
-                  {lectureData.professorInfo?.name || lectureData.professor}
-                </div>
-              </div>
-              <div className={`${isDesktop ? 'px-4 py-3' : 'px-3 py-2'} bg-beige rounded-2xl`}>
-                <div className={`space-y-${isDesktop ? '3' : '2'}`}>
-                  <div className="flex justify-between">
-                    <span className={`text-gray-500 ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
-                      이메일
-                    </span>
-                    <span className={`text-black ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
-                      {lectureData.professorInfo?.email || '-'}
-                    </span>
+  const renderChartsAndProfessor = () => {
+    if (isLargeDesktop) {
+      // 1440px 이상: 3-column layout (B러닝 + 핵심역량(2칸) + 교수정보)
+      return (
+        <div className="grid grid-cols-4 gap-4">
+          <BLearningChart />
+          <div className="col-span-2">
+            <CoreCompetencyChart />
+          </div>
+          <div className="grid grid-cols-1">
+            <div className="p-6 bg-white rounded-[20px] shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100">
+              <div className="flex flex-col h-full justify-between">
+                <div>
+                  <div className="text-black text-base font-normal font-['Noto_Sans'] mb-1">
+                    담당교수 정보
                   </div>
-                  <div className="flex justify-between">
-                    <span className={`text-gray-500 ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
-                      연락처
-                    </span>
-                    <span className={`text-black ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
-                      {lectureData.professorInfo?.phone || '-'}
-                    </span>
+                  <div className="text-black text-xl font-semibold font-['Noto_Sans'] leading-10 mb-4">
+                    {lectureData.professorInfo?.name || lectureData.professor}
                   </div>
-                  <div className="flex justify-between">
-                    <span className={`text-gray-500 ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
-                      상담 가능 시간
-                    </span>
-                    <span className={`text-black ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
-                      {lectureData.professorInfo?.consultationHours || '-'}
-                    </span>
+                </div>
+                <div className="px-4 py-3 bg-beige rounded-2xl">
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-5">
+                        이메일
+                      </span>
+                      <span className="text-black text-sm font-normal font-['Noto_Sans'] leading-5">
+                        {lectureData.professorInfo?.email || '-'}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-5">
+                        연락처
+                      </span>
+                      <span className="text-black text-sm font-normal font-['Noto_Sans'] leading-5">
+                        {lectureData.professorInfo?.phone || '-'}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-5">
+                        상담 가능 시간
+                      </span>
+                      <span className="text-black text-sm font-normal font-['Noto_Sans'] leading-5">
+                        {lectureData.professorInfo?.consultationHours || '-'}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      )}
-    </div>
-  );
+      );
+    } else if (isDesktop) {
+      // 768px-1439px: 2-column charts + separate professor info below
+      return (
+        <div className="flex flex-col gap-4">
+          <div className="grid grid-cols-3 gap-4">
+            <BLearningChart />
+            <div className="col-span-2">
+              <CoreCompetencyChart />
+            </div>
+          </div>
+          {renderProfessorInfo()}
+        </div>
+      );
+    } else {
+      // Mobile: 2-column charts
+      return (
+        <div className="grid grid-cols-2 gap-4">
+          <BLearningChart />
+          <CoreCompetencyChart />
+        </div>
+      );
+    }
+  };
 
   const renderProfessorInfo = () => (
     <div className="grid grid-cols-1">
