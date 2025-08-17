@@ -6,7 +6,7 @@ import Layout from "./Layout";
 const HomePage = lazy(() => import("./pages/Home"));
 const GradePage = lazy(() => import("./pages/Grade"));
 const TimetablePage = lazy(() => import("./pages/Timetable"));
-const DetailLectureSchedulePage = lazy(() => import("./pages/detailLectureSchedule"));
+const DetailLectureSchedulePage = lazy(() => import("./pages/DetailLectureSchedule"));
 const GraduationPage = lazy(() => import("./pages/Graduation"));
 const ScholarshipPage = lazy(() => import("./pages/Scholarship"));
 const NoticePage = lazy(() => import("./pages/Notice"));

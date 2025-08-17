@@ -1,43 +1,92 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, Button } from '@/components/commons';
-import { LECTURE_DETAILS, DAYS_ORDER } from '@/constants/detailLectureScheduleConstants';
+import { LECTURE_DETAILS, DAYS_ORDER } from '@/constants/DetailLectureScheduleConstants';
+import { ChevronDown, ChevronUp, Star } from 'lucide-react';
 
 // Local subcomponents kept in this file as requested
 
-const Section: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
-  <section className="bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-lightgray/60">
-    <h2 className="text-darkgreen text-mobile-medium-bold md:text-xl md:font-semibold mb-3 md:mb-4">{title}</h2>
-    {children}
-  </section>
-);
+const Section: React.FC<{ title: string; children: React.ReactNode; collapsible?: boolean; defaultOpen?: boolean }> = ({ title, children, collapsible = false, defaultOpen = true }) => {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+  
+  return (
+    <section className="bg-white rounded-2xl p-5 md:p-8 shadow-md border border-lightgray/30 hover:shadow-lg transition-shadow duration-200">
+      <div 
+        className={`flex items-center justify-between mb-4 md:mb-6 ${collapsible ? 'cursor-pointer' : ''}`}
+        onClick={() => collapsible && setIsOpen(!isOpen)}
+      >
+        <h2 className="text-darkgreen text-mobile-medium-bold md:text-2xl md:font-bold">{title}</h2>
+        {collapsible && (
+          <button className="text-darkgray hover:text-darkgreen transition-colors">
+            {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+          </button>
+        )}
+      </div>
+      {(!collapsible || isOpen) && (
+        <div className="animate-fadeIn">
+          {children}
+        </div>
+      )}
+    </section>
+  );
+};
 
 const InfoRow: React.FC<{ label: string; value?: React.ReactNode }> = ({ label, value }) => (
-  <div className="flex items-start justify-between py-2 border-b last:border-0">
-    <div className="text-darkgray whitespace-nowrap mr-4">{label}</div>
-    <div className="text-black flex-1 text-right">{value ?? '-'}</div>
+  <div className="flex items-center justify-between py-3 border-b border-lightgray/20 last:border-0 hover:bg-beige/30 transition-colors px-2 -mx-2 rounded">
+    <span className="text-darkgray font-medium">{label}</span>
+    <div className="text-black font-semibold">{value ?? '-'}</div>
   </div>
 );
 
-const Pill: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <span className="inline-flex items-center rounded-xl bg-beige text-black px-3 py-1 text-xs mr-2 mb-2">{children}</span>
-);
+const Pill: React.FC<{ children: React.ReactNode; variant?: 'default' | 'primary' | 'secondary' }> = ({ children, variant = 'default' }) => {
+  const variants = {
+    default: 'bg-beige text-black',
+    primary: 'bg-darkgreen text-white',
+    secondary: 'bg-lightgray text-darkgray'
+  };
+  
+  return (
+    <span className={`inline-flex items-center rounded-xl px-4 py-2 text-sm font-medium mr-2 mb-2 transition-all hover:scale-105 ${variants[variant]}`}>
+      {children}
+    </span>
+  );
+};
 
-const DetailHeader: React.FC<{ name: string; code: string; professor: string; credit: number; category?: string; department?: string; evaluation?: string }> = ({ name, code, professor, credit, category, department, evaluation }) => {
+const DetailHeader: React.FC<{ name: string; code: string; professor: string; credit: number; category?: string; department?: string; evaluation?: string; rating?: number }> = ({ name, code, professor, credit, category, department, evaluation, rating }) => {
   const navigate = useNavigate();
   return (
-    <div className="flex flex-col gap-3 md:gap-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-mobile-medium-bold md:text-2xl md:font-bold text-black truncate">{name}</h1>
-        <div className="flex gap-2">
-          <Button text="뒤로" size="extrasmall" variant="secondary" onClick={() => navigate(-1)} />
+    <div className="bg-gradient-to-r from-darkgreen/5 to-lightgreen/5 rounded-2xl p-6 md:p-8 border border-lightgray/20">
+      <div className="flex flex-col gap-4 md:gap-5">
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex-1">
+            <h1 className="text-xl md:text-3xl font-bold text-black mb-3">{name}</h1>
+            <div className="flex flex-wrap items-center gap-2 md:gap-4 text-darkgray text-sm md:text-base">
+              <span className="font-medium">{code}</span>
+              <span className="text-lightgray">•</span>
+              <span>{professor} 교수</span>
+              <span className="text-lightgray">•</span>
+              <span>{credit}학점</span>
+            </div>
+          </div>
+          <div className="flex flex-col md:flex-row gap-2">
+            <Button text="관심과목" size="small" variant="secondary" onClick={() => {}} />
+            <Button text="수강신청" size="small" variant="primary" onClick={() => {}} />
+            <Button text="뒤로" size="small" variant="secondary" onClick={() => navigate(-1)} />
+          </div>
         </div>
-      </div>
-      <div className="text-darkgray text-sm">{code} · {professor} · {credit}학점</div>
-      <div className="flex flex-wrap">
-        {category && <Pill>{category}</Pill>}
-        {department && <Pill>{department}</Pill>}
-        {evaluation && <Pill>{evaluation}</Pill>}
+        <div className="flex flex-wrap items-center gap-2">
+          {category && <Pill variant="primary">{category}</Pill>}
+          {department && <Pill>{department}</Pill>}
+          {evaluation && <Pill variant="secondary">{evaluation}</Pill>}
+          {rating && (
+            <div className="flex items-center gap-1 ml-auto">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} size={16} className={i < rating ? 'text-orange fill-current' : 'text-lightgray'} />
+              ))}
+              <span className="text-sm text-darkgray ml-1">({rating}.0)</span>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -50,68 +99,105 @@ const ScheduleTable: React.FC<{ blocks?: Array<{ day: string; start: string; end
     byDay[b.day].push({ start: b.start, end: b.end });
   });
   return (
-    <Table>
-      <TableHeader className="bg-beige">
-        <TableRow className="[&>th]:text-center [&>th]:font-bold">
-          {DAYS_ORDER.map(d => (<TableHead key={d}>{d}</TableHead>))}
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        <TableRow className="[&>td]:text-center">
-          {DAYS_ORDER.map(d => (
-            <TableCell key={d}>
-              {(byDay[d] ?? []).length > 0 ? (
-                <div className="space-y-1">
-                  {(byDay[d] ?? []).map((t, i) => (
-                    <div key={i} className="inline-flex flex-col items-center">
-                      <span className="text-sm">{t.start} - {t.end}</span>
-                      {room && <span className="text-xs text-darkgray">{room}</span>}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <span className="text-darkgray">-</span>
-              )}
-            </TableCell>
-          ))}
-        </TableRow>
-      </TableBody>
-    </Table>
+    <div className="overflow-x-auto">
+      <Table>
+        <TableHeader className="bg-darkgreen/5">
+          <TableRow className="[&>th]:text-center [&>th]:font-bold [&>th]:text-darkgreen">
+            {DAYS_ORDER.map(d => (<TableHead key={d} className="py-3">{d}요일</TableHead>))}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow className="[&>td]:text-center [&>td]:py-6">
+            {DAYS_ORDER.map(d => (
+              <TableCell key={d} className="hover:bg-beige/50 transition-colors">
+                {(byDay[d] ?? []).length > 0 ? (
+                  <div className="space-y-2">
+                    {(byDay[d] ?? []).map((t, i) => (
+                      <div key={i} className="bg-darkgreen/10 rounded-lg p-3 mx-2">
+                        <div className="font-semibold text-sm">{t.start} - {t.end}</div>
+                        {room && <div className="text-xs text-darkgray mt-1">{room}</div>}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <span className="text-lightgray">-</span>
+                )}
+              </TableCell>
+            ))}
+          </TableRow>
+        </TableBody>
+      </Table>
+    </div>
   );
 };
 
-const EvaluationTable: React.FC<{ breakdown?: Array<{ item: string; weight: number }> }> = ({ breakdown }) => (
-  <Table>
-    <TableHeader className="bg-beige">
-      <TableRow className="[&>th]:text-center [&>th]:font-bold">
-        <TableHead>평가 항목</TableHead>
-        <TableHead>반영 비율</TableHead>
-      </TableRow>
-    </TableHeader>
-    <TableBody>
+const EvaluationTable: React.FC<{ breakdown?: Array<{ item: string; weight: number }> }> = ({ breakdown }) => {
+  const getColorByWeight = (weight: number) => {
+    if (weight >= 30) return 'bg-darkgreen';
+    if (weight >= 20) return 'bg-green';
+    return 'bg-lightgreen';
+  };
+  
+  return (
+    <div className="space-y-4">
       {(breakdown ?? []).map((row, idx) => (
-        <TableRow key={idx} className="[&>td]:text-center">
-          <TableCell>{row.item}</TableCell>
-          <TableCell>{row.weight}%</TableCell>
-        </TableRow>
+        <div key={idx} className="flex items-center justify-between p-4 bg-beige/30 rounded-lg hover:bg-beige/50 transition-colors">
+          <span className="font-medium text-black">{row.item}</span>
+          <div className="flex items-center gap-3">
+            <div className="w-32 bg-lightgray/30 rounded-full h-2 overflow-hidden">
+              <div 
+                className={`h-full ${getColorByWeight(row.weight)} transition-all duration-300`}
+                style={{ width: `${row.weight}%` }}
+              />
+            </div>
+            <span className="font-bold text-darkgreen min-w-[50px] text-right">{row.weight}%</span>
+          </div>
+        </div>
       ))}
-    </TableBody>
-  </Table>
-);
+    </div>
+  );
+};
 
-const Notices: React.FC<{ notices?: Array<{ id: string; title: string; date: string }> }> = ({ notices }) => (
+const Notices: React.FC<{ notices?: Array<{ id: string; title: string; date: string; isNew?: boolean }> }> = ({ notices }) => (
   <div className="space-y-3">
     {(notices ?? []).map(n => (
-      <div key={n.id} className="flex items-center justify-between p-3 border rounded-xl hover:bg-gray-50">
-        <div className="truncate pr-3">{n.title}</div>
+      <div key={n.id} className="flex items-center justify-between p-4 border border-lightgray/30 rounded-xl hover:bg-beige/30 hover:border-darkgreen/20 transition-all cursor-pointer group">
+        <div className="flex items-center gap-3 flex-1">
+          {n.isNew && (
+            <span className="bg-danger text-white text-xs px-2 py-1 rounded-full font-bold">NEW</span>
+          )}
+          <div className="truncate group-hover:text-darkgreen transition-colors">{n.title}</div>
+        </div>
         <span className="text-sm text-darkgray whitespace-nowrap">{n.date}</span>
       </div>
     ))}
     {(!notices || notices.length === 0) && (
-      <div className="text-darkgray">등록된 공지가 없습니다.</div>
+      <div className="text-center py-8 text-darkgray">
+        <div className="text-4xl mb-2">📭</div>
+        <div>등록된 공지가 없습니다.</div>
+      </div>
     )}
   </div>
 );
+
+// 관련 과목 카드 컴포넌트
+const RelatedCourseCard: React.FC<{ course: any }> = ({ course }) => {
+  const navigate = useNavigate();
+  return (
+    <div 
+      className="p-4 border border-lightgray/30 rounded-xl hover:border-darkgreen/30 hover:bg-beige/20 transition-all cursor-pointer"
+      onClick={() => navigate(`/timetable/${course.subjectCode}`)}
+    >
+      <div className="font-semibold text-black mb-1">{course.subjectName}</div>
+      <div className="text-sm text-darkgray">
+        {course.professor} · {course.credit}학점
+      </div>
+      <div className="flex gap-2 mt-2">
+        <span className="text-xs bg-beige px-2 py-1 rounded">{course.category}</span>
+      </div>
+    </div>
+  );
+};
 
 const DetailLectureSchedule: React.FC = () => {
   const { subjectCode } = useParams<{ subjectCode: string }>();
@@ -119,17 +205,27 @@ const DetailLectureSchedule: React.FC = () => {
 
   if (!data) {
     return (
-      <div className="p-5 md:p-8">
-        <div className="max-w-5xl mx-auto">
-          <div className="bg-white rounded-2xl p-6 border text-center">존재하지 않는 과목이거나 준비 중입니다.</div>
+      <div className="min-h-screen bg-white p-5 md:p-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-white rounded-2xl p-12 border border-lightgray/30 text-center">
+            <div className="text-6xl mb-4">📚</div>
+            <h2 className="text-xl font-bold text-black mb-2">과목을 찾을 수 없습니다</h2>
+            <p className="text-darkgray">존재하지 않는 과목이거나 준비 중입니다.</p>
+          </div>
         </div>
       </div>
     );
   }
 
+  // 관련 과목 데이터 (실제로는 API에서 가져와야 함)
+  const relatedCourses = [
+    { subjectCode: "0201", subjectName: "자료구조", professor: "김철수", credit: 3, category: "전선" },
+    { subjectCode: "0312", subjectName: "이산수학", professor: "박소영", credit: 3, category: "전선" },
+  ].filter(c => c.subjectCode !== subjectCode);
+
   return (
-    <div className="p-5 md:p-8">
-      <div className="max-w-5xl mx-auto space-y-6">
+    <div className="min-h-screen bg-white p-5 md:p-8">
+      <div className="max-w-7xl mx-auto space-y-6 md:space-y-8">
         <DetailHeader
           name={data.subjectName}
           code={data.subjectCode}
@@ -138,52 +234,69 @@ const DetailLectureSchedule: React.FC = () => {
           category={data.category}
           department={data.department}
           evaluation={data.evaluation}
+          rating={4}
         />
 
-        <Section title="강의 정보">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <InfoRow label="교강사" value={data.professor} />
-              <InfoRow label="학점" value={`${data.credit}학점`} />
-              <InfoRow label="이수구분" value={data.category} />
-              <InfoRow label="학과" value={data.department} />
-            </div>
-            <div>
-              <InfoRow label="강의실" value={data.room} />
-              <InfoRow label="수업시간" value={data.time} />
-              <InfoRow label="수강정원" value={data.capacity} />
-              <InfoRow label="신청인원" value={data.enrolled} />
-            </div>
-          </div>
-        </Section>
-
-        <Section title="시간표">
-          <ScheduleTable blocks={data.scheduleBlocks} room={data.room} />
-        </Section>
-
-        {data.evaluationBreakdown && data.evaluationBreakdown.length > 0 && (
-          <Section title="평가 비율">
-            <EvaluationTable breakdown={data.evaluationBreakdown} />
-          </Section>
-        )}
-
-        {data.description && (
-          <Section title="과목 개요">
-            <p className="text-darkgray leading-relaxed">{data.description}</p>
-            {data.prerequisites && data.prerequisites.length > 0 && (
-              <div className="mt-3">
-                <div className="text-black font-medium mb-2">선수과목</div>
-                <div className="flex flex-wrap">
-                  {data.prerequisites.map((p, i) => (<Pill key={i}>{p}</Pill>))}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="lg:col-span-2 space-y-6">
+            <Section title="강의 정보">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <InfoRow label="교강사" value={data.professor} />
+                  <InfoRow label="학점" value={`${data.credit}학점`} />
+                  <InfoRow label="이수구분" value={data.category} />
+                  <InfoRow label="학과" value={data.department} />
+                </div>
+                <div>
+                  <InfoRow label="강의실" value={data.room} />
+                  <InfoRow label="수업시간" value={data.time} />
+                  <InfoRow label="수강정원" value={data.capacity} />
+                  <InfoRow label="신청인원" value={data.enrolled} />
                 </div>
               </div>
-            )}
-          </Section>
-        )}
+            </Section>
 
-        <Section title="공지">
-          <Notices notices={data.notices} />
-        </Section>
+            <Section title="시간표">
+              <ScheduleTable blocks={data.scheduleBlocks} room={data.room} />
+            </Section>
+
+            {data.evaluationBreakdown && data.evaluationBreakdown.length > 0 && (
+              <Section title="평가 비율" collapsible defaultOpen={false}>
+                <EvaluationTable breakdown={data.evaluationBreakdown} />
+              </Section>
+            )}
+
+            {data.description && (
+              <Section title="과목 개요" collapsible>
+                <p className="text-darkgray leading-relaxed text-sm md:text-base">{data.description}</p>
+                {data.prerequisites && data.prerequisites.length > 0 && (
+                  <div className="mt-4 p-4 bg-beige/30 rounded-lg">
+                    <div className="text-black font-semibold mb-2">선수과목</div>
+                    <div className="flex flex-wrap">
+                      {data.prerequisites.map((p, i) => (<Pill key={i} variant="secondary">{p}</Pill>))}
+                    </div>
+                  </div>
+                )}
+              </Section>
+            )}
+          </div>
+
+          <div className="space-y-6">
+            <Section title="공지사항">
+              <Notices notices={data.notices} />
+            </Section>
+
+            {relatedCourses.length > 0 && (
+              <Section title="관련 과목">
+                <div className="space-y-3">
+                  {relatedCourses.map((course) => (
+                    <RelatedCourseCard key={course.subjectCode} course={course} />
+                  ))}
+                </div>
+              </Section>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
