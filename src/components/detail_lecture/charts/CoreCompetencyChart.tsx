@@ -1,5 +1,6 @@
 import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import useMediaQuery from '@/hooks/useMediaQuery';
 
 interface CompetencyData {
   name: string;
@@ -8,6 +9,8 @@ interface CompetencyData {
 }
 
 const CoreCompetencyChart: React.FC = () => {
+  const isDesktop = useMediaQuery('(min-width: 768px)');
+  
   const data: CompetencyData[] = [
     { name: '성실성', value: 20, color: '#61A7DD' },
     { name: '소통역량', value: 20, color: '#036B3F' },
@@ -37,10 +40,10 @@ const CoreCompetencyChart: React.FC = () => {
 
   return (
     <div className="p-4 bg-white rounded-2xl shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100">
-      <div className="text-gray-900 text-sm font-bold font-['Noto_Sans'] mb-4">
+      <div className={`text-gray-900 ${isDesktop ? 'text-base' : 'text-sm'} font-bold font-['Noto_Sans'] mb-4`}>
         핵심역량
       </div>
-      <div className="h-48 flex flex-col items-center">
+      <div className={`${isDesktop ? 'h-56' : 'h-48'} flex flex-col items-center`}>
         <ResponsiveContainer width="100%" height="60%">
           <PieChart>
             <Pie
@@ -48,8 +51,8 @@ const CoreCompetencyChart: React.FC = () => {
               cx="50%"
               cy="50%"
               labelLine={false}
-              innerRadius={25}
-              outerRadius={40}
+              innerRadius={isDesktop ? 30 : 25}
+              outerRadius={isDesktop ? 50 : 40}
               fill="#8884d8"
               dataKey="value"
             >
@@ -71,11 +74,11 @@ const CoreCompetencyChart: React.FC = () => {
                     opacity: item.value === 0 ? 0.3 : (item.color === '#9E9E9E' || item.color === '#B0B0B0' ? 0.7 : 0.6)
                   }}
                 />
-                <span className="text-zinc-800 text-xs font-semibold font-['Inter'] leading-none">
+                <span className={`text-zinc-800 ${isDesktop ? 'text-sm' : 'text-xs'} font-semibold font-['Inter'] leading-none`}>
                   {item.value}%
                 </span>
               </div>
-              <span className="text-slate-500 text-[10px] font-normal font-['Inter'] whitespace-nowrap">
+              <span className={`text-slate-500 ${isDesktop ? 'text-xs' : 'text-[10px]'} font-normal font-['Inter'] whitespace-nowrap`}>
                 {item.name}
               </span>
             </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import useMediaQuery from '@/hooks/useMediaQuery';
 
 interface BLearningData {
   name: string;
@@ -8,6 +9,8 @@ interface BLearningData {
 }
 
 const BLearningChart: React.FC = () => {
+  const isDesktop = useMediaQuery('(min-width: 768px)');
+  
   const data: BLearningData[] = [
     { name: '대면', value: 8, color: '#61A7DD' },
     { name: '녹화', value: 4, color: '#F6DB00' },
@@ -31,10 +34,10 @@ const BLearningChart: React.FC = () => {
 
   return (
     <div className="p-4 bg-white rounded-2xl shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100">
-      <div className="text-gray-900 text-sm font-bold font-['Noto_Sans'] mb-4">
+      <div className={`text-gray-900 ${isDesktop ? 'text-base' : 'text-sm'} font-bold font-['Noto_Sans'] mb-4`}>
         B러닝(녹화+대면)
       </div>
-      <div className="h-48 flex flex-col items-center">
+      <div className={`${isDesktop ? 'h-56' : 'h-48'} flex flex-col items-center`}>
         <ResponsiveContainer width="100%" height="70%">
           <PieChart>
             <Pie
@@ -42,8 +45,8 @@ const BLearningChart: React.FC = () => {
               cx="50%"
               cy="50%"
               labelLine={false}
-              innerRadius={25}
-              outerRadius={40}
+              innerRadius={isDesktop ? 30 : 25}
+              outerRadius={isDesktop ? 50 : 40}
               fill="#8884d8"
               dataKey="value"
             >
@@ -62,11 +65,11 @@ const BLearningChart: React.FC = () => {
                   className="w-2 h-2 rounded-full"
                   style={{ backgroundColor: item.color, opacity: 0.6 }}
                 />
-                <span className="text-zinc-800 text-xs font-semibold font-['Inter'] leading-none">
+                <span className={`text-zinc-800 ${isDesktop ? 'text-sm' : 'text-xs'} font-semibold font-['Inter'] leading-none`}>
                   {item.value}주
                 </span>
               </div>
-              <span className="text-slate-500 text-[10px] font-normal font-['Inter']">
+              <span className={`text-slate-500 ${isDesktop ? 'text-xs' : 'text-[10px]'} font-normal font-['Inter']`}>
                 {item.name}
               </span>
             </div>
