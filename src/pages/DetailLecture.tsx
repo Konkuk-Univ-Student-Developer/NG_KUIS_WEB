@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, Button } from '@/components/commons';
-import { LECTURE_DETAILS, DAYS_ORDER } from '@/constants/DetailLectureScheduleConstants';
+import { LECTURE_DETAILS, DAYS_ORDER } from '@/constants/DetailLectureConstants';
 import { ChevronDown, ChevronUp, Star } from 'lucide-react';
 
 // Local subcomponents kept in this file as requested
 
 const Section: React.FC<{ title: string; children: React.ReactNode; collapsible?: boolean; defaultOpen?: boolean }> = ({ title, children, collapsible = false, defaultOpen = true }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-  
+
   return (
     <section className="bg-white rounded-2xl p-5 md:p-8 shadow-md border border-lightgray/30 hover:shadow-lg transition-shadow duration-200">
-      <div 
+      <div
         className={`flex items-center justify-between mb-4 md:mb-6 ${collapsible ? 'cursor-pointer' : ''}`}
         onClick={() => collapsible && setIsOpen(!isOpen)}
       >
@@ -44,7 +44,7 @@ const Pill: React.FC<{ children: React.ReactNode; variant?: 'default' | 'primary
     primary: 'bg-darkgreen text-white',
     secondary: 'bg-lightgray text-darkgray'
   };
-  
+
   return (
     <span className={`inline-flex items-center rounded-xl px-4 py-2 text-sm font-medium mr-2 mb-2 transition-all hover:scale-105 ${variants[variant]}`}>
       {children}
@@ -69,8 +69,8 @@ const DetailHeader: React.FC<{ name: string; code: string; professor: string; cr
             </div>
           </div>
           <div className="flex flex-col md:flex-row gap-2">
-            <Button text="관심과목" size="small" variant="secondary" onClick={() => {}} />
-            <Button text="수강신청" size="small" variant="primary" onClick={() => {}} />
+            <Button text="관심과목" size="small" variant="secondary" onClick={() => { }} />
+            <Button text="수강신청" size="small" variant="primary" onClick={() => { }} />
             <Button text="뒤로" size="small" variant="secondary" onClick={() => navigate(-1)} />
           </div>
         </div>
@@ -137,7 +137,7 @@ const EvaluationTable: React.FC<{ breakdown?: Array<{ item: string; weight: numb
     if (weight >= 20) return 'bg-green';
     return 'bg-lightgreen';
   };
-  
+
   return (
     <div className="space-y-4">
       {(breakdown ?? []).map((row, idx) => (
@@ -145,7 +145,7 @@ const EvaluationTable: React.FC<{ breakdown?: Array<{ item: string; weight: numb
           <span className="font-medium text-black">{row.item}</span>
           <div className="flex items-center gap-3">
             <div className="w-32 bg-lightgray/30 rounded-full h-2 overflow-hidden">
-              <div 
+              <div
                 className={`h-full ${getColorByWeight(row.weight)} transition-all duration-300`}
                 style={{ width: `${row.weight}%` }}
               />
@@ -184,7 +184,7 @@ const Notices: React.FC<{ notices?: Array<{ id: string; title: string; date: str
 const RelatedCourseCard: React.FC<{ course: any }> = ({ course }) => {
   const navigate = useNavigate();
   return (
-    <div 
+    <div
       className="p-4 border border-lightgray/30 rounded-xl hover:border-darkgreen/30 hover:bg-beige/20 transition-all cursor-pointer"
       onClick={() => navigate(`/timetable/${course.subjectCode}`)}
     >
