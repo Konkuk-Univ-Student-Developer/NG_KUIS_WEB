@@ -1,8 +1,8 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Download, Check, ChevronUp, ChevronDown } from 'lucide-react';
+import { ArrowLeft, Check, ChevronUp, ChevronDown } from 'lucide-react';
 import { BLearningChart, CoreCompetencyChart } from '@/components/detail_lecture/charts';
-import { TitleSection } from '@/components/commons';
+import { TitleSection, Badge } from '@/components/commons';
 import SearchIcon from "@/assets/icon/ic_search.svg?react";
 import { LECTURE_DETAILS } from '@/constants/DetailLectureConstants';
 import { DownloadIcon } from '@/assets/icon';
@@ -45,7 +45,7 @@ const DetailLecture: React.FC = () => {
                 과목해설
               </span>
             </button>
-            <button className="h-8 px-4 bg-stone-200 rounded-[10px] flex items-center gap-2 hover:bg-stone-300 transition-colors">
+            <button className="h-8 px-4 bg-beige rounded-[10px] flex items-center gap-2 hover:bg-beige/80 transition-colors">
               <DownloadIcon className="w-4 h-4 text-black" />
               <span className="text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                 다운로드
@@ -67,7 +67,7 @@ const DetailLecture: React.FC = () => {
             <div className="overflow-x-auto">
               <table className="w-full border-collapse">
                 <thead>
-                  <tr className="bg-stone-200">
+                  <tr className="bg-beige">
                     <th className="border border-zinc-400 px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                       학년
                     </th>
@@ -111,7 +111,7 @@ const DetailLecture: React.FC = () => {
             <div className="overflow-x-auto">
               <table className="w-full border-collapse">
                 <thead>
-                  <tr className="bg-stone-200">
+                  <tr className="bg-beige">
                     <th className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                       현재인원
                     </th>
@@ -148,11 +148,7 @@ const DetailLecture: React.FC = () => {
             {/* Tags */}
             <div className="flex flex-wrap gap-2">
               {lectureData.tags?.map((tag, index) => (
-                <div key={index} className="px-4 py-1 bg-stone-200 rounded-[10px]">
-                  <span className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
-                    {tag}
-                  </span>
-                </div>
+                <Badge key={index} label={tag} variant="default" size="md" />
               ))}
             </div>
           </div>
@@ -176,7 +172,7 @@ const DetailLecture: React.FC = () => {
                     {lectureData.professorInfo?.name || lectureData.professor}
                   </div>
                 </div>
-                <div className="px-3 py-2 bg-stone-200 rounded-2xl">
+                <div className="px-3 py-2 bg-beige rounded-2xl">
                   <div className="space-y-2">
                     <div className="flex justify-between">
                       <span className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
@@ -218,7 +214,7 @@ const DetailLecture: React.FC = () => {
             <table className="w-full border-collapse">
               <tbody>
                 <tr>
-                  <td className="border border-zinc-400 bg-stone-200 px-2 py-4 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle" rowSpan={1}>
+                  <td className="border border-zinc-400 bg-beige px-2 py-4 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle" rowSpan={1}>
                     핵심역량<br />강의목표
                   </td>
                   <td className="border border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
@@ -226,7 +222,7 @@ const DetailLecture: React.FC = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-zinc-400 bg-stone-200 px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                  <td className="border border-zinc-400 bg-beige px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                     주 전공역량
                   </td>
                   <td className="border border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
@@ -234,7 +230,7 @@ const DetailLecture: React.FC = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-zinc-400 bg-stone-200 px-2 py-3 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
+                  <td className="border border-zinc-400 bg-beige px-2 py-3 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
                     주 전공역량<br />정의
                   </td>
                   <td className="border border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
@@ -242,7 +238,7 @@ const DetailLecture: React.FC = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-zinc-400 bg-stone-200 px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
+                  <td className="border border-zinc-400 bg-beige px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
                     보조<br />전공역량1
                   </td>
                   <td className="border border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
@@ -250,7 +246,7 @@ const DetailLecture: React.FC = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-zinc-400 bg-stone-200 px-2 py-3 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
+                  <td className="border border-zinc-400 bg-beige px-2 py-3 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
                     보조<br />전공역량1 정의
                   </td>
                   <td className="border border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
@@ -258,7 +254,7 @@ const DetailLecture: React.FC = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-zinc-400 bg-stone-200 px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
+                  <td className="border border-zinc-400 bg-beige px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
                     보조<br />전공역량2
                   </td>
                   <td className="border border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
@@ -266,7 +262,7 @@ const DetailLecture: React.FC = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-zinc-400 bg-stone-200 px-2 py-3 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
+                  <td className="border border-zinc-400 bg-beige px-2 py-3 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
                     보조<br />전공역량2 정의
                   </td>
                   <td className="border border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
@@ -274,7 +270,7 @@ const DetailLecture: React.FC = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-zinc-400 bg-stone-200 px-2 py-4 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
+                  <td className="border border-zinc-400 bg-beige px-2 py-4 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
                     역량기반<br />교육목표
                   </td>
                   <td className="border border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
@@ -282,7 +278,7 @@ const DetailLecture: React.FC = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-zinc-400 bg-stone-200 px-2 py-4 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                  <td className="border border-zinc-400 bg-beige px-2 py-4 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                     직무역량
                   </td>
                   <td className="border border-zinc-400 bg-white px-3 py-2">
@@ -315,7 +311,7 @@ const DetailLecture: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
-                <tr className="bg-stone-200">
+                <tr className="bg-beige">
                   <th className="border border-zinc-400 px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                     항목
                   </th>
@@ -352,7 +348,7 @@ const DetailLecture: React.FC = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td colSpan={5} className="border border-gray-500 bg-stone-200 px-2 py-1">
+                  <td colSpan={5} className="border border-gray-500 bg-beige px-2 py-1">
                     <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
                       Checked with e-campus system
                     </div>
@@ -505,7 +501,7 @@ const DetailLecture: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
-                <tr className="bg-stone-200">
+                <tr className="bg-beige">
                   <th className="border border-zinc-400 px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                     번호
                   </th>
@@ -556,7 +552,7 @@ const DetailLecture: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
-                <tr className="bg-stone-200">
+                <tr className="bg-beige">
                   <th className="border border-zinc-400 px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                     번호
                   </th>
@@ -598,7 +594,7 @@ const DetailLecture: React.FC = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {[1, 2, 3].map((week) => (
-              <div key={week} className="px-3 py-4 bg-stone-200 rounded-[20px] flex flex-col gap-5">
+              <div key={week} className="px-3 py-4 bg-beige rounded-[20px] flex flex-col gap-5">
                 <div className="flex flex-col gap-2">
                   <div className="flex flex-col gap-1">
                     <div className="text-black text-sm font-semibold font-['Noto_Sans'] leading-none">

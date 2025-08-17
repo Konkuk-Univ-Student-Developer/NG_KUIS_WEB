@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { ExternalLink } from 'lucide-react';
 import type { CourseData } from '@/constants/TimetableConstants';
-import Chip from './Chip';
+import Badge from './Badge';
 
 interface CourseCardProps {
   course: CourseData;
@@ -32,7 +32,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
         const wrapperWidth = chipWrapperRef.current.scrollWidth;
         const overflow = wrapperWidth > containerWidth;
         setIsOverflowing(overflow);
-        
+
         if (overflow) {
           // Calculate the exact distance needed to show all chips
           setSlideDistance(wrapperWidth - containerWidth + 10); // +10 for some padding
@@ -43,7 +43,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
     checkOverflow();
     // Small delay to ensure proper measurement after render
     const timeout = setTimeout(checkOverflow, 100);
-    
+
     window.addEventListener('resize', checkOverflow);
     return () => {
       window.removeEventListener('resize', checkOverflow);
@@ -88,22 +88,21 @@ const CourseCard: React.FC<CourseCardProps> = ({
       {/* Bottom Info */}
       <div className="mt-auto pt-5">
         <div className="flex justify-between items-center">
-          <div 
+          <div
             ref={chipContainerRef}
             className="relative overflow-hidden flex-1 mr-3"
           >
-            <div 
+            <div
               ref={chipWrapperRef}
-              className={`flex gap-2.5 flex-nowrap ${
-                isOverflowing ? 'group-hover:animate-[slideCustom_4s_ease-in-out_infinite]' : ''
-              }`}
+              className={`flex gap-2.5 flex-nowrap ${isOverflowing ? 'group-hover:animate-[slideCustom_4s_ease-in-out_infinite]' : ''
+                }`}
               style={{
                 '--slide-distance': `-${slideDistance}px`
               } as React.CSSProperties}
             >
-              <Chip>{course.grade}학년</Chip>
-              <Chip>{course.departmentName}</Chip>
-              <Chip>{course.method}</Chip>
+              <Badge variant="white">{course.grade}학년</Badge>
+              <Badge variant="white">{course.departmentName}</Badge>
+              <Badge variant="white">{course.method}</Badge>
             </div>
           </div>
           <ExternalLink className="w-6 h-6 text-darkgray flex-shrink-0" />
