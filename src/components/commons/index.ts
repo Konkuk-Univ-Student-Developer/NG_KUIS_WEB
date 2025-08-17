@@ -20,3 +20,12 @@ export {
 export { default as Timer } from "./Timer";
 export { default as TitleSection } from "./TitleSection";
 export { default as TopBar } from "./TopBar";
+
+// Rounded Table components
+export { 
+  RoundedTable, 
+  ExpandableTable, 
+  VerticalTable,
+  tableStyles,
+  getCellClass 
+} from "./RoundedTable";
