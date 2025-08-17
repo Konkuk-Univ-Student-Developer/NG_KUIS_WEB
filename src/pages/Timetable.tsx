@@ -67,6 +67,15 @@ const TimetablePage: React.FC = () => {
 
   const navigate = useNavigate();
   const goDetail = (courseNumber: string, courseData?: any) => {
+    console.log('🚀 Navigating to DetailLecture:', {
+      courseNumber,
+      courseData: {
+        courseCode: courseData?.courseCode,
+        courseNumber: courseData?.courseNumber,
+        courseName: courseData?.courseName,
+        fullData: courseData
+      }
+    });
     navigate(courseNumber, { state: { courseData } });
   };
 

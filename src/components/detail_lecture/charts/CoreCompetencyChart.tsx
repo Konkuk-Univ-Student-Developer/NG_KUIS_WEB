@@ -9,12 +9,12 @@ interface CompetencyData {
 
 const CoreCompetencyChart: React.FC = () => {
   const data: CompetencyData[] = [
-    { name: '성실성', value: 30, color: '#61A7DD' },
-    { name: '소통역량', value: 0, color: '#036B3F' },
-    { name: '창의역량', value: 0, color: '#F6DB00' },
-    { name: '종합적사고력', value: 50, color: '#9E9E9E' },
+    { name: '성실성', value: 20, color: '#61A7DD' },
+    { name: '소통역량', value: 20, color: '#036B3F' },
+    { name: '창의역량', value: 10, color: '#F6DB00' },
+    { name: '종합적사고력', value: 20, color: '#9E9E9E' },
     { name: '주도성', value: 20, color: '#B0B0B0' },
-    { name: '글로벌시민의식', value: 0, color: '#C283C6' },
+    { name: '글로벌시민의식', value: 10, color: '#C283C6' },
   ];
 
   // Filter out 0 values for pie chart but keep them for legend
@@ -37,7 +37,7 @@ const CoreCompetencyChart: React.FC = () => {
 
   return (
     <div className="p-4 bg-white rounded-2xl shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100">
-      <div className="text-gray-900 text-[10px] font-bold font-['Noto_Sans'] mb-4">
+      <div className="text-gray-900 text-sm font-bold font-['Noto_Sans'] mb-4">
         핵심역량
       </div>
       <div className="h-48 flex flex-col items-center">

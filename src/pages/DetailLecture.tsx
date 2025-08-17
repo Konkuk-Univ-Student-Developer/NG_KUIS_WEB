@@ -38,27 +38,49 @@ const DetailLecture: React.FC = () => {
     });
   }, [courseData, courseNumber]);
 
-  // Get default lecture data from constants
-  // Use courseNumber from URL parameter or courseData
-  const defaultLectureData = LECTURE_DETAILS[courseNumber || courseData?.courseNumber || 'BBAB12012'] || LECTURE_DETAILS['BBAB12012'];
-
   // Fetch lecture plan from KUPIS
   // Note: We need year from courseData or default to current year
   const currentYear = new Date().getFullYear().toString();
   
-  // Log the parameters being sent to useLecturePlan
-  // Only need year and courseNumber (ltShtm is fixed as B01012)
-  const lecturePlanParams = (courseData?.courseNumber || courseNumber) ? {
+  // Priority: courseData.courseNumber > URL courseNumber parameter
+  const effectiveCourseNumber = courseData?.courseNumber || courseNumber || '';
+
+  // Get default lecture data from constants
+  // Try multiple keys: courseNumber first, then courseCode, then default
+  const getDefaultLectureData = () => {
+    // Try with courseNumber first
+    if (effectiveCourseNumber && LECTURE_DETAILS[effectiveCourseNumber]) {
+      console.log('📚 Found lecture data with courseNumber:', effectiveCourseNumber);
+      return LECTURE_DETAILS[effectiveCourseNumber];
+    }
+    
+    // Try with courseCode if available
+    if (courseData?.courseCode && LECTURE_DETAILS[courseData.courseCode]) {
+      console.log('📚 Found lecture data with courseCode:', courseData.courseCode);
+      return LECTURE_DETAILS[courseData.courseCode];
+    }
+    
+    // Fallback to default
+    console.log('📚 Using default lecture data (BBAB12012)');
+    return LECTURE_DETAILS['BBAB12012'];
+  };
+  
+  const defaultLectureData = getDefaultLectureData();
+  
+  const lecturePlanParams = effectiveCourseNumber ? {
     year: currentYear, // TODO: Get actual year from courseData or filters
-    courseNumber: courseData?.courseNumber || courseNumber || ''  // Use courseNumber from courseData or URL param
+    courseNumber: effectiveCourseNumber  // Use courseNumber from courseData or URL param
   } : undefined;
   
   React.useEffect(() => {
     console.log('📤 Lecture Plan Parameters:', {
       hasParams: !!lecturePlanParams,
+      courseNumberFromData: courseData?.courseNumber,
+      courseNumberFromURL: courseNumber,
+      effectiveCourseNumber,
       params: lecturePlanParams
     });
-  }, [lecturePlanParams?.year, lecturePlanParams?.courseNumber]);
+  }, [lecturePlanParams?.year, lecturePlanParams?.courseNumber, courseData?.courseNumber, courseNumber]);
   
   const { data: fetchedData, loading, error } = useLecturePlan(lecturePlanParams);
 

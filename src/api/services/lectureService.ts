@@ -45,7 +45,18 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
     result.subjectName = getTableCellByHeader('교과목명', '과목명');
     result.subjectNameEng = getTableCellByHeader('영문교과목명', '영문명');
     result.courseCode = getTableCellByHeader('학수번호');  // e.g., BBAB67057
-    result.courseNumber = getTableCellByHeader('과목번호')?.substring(0, 4); // Ensure 4-digit
+    
+    // Extract and validate courseNumber (ensure 4-digit)
+    const rawCourseNumber = getTableCellByHeader('과목번호');
+    result.courseNumber = rawCourseNumber?.substring(0, 4); // Ensure 4-digit
+    
+    if (isDev && rawCourseNumber) {
+      console.log('📝 Course number extraction:', {
+        raw: rawCourseNumber,
+        extracted: result.courseNumber,
+        length: result.courseNumber?.length
+      });
+    }
     
     const gradeStr = getTableCellByHeader('학년');
     const creditStr = getTableCellByHeader('학점');
@@ -305,6 +316,11 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
 export const fetchLecturePlan = async (params: LecturePlanParams): Promise<Partial<LectureDetail>> => {
   const { year, courseNumber } = params;
   
+  // Validate courseNumber is 4 digits
+  if (!courseNumber || courseNumber.length !== 4) {
+    console.warn(`⚠️ Invalid courseNumber format: "${courseNumber}" (expected 4 digits)`);
+  }
+  
   // Build KUPIS URL - ltShtm is fixed as B01012
   const ltShtm = 'B01012';  // 고정값
   const url = `https://kupis.konkuk.ac.kr/sugang/acd/cour/plan/CourLecturePlanInq.jsp?ltYy=${year}&ltShtm=${ltShtm}&sbjtId=${courseNumber}`;
@@ -313,7 +329,9 @@ export const fetchLecturePlan = async (params: LecturePlanParams): Promise<Parti
     console.log('🌐 Fetching Lecture Plan from KUPIS:', {
       year,
       ltShtm,
-      sbjtId: courseNumber
+      sbjtId: courseNumber,
+      courseNumberLength: courseNumber?.length,
+      fullUrl: url
     });
   }
   

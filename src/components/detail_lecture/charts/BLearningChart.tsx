@@ -31,7 +31,7 @@ const BLearningChart: React.FC = () => {
 
   return (
     <div className="p-4 bg-white rounded-2xl shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100">
-      <div className="text-gray-900 text-[10px] font-bold font-['Noto_Sans'] mb-4">
+      <div className="text-gray-900 text-sm font-bold font-['Noto_Sans'] mb-4">
         B러닝(녹화+대면)
       </div>
       <div className="h-48 flex flex-col items-center">
