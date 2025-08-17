@@ -5,6 +5,7 @@ import { BLearningChart, CoreCompetencyChart } from '@/components/detail_lecture
 import { TitleSection } from '@/components/commons';
 import SearchIcon from "@/assets/icon/ic_search.svg?react";
 import { LECTURE_DETAILS } from '@/constants/DetailLectureConstants';
+import { DownloadIcon } from '@/assets/icon';
 
 
 const DetailLecture: React.FC = () => {
@@ -45,7 +46,7 @@ const DetailLecture: React.FC = () => {
               </span>
             </button>
             <button className="h-8 px-4 bg-stone-200 rounded-[10px] flex items-center gap-2 hover:bg-stone-300 transition-colors">
-              <Download className="w-3.5 h-4 text-black" />
+              <DownloadIcon className="w-4 h-4 text-black" />
               <span className="text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                 다운로드
               </span>
