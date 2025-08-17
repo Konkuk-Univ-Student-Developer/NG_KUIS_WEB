@@ -11,7 +11,7 @@ import { useLecturePlan, useMergedLectureData } from '@/api/hooks/lecture/useLec
 
 
 const DetailLecture: React.FC = () => {
-  const { subjectCode } = useParams<{ subjectCode: string }>();
+  const { courseCode } = useParams<{ courseCode: string }>();
   const navigate = useNavigate();
   const location = useLocation();
   const [showError, setShowError] = useState(false);
@@ -21,32 +21,46 @@ const DetailLecture: React.FC = () => {
 
   // Log navigation data for debugging
   React.useEffect(() => {
-    if (courseData) {
-      console.log('📍 Course Data from Navigation:', {
+    console.log('🔍 DetailLecture Component Loaded:', {
+      urlCourseCode: courseCode,
+      hasCourseData: !!courseData,
+      courseDataDetails: courseData ? {
         courseCode: courseData.courseCode,
         courseNumber: courseData.courseNumber,
         courseName: courseData.courseName,
         professor: courseData.professor,
+        grade: courseData.grade,
+        credit: courseData.credit,
+        method: courseData.method,
+        schedule: courseData.schedule,
         fullData: courseData
-      });
-    }
-    console.log('🔗 URL Parameter (subjectCode):', subjectCode);
-  }, [courseData, subjectCode]);
+      } : null
+    });
+  }, [courseData, courseCode]);
 
   // Get default lecture data from constants
-  // Use courseCode from courseData if subjectCode is not in constants
-  const defaultLectureData = LECTURE_DETAILS[subjectCode || courseData?.courseCode || 'BBAB12012'] || LECTURE_DETAILS['BBAB12012'];
+  // Use courseCode from courseData or URL parameter
+  const defaultLectureData = LECTURE_DETAILS[courseCode || courseData?.courseCode || 'BBAB12012'] || LECTURE_DETAILS['BBAB12012'];
 
   // Fetch lecture plan from KUPIS
   // Note: We need year from courseData or default to current year
   const currentYear = new Date().getFullYear().toString();
-  const { data: fetchedData, loading, error } = useLecturePlan(
-    courseData ? {
-      year: currentYear, // TODO: Get actual year from courseData or filters
-      courseCode: courseData.courseCode,
-      courseNumber: courseData.courseNumber
-    } : undefined
-  );
+  
+  // Log the parameters being sent to useLecturePlan
+  const lecturePlanParams = courseData ? {
+    year: currentYear, // TODO: Get actual year from courseData or filters
+    courseCode: courseData.courseCode,
+    courseNumber: courseData.courseNumber
+  } : undefined;
+  
+  React.useEffect(() => {
+    console.log('📤 Lecture Plan Parameters:', {
+      hasParams: !!lecturePlanParams,
+      params: lecturePlanParams
+    });
+  }, [lecturePlanParams?.year, lecturePlanParams?.courseCode, lecturePlanParams?.courseNumber]);
+  
+  const { data: fetchedData, loading, error } = useLecturePlan(lecturePlanParams);
 
   // Log fetched data
   React.useEffect(() => {
