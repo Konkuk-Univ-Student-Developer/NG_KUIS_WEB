@@ -43,7 +43,7 @@ const CoreCompetencyChart: React.FC = () => {
       <div className={`text-gray-900 ${isDesktop ? 'text-base' : 'text-sm'} font-bold font-['Noto_Sans'] mb-4`}>
         핵심역량
       </div>
-      <div className={`${isDesktop ? 'h-56' : 'h-48'} flex flex-col items-center`}>
+      <div className={`${isDesktop ? 'h-48' : 'h-48'} flex flex-col items-center`}>
         <ResponsiveContainer width="100%" height="70%">
           <PieChart>
             <Pie
@@ -51,8 +51,8 @@ const CoreCompetencyChart: React.FC = () => {
               cx="50%"
               cy="50%"
               labelLine={false}
-              innerRadius={isDesktop ? 30 : 25}
-              outerRadius={isDesktop ? 50 : 40}
+              innerRadius={isDesktop ? 25 : 25}
+              outerRadius={isDesktop ? 45 : 40}
               fill="#8884d8"
               dataKey="value"
             >
@@ -63,7 +63,7 @@ const CoreCompetencyChart: React.FC = () => {
             <Tooltip content={<CustomTooltip />} />
           </PieChart>
         </ResponsiveContainer>
-        <div className={isDesktop ? "flex flex-wrap gap-x-4 gap-y-1 mt-2 justify-center min-h-[60px] items-center" : "grid grid-cols-3 gap-x-3 gap-y-1 mt-2 text-center"}>
+        <div className={isDesktop ? "flex flex-wrap gap-x-4 gap-y-1 mt-2 justify-center min-h-[48px] items-center" : "grid grid-cols-3 gap-x-3 gap-y-1 mt-2 text-center"}>
           {data.map((item, index) => (
             <div key={index} className="flex flex-col items-center">
               <div className="flex items-center gap-1">
