@@ -23,6 +23,64 @@ export const tableStyles = {
   }
 };
 
+// 공통 렌더러 함수들
+export const TableCellRenderers = {
+  checkIcon: (isChecked: boolean) => 
+    isChecked ? <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" /> : null,
+  
+  expandIcon: (hasContent: boolean, isExpanded: boolean) => 
+    hasContent ? (
+      <ChevronDown className={`${tableStyles.evaluation.chevron} ${isExpanded ? 'rotate-180' : ''}`} />
+    ) : (
+      <ChevronDown className={tableStyles.evaluation.chevronDisabled} />
+    ),
+  
+  indexCell: (index: number) => index,
+  
+  textCell: (value: unknown) => value || '-'
+};
+
+// 테이블 구성 프리셋
+export const TABLE_CONFIGS = {
+  courseInfo: {
+    headers: ['학년', '학수번호', '이수구분', '과목번호', '학점'],
+    columns: ['grade', 'courseCode', 'category', 'courseNumber', 'credit']
+  },
+  enrollment: {
+    headers: ['현재인원', '학부인원', '대학생인원', '제한인원'],
+    columns: ['enrolled', 'undergraduateEnrolled', 'graduateEnrolled', 'capacity']
+  },
+  textbooks: {
+    headers: ['번호', '교재구분', '교재명', '저자', '링크'],
+    columns: ['index', 'type', 'name', 'author', 'link']
+  },
+  assignments: {
+    headers: ['번호', '구분', '과제명', '제출시기'],
+    columns: ['index', 'type', 'name', 'dueDate']
+  },
+  evaluation: {
+    headers: ['항목', '비중', '만점', '공개여부', '설명'],
+    columns: ['item', 'weight', 'maxScore', 'isPublic', 'description']
+  }
+};
+
+// 기본값 생성 함수
+export const createDefaultData = (type: string, _count: number = 1) => {
+  const defaults: Record<string, () => any[]> = {
+    textbooks: () => Array.from({length: 4}, (_, i) => ({
+      index: i + 1, type: '-', name: '-', author: '-', link: '-'
+    })),
+    assignments: () => [{ index: 1, type: '-', name: '-', dueDate: '-' }],
+    evaluation: () => [
+      { item: '출석률', weight: '10%', maxScore: '10', isPublic: true, description: 'Checked with e-campus system' },
+      { item: '중간', weight: '30%', maxScore: '30', isPublic: true, description: 'Checked with e-campus system' },
+      { item: '기말', weight: '30%', maxScore: '30', isPublic: true, description: 'Checked with e-campus system' },
+      { item: '과제물', weight: '30%', maxScore: '30', isPublic: true, description: 'Checked with e-campus system' }
+    ]
+  };
+  return defaults[type]?.() || [];
+};
+
 // 헬퍼 함수: 테두리 클래스 생성
 export const getCellClass = (
   type: 'header' | 'body' | 'bodyBold',
@@ -48,8 +106,8 @@ export const getCellClass = (
 // 기본 RoundedTable 인터페이스
 export interface RoundedTableProps {
   headers: string[];
-  data: any[];
-  renderCell?: (row: any, rowIdx: number, totalRows: number) => React.ReactNode;
+  data: Record<string, unknown>[];
+  renderCell?: (row: Record<string, unknown>, rowIdx: number, totalRows: number) => React.ReactNode;
   columns?: string[];
   isFirstColumnBold?: boolean;
   className?: string;
@@ -107,12 +165,12 @@ export const RoundedTable: React.FC<RoundedTableProps> = ({
 // Expandable Table 인터페이스
 export interface ExpandableTableProps {
   headers: string[];
-  data: any[];
+  data: Record<string, unknown>[];
   expandedRows: Set<string>;
   onToggleExpand: (key: string) => void;
-  getRowKey: (row: any) => string;
-  getExpandContent: (row: any) => React.ReactNode | null;
-  renderRow: (row: any, rowIdx: number, totalRows: number, isExpanded: boolean) => React.ReactNode;
+  getRowKey: (row: Record<string, unknown>) => string;
+  getExpandContent: (row: Record<string, unknown>) => React.ReactNode | null;
+  renderRow: (row: Record<string, unknown>, rowIdx: number, totalRows: number, isExpanded: boolean) => React.ReactNode;
 }
 
 // Expandable Table 컴포넌트
@@ -226,3 +284,70 @@ export const VerticalTable: React.FC<VerticalTableProps> = ({ rows, className = 
     </div>
   );
 };
+
+// 고차 컴포넌트 패턴 - 특화된 테이블들
+export interface BasicInfoTableProps {
+  data: Record<string, unknown>[];
+  type: 'courseInfo' | 'enrollment';
+}
+
+export const BasicInfoTable: React.FC<BasicInfoTableProps> = ({ data, type }) => (
+  <RoundedTable
+    headers={TABLE_CONFIGS[type].headers}
+    data={data}
+    columns={TABLE_CONFIGS[type].columns}
+  />
+);
+
+export interface StandardTableProps {
+  data: Record<string, unknown>[];
+  type: 'textbooks' | 'assignments';
+}
+
+export const StandardTable: React.FC<StandardTableProps> = ({ data, type }) => (
+  <RoundedTable
+    headers={TABLE_CONFIGS[type].headers}
+    data={data && data.length > 0 ? data : createDefaultData(type)}
+    columns={TABLE_CONFIGS[type].columns}
+  />
+);
+
+export interface EvaluationTableProps {
+  data: Record<string, unknown>[];
+  expandedRows: Set<string>;
+  onToggleExpand: (key: string) => void;
+}
+
+export const EvaluationTable: React.FC<EvaluationTableProps> = ({ 
+  data, 
+  expandedRows, 
+  onToggleExpand 
+}) => (
+  <ExpandableTable
+    headers={TABLE_CONFIGS.evaluation.headers}
+    data={data && data.length > 0 ? data : createDefaultData('evaluation')}
+    expandedRows={expandedRows}
+    onToggleExpand={onToggleExpand}
+    getRowKey={(row) => row.item}
+    getExpandContent={(row) => row.description}
+    renderRow={(row, rowIdx, totalRows, isExpanded) => (
+      <>
+        <td className={getCellClass('bodyBold', 0, 5, rowIdx === totalRows - 1)}>
+          {row.item}
+        </td>
+        <td className={getCellClass('body', 1, 5, rowIdx === totalRows - 1)}>
+          {row.weight}
+        </td>
+        <td className={getCellClass('body', 2, 5, rowIdx === totalRows - 1)}>
+          {row.maxScore}
+        </td>
+        <td className={`${getCellClass('body', 3, 5, rowIdx === totalRows - 1).replace('text-black text-sm font-normal font-[\'Noto_Sans\'] leading-none', '').trim()}`}>
+          {TableCellRenderers.checkIcon(row.isPublic)}
+        </td>
+        <td className={`${rowIdx === totalRows - 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center`}>
+          {TableCellRenderers.expandIcon(!!row.description, isExpanded)}
+        </td>
+      </>
+    )}
+  />
+);

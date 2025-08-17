@@ -26,6 +26,12 @@ export {
   RoundedTable, 
   ExpandableTable, 
   VerticalTable,
+  BasicInfoTable,
+  StandardTable,
+  EvaluationTable,
   tableStyles,
-  getCellClass 
+  getCellClass,
+  TableCellRenderers,
+  TABLE_CONFIGS,
+  createDefaultData
 } from "./RoundedTable";

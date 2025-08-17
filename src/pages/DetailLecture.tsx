@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Check, ChevronDown, Loader2 } from 'lucide-react';
+import { ArrowLeft, Loader2 } from 'lucide-react';
 import { BLearningChart, CoreCompetencyChart } from '@/components/detail_lecture/charts';
-import { TitleSection, Badge, RoundedTable, ExpandableTable, VerticalTable, tableStyles, getCellClass } from '@/components/commons';
+import { TitleSection, Badge, BasicInfoTable, StandardTable, EvaluationTable, VerticalTable } from '@/components/commons';
 import SearchIcon from "@/assets/icon/ic_search.svg?react";
 import { LECTURE_DETAILS } from '@/constants/DetailLectureConstants';
 import { DownloadIcon } from '@/assets/icon';
@@ -166,6 +166,177 @@ const DetailLecture: React.FC = () => {
     });
   };
 
+  // 데이터 매핑 함수들
+  const mapCourseData = (lectureData: Record<string, unknown>) => ({
+    grade: lectureData.grade || '-',
+    courseCode: lectureData.courseCode || '-',
+    category: lectureData.category || lectureData.classification || '-',
+    courseNumber: lectureData.courseNumber || '-',
+    credit: lectureData.credit || 3
+  });
+
+  const mapEnrollmentData = (lectureData: Record<string, unknown>) => ({
+    enrolled: lectureData.enrolled || 0,
+    undergraduateEnrolled: lectureData.undergraduateEnrolled || 0,
+    graduateEnrolled: lectureData.graduateEnrolled || 0,
+    capacity: lectureData.capacity || 0
+  });
+
+  const mapCompetencyRows = (lectureData: Record<string, unknown>) => [
+    {
+      label: '핵심역량 강의목표',
+      value: lectureData.competencyGoals?.coreCompetencyGoal || '스스로 학습할 수 있는 능력',
+      rowSpan: 1
+    },
+    {
+      label: '주 전공역량',
+      value: lectureData.competencyGoals?.mainCompetency || '대규모 SW의 협동 개발 능력 (상)'
+    },
+    {
+      label: '주 전공역량 정의',
+      value: lectureData.competencyGoals?.mainCompetencyDefinition || '스스로 학습할 수 있는 역량'
+    },
+    {
+      label: '보조 전공역량1',
+      value: lectureData.competencyGoals?.subCompetency1 || '대규모 SW의 협동 개발 능력 (상)'
+    },
+    {
+      label: '보조 전공역량1 정의',
+      value: lectureData.competencyGoals?.subCompetency1Definition || '스스로 학습할 수 있는 역량'
+    },
+    {
+      label: '보조 전공역량2',
+      value: lectureData.competencyGoals?.subCompetency2 || '대규모 SW의 협동 개발 능력 (상)'
+    },
+    {
+      label: '보조 전공역량2 정의',
+      value: lectureData.competencyGoals?.subCompetency2Definition || '스스로 학습할 수 있는 역량'
+    },
+    {
+      label: '역량기반 교육목표',
+      value: lectureData.competencyGoals?.competencyBasedGoal || '대규모 SW의 협동 개발 능력 (상)',
+      rowSpan: 1
+    },
+    {
+      label: '직무역량',
+      value: lectureData.competencyGoals?.jobCompetencies || ['문제해결능력', '기술능력'],
+      isCheckList: true
+    }
+  ];
+
+  // 섹션 렌더링 함수들
+  const renderBasicInfoSection = () => (
+    <div className={styles.section.wrapper}>
+      <div className="flex justify-between items-center">
+        <h2 className={styles.section.title}>기본 정보</h2>
+      </div>
+      <div className="flex flex-col gap-3">
+        <BasicInfoTable data={[mapCourseData(lectureData)]} type="courseInfo" />
+        <BasicInfoTable data={[mapEnrollmentData(lectureData)]} type="enrollment" />
+        {renderTags()}
+      </div>
+      {renderCharts()}
+      {renderProfessorInfo()}
+    </div>
+  );
+
+  const renderTags = () => (
+    <div className="flex flex-wrap gap-2">
+      {lectureData.tags?.map((tag: string, index: number) => (
+        <Badge key={index} label={tag} variant="default" size="md" />
+      )) || (
+        <>
+          {lectureData.department && <Badge label={lectureData.department} variant="default" size="md" />}
+          {courseData?.method && <Badge label={courseData.method} variant="default" size="md" />}
+        </>
+      )}
+    </div>
+  );
+
+  const renderCharts = () => (
+    <div className="grid grid-cols-2 gap-4">
+      <BLearningChart />
+      <CoreCompetencyChart />
+    </div>
+  );
+
+  const renderProfessorInfo = () => (
+    <div className="grid grid-cols-1">
+      <div className="p-4 bg-white rounded-[20px] shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100">
+        <div className="flex flex-col h-full justify-between">
+          <div>
+            <div className="text-black text-[10px] font-normal font-['Noto_Sans'] mb-1">
+              담당교수 정보
+            </div>
+            <div className="text-black text-sm font-semibold font-['Noto_Sans'] leading-none mb-4">
+              {lectureData.professorInfo?.name || lectureData.professor}
+            </div>
+          </div>
+          <div className="px-3 py-2 bg-beige rounded-2xl">
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <span className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
+                  이메일
+                </span>
+                <span className="text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                  {lectureData.professorInfo?.email || '-'}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
+                  연락처
+                </span>
+                <span className="text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                  {lectureData.professorInfo?.phone || '-'}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
+                  상담 가능 시간
+                </span>
+                <span className="text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                  {lectureData.professorInfo?.consultationHours || '-'}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderCompetencySection = () => (
+    <div className={styles.section.wrapper}>
+      <h2 className={styles.section.title}>강의 역량 및 목표</h2>
+      <VerticalTable rows={mapCompetencyRows(lectureData)} />
+    </div>
+  );
+
+  const renderEvaluationSection = () => (
+    <div className={styles.section.wrapper}>
+      <h2 className={styles.section.title}>성적평가항목</h2>
+      <EvaluationTable
+        data={lectureData.evaluationItems || []}
+        expandedRows={expandedEvaluationItems}
+        onToggleExpand={toggleEvaluationItem}
+      />
+    </div>
+  );
+
+  const renderTextbookSection = () => (
+    <div className={styles.section.wrapper}>
+      <h2 className={styles.section.title}>교재명</h2>
+      <StandardTable data={lectureData.textbooks || []} type="textbooks" />
+    </div>
+  );
+
+  const renderAssignmentSection = () => (
+    <div className={styles.section.wrapper}>
+      <h2 className={styles.section.title}>과제명</h2>
+      <StandardTable data={lectureData.assignments || []} type="assignments" />
+    </div>
+  );
+
 
   return (
     <div className="w-full min-h-screen p-6">
@@ -233,234 +404,20 @@ const DetailLecture: React.FC = () => {
         </div>
 
         {/* Basic Information Section */}
-        <div className={styles.section.wrapper}>
-          <div className="flex justify-between items-center">
-            <h2 className={styles.section.title}>
-              기본 정보
-            </h2>
-          </div>
+        {renderBasicInfoSection()}
 
-          <div className="flex flex-col gap-3">
-            {/* First Table */}
-            <RoundedTable
-              headers={['학년', '학수번호', '이수구분', '과목번호', '학점']}
-              data={[{
-                grade: lectureData.grade || '-',
-                courseCode: lectureData.courseCode || '-',
-                category: lectureData.category || lectureData.classification || '-',
-                courseNumber: lectureData.courseNumber || '-',
-                credit: lectureData.credit || 3
-              }]}
-              columns={['grade', 'courseCode', 'category', 'courseNumber', 'credit']}
-            />
-
-            {/* Second Table */}
-            <RoundedTable
-              headers={['현재인원', '학부인원', '대학생인원', '제한인원']}
-              data={[{
-                enrolled: lectureData.enrolled || 0,
-                undergraduateEnrolled: lectureData.undergraduateEnrolled || 0,
-                graduateEnrolled: lectureData.graduateEnrolled || 0,
-                capacity: lectureData.capacity || 0
-              }]}
-              columns={['enrolled', 'undergraduateEnrolled', 'graduateEnrolled', 'capacity']}
-            />
-
-            {/* Tags */}
-            <div className="flex flex-wrap gap-2">
-              {lectureData.tags?.map((tag, index) => (
-                <Badge key={index} label={tag} variant="default" size="md" />
-              )) || (
-                  <>
-                    {lectureData.department && <Badge label={lectureData.department} variant="default" size="md" />}
-                    {courseData?.method && <Badge label={courseData.method} variant="default" size="md" />}
-                  </>
-                )}
-            </div>
-          </div>
-
-          {/* Charts Section */}
-          <div className="grid grid-cols-2 gap-4">
-            {/* B-Learning Chart */}
-            <BLearningChart data={lectureData.chartData?.bLearning} />
-
-            {/* Core Competency Chart */}
-            <CoreCompetencyChart data={lectureData.chartData?.coreCompetency} />
-          </div>
-
-          {/* Professor Info Card */}
-          <div className="grid grid-cols-1">
-            <div className="p-4 bg-white rounded-[20px] shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100">
-              <div className="flex flex-col h-full justify-between">
-                <div>
-                  <div className="text-black text-[10px] font-normal font-['Noto_Sans'] mb-1">
-                    담당교수 정보
-                  </div>
-                  <div className="text-black text-sm font-semibold font-['Noto_Sans'] leading-none mb-4">
-                    {lectureData.professorInfo?.name || lectureData.professor}
-                  </div>
-                </div>
-                <div className="px-3 py-2 bg-beige rounded-2xl">
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <span className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
-                        이메일
-                      </span>
-                      <span className="text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                        {lectureData.professorInfo?.email || '-'}
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
-                        연락처
-                      </span>
-                      <span className="text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                        {lectureData.professorInfo?.phone || '-'}
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
-                        상담 가능 시간
-                      </span>
-                      <span className="text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                        {lectureData.professorInfo?.consultationHours || '-'}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* Competency and Goals Section */}
-        <div className={styles.section.wrapper}>
-          <h2 className={styles.section.title}>
-            강의 역량 및 목표
-          </h2>
-          <VerticalTable
-            rows={[
-              {
-                label: '핵심역량 강의목표',
-                value: lectureData.competencyGoals?.coreCompetencyGoal || '스스로 학습할 수 있는 능력',
-                rowSpan: 1
-              },
-              {
-                label: '주 전공역량',
-                value: lectureData.competencyGoals?.mainCompetency || '대규모 SW의 협동 개발 능력 (상)'
-              },
-              {
-                label: '주 전공역량 정의',
-                value: lectureData.competencyGoals?.mainCompetencyDefinition || '스스로 학습할 수 있는 역량'
-              },
-              {
-                label: '보조 전공역량1',
-                value: lectureData.competencyGoals?.subCompetency1 || '대규모 SW의 협동 개발 능력 (상)'
-              },
-              {
-                label: '보조 전공역량1 정의',
-                value: lectureData.competencyGoals?.subCompetency1Definition || '스스로 학습할 수 있는 역량'
-              },
-              {
-                label: '보조 전공역량2',
-                value: lectureData.competencyGoals?.subCompetency2 || '대규모 SW의 협동 개발 능력 (상)'
-              },
-              {
-                label: '보조 전공역량2 정의',
-                value: lectureData.competencyGoals?.subCompetency2Definition || '스스로 학습할 수 있는 역량'
-              },
-              {
-                label: '역량기반 교육목표',
-                value: lectureData.competencyGoals?.competencyBasedGoal || '대규모 SW의 협동 개발 능력 (상)',
-                rowSpan: 1
-              },
-              {
-                label: '직무역량',
-                value: lectureData.competencyGoals?.jobCompetencies || ['문제해결능력', '기술능력'],
-                isCheckList: true
-              }
-            ]}
-          />
-        </div>
+        {renderCompetencySection()}
 
         {/* Evaluation Section */}
-        <div className={styles.section.wrapper}>
-          <h2 className={styles.section.title}>
-            성적평가항목
-          </h2>
-          <ExpandableTable
-            headers={['항목', '비중', '만점', '공개여부', '설명']}
-            data={
-              lectureData.evaluationItems && lectureData.evaluationItems.length > 0
-                ? lectureData.evaluationItems
-                : [
-                  { item: '출석률', weight: '10%', maxScore: '10', isPublic: true, description: 'Checked with e-campus system' },
-                  { item: '중간', weight: '30%', maxScore: '30', isPublic: true, description: 'Checked with e-campus system' },
-                  { item: '기말', weight: '30%', maxScore: '30', isPublic: true, description: 'Checked with e-campus system' },
-                  { item: '과제물', weight: '30%', maxScore: '30', isPublic: true, description: 'Checked with e-campus system' }
-                ]
-            }
-            expandedRows={expandedEvaluationItems}
-            onToggleExpand={toggleEvaluationItem}
-            getRowKey={(row) => row.item}
-            getExpandContent={(row) => row.description}
-            renderRow={(row, rowIdx, totalRows, isExpanded) => (
-              <>
-                <td className={getCellClass('bodyBold', 0, 5, rowIdx === totalRows - 1)}>
-                  {row.item}
-                </td>
-                <td className={getCellClass('body', 1, 5, rowIdx === totalRows - 1)}>
-                  {row.weight}
-                </td>
-                <td className={getCellClass('body', 2, 5, rowIdx === totalRows - 1)}>
-                  {row.maxScore}
-                </td>
-                <td className={`${getCellClass('body', 3, 5, rowIdx === totalRows - 1).replace('text-black text-sm font-normal font-[\'Noto_Sans\'] leading-none', '').trim()}`}>
-                  {row.isPublic && <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />}
-                </td>
-                <td className={`${rowIdx === totalRows - 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center`}>
-                  {row.description ? (
-                    <ChevronDown className={`${tableStyles.evaluation.chevron} ${isExpanded ? 'rotate-180' : ''}`} />
-                  ) : (
-                    <ChevronDown className={tableStyles.evaluation.chevronDisabled} />
-                  )}
-                </td>
-              </>
-            )}
-          />
-        </div>
+        {renderEvaluationSection()}
 
         {/* Textbook Section */}
-        <div className={styles.section.wrapper}>
-          <h2 className={styles.section.title}>
-            교재명
-          </h2>
-          <RoundedTable
-            headers={['번호', '교재구분', '교재명', '저자', '링크']}
-            data={
-              lectureData.textbooks && lectureData.textbooks.length > 0
-                ? lectureData.textbooks
-                : [1, 2, 3, 4].map(num => ({ index: num, type: '-', name: '-', author: '-', link: '-' }))
-            }
-            columns={['index', 'type', 'name', 'author', 'link']}
-          />
-        </div>
+        {renderTextbookSection()}
 
         {/* Assignment Section */}
-        <div className={styles.section.wrapper}>
-          <h2 className={styles.section.title}>
-            과제명
-          </h2>
-          <RoundedTable
-            headers={['번호', '구분', '과제명', '제출시기']}
-            data={
-              lectureData.assignments && lectureData.assignments.length > 0
-                ? lectureData.assignments
-                : [{ index: 1, type: '-', name: '-', dueDate: '-' }]
-            }
-            columns={['index', 'type', 'name', 'dueDate']}
-          />
-        </div>
+        {renderAssignmentSection()}
 
         {/* Weekly Schedule Section */}
         <div className={styles.section.wrapper}>
