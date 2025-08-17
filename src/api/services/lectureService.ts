@@ -197,54 +197,87 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
     // Extract evaluation items - look for table with 항목/비중/만점/공개여부 headers
     const evaluationItems: EvaluationItem[] = [];
     const evalTable = Array.from(doc.querySelectorAll('table')).find(table => 
-      table.textContent?.includes('항목') && 
-      table.textContent?.includes('비중') && 
-      table.textContent?.includes('만점')
+      (table.textContent?.includes('항목') && table.textContent?.includes('비중')) ||
+      table.textContent?.includes('성적평가항목')
     );
     
     if (evalTable) {
       console.log('📊 Found evaluation table');
-      const rows = evalTable.querySelectorAll('tbody tr');
-      rows.forEach(row => {
+      // Get ALL rows, not just tbody rows
+      const allRows = evalTable.querySelectorAll('tr');
+      let evaluationRowCount = 0;
+      
+      allRows.forEach((row, index) => {
+        // Skip header rows
+        if (row.querySelector('th') || index === 0) {
+          return;
+        }
+        
         const cells = row.querySelectorAll('td');
-        if (cells.length >= 4) {
-          const item = cells[0]?.textContent?.trim();
-          const weight = cells[1]?.textContent?.trim();
-          const maxScore = parseInt(cells[2]?.textContent?.trim() || '0');
-          if (item && !item.includes('합계')) {
-            // Map evaluation item names
-            const itemMapping: Record<string, string> = {
-              '출석률': '출석률',
-              '출석': '출석률',
-              '중간고사': '중간',
-              '중간': '중간',
-              '기말고사': '기말',
-              '기말': '기말',
-              '과제물': '과제물',
-              '과제': '과제물',
-              '프로젝트': '프로젝트',
-              '발표': '발표',
-              '퀴즈': '퀴즈',
-              '토론': '토론',
-              '기타': '기타'
-            };
-            
-            const itemName = Object.entries(itemMapping).find(([key]) => 
-              item.includes(key)
-            )?.[1] || item;
-            
-            console.log(`📝 Found evaluation item: ${itemName} - ${weight}%`);
-            
-            evaluationItems.push({
-              item: itemName,
-              weight: weight + (weight.includes('%') ? '' : '%'),
-              maxScore,
-              isPublic: cells[3]?.textContent?.includes('공개') || cells[3]?.textContent?.includes('O'),
-              description: cells[4]?.textContent?.trim() || ''
-            });
+        if (cells.length >= 3) {
+          const itemText = cells[0]?.textContent?.trim() || '';
+          const weightText = cells[1]?.textContent?.trim() || '';
+          const maxScoreText = cells[2]?.textContent?.trim() || '0';
+          
+          // Clean up the weight text (remove duplicate percentages, clean up malformed text)
+          let cleanWeight = weightText.replace(/[^\d%]/g, '');
+          if (cleanWeight && !cleanWeight.includes('%')) {
+            cleanWeight += '%';
           }
+          
+          // Parse max score
+          const maxScore = parseInt(maxScoreText.replace(/[^\d]/g, '') || '0');
+          
+          // Skip if item is empty or is a sum/total row
+          if (!itemText || itemText.includes('합계') || itemText.includes('총계')) {
+            return;
+          }
+          
+          // Map evaluation item names
+          const itemMapping: Record<string, string> = {
+            '출석률': '출석률',
+            '출석': '출석률',
+            '중간고사': '중간',
+            '중간': '중간',
+            '기말고사': '기말',
+            '기말': '기말',
+            '과제물': '과제물',
+            '과제': '과제물',
+            '프로젝트': '프로젝트',
+            '발표': '발표',
+            '퀴즈': '퀴즈',
+            '토론': '토론',
+            '기타': '기타'
+          };
+          
+          // Find matching item name or use original
+          let itemName = itemText;
+          for (const [key, value] of Object.entries(itemMapping)) {
+            if (itemText.includes(key)) {
+              itemName = value;
+              break;
+            }
+          }
+          
+          // Clean up item name (remove numbers and special characters at the end)
+          itemName = itemName.replace(/\d+$/, '').trim();
+          
+          evaluationRowCount++;
+          console.log(`📝 Evaluation item ${evaluationRowCount}: ${itemName} - ${cleanWeight} (Max: ${maxScore})`);
+          
+          evaluationItems.push({
+            item: itemName,
+            weight: cleanWeight || '0%',
+            maxScore,
+            isPublic: cells[3]?.textContent?.includes('공개') || 
+                     cells[3]?.textContent?.includes('O') || 
+                     cells[3]?.textContent?.includes('checked') || false,
+            description: cells[4]?.textContent?.trim() || ''
+          });
         }
       });
+      
+      console.log(`📊 Total evaluation items parsed: ${evaluationRowCount}`);
     } else {
       console.log('⚠️ Could not find evaluation table');
     }
@@ -351,9 +384,18 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
     );
     
     if (weeklyTable) {
-      const rows = weeklyTable.querySelectorAll('tbody tr');
-      rows.forEach(row => {
+      console.log('📅 Found weekly plan table');
+      // Get ALL rows including those not in tbody (some tables have multiple tbody or tr outside tbody)
+      const allRows = weeklyTable.querySelectorAll('tr');
+      let dataRowCount = 0;
+      
+      allRows.forEach((row, index) => {
         const cells = row.querySelectorAll('td');
+        // Skip header rows (those with th elements)
+        if (row.querySelector('th')) {
+          return;
+        }
+        
         if (cells.length >= 3) {
           const weekText = cells[0]?.textContent?.trim();
           const weekMatch = weekText?.match(/(\d+)/);
@@ -367,6 +409,9 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
             const instructor = cells[6]?.textContent?.trim() || result.professor || '';
             
             if (topic || content) {
+              dataRowCount++;
+              console.log(`📚 Week ${week}: ${topic || content}`);
+              
               weeklyPlans.push({
                 week,
                 dateRange,
@@ -380,6 +425,10 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
           }
         }
       });
+      
+      console.log(`📊 Total weekly plans parsed: ${dataRowCount} weeks`);
+    } else {
+      console.log('⚠️ Could not find weekly plan table');
     }
     
     if (weeklyPlans.length > 0) {
