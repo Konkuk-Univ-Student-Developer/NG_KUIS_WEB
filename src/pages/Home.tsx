@@ -14,7 +14,7 @@ import {
   NOTICE_ITEMS,
 } from "@/constants/HomeConstants";
 import { NOTICE_TABS } from "@/constants/NoticeConstants";
-import KUMark from "../assets/img/img_ku_mark.png";
+import KUMark from "/img/img_ku_mark.png";
 import useAuthStore from "@/stores/authStore";
 
 const HomePage = () => {
