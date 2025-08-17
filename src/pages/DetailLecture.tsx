@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft, Loader2 } from 'lucide-react';
-import { BLearningChart, CoreCompetencyChart } from '@/components/detail_lecture/charts';
+import { BLearningChart, CoreCompetencyChart, WeeklyPlanCard, DefaultWeeklyPlanCard } from '@/components/detail_lecture';
 import { TitleSection, Badge, BasicInfoTable, StandardTable, EvaluationTable, VerticalTable } from '@/components/commons';
 import SearchIcon from "@/assets/icon/ic_search.svg?react";
 import { LECTURE_DETAILS } from '@/constants/DetailLectureConstants';
@@ -249,11 +249,11 @@ const DetailLecture: React.FC = () => {
       {lectureData.tags?.map((tag: string, index: number) => (
         <Badge key={index} label={tag} variant="default" size="md" />
       )) || (
-        <>
-          {lectureData.department && <Badge label={lectureData.department} variant="default" size="md" />}
-          {courseData?.method && <Badge label={courseData.method} variant="default" size="md" />}
-        </>
-      )}
+          <>
+            {lectureData.department && <Badge label={lectureData.department} variant="default" size="md" />}
+            {courseData?.method && <Badge label={courseData.method} variant="default" size="md" />}
+          </>
+        )}
     </div>
   );
 
@@ -431,64 +431,19 @@ const DetailLecture: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {lectureData.weeklyPlans && lectureData.weeklyPlans.length > 0 ? (
               lectureData.weeklyPlans.map((plan) => (
-                <div key={plan.week} className="p-4 bg-beige rounded-[20px] flex flex-col gap-5">
-                  <div className="flex flex-col gap-2">
-                    <div className="flex flex-col gap-1">
-                      <div className="text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                        week{plan.week} {plan.dateRange && `(${plan.dateRange})`}
-                      </div>
-                      <div className="text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                        {plan.topic}
-                      </div>
-                    </div>
-                    <div className="flex flex-col gap-1">
-                      <div className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
-                        담당 교강사 : {plan.instructor}
-                      </div>
-                      <div className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
-                        학습 활동 : {plan.activities}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center gap-2">
-                    <Badge variant="white-gray" size="md">
-                      {plan.type}
-                    </Badge>
-                    {plan.schedule && (
-                      <Badge variant="white-gray" size="md">
-                        {plan.schedule}
-                      </Badge>
-                    )}
-                  </div>
-                </div>
+                <WeeklyPlanCard 
+                  key={plan.week} 
+                  plan={plan} 
+                  fallbackProfessor={lectureData.professor}
+                />
               ))
             ) : (
               Array.from({ length: 16 }, (_, i) => i + 1).map((week) => (
-                <div key={week} className="p-4 bg-beige rounded-[20px] flex flex-col gap-5">
-                  <div className="flex flex-col gap-2">
-                    <div className="flex flex-col gap-1">
-                      <div className="text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                        week{week}
-                      </div>
-                      <div className="text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                        강의 내용
-                      </div>
-                    </div>
-                    <div className="flex flex-col gap-1">
-                      <div className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
-                        담당 교강사 : {lectureData.professor || '-'}
-                      </div>
-                      <div className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
-                        학습 활동 : -
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center gap-2">
-                    <Badge variant="white-gray" size="md">
-                      이론
-                    </Badge>
-                  </div>
-                </div>
+                <DefaultWeeklyPlanCard 
+                  key={week} 
+                  week={week} 
+                  fallbackProfessor={lectureData.professor}
+                />
               ))
             )}
           </div>
