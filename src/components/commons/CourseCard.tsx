@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { ExternalLink } from 'lucide-react';
 import type { CourseData } from '@/constants/TimetableConstants';
+import Chip from './Chip';
 
 interface CourseCardProps {
   course: CourseData;
@@ -11,13 +12,6 @@ interface CourseCardProps {
 const Tag: React.FC<{ label: string }> = ({ label }) => (
   <span className="inline-flex items-center justify-center bg-darkgreen text-white px-3 py-2 rounded-xl whitespace-nowrap text">
     {label}
-  </span>
-);
-
-// Figma-style Chip for meta information (학년/학과/평가)
-const Chip: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <span className="bg-white text-darkgray px-4 py-1 rounded-[10px] text-mobile-small text-center whitespace-nowrap">
-    {children}
   </span>
 );
 
