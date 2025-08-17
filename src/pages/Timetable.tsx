@@ -35,7 +35,7 @@ const TimetablePage: React.FC = () => {
   // Use appropriate hook based on view mode
   const listResult = useTimetableList(viewMode === 'List' ? apiParams : undefined);
   const cardResult = useTimetableCard(viewMode === 'Card' ? apiParams : undefined);
-  
+
   // Select the active result based on view mode
   const activeResult = viewMode === 'List' ? listResult : cardResult;
   const { data, totalPages, loading, error, refetch } = activeResult;
@@ -147,11 +147,11 @@ const TimetablePage: React.FC = () => {
           <div className="text-gray-500">데이터를 불러오는 중...</div>
         </div>
       )}
-      
+
       {error && !loading && (
         <div className="flex flex-col items-center py-12">
           <div className="text-red-500 mb-4">데이터를 불러오는데 실패했습니다.</div>
-          <button 
+          <button
             onClick={() => refetch()}
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
           >
@@ -167,7 +167,7 @@ const TimetablePage: React.FC = () => {
             <TableHeader className="border-t bg-beige">
               <TableRow className="[&>th]:text-center [&>th]:font-bold md:[&>th]:text-xl md:[&>th]:font-normal">
                 <TableHead>학년</TableHead>
-                <TableHead>학수번호</TableHead>
+                <TableHead>과목번호</TableHead>
                 <TableHead>교과목명</TableHead>
                 <TableHead>학점</TableHead>
                 <TableHead>담당교수</TableHead>
