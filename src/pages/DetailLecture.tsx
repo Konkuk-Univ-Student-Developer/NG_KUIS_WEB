@@ -197,6 +197,12 @@ const DetailLecture: React.FC = () => {
         rowSpan: 1
       },
       {
+        label: '수강신청 유의사항',
+        value: lectureData.prerequisites && lectureData.prerequisites.length > 0 
+          ? lectureData.prerequisites.join(', ') 
+          : '-'
+      },
+      {
         label: '주 전공역량',
         value: competencyGoals.mainCompetency || '대규모 SW의 협동 개발 능력 (상)'
       },
