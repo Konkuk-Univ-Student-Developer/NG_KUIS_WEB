@@ -20,16 +20,45 @@ type TitleSectionProps = TitleWithLink | TitleWithAction;
 
 const TitleSection = (props: TitleSectionProps) => {
   const { title, icon, iconPosition = "right" } = props;
+  const isExternalLink = props.path?.startsWith("http");
 
-  const IconWrapper = props.path ? (
-    <Link to={props.path} className="cursor-pointer">
-      {icon}
-    </Link>
-  ) : (
-    <button type="button" onClick={props.onClick} className="cursor-pointer">
-      {icon}
-    </button>
-  );
+  const IconWrapper = () => {
+    if (!icon) return null;
+
+    if (props.path) {
+      if (isExternalLink) {
+        return (
+          <a
+            href={props.path}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cursor-pointer"
+          >
+            {icon}
+          </a>
+        );
+      }
+      return (
+        <Link to={props.path} className="cursor-pointer">
+          {icon}
+        </Link>
+      );
+    }
+
+    if (props.onClick) {
+      return (
+        <button
+          type="button"
+          onClick={props.onClick}
+          className="cursor-pointer"
+        >
+          {icon}
+        </button>
+      );
+    }
+
+    return <div>{icon}</div>;
+  };
 
   const TitleText = (
     <h3 className="text-darkgreen text-lg font-bold leading-[1.4] tracking-[-0.36px] md:text-3xl md:font-bold md:leading-[2.0] md:tracking-[-0.72]">
@@ -40,7 +69,7 @@ const TitleSection = (props: TitleSectionProps) => {
   if (iconPosition === "left") {
     return (
       <div className="flex items-center gap-x-2 md:gap-x-3 mb-5">
-        {IconWrapper}
+        <IconWrapper />
         {TitleText}
       </div>
     );
@@ -49,7 +78,7 @@ const TitleSection = (props: TitleSectionProps) => {
   return (
     <div className="flex items-center justify-between mb-5">
       {TitleText}
-      {IconWrapper}
+      <IconWrapper />
     </div>
   );
 };

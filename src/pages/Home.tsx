@@ -87,7 +87,7 @@ const HomePage = () => {
               icon={
                 <MagnifierIcon className="size-6 cursor-pointer md:size-12" />
               }
-              path="/quick-menu"
+              path="https://www.konkuk.ac.kr/konkuk/2161/subview.do"
             />
             <ScheduleList items={calendars} />
           </div>
