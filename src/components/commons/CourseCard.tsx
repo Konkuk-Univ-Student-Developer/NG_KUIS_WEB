@@ -63,11 +63,11 @@ const CourseCard: React.FC<CourseCardProps> = ({
       <div className="flex justify-between items-start flex-shrink-0">
         <div className="flex-1 min-w-0 mb-1">
           <div className="text-darkgray truncate">
-            {course.subjectCode}
+            {course.courseCode}
           </div>
           <div className="mt-1">
             <span className="justify-center text-black font-semibold">
-              {course.subjectName}
+              {course.courseName}
             </span>
             <span className="ml-2 text-darkgray truncate">
               {course.professor}
@@ -76,10 +76,10 @@ const CourseCard: React.FC<CourseCardProps> = ({
         </div>
         <div className="flex gap-2 ml-3 shrink-0">
           <button onClick={onEnroll}>
-            <Tag label={course.category ?? '전선'} />
+            <Tag label={course.courseCategory} />
           </button>
           <button onClick={onAddToWishlist}>
-            <Tag label={`${course.credit}학점`} />
+            <Tag label={`${course.credit || 3}학점`} />
           </button>
         </div>
       </div>
@@ -87,7 +87,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
       {/* Course Details */}
       <div className="flex justify-between items-center flex-shrink-0">
         <div className="text-darkgray text-mobile-extrasmall truncate">
-          {course.room}  {course.time ?? ''}  {course.subjectCode}
+          {course.schedule}  {course.courseNumber}
         </div>
       </div>
 
@@ -108,8 +108,8 @@ const CourseCard: React.FC<CourseCardProps> = ({
               } as React.CSSProperties}
             >
               <Chip>{course.grade}학년</Chip>
-              <Chip>{course.department ?? '컴퓨터공학'}</Chip>
-              <Chip>{course.evaluation ?? '절대평가 (A/B/F)'}</Chip>
+              <Chip>{course.departmentName}</Chip>
+              <Chip>{course.method}</Chip>
             </div>
           </div>
           <ExternalLink className="w-6 h-6 text-darkgray flex-shrink-0" />

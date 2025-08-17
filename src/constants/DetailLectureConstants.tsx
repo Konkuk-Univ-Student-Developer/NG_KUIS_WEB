@@ -1,10 +1,81 @@
 // Detail lecture schedule constants and types
 // Keep sample data here until API integration
 
+export interface ProfessorInfo {
+  name: string;
+  email: string;
+  phone: string;
+  consultationHours?: string;
+}
+
+export interface CompetencyGoals {
+  coreCompetencyGoal: string;
+  mainCompetency: string;
+  mainCompetencyDefinition: string;
+  subCompetency1: string;
+  subCompetency1Definition: string;
+  subCompetency2: string;
+  subCompetency2Definition: string;
+  competencyBasedGoal: string;
+  jobCompetencies: string[];
+}
+
+export interface EvaluationItem {
+  item: string;
+  weight: string;
+  maxScore: number;
+  isPublic: boolean;
+  description?: string;
+  hasDetail?: boolean;
+}
+
+export interface Textbook {
+  id: number;
+  type: string;
+  name: string;
+  author: string;
+  link: string;
+}
+
+export interface Assignment {
+  id: number;
+  type: string;
+  name: string;
+  dueDate: string;
+}
+
+export interface WeeklyPlan {
+  week: number;
+  dateRange: string;
+  topic: string;
+  instructor: string;
+  activities: string;
+  type: string;
+  schedule: string;
+}
+
+export interface ChartData {
+  bLearning: {
+    online: number;
+    offline: number;
+  };
+  coreCompetency: Array<{
+    subject: string;
+    value: number;
+    fullMark: number;
+  }>;
+}
+
 export interface LectureDetail {
   subjectCode: string; // e.g., '0312'
   subjectName: string; // e.g., '이산수학'
+  subjectNameEng?: string; // English name
+  courseCode?: string; // 학수번호
+  classification?: string; // 이수구분
+  subjectNumber?: string; // 과목번호
+  grade?: number; // 학년
   professor: string;
+  professorInfo?: ProfessorInfo;
   credit: number;
   category?: string; // 전필/전선 등
   department?: string;
@@ -13,9 +84,18 @@ export interface LectureDetail {
   time?: string; // 요일/교시 문자열
   description?: string; // 과목 개요
   prerequisites?: string[];
-  capacity?: number;
-  enrolled?: number;
+  capacity?: number; // 제한인원
+  enrolled?: number; // 현재인원
+  undergraduateEnrolled?: number; // 학부인원
+  graduateEnrolled?: number; // 대학원인원
+  tags?: string[]; // 태그 목록
+  competencyGoals?: CompetencyGoals;
   evaluationBreakdown?: Array<{ item: string; weight: number }>;
+  evaluationItems?: EvaluationItem[];
+  textbooks?: Textbook[];
+  assignments?: Assignment[];
+  weeklyPlans?: WeeklyPlan[];
+  chartData?: ChartData;
   notices?: Array<{ id: string; title: string; date: string; isNew?: boolean }>;
   scheduleBlocks?: Array<{ day: string; start: string; end: string }>;
   rating?: number; // 강의 평점
@@ -23,6 +103,105 @@ export interface LectureDetail {
 
 // Minimal demo dataset keyed by subjectCode
 export const LECTURE_DETAILS: Record<string, LectureDetail> = {
+  "BBAB12012": {
+    subjectCode: "BBAB12012",
+    subjectName: "분산시스템및컴퓨팅",
+    subjectNameEng: "DISTRIBUTED SYSTEM & COMPUTING",
+    courseCode: "BBAB12012",
+    classification: "전선",
+    subjectNumber: "3143",
+    grade: 4,
+    professor: "임민규",
+    professorInfo: {
+      name: "임민규 교수",
+      email: "mingu@konkuk.ac.kr",
+      phone: "010-1111-2222",
+      consultationHours: "-"
+    },
+    credit: 3.0,
+    category: "전선",
+    department: "컴퓨터공학부",
+    evaluation: "캡스톤(A/B/F제)",
+    capacity: 46,
+    enrolled: 45,
+    undergraduateEnrolled: 45,
+    graduateEnrolled: 0,
+    tags: ["컴퓨터공학부", "캡스톤(A/B/F제)"],
+    competencyGoals: {
+      coreCompetencyGoal: "스스로 학습 어쩌고",
+      mainCompetency: "대규모 SW의 협동 개발 능력 (상)",
+      mainCompetencyDefinition: "스스로 학습 어쩌고",
+      subCompetency1: "대규모 SW의 협동 개발 능력 (상)",
+      subCompetency1Definition: "스스로 학습 어쩌고",
+      subCompetency2: "대규모 SW의 협동 개발 능력 (상)",
+      subCompetency2Definition: "스스로 학습 어쩌고",
+      competencyBasedGoal: "대규모 SW의 협동 개발 능력 (상)",
+      jobCompetencies: ["문제해결능력", "기술능력"]
+    },
+    evaluationItems: [
+      { item: "출석률", weight: "10%", maxScore: 10, isPublic: true, description: "Checked with e-campus system", hasDetail: true },
+      { item: "중간", weight: "10%", maxScore: 10, isPublic: true, hasDetail: false },
+      { item: "기말", weight: "10%", maxScore: 10, isPublic: true, hasDetail: false },
+      { item: "과제물", weight: "10%", maxScore: 10, isPublic: true, hasDetail: false },
+      { item: "퀴즈", weight: "10%", maxScore: 10, isPublic: true, hasDetail: false },
+      { item: "발표", weight: "10%", maxScore: 10, isPublic: true, hasDetail: false },
+      { item: "프로젝트", weight: "10%", maxScore: 10, isPublic: true, hasDetail: false },
+      { item: "토론", weight: "10%", maxScore: 10, isPublic: true, hasDetail: false },
+      { item: "기타5", weight: "0%", maxScore: 0, isPublic: true, hasDetail: false }
+    ],
+    textbooks: [
+      { id: 1, type: "10", name: "10", author: "10", link: "10" },
+      { id: 2, type: "10", name: "10", author: "10", link: "10" },
+      { id: 3, type: "10", name: "10", author: "10", link: "10" },
+      { id: 4, type: "10", name: "10", author: "10", link: "10" }
+    ],
+    assignments: [
+      { id: 1, type: "10", name: "10", dueDate: "10" }
+    ],
+    weeklyPlans: [
+      {
+        week: 1,
+        dateRange: "0408-0414",
+        topic: "3. Processes : Servers, code migration",
+        instructor: "임민규",
+        activities: "Implement project progress assignment",
+        type: "Theory",
+        schedule: "월01-04(녹화강의), 수01-04(신공1201)"
+      },
+      {
+        week: 2,
+        dateRange: "0408-0414",
+        topic: "3. Processes : Servers, code migration",
+        instructor: "임민규",
+        activities: "Implement project progress assignment",
+        type: "Theory",
+        schedule: "월01-04(녹화강의), 수01-04(신공1201)"
+      },
+      {
+        week: 3,
+        dateRange: "0408-0414",
+        topic: "3. Processes : Servers, code migration",
+        instructor: "임민규",
+        activities: "Implement project progress assignment",
+        type: "Theory",
+        schedule: "월01-04(녹화강의), 수01-04(신공1201)"
+      }
+    ],
+    chartData: {
+      bLearning: {
+        online: 70,
+        offline: 30
+      },
+      coreCompetency: [
+        { subject: "창의역량", value: 80, fullMark: 100 },
+        { subject: "종합사고역량", value: 60, fullMark: 100 },
+        { subject: "학문탐구역량", value: 90, fullMark: 100 },
+        { subject: "의사소통역량", value: 70, fullMark: 100 },
+        { subject: "대인관계역량", value: 50, fullMark: 100 },
+        { subject: "자기관리역량", value: 85, fullMark: 100 }
+      ]
+    }
+  },
   "0312": {
     subjectCode: "0312",
     subjectName: "이산수학",

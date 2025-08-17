@@ -19,13 +19,13 @@ const TimetablePage: React.FC = () => {
   });
   const [searchQueries, setSearchQueries] = useState({
     professor: '',
-    subjectCode: '',
+    courseNumber: '',
     department: ''
   });
   const [currentPage, setCurrentPage] = useState(1);
 
   const navigate = useNavigate();
-  const goDetail = (subjectCode: string) => navigate(subjectCode);
+  const goDetail = (courseCode: string) => navigate(courseCode);
 
   return (
     <div className="min-h-screen bg-white md:mx-24">
@@ -64,10 +64,10 @@ const TimetablePage: React.FC = () => {
             onChange={(value) => setSearchQueries(prev => ({ ...prev, professor: value }))}
           />
           <SearchInput
-            key="subjectCode-search"
+            key="courseNumber-search"
             placeholder="과목번호"
-            value={searchQueries.subjectCode}
-            onChange={(value) => setSearchQueries(prev => ({ ...prev, subjectCode: value }))}
+            value={searchQueries.courseNumber}
+            onChange={(value) => setSearchQueries(prev => ({ ...prev, courseNumber: value }))}
           />
           <SearchInput
             key="department-search"
@@ -95,24 +95,24 @@ const TimetablePage: React.FC = () => {
             <TableHeader className="border-t bg-beige">
               <TableRow className="[&>th]:text-center [&>th]:font-bold md:[&>th]:text-xl md:[&>th]:font-normal">
                 <TableHead>학년</TableHead>
-                <TableHead>과목번호</TableHead>
+                <TableHead>학수번호</TableHead>
                 <TableHead>교과목명</TableHead>
                 <TableHead>학점</TableHead>
                 <TableHead>담당교수</TableHead>
-                <TableHead>강의실</TableHead>
-                <TableHead>수업시간</TableHead>
+                <TableHead>수업시간 및 강의실</TableHead>
+                <TableHead>수업방법</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody className="[&>tr]:hover:bg-gray-100">
               {COURSE_DATA.map((course, index) => (
-                <TableRow key={index} className="[&>td]:text-center md:[&>td]:text-base cursor-pointer" onClick={() => goDetail(course.subjectCode)}>
+                <TableRow key={index} className="[&>td]:text-center md:[&>td]:text-base cursor-pointer" onClick={() => goDetail(course.courseCode)}>
                   <TableCell>{course.grade}</TableCell>
-                  <TableCell>{course.subjectCode}</TableCell>
-                  <TableCell>{course.subjectName}</TableCell>
-                  <TableCell>{course.credit}</TableCell>
+                  <TableCell>{course.courseNumber}</TableCell>
+                  <TableCell>{course.courseName}</TableCell>
+                  <TableCell>{course.credit || 3}</TableCell>
                   <TableCell>{course.professor}</TableCell>
-                  <TableCell>{course.room}</TableCell>
-                  <TableCell>{course.time || '-'}</TableCell>
+                  <TableCell>{course.schedule}</TableCell>
+                  <TableCell>{course.method}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -123,7 +123,7 @@ const TimetablePage: React.FC = () => {
         <div className="px-5 md:px-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-[36px] justify-items-center">
             {COURSE_DATA.map((course, index) => (
-              <div key={index} onClick={() => goDetail(course.subjectCode)} className="cursor-pointer w-full">
+              <div key={index} onClick={() => goDetail(course.courseCode)} className="cursor-pointer w-full">
                 <CourseCard course={course} />
               </div>
             ))}
