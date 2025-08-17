@@ -261,11 +261,11 @@ const DetailLecture: React.FC = () => {
   const renderTags = () => (
     <div className="flex flex-wrap gap-2">
       {lectureData.tags?.map((tag: string, index: number) => (
-        <Badge key={index} label={tag} variant="default" size="md" />
+        <Badge key={index} label={tag} variant="default" size={isDesktop ? "xl" : "md"} />
       )) || (
           <>
-            {lectureData.department && <Badge label={lectureData.department} variant="default" size="md" />}
-            {courseData?.method && <Badge label={courseData.method} variant="default" size="md" />}
+            {lectureData.department && <Badge label={lectureData.department} variant="default" size={isDesktop ? "xl" : "md"} />}
+            {courseData?.method && <Badge label={courseData.method} variant="default" size={isDesktop ? "xl" : "md"} />}
           </>
         )}
     </div>
@@ -290,26 +290,26 @@ const DetailLecture: React.FC = () => {
               <div className={`${isDesktop ? 'px-4 py-3' : 'px-3 py-2'} bg-beige rounded-2xl`}>
                 <div className={`space-y-${isDesktop ? '3' : '2'}`}>
                   <div className="flex justify-between">
-                    <span className={`text-gray-500 ${isDesktop ? 'text-xl' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'}`}>
+                    <span className={`text-gray-500 ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
                       이메일
                     </span>
-                    <span className={`text-black ${isDesktop ? 'text-xl' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'}`}>
+                    <span className={`text-black ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
                       {lectureData.professorInfo?.email || '-'}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className={`text-gray-500 ${isDesktop ? 'text-xl' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'}`}>
+                    <span className={`text-gray-500 ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
                       연락처
                     </span>
-                    <span className={`text-black ${isDesktop ? 'text-xl' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'}`}>
+                    <span className={`text-black ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
                       {lectureData.professorInfo?.phone || '-'}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className={`text-gray-500 ${isDesktop ? 'text-xl' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'}`}>
+                    <span className={`text-gray-500 ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
                       상담 가능 시간
                     </span>
-                    <span className={`text-black ${isDesktop ? 'text-xl' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'}`}>
+                    <span className={`text-black ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
                       {lectureData.professorInfo?.consultationHours || '-'}
                     </span>
                   </div>
@@ -337,26 +337,26 @@ const DetailLecture: React.FC = () => {
           <div className={`${isDesktop ? 'px-4 py-3' : 'px-3 py-2'} bg-beige rounded-2xl`}>
             <div className={`space-y-${isDesktop ? '3' : '2'}`}>
               <div className="flex justify-between">
-                <span className={`text-gray-500 ${isDesktop ? 'text-xl' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'}`}>
+                <span className={`text-gray-500 ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
                   이메일
                 </span>
-                <span className={`text-black ${isDesktop ? 'text-xl' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'}`}>
+                <span className={`text-black ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
                   {lectureData.professorInfo?.email || '-'}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className={`text-gray-500 ${isDesktop ? 'text-xl' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'}`}>
+                <span className={`text-gray-500 ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
                   연락처
                 </span>
-                <span className={`text-black ${isDesktop ? 'text-xl' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'}`}>
+                <span className={`text-black ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
                   {lectureData.professorInfo?.phone || '-'}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className={`text-gray-500 ${isDesktop ? 'text-xl' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'}`}>
+                <span className={`text-gray-500 ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
                   상담 가능 시간
                 </span>
-                <span className={`text-black ${isDesktop ? 'text-xl' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'}`}>
+                <span className={`text-black ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
                   {lectureData.professorInfo?.consultationHours || '-'}
                 </span>
               </div>

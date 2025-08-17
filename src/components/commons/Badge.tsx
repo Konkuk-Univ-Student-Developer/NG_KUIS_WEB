@@ -6,7 +6,7 @@ interface BadgeProps {
   className?: string;
   widthClass?: string;
   variant?: 'default' | 'primary' | 'secondary' | 'beige' | 'gray' | 'darkgreen' | 'white' | 'white-gray';
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   as?: 'span' | 'div' | 'button';
   icon?: React.ReactNode;
   onClick?: () => void;
@@ -41,7 +41,8 @@ const Badge: React.FC<BadgeProps> = ({
   const sizeStyles = {
     sm: 'px-3 py-0.5 text-xs rounded-[10px]',
     md: 'px-4 py-1 text-sm rounded-[10px]',
-    lg: 'px-4 py-2 text-sm rounded-[10px] font-semibold'
+    lg: 'px-4 py-2 text-sm rounded-[10px] font-semibold',
+    xl: 'px-5 py-2 text-base rounded-[10px] font-semibold'
   };
 
   // For Tag-like usage with label
