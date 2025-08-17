@@ -53,7 +53,7 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
     // Extract basic information
     console.log('📊 Extracting basic information...');
     result.subjectName = getTableCellByHeader('교과목명') || getTableCellByHeader('과목명');
-    result.subjectNameEng = getTableCellByHeader('영문명');
+    result.subjectNameEng = getTableCellByHeader('영문교과목명') || getTableCellByHeader('영문명');
     result.courseCode = getTableCellByHeader('학수번호');  // e.g., BBAB67057
     result.courseNumber = getTableCellByHeader('과목번호'); // Should be 4-digit like 0702
     // If courseNumber is longer than 4 digits, truncate to first 4
@@ -81,6 +81,12 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
     result.undergraduateEnrolled = parseInt(getTableCellByHeader('학부인원')) || undefined;
     result.graduateEnrolled = parseInt(getTableCellByHeader('대학원인원')) || undefined;
     
+    // Extract enrollment notes/prerequisites
+    const enrollmentNotes = getTableCellByHeader('수강신청유의사항') || getTableCellByHeader('수강신청 유의사항');
+    if (enrollmentNotes) {
+      result.prerequisites = [enrollmentNotes];
+    }
+    
     // Extract professor information
     const professorInfo = {
       name: result.professor || '',
@@ -92,9 +98,11 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
       result.professorInfo = professorInfo;
     }
     
-    // Extract competency goals
+    // Extract competency goals - handle multiline content in cell
+    const coreCompetencyGoalText = getTableCellByHeader('핵심역량강의목표') || getTableCellByHeader('핵심역량');
+    
     const competencyGoals = {
-      coreCompetencyGoal: getTableCellByHeader('핵심역량강의목표') || getTableCellByHeader('핵심역량'),
+      coreCompetencyGoal: coreCompetencyGoalText,
       mainCompetency: getTableCellByHeader('주 전공역량') || getTableCellByHeader('주전공역량'),
       mainCompetencyDefinition: getTableCellByHeader('주 전공역량 정의') || getTableCellByHeader('주전공역량정의'),
       subCompetency1: getTableCellByHeader('보조전공역량1') || getTableCellByHeader('보조 전공역량1'),
@@ -116,10 +124,10 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
       result.competencyGoals = competencyGoals;
     }
     
-    // Extract evaluation items
+    // Extract evaluation items - look for table with 항목/비중/만점/공개여부 headers
     const evaluationItems: any[] = [];
     const evalTable = Array.from(doc.querySelectorAll('table')).find(table => 
-      table.textContent?.includes('성적평가') || table.textContent?.includes('평가항목')
+      table.textContent?.includes('항목') && table.textContent?.includes('비중') && table.textContent?.includes('만점')
     );
     
     if (evalTable) {
@@ -131,11 +139,22 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
           const weight = cells[1]?.textContent?.trim();
           const maxScore = parseInt(cells[2]?.textContent?.trim() || '0');
           if (item && !item.includes('합계')) {
+            // Map evaluation item names
+            let itemName = item;
+            if (item.includes('출석')) itemName = '출석률';
+            else if (item.includes('중간')) itemName = '중간';
+            else if (item.includes('기말')) itemName = '기말';
+            else if (item.includes('과제')) itemName = '과제물';
+            else if (item.includes('프로젝트')) itemName = '프로젝트';
+            else if (item.includes('발표')) itemName = '발표';
+            else if (item.includes('퀴즈')) itemName = '퀴즈';
+            else if (item.includes('토론')) itemName = '토론';
+            
             evaluationItems.push({
-              item,
-              weight,
+              item: itemName,
+              weight: weight + (weight.includes('%') ? '' : '%'),
               maxScore,
-              isPublic: cells[3]?.textContent?.includes('O') || cells[3]?.querySelector('input[type="checkbox"]:checked') !== null,
+              isPublic: cells[3]?.textContent?.includes('공개') || cells[3]?.textContent?.includes('O'),
               description: cells[4]?.textContent?.trim() || ''
             });
           }
@@ -147,28 +166,32 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
       result.evaluationItems = evaluationItems;
     }
     
-    // Extract textbooks
+    // Extract textbooks - look for table with 교재명 header
     const textbooks: any[] = [];
-    const textbookTable = Array.from(doc.querySelectorAll('table')).find(table => 
-      table.textContent?.includes('교재명') || table.textContent?.includes('교재')
-    );
+    const textbookTable = Array.from(doc.querySelectorAll('table')).find(table => {
+      const headers = table.querySelectorAll('th');
+      return Array.from(headers).some(h => h.textContent?.includes('교재명'));
+    });
     
     if (textbookTable) {
       const rows = textbookTable.querySelectorAll('tbody tr');
       rows.forEach((row, index) => {
         const cells = row.querySelectorAll('td');
-        if (cells.length >= 4) {
-          const type = cells[1]?.textContent?.trim();
+        if (cells.length >= 3) {
+          // Adjust indices based on actual HTML structure
+          const type = cells[1]?.textContent?.trim() || '주교재';
           const name = cells[2]?.textContent?.trim();
           const author = cells[3]?.textContent?.trim();
-          const link = cells[4]?.textContent?.trim() || '';
-          if (name && name !== '-') {
+          const publisher = cells[4]?.textContent?.trim() || '';
+          const year = cells[5]?.textContent?.trim() || '';
+          
+          if (name && name !== '-' && name !== '') {
             textbooks.push({
               id: index + 1,
-              type: type || '주교재',
+              type,
               name,
               author: author || '',
-              link
+              link: publisher + (year ? ` (${year})` : '')
             });
           }
         }
@@ -179,27 +202,44 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
       result.textbooks = textbooks;
     }
     
-    // Extract assignments
+    // Extract assignments - look for table with 과제명 header
     const assignments: any[] = [];
-    const assignmentTable = Array.from(doc.querySelectorAll('table')).find(table => 
-      table.textContent?.includes('과제명') || table.textContent?.includes('과제')
-    );
+    const assignmentTable = Array.from(doc.querySelectorAll('table')).find(table => {
+      const headers = table.querySelectorAll('th');
+      return Array.from(headers).some(h => h.textContent?.includes('과제명'));
+    });
     
     if (assignmentTable) {
       const rows = assignmentTable.querySelectorAll('tbody tr');
-      rows.forEach((row, index) => {
-        const cells = row.querySelectorAll('td');
-        if (cells.length >= 3) {
-          const type = cells[1]?.textContent?.trim();
-          const name = cells[2]?.textContent?.trim();
-          const dueDate = cells[3]?.textContent?.trim() || '';
-          if (name && name !== '-') {
-            assignments.push({
-              id: index + 1,
-              type: type || '과제',
-              name,
-              dueDate
-            });
+      // Handle multiple tbody elements in assignment table
+      const tbodies = assignmentTable.querySelectorAll('tbody');
+      let assignmentIndex = 0;
+      
+      tbodies.forEach(tbody => {
+        const row = tbody.querySelector('tr');
+        if (row) {
+          const cells = row.querySelectorAll('td');
+          if (cells.length >= 3) {
+            const number = cells[0]?.textContent?.trim();
+            const name = cells[1]?.textContent?.trim();
+            const dueDate = cells[2]?.textContent?.trim() || '';
+            const method = cells[3]?.textContent?.trim() || '';
+            
+            if (name && name !== '-' && name !== '') {
+              assignmentIndex++;
+              // Format date from YYYYMMDD to YYYY-MM-DD
+              let formattedDate = dueDate;
+              if (dueDate && dueDate.length === 8) {
+                formattedDate = `${dueDate.substring(0, 4)}-${dueDate.substring(4, 6)}-${dueDate.substring(6, 8)}`;
+              }
+              
+              assignments.push({
+                id: assignmentIndex,
+                type: '과제',
+                name,
+                dueDate: formattedDate
+              });
+            }
           }
         }
       });
@@ -209,37 +249,40 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
       result.assignments = assignments;
     }
     
-    // Extract weekly plans
+    // Extract weekly plans - look for table with 주차/주별 header
     const weeklyPlans: any[] = [];
-    const weeklyTable = Array.from(doc.querySelectorAll('table')).find(table => 
-      table.textContent?.includes('주별') || table.textContent?.includes('주차')
-    );
+    const weeklyTable = Array.from(doc.querySelectorAll('table')).find(table => {
+      const headers = table.querySelectorAll('th');
+      return Array.from(headers).some(h => 
+        h.textContent?.includes('주차') || h.textContent?.includes('주별')
+      );
+    });
     
     if (weeklyTable) {
       const rows = weeklyTable.querySelectorAll('tbody tr');
       rows.forEach(row => {
         const cells = row.querySelectorAll('td');
-        if (cells.length >= 5) {
+        if (cells.length >= 3) {
           const weekText = cells[0]?.textContent?.trim();
           const weekMatch = weekText?.match(/(\d+)/);
           if (weekMatch) {
             const week = parseInt(weekMatch[1]);
             const dateRange = cells[1]?.textContent?.trim() || '';
             const topic = cells[2]?.textContent?.trim() || '';
-            const instructor = cells[3]?.textContent?.trim() || result.professor || '';
-            const activities = cells[4]?.textContent?.trim() || '';
-            const type = cells[5]?.textContent?.trim() || '이론';
-            const schedule = cells[6]?.textContent?.trim() || '';
+            const content = cells[3]?.textContent?.trim() || '';
+            const type = cells[4]?.textContent?.trim() || '';
+            const activities = cells[5]?.textContent?.trim() || '';
+            const instructor = cells[6]?.textContent?.trim() || result.professor || '';
             
-            if (topic) {
+            if (topic || content) {
               weeklyPlans.push({
                 week,
                 dateRange,
-                topic,
+                topic: topic || content,
                 instructor,
-                activities,
-                type,
-                schedule
+                activities: content || activities || '',
+                type: type || '이론',
+                schedule: ''
               });
             }
           }
