@@ -503,239 +503,120 @@ const DetailLecture: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('출석률')}>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                    출석률
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                    10%
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                    10
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center">
-                    <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
-                  </td>
-                  <td className="border-b border-zinc-400 px-3 py-2 text-center">
-                    <ChevronDown className="w-3 h-2 text-[#036B3F] mx-auto" />
-                  </td>
-                </tr>
-                {expandedEvaluationItems.has('출석률') && (
-                  <tr className="animate-fadeIn">
-                    <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
-                      <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
-                        Checked with e-campus system
-                      </div>
-                    </td>
-                  </tr>
-                )}
-                <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('중간')}>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                    중간
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                    10%
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                    10
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center">
-                    <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
-                  </td>
-                  <td className=" border-b border-zinc-400 px-3 py-2 text-center">
-                    <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
-                  </td>
-                </tr>
-                {expandedEvaluationItems.has('중간') && (
-                  <tr className="animate-fadeIn">
-                    <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
-                      <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
-                        Checked with e-campus system
-                      </div>
-                    </td>
-                  </tr>
-                )}
-                <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('기말')}>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                    기말
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                    10%
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                    10
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center">
-                    <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
-                  </td>
-                  <td className=" border-b border-zinc-400 px-3 py-2 text-center">
-                    <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
-                  </td>
-                </tr>
-                {expandedEvaluationItems.has('기말') && (
-                  <tr className="animate-fadeIn">
-                    <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
-                      <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
-                        Checked with e-campus system
-                      </div>
-                    </td>
-                  </tr>
-                )}
-                <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('과제물')}>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                    과제물
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                    10%
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                    10
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center">
-                    <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
-                  </td>
-                  <td className="border-b border-zinc-400 px-3 py-2 text-center">
-                    <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
-                  </td>
-                </tr>
-                {expandedEvaluationItems.has('과제물') && (
-                  <tr className="animate-fadeIn">
-                    <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
-                      <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
-                        Checked with e-campus system
-                      </div>
-                    </td>
-                  </tr>
-                )}
-                <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('퀴즈')}>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                    퀴즈
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                    10%
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                    10
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center">
-                    <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
-                  </td>
-                  <td className="border-b border-zinc-400 px-3 py-2 text-center">
-                    <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
-                  </td>
-                </tr>
-                {expandedEvaluationItems.has('퀴즈') && (
-                  <tr className="animate-fadeIn">
-                    <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
-                      <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
-                        Checked with e-campus system
-                      </div>
-                    </td>
-                  </tr>
-                )}
-                <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('발표')}>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                    발표
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                    10%
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                    10
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center">
-                    <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
-                  </td>
-                  <td className="border-b border-zinc-400 px-3 py-2 text-center">
-                    <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
-                  </td>
-                </tr>
-                {expandedEvaluationItems.has('발표') && (
-                  <tr className="animate-fadeIn">
-                    <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
-                      <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
-                        Checked with e-campus system
-                      </div>
-                    </td>
-                  </tr>
-                )}
-                <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('프로젝트')}>
-                  <td className="border-r border-b border-zinc-400 px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                    프로젝트
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                    10%
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                    10
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center">
-                    <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
-                  </td>
-                  <td className="border-b border-zinc-400 px-3 py-2 text-center">
-                    <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
-                  </td>
-                </tr>
-                {expandedEvaluationItems.has('프로젝트') && (
-                  <tr className="animate-fadeIn">
-                    <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
-                      <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
-                        Checked with e-campus system
-                      </div>
-                    </td>
-                  </tr>
-                )}
-                <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('토론')}>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                    토론
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                    10%
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                    10
-                  </td>
-                  <td className="border-r border-b border-zinc-400 px-3 py-2 text-center">
-                    <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
-                  </td>
-                  <td className="border-b border-zinc-400 px-3 py-2 text-center">
-                    <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
-                  </td>
-                </tr>
-                {expandedEvaluationItems.has('토론') && (
-                  <tr className="animate-fadeIn">
-                    <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
-                      <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
-                        Checked with e-campus system
-                      </div>
-                    </td>
-                  </tr>
-                )}
-                <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('기타5')}>
-                  <td className="border-r border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                    기타5
-                  </td>
-                  <td className="border-r border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                    0%
-                  </td>
-                  <td className="border-r border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                    0
-                  </td>
-                  <td className="border-r border-zinc-400 px-3 py-2 text-center">
-                    <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
-                  </td>
-                  <td className=" px-3 py-2 text-center">
-                    <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
-                  </td>
-                </tr>
-                {expandedEvaluationItems.has('기타5') && (
-                  <tr className="animate-fadeIn">
-                    <td colSpan={5} className="border-zinc-400 bg-beige px-2 py-1">
-                      <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
-                        Checked with e-campus system
-                      </div>
-                    </td>
-                  </tr>
+                {lectureData.evaluationItems && lectureData.evaluationItems.length > 0 ? (
+                  lectureData.evaluationItems.map((evalItem, index, arr) => (
+                    <React.Fragment key={evalItem.item}>
+                      <tr 
+                        className="bg-white cursor-pointer hover:bg-gray-50" 
+                        onClick={() => evalItem.description && toggleEvaluationItem(evalItem.item)}
+                      >
+                        <td className={`border-r ${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none`}>
+                          {evalItem.item}
+                        </td>
+                        <td className={`border-r ${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none`}>
+                          {evalItem.weight}
+                        </td>
+                        <td className={`border-r ${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none`}>
+                          {evalItem.maxScore}
+                        </td>
+                        <td className={`border-r ${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center`}>
+                          {evalItem.isPublic && <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />}
+                        </td>
+                        <td className={`${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center`}>
+                          {evalItem.description ? (
+                            expandedEvaluationItems.has(evalItem.item) ? (
+                              <ChevronUp className="w-3 h-2 text-[#036B3F] mx-auto" />
+                            ) : (
+                              <ChevronDown className="w-3 h-2 text-[#036B3F] mx-auto" />
+                            )
+                          ) : (
+                            <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
+                          )}
+                        </td>
+                      </tr>
+                      {expandedEvaluationItems.has(evalItem.item) && evalItem.description && (
+                        <tr className="animate-fadeIn">
+                          <td colSpan={5} className={`${arr.length === index + 1 ? '' : 'border-b'} border-gray-500 bg-beige px-2 py-1`}>
+                            <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
+                              {evalItem.description}
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  ))
+                ) : (
+                  // 기본값 표시
+                  <>
+                    <tr className="bg-white">
+                      <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                        출석률
+                      </td>
+                      <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                        10%
+                      </td>
+                      <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                        10
+                      </td>
+                      <td className="border-r border-b border-zinc-400 px-3 py-2 text-center">
+                        <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
+                      </td>
+                      <td className="border-b border-zinc-400 px-3 py-2 text-center">
+                        <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
+                      </td>
+                    </tr>
+                    <tr className="bg-white">
+                      <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                        중간
+                      </td>
+                      <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                        30%
+                      </td>
+                      <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                        30
+                      </td>
+                      <td className="border-r border-b border-zinc-400 px-3 py-2 text-center">
+                        <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
+                      </td>
+                      <td className="border-b border-zinc-400 px-3 py-2 text-center">
+                        <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
+                      </td>
+                    </tr>
+                    <tr className="bg-white">
+                      <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                        기말
+                      </td>
+                      <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                        30%
+                      </td>
+                      <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                        30
+                      </td>
+                      <td className="border-r border-b border-zinc-400 px-3 py-2 text-center">
+                        <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
+                      </td>
+                      <td className="border-b border-zinc-400 px-3 py-2 text-center">
+                        <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
+                      </td>
+                    </tr>
+                    <tr className="bg-white">
+                      <td className="border-r border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                        과제물
+                      </td>
+                      <td className="border-r border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                        30%
+                      </td>
+                      <td className="border-r border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                        30
+                      </td>
+                      <td className="border-r border-zinc-400 px-3 py-2 text-center">
+                        <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
+                      </td>
+                      <td className="px-3 py-2 text-center">
+                        <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
+                      </td>
+                    </tr>
+                  </>
                 )}
               </tbody>
             </table>
@@ -884,7 +765,7 @@ const DetailLecture: React.FC = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {lectureData.weeklyPlans && lectureData.weeklyPlans.length > 0 ? (
-              lectureData.weeklyPlans.slice(0, 6).map((plan) => (
+              lectureData.weeklyPlans.map((plan) => (
                 <div key={plan.week} className="px-3 py-4 bg-beige rounded-[20px] flex flex-col gap-5">
                   <div className="flex flex-col gap-2">
                     <div className="flex flex-col gap-1">
@@ -917,7 +798,7 @@ const DetailLecture: React.FC = () => {
                 </div>
               ))
             ) : (
-              [1, 2, 3].map((week) => (
+              Array.from({ length: 16 }, (_, i) => i + 1).map((week) => (
                 <div key={week} className="px-3 py-4 bg-beige rounded-[20px] flex flex-col gap-5">
                   <div className="flex flex-col gap-2">
                     <div className="flex flex-col gap-1">

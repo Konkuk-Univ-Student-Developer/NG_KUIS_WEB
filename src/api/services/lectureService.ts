@@ -30,7 +30,6 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
       const match = html.match(pattern);
       if (match && match[1]) {
         const extracted = match[1].trim();
-        console.log(`✅ Regex extracted: ${extracted.substring(0, 50)}...`);
         return extracted;
       }
       return '';
@@ -57,7 +56,6 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
         for (const pattern of regexPatterns) {
           const extracted = extractByRegex(pattern);
           if (extracted) {
-            console.log(`✅ Found ${headerText} via regex: ${extracted}`);
             return extracted;
           }
         }
@@ -81,7 +79,6 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
             if (match && match[1]) {
               const content = match[1].trim();
               if (content && !content.includes('</') && !content.includes('/>')) {
-                console.log(`✅ Found ${headerText} in row HTML: ${content}`);
                 return content;
               }
             }
@@ -94,7 +91,6 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
                 foundHeader = true;
               } else if (foundHeader && cell.textContent?.trim()) {
                 const content = cell.textContent.trim();
-                console.log(`✅ Found ${headerText} in cell: ${content}`);
                 return content;
               }
             }
@@ -104,13 +100,11 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
           const nextSibling = header.nextElementSibling;
           if (nextSibling?.textContent?.trim()) {
             const content = nextSibling.textContent.trim();
-            console.log(`✅ Found ${headerText} (sibling): ${content}`);
             return content;
           }
         }
       }
       
-      console.log(`⚠️ Could not find data for: ${headerTexts.join(', ')}`);
       return '';
     };
     
@@ -124,11 +118,6 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
     result.courseNumber = rawCourseNumber?.substring(0, 4); // Ensure 4-digit
     
     if (isDev && rawCourseNumber) {
-      console.log('📝 Course number extraction:', {
-        raw: rawCourseNumber,
-        extracted: result.courseNumber,
-        length: result.courseNumber?.length
-      });
     }
     
     const gradeStr = getTableCellByHeader('학년');
@@ -202,7 +191,6 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
     );
     
     if (evalTable) {
-      console.log('📊 Found evaluation table');
       // Get ALL rows, not just tbody rows
       const allRows = evalTable.querySelectorAll('tr');
       let evaluationRowCount = 0;
@@ -263,7 +251,6 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
           itemName = itemName.replace(/\d+$/, '').trim();
           
           evaluationRowCount++;
-          console.log(`📝 Evaluation item ${evaluationRowCount}: ${itemName} - ${cleanWeight} (Max: ${maxScore})`);
           
           evaluationItems.push({
             item: itemName,
@@ -277,9 +264,7 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
         }
       });
       
-      console.log(`📊 Total evaluation items parsed: ${evaluationRowCount}`);
     } else {
-      console.log('⚠️ Could not find evaluation table');
     }
     
     if (evaluationItems.length > 0) {
@@ -293,7 +278,6 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
     );
     
     if (textbookTable) {
-      console.log('📚 Found textbook table');
       const rows = textbookTable.querySelectorAll('tbody tr');
       rows.forEach((row, index) => {
         const cells = row.querySelectorAll('td');
@@ -306,7 +290,6 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
           const year = cells[5]?.textContent?.trim() || '';
           
           if (name && name !== '-' && name !== '') {
-            console.log(`✅ Found textbook: ${type} - ${name} by ${author}`);
             textbooks.push({
               id: index + 1,
               type,
@@ -318,7 +301,6 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
         }
       });
     } else {
-      console.log('⚠️ Could not find textbook table');
     }
     
     if (textbooks.length > 0) {
@@ -332,7 +314,6 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
     );
     
     if (assignmentTable) {
-      console.log('📝 Found assignment table');
       // Handle multiple tbody elements in assignment table
       const tbodies = assignmentTable.querySelectorAll('tbody');
       let assignmentIndex = 0;
@@ -355,7 +336,6 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
                 formattedDate = `${dueDate.substring(0, 4)}-${dueDate.substring(4, 6)}-${dueDate.substring(6, 8)}`;
               }
               
-              console.log(`✅ Found assignment: ${name} - Due: ${formattedDate}`);
               
               assignments.push({
                 id: assignmentIndex,
@@ -368,7 +348,6 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
         }
       });
     } else {
-      console.log('⚠️ Could not find assignment table');
     }
     
     if (assignments.length > 0) {
@@ -384,7 +363,6 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
     );
     
     if (weeklyTable) {
-      console.log('📅 Found weekly plan table');
       // Get ALL rows including those not in tbody (some tables have multiple tbody or tr outside tbody)
       const allRows = weeklyTable.querySelectorAll('tr');
       let dataRowCount = 0;
@@ -410,7 +388,6 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
             
             if (topic || content) {
               dataRowCount++;
-              console.log(`📚 Week ${week}: ${topic || content}`);
               
               weeklyPlans.push({
                 week,
@@ -426,9 +403,7 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
         }
       });
       
-      console.log(`📊 Total weekly plans parsed: ${dataRowCount} weeks`);
     } else {
-      console.log('⚠️ Could not find weekly plan table');
     }
     
     if (weeklyPlans.length > 0) {
@@ -446,20 +421,6 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
   }
   
   // Log summary of extracted data
-  console.log('📋 Parsing Summary:', {
-    subjectName: result.subjectName || '❌ Not found',
-    subjectNameEng: result.subjectNameEng || '❌ Not found',
-    courseCode: result.courseCode || '❌ Not found',
-    courseNumber: result.courseNumber || '❌ Not found',
-    professor: result.professor || '❌ Not found',
-    grade: result.grade || '❌ Not found',
-    credit: result.credit || '❌ Not found',
-    evaluationItemsCount: result.evaluationItems?.length || 0,
-    textbooksCount: result.textbooks?.length || 0,
-    assignmentsCount: result.assignments?.length || 0,
-    weeklyPlansCount: result.weeklyPlans?.length || 0,
-  });
-  
   return result;
 };
 
@@ -480,15 +441,6 @@ export const fetchLecturePlan = async (params: LecturePlanParams): Promise<Parti
   const ltShtm = 'B01012';  // 고정값
   const url = `https://kupis.konkuk.ac.kr/sugang/acd/cour/plan/CourLecturePlanInq.jsp?ltYy=${year}&ltShtm=${ltShtm}&sbjtId=${courseNumber}`;
   
-  if (isDev) {
-    console.log('🌐 Fetching Lecture Plan from KUPIS:', {
-      year,
-      ltShtm,
-      sbjtId: courseNumber,
-      courseNumberLength: courseNumber?.length,
-      fullUrl: url
-    });
-  }
   
   try {
     // Use proxy URL for development (configured in vite.config.ts)
@@ -516,26 +468,10 @@ export const fetchLecturePlan = async (params: LecturePlanParams): Promise<Parti
       throw new Error('Empty response from KUPIS');
     }
     
-    // Log first part of HTML to debug structure
-    if (isDev) {
-      const snippet = html.substring(0, 2000);
-      console.log('📄 HTML Response snippet:', snippet);
-      
-      // Check for specific content
-      if (html.includes('발상의전환')) {
-        console.log('✅ HTML contains "발상의전환"');
-      }
-      if (html.includes('교과목명')) {
-        console.log('✅ HTML contains "교과목명" header');
-      }
-    }
     
     // Parse the HTML
     const parsedData = parseLecturePlanHTML(html);
     
-    if (isDev && Object.keys(parsedData).length > 0) {
-      console.log('✅ Successfully parsed lecture plan data');
-    }
     
     return parsedData;
     
