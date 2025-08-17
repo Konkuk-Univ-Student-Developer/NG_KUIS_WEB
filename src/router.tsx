@@ -48,7 +48,7 @@ const Router: React.FC = () => {
             }
           />
           <Route
-            path="1130420/:courseCode"
+            path="1130420/:courseNumber"
             element={
               <Suspense fallback={<PageLoader />}>
                 <DetailLectureSchedulePage />

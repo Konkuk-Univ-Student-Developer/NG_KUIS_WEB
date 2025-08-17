@@ -11,7 +11,7 @@ import { useLecturePlan, useMergedLectureData } from '@/api/hooks/lecture/useLec
 
 
 const DetailLecture: React.FC = () => {
-  const { courseCode } = useParams<{ courseCode: string }>();
+  const { courseNumber } = useParams<{ courseNumber: string }>();
   const navigate = useNavigate();
   const location = useLocation();
   const [showError, setShowError] = useState(false);
@@ -22,7 +22,7 @@ const DetailLecture: React.FC = () => {
   // Log navigation data for debugging
   React.useEffect(() => {
     console.log('🔍 DetailLecture Component Loaded:', {
-      urlCourseCode: courseCode,
+      urlCourseNumber: courseNumber,
       hasCourseData: !!courseData,
       courseDataDetails: courseData ? {
         courseCode: courseData.courseCode,
@@ -36,11 +36,11 @@ const DetailLecture: React.FC = () => {
         fullData: courseData
       } : null
     });
-  }, [courseData, courseCode]);
+  }, [courseData, courseNumber]);
 
   // Get default lecture data from constants
-  // Use courseCode from courseData or URL parameter
-  const defaultLectureData = LECTURE_DETAILS[courseCode || courseData?.courseCode || 'BBAB12012'] || LECTURE_DETAILS['BBAB12012'];
+  // Use courseNumber from URL parameter or courseData
+  const defaultLectureData = LECTURE_DETAILS[courseNumber || courseData?.courseNumber || 'BBAB12012'] || LECTURE_DETAILS['BBAB12012'];
 
   // Fetch lecture plan from KUPIS
   // Note: We need year from courseData or default to current year
@@ -48,9 +48,9 @@ const DetailLecture: React.FC = () => {
   
   // Log the parameters being sent to useLecturePlan
   // Only need year and courseNumber (ltShtm is fixed as B01012)
-  const lecturePlanParams = courseData ? {
+  const lecturePlanParams = (courseData?.courseNumber || courseNumber) ? {
     year: currentYear, // TODO: Get actual year from courseData or filters
-    courseNumber: courseData.courseNumber  // Only courseNumber is needed for sbjtId
+    courseNumber: courseData?.courseNumber || courseNumber || ''  // Use courseNumber from courseData or URL param
   } : undefined;
   
   React.useEffect(() => {
