@@ -27,8 +27,8 @@ const DetailLecture: React.FC = () => {
   const [expandedEvaluationItems, setExpandedEvaluationItems] = useState<Set<string>>(new Set());
 
   // Media query for responsive behavior (md breakpoint: 768px)
-  const isDesktop = useMediaQuery('(min-width: 768px)');
-  const isLargeDesktop = useMediaQuery('(min-width: 1440px)');
+  const isTablet = useMediaQuery('(min-width: 768px)');
+  const isDesktop = useMediaQuery('(min-width: 1440px)');
 
   // Get course data from navigation state
   const courseData = location.state?.courseData as CourseData | undefined;
@@ -240,7 +240,7 @@ const DetailLecture: React.FC = () => {
         <h2 className={styles.section.title}>기본 정보</h2>
       </div>
       <div className="flex flex-col gap-3">
-        {isDesktop ? (
+        {isTablet ? (
           <DesktopBasicInfoTables lectureData={lectureData} courseData={courseData} variant="desktop" />
         ) : (
           <>
@@ -250,7 +250,7 @@ const DetailLecture: React.FC = () => {
         )}
         {renderTags()}
       </div>
-      {isDesktop ? (
+      {isTablet ? (
         renderChartsAndProfessor()
       ) : (
         <>
@@ -264,18 +264,18 @@ const DetailLecture: React.FC = () => {
   const renderTags = () => (
     <div className="flex flex-wrap gap-2">
       {lectureData.tags?.map((tag: string, index: number) => (
-        <Badge key={index} label={tag} variant="default" size={isDesktop ? "xl" : "md"} />
+        <Badge key={index} label={tag} variant="default" size={isTablet ? "xl" : "md"} />
       )) || (
           <>
-            {!isDesktop && lectureData.department && <Badge label={lectureData.department} variant="default" size="md" />}
-            {!isDesktop && courseData?.method && <Badge label={courseData.method} variant="default" size="md" />}
+            {!isTablet && lectureData.department && <Badge label={lectureData.department} variant="default" size="md" />}
+            {!isTablet && courseData?.method && <Badge label={courseData.method} variant="default" size="md" />}
           </>
         )}
     </div>
   );
 
   const renderChartsAndProfessor = () => {
-    if (isLargeDesktop) {
+    if (isDesktop) {
       // 1440px 이상: 3-column layout (B러닝 + 핵심역량(2칸) + 교수정보)
       return (
         <div className="grid grid-cols-4 gap-4">
@@ -327,7 +327,7 @@ const DetailLecture: React.FC = () => {
           </div>
         </div>
       );
-    } else if (isDesktop) {
+    } else if (isTablet) {
       // 768px-1439px: 2-column charts + separate professor info below
       return (
         <div className="flex flex-col gap-4">
@@ -353,39 +353,39 @@ const DetailLecture: React.FC = () => {
 
   const renderProfessorInfo = () => (
     <div className="grid grid-cols-1">
-      <div className={`${isDesktop ? 'p-6' : 'p-4'} bg-white rounded-[20px] shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100`}>
+      <div className={`${isTablet ? 'p-6' : 'p-4'} bg-white rounded-[20px] shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100`}>
         <div className="flex flex-col h-full justify-between">
           <div>
-            <div className={`text-black ${isDesktop ? 'text-base' : 'text-xs'} font-normal font-['Noto_Sans'] mb-1`}>
+            <div className={`text-black ${isTablet ? 'text-base' : 'text-xs'} font-normal font-['Noto_Sans'] mb-1`}>
               담당교수 정보
             </div>
-            <div className={`text-black ${isDesktop ? 'text-xl' : 'text-sm'} font-semibold font-['Noto_Sans'] ${isDesktop ? 'leading-10' : 'leading-none'} mb-4`}>
+            <div className={`text-black ${isTablet ? 'text-xl' : 'text-sm'} font-semibold font-['Noto_Sans'] ${isTablet ? 'leading-10' : 'leading-none'} mb-4`}>
               {lectureData.professorInfo?.name || lectureData.professor}
             </div>
           </div>
-          <div className={`${isDesktop ? 'px-4 py-3' : 'px-3 py-2'} bg-beige rounded-2xl`}>
-            <div className={`space-y-${isDesktop ? '3' : '2'}`}>
+          <div className={`${isTablet ? 'px-4 py-3' : 'px-3 py-2'} bg-beige rounded-2xl`}>
+            <div className={`space-y-${isTablet ? '3' : '2'}`}>
               <div className="flex justify-between">
-                <span className={`text-gray-500 ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
+                <span className={`text-gray-500 ${isTablet ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isTablet ? 'leading-5' : 'leading-none'}`}>
                   이메일
                 </span>
-                <span className={`text-black ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
+                <span className={`text-black ${isTablet ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isTablet ? 'leading-5' : 'leading-none'}`}>
                   {lectureData.professorInfo?.email || '-'}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className={`text-gray-500 ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
+                <span className={`text-gray-500 ${isTablet ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isTablet ? 'leading-5' : 'leading-none'}`}>
                   연락처
                 </span>
-                <span className={`text-black ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
+                <span className={`text-black ${isTablet ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isTablet ? 'leading-5' : 'leading-none'}`}>
                   {lectureData.professorInfo?.phone || '-'}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className={`text-gray-500 ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
+                <span className={`text-gray-500 ${isTablet ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isTablet ? 'leading-5' : 'leading-none'}`}>
                   상담 가능 시간
                 </span>
-                <span className={`text-black ${isDesktop ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isDesktop ? 'leading-5' : 'leading-none'}`}>
+                <span className={`text-black ${isTablet ? 'text-sm' : 'text-sm'} font-normal font-['Noto_Sans'] ${isTablet ? 'leading-5' : 'leading-none'}`}>
                   {lectureData.professorInfo?.consultationHours || '-'}
                 </span>
               </div>
@@ -401,7 +401,7 @@ const DetailLecture: React.FC = () => {
       <h2 className={styles.section.title}>강의 역량 및 목표</h2>
       <VerticalTable
         rows={mapCompetencyRows(lectureData)}
-        variant={isDesktop ? 'desktop' : 'mobile'}
+        variant={isTablet ? 'desktop' : 'mobile'}
       />
     </div>
   );
@@ -413,7 +413,7 @@ const DetailLecture: React.FC = () => {
         data={lectureData.evaluationItems || []}
         expandedRows={expandedEvaluationItems}
         onToggleExpand={toggleEvaluationItem}
-        variant={isDesktop ? 'desktop' : 'mobile'}
+        variant={isTablet ? 'desktop' : 'mobile'}
       />
     </div>
   );
@@ -424,7 +424,7 @@ const DetailLecture: React.FC = () => {
       <StandardTable
         data={lectureData.textbooks || []}
         type="textbooks"
-        variant={isDesktop ? 'desktop' : 'mobile'}
+        variant={isTablet ? 'desktop' : 'mobile'}
       />
     </div>
   );
@@ -435,15 +435,15 @@ const DetailLecture: React.FC = () => {
       <StandardTable
         data={lectureData.assignments || []}
         type="assignments"
-        variant={isDesktop ? 'desktop' : 'mobile'}
+        variant={isTablet ? 'desktop' : 'mobile'}
       />
     </div>
   );
 
 
   return (
-    <div className={`w-full min-h-screen ${isDesktop ? 'px-24 py-12' : 'p-6'}`}>
-      <div className={`${isDesktop ? 'w-full' : 'max-w-7xl'} mx-auto flex flex-col gap-5 bg-white rounded-lg`}>
+    <div className={`w-full min-h-screen ${isTablet ? 'px-24 py-12' : 'p-6'}`}>
+      <div className={`${isTablet ? 'w-full' : 'max-w-7xl'} mx-auto flex flex-col gap-5 bg-white rounded-lg`}>
         {/* Loading Indicator */}
         {loading && (
           <div className="flex items-center justify-center p-4 bg-blue-50 rounded-lg">
@@ -469,7 +469,7 @@ const DetailLecture: React.FC = () => {
         />
 
         {/* Course Title Section */}
-        {isDesktop ? (
+        {isTablet ? (
           <div className="self-stretch inline-flex justify-between items-start">
             <div className="inline-flex flex-col justify-center items-start">
               <div className="text-center justify-center text-black text-3xl font-bold font-['Noto_Sans'] leading-[56px]">

@@ -9,7 +9,7 @@ interface CompetencyData {
 }
 
 const CoreCompetencyChart: React.FC = () => {
-  const isDesktop = useMediaQuery('(min-width: 768px)');
+  const isTablet = useMediaQuery('(min-width: 768px)');
   
   const data: CompetencyData[] = [
     { name: '성실성', value: 20, color: '#61A7DD' },
@@ -40,10 +40,10 @@ const CoreCompetencyChart: React.FC = () => {
 
   return (
     <div className="p-4 bg-white rounded-2xl shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100">
-      <div className={`text-gray-900 ${isDesktop ? 'text-base' : 'text-sm'} font-bold font-['Noto_Sans'] mb-4`}>
+      <div className={`text-gray-900 ${isTablet ? 'text-base' : 'text-sm'} font-bold font-['Noto_Sans'] mb-4`}>
         핵심역량
       </div>
-      <div className={`${isDesktop ? 'h-48' : 'h-48'} flex flex-col items-center`}>
+      <div className={`${isTablet ? 'h-48' : 'h-48'} flex flex-col items-center`}>
         <ResponsiveContainer width="100%" height="70%">
           <PieChart>
             <Pie
@@ -51,8 +51,8 @@ const CoreCompetencyChart: React.FC = () => {
               cx="50%"
               cy="50%"
               labelLine={false}
-              innerRadius={isDesktop ? 25 : 25}
-              outerRadius={isDesktop ? 45 : 40}
+              innerRadius={isTablet ? 25 : 25}
+              outerRadius={isTablet ? 45 : 40}
               fill="#8884d8"
               dataKey="value"
             >
@@ -63,7 +63,7 @@ const CoreCompetencyChart: React.FC = () => {
             <Tooltip content={<CustomTooltip />} />
           </PieChart>
         </ResponsiveContainer>
-        <div className={isDesktop ? "flex flex-wrap gap-x-4 gap-y-1 mt-2 justify-center min-h-[48px] items-center" : "grid grid-cols-3 gap-x-3 gap-y-1 mt-2 text-center"}>
+        <div className={isTablet ? "flex flex-wrap gap-x-4 gap-y-1 mt-2 justify-center min-h-[48px] items-center" : "grid grid-cols-3 gap-x-3 gap-y-1 mt-2 text-center"}>
           {data.map((item, index) => (
             <div key={index} className="flex flex-col items-center">
               <div className="flex items-center gap-1">
@@ -74,11 +74,11 @@ const CoreCompetencyChart: React.FC = () => {
                     opacity: item.value === 0 ? 0.3 : (item.color === '#9E9E9E' || item.color === '#B0B0B0' ? 0.7 : 0.6)
                   }}
                 />
-                <span className={`text-zinc-800 ${isDesktop ? 'text-sm' : 'text-xs'} font-semibold font-['Inter'] leading-none`}>
+                <span className={`text-zinc-800 ${isTablet ? 'text-sm' : 'text-xs'} font-semibold font-['Inter'] leading-none`}>
                   {item.value}%
                 </span>
               </div>
-              <span className={`text-slate-500 ${isDesktop ? 'text-xs' : 'text-[10px]'} font-normal font-['Inter'] whitespace-nowrap`}>
+              <span className={`text-slate-500 ${isTablet ? 'text-xs' : 'text-[10px]'} font-normal font-['Inter'] whitespace-nowrap`}>
                 {item.name}
               </span>
             </div>

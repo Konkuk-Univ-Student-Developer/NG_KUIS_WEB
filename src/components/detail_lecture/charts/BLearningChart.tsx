@@ -9,7 +9,7 @@ interface BLearningData {
 }
 
 const BLearningChart: React.FC = () => {
-  const isDesktop = useMediaQuery('(min-width: 768px)');
+  const isTablet = useMediaQuery('(min-width: 768px)');
   
   const data: BLearningData[] = [
     { name: '대면', value: 8, color: '#61A7DD' },
@@ -34,10 +34,10 @@ const BLearningChart: React.FC = () => {
 
   return (
     <div className="p-4 bg-white rounded-2xl shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100">
-      <div className={`text-gray-900 ${isDesktop ? 'text-base' : 'text-sm'} font-bold font-['Noto_Sans'] mb-4`}>
+      <div className={`text-gray-900 ${isTablet ? 'text-base' : 'text-sm'} font-bold font-['Noto_Sans'] mb-4`}>
         B러닝(녹화+대면)
       </div>
-      <div className={`${isDesktop ? 'h-48' : 'h-48'} flex flex-col items-center`}>
+      <div className={`${isTablet ? 'h-48' : 'h-48'} flex flex-col items-center`}>
         <ResponsiveContainer width="100%" height="70%">
           <PieChart>
             <Pie
@@ -45,8 +45,8 @@ const BLearningChart: React.FC = () => {
               cx="50%"
               cy="50%"
               labelLine={false}
-              innerRadius={isDesktop ? 25 : 25}
-              outerRadius={isDesktop ? 45 : 40}
+              innerRadius={isTablet ? 25 : 25}
+              outerRadius={isTablet ? 45 : 40}
               fill="#8884d8"
               dataKey="value"
             >
@@ -57,7 +57,7 @@ const BLearningChart: React.FC = () => {
             <Tooltip content={<CustomTooltip />} />
           </PieChart>
         </ResponsiveContainer>
-        <div className={`flex gap-3 mt-2 ${isDesktop ? 'min-h-[48px] items-center justify-center' : ''}`}>
+        <div className={`flex gap-3 mt-2 ${isTablet ? 'min-h-[48px] items-center justify-center' : ''}`}>
           {data.map((item, index) => (
             <div key={index} className="flex flex-col items-center">
               <div className="flex items-center gap-1">
@@ -65,11 +65,11 @@ const BLearningChart: React.FC = () => {
                   className="w-2 h-2 rounded-full"
                   style={{ backgroundColor: item.color, opacity: 0.6 }}
                 />
-                <span className={`text-zinc-800 ${isDesktop ? 'text-sm' : 'text-xs'} font-semibold font-['Inter'] leading-none`}>
+                <span className={`text-zinc-800 ${isTablet ? 'text-sm' : 'text-xs'} font-semibold font-['Inter'] leading-none`}>
                   {item.value}주
                 </span>
               </div>
-              <span className={`text-slate-500 ${isDesktop ? 'text-xs' : 'text-[10px]'} font-normal font-['Inter']`}>
+              <span className={`text-slate-500 ${isTablet ? 'text-xs' : 'text-[10px]'} font-normal font-['Inter']`}>
                 {item.name}
               </span>
             </div>
