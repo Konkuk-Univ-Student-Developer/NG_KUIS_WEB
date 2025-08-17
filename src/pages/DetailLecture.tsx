@@ -392,42 +392,65 @@ const DetailLecture: React.FC = () => {
         />
 
         {/* Course Title Section */}
-        <div className="flex flex-col gap-3">
-          <div className="flex flex-col gap-1">
-            <div className="text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-              {lectureData.subjectName}
+        {isDesktop ? (
+          <div className="self-stretch inline-flex justify-between items-start">
+            <div className="inline-flex flex-col justify-center items-start">
+              <div className="text-center justify-center text-black text-3xl font-bold font-['Noto_Sans'] leading-[56px]">
+                {lectureData.subjectName}
+              </div>
+              <div className="justify-center text-black text-2xl font-normal font-['Noto_Sans'] leading-[48px]">
+                {lectureData.subjectNameEng || lectureData.subjectName}
+              </div>
             </div>
-            <div className="text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-              {lectureData.subjectNameEng || lectureData.subjectName}
+            <div className="self-stretch py-1 flex justify-center items-end gap-4">
+              <button className="w-32 h-12 relative bg-emerald-800 rounded-xl flex items-center justify-center gap-2 cursor-pointer hover:bg-emerald-900 transition-colors">
+                <SearchIcon className="w-5 h-5 text-white" fill='#ffffff' />
+                <span className="text-white text-lg font-bold font-['Noto_Sans']">과목해설</span>
+              </button>
+              <button className="w-32 h-12 relative bg-stone-200 rounded-xl flex items-center justify-center gap-2 cursor-pointer hover:bg-stone-300 transition-colors">
+                <DownloadIcon className="w-5 h-5 text-black" />
+                <span className="text-black text-lg font-bold font-['Noto_Sans']">다운로드</span>
+              </button>
             </div>
           </div>
+        ) : (
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-1">
+              <div className="text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                {lectureData.subjectName}
+              </div>
+              <div className="text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                {lectureData.subjectNameEng || lectureData.subjectName}
+              </div>
+            </div>
 
-          {/* Action Buttons */}
-          <div className="flex gap-1.5">
-            <Badge
-              as="button"
-              variant="primary"
-              size="lg"
-              icon={<SearchIcon className="w-4 h-4 text-white" fill='#ffffff' />}
-              onClick={() => console.log('과목해설 클릭')}
-              hover="hover:bg-[#025830]"
-              className="h-8"
-            >
-              과목해설
-            </Badge>
-            <Badge
-              as="button"
-              variant="beige"
-              size="lg"
-              icon={<DownloadIcon className="w-4 h-4 text-black" />}
-              onClick={() => console.log('다운로드 클릭')}
-              hover="hover:bg-beige/80"
-              className="h-8"
-            >
-              다운로드
-            </Badge>
+            {/* Action Buttons */}
+            <div className="flex gap-1.5">
+              <Badge
+                as="button"
+                variant="primary"
+                size="lg"
+                icon={<SearchIcon className="w-4 h-4 text-white" fill='#ffffff' />}
+                onClick={() => console.log('과목해설 클릭')}
+                hover="hover:bg-[#025830]"
+                className="h-8"
+              >
+                과목해설
+              </Badge>
+              <Badge
+                as="button"
+                variant="beige"
+                size="lg"
+                icon={<DownloadIcon className="w-4 h-4 text-black" />}
+                onClick={() => console.log('다운로드 클릭')}
+                hover="hover:bg-beige/80"
+                className="h-8"
+              >
+                다운로드
+              </Badge>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Basic Information Section */}
         {renderBasicInfoSection()}

@@ -31,16 +31,16 @@ export const tableStyles = {
       bodyRow: "bg-white"
     },
     cell: {
-      headerBase: "border-zinc-400 px-3 py-2.5 text-center text-black text-base font-bold font-['Noto_Sans'] leading-6",
-      bodyBase: "border-zinc-400 px-3 py-2.5 text-center text-black text-base font-normal font-['Noto_Sans'] leading-6",
-      firstHeader: "border-zinc-400 px-2 py-2.5 text-center text-black text-base font-bold font-['Noto_Sans'] leading-6",
-      bodyBold: "border-zinc-400 px-3 py-2.5 text-center text-black text-base font-bold font-['Noto_Sans'] leading-6"
+      headerBase: "border-zinc-400 px-3 py-2.5 text-center text-black text-sm font-bold font-['Noto_Sans'] leading-5",
+      bodyBase: "border-zinc-400 px-3 py-2.5 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-5",
+      firstHeader: "border-zinc-400 px-2 py-2.5 text-center text-black text-sm font-bold font-['Noto_Sans'] leading-5",
+      bodyBold: "border-zinc-400 px-3 py-2.5 text-center text-black text-sm font-bold font-['Noto_Sans'] leading-5"
     },
     evaluation: {
       expandRow: "bg-white cursor-pointer hover:bg-gray-50",
       chevron: "w-6 h-6 text-[#036B3F] mx-auto transition-transform duration-300",
       chevronDisabled: "w-6 h-6 text-gray-400 mx-auto",
-      expandedContent: "bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-base font-normal font-['Noto_Sans'] leading-6 transition-all duration-300 ease-in-out"
+      expandedContent: "bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-5 transition-all duration-300 ease-in-out"
     }
   },
   // 하위 호환성을 위해 기본 스타일 유지
@@ -326,8 +326,8 @@ export interface VerticalTableProps {
 // Vertical Table 컴포넌트
 export const VerticalTable: React.FC<VerticalTableProps> = ({ rows, className = '', variant = 'mobile' }) => {
   const styles = variant === 'desktop' ? tableStyles.desktop : tableStyles.mobile;
-  const textSize = variant === 'desktop' ? 'text-base' : 'text-sm';
-  const leadingSize = variant === 'desktop' ? 'leading-6' : 'leading-none';
+  const textSize = variant === 'desktop' ? 'text-sm' : 'text-sm';
+  const leadingSize = variant === 'desktop' ? 'leading-5' : 'leading-none';
   const checkSize = variant === 'desktop' ? 'w-5 h-5' : 'w-3.5 h-3.5';
   
   return (
