@@ -100,9 +100,9 @@ const CourseCard: React.FC<CourseCardProps> = ({
                 '--slide-distance': `-${slideDistance}px`
               } as React.CSSProperties}
             >
-              <Badge variant="white">{course.grade}학년</Badge>
-              <Badge variant="white">{course.departmentName}</Badge>
-              <Badge variant="white">{course.method}</Badge>
+              {course.grade && <Badge variant="white">{course.grade}학년</Badge>}
+              {course.departmentName && <Badge variant="white">{course.departmentName}</Badge>}
+              {course.method && <Badge variant="white">{course.method}</Badge>}
             </div>
           </div>
           <ExternalLink className="w-6 h-6 text-darkgray flex-shrink-0" />
