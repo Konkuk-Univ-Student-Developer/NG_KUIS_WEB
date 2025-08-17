@@ -182,47 +182,50 @@ const DetailLecture: React.FC = () => {
     capacity: lectureData.capacity || 0
   });
 
-  const mapCompetencyRows = (lectureData: Record<string, unknown>) => [
-    {
-      label: '핵심역량 강의목표',
-      value: lectureData.competencyGoals?.coreCompetencyGoal || '스스로 학습할 수 있는 능력',
-      rowSpan: 1
-    },
-    {
-      label: '주 전공역량',
-      value: lectureData.competencyGoals?.mainCompetency || '대규모 SW의 협동 개발 능력 (상)'
-    },
-    {
-      label: '주 전공역량 정의',
-      value: lectureData.competencyGoals?.mainCompetencyDefinition || '스스로 학습할 수 있는 역량'
-    },
-    {
-      label: '보조 전공역량1',
-      value: lectureData.competencyGoals?.subCompetency1 || '대규모 SW의 협동 개발 능력 (상)'
-    },
-    {
-      label: '보조 전공역량1 정의',
-      value: lectureData.competencyGoals?.subCompetency1Definition || '스스로 학습할 수 있는 역량'
-    },
-    {
-      label: '보조 전공역량2',
-      value: lectureData.competencyGoals?.subCompetency2 || '대규모 SW의 협동 개발 능력 (상)'
-    },
-    {
-      label: '보조 전공역량2 정의',
-      value: lectureData.competencyGoals?.subCompetency2Definition || '스스로 학습할 수 있는 역량'
-    },
-    {
-      label: '역량기반 교육목표',
-      value: lectureData.competencyGoals?.competencyBasedGoal || '대규모 SW의 협동 개발 능력 (상)',
-      rowSpan: 1
-    },
-    {
-      label: '직무역량',
-      value: lectureData.competencyGoals?.jobCompetencies || ['문제해결능력', '기술능력'],
-      isCheckList: true
-    }
-  ];
+  const mapCompetencyRows = (lectureData: Record<string, unknown>) => {
+    const competencyGoals = lectureData.competencyGoals as Record<string, unknown> || {};
+    return [
+      {
+        label: '핵심역량 강의목표',
+        value: (competencyGoals.coreCompetencyGoal as string) || '스스로 학습할 수 있는 능력',
+        rowSpan: 1
+      },
+      {
+        label: '주 전공역량',
+        value: (competencyGoals.mainCompetency as string) || '대규모 SW의 협동 개발 능력 (상)'
+      },
+      {
+        label: '주 전공역량 정의',
+        value: (competencyGoals.mainCompetencyDefinition as string) || '스스로 학습할 수 있는 역량'
+      },
+      {
+        label: '보조 전공역량1',
+        value: (competencyGoals.subCompetency1 as string) || '대규모 SW의 협동 개발 능력 (상)'
+      },
+      {
+        label: '보조 전공역량1 정의',
+        value: (competencyGoals.subCompetency1Definition as string) || '스스로 학습할 수 있는 역량'
+      },
+      {
+        label: '보조 전공역량2',
+        value: (competencyGoals.subCompetency2 as string) || '대규모 SW의 협동 개발 능력 (상)'
+      },
+      {
+        label: '보조 전공역량2 정의',
+        value: (competencyGoals.subCompetency2Definition as string) || '스스로 학습할 수 있는 역량'
+      },
+      {
+        label: '역량기반 교육목표',
+        value: (competencyGoals.competencyBasedGoal as string) || '대규모 SW의 협동 개발 능력 (상)',
+        rowSpan: 1
+      },
+      {
+        label: '직무역량',
+        value: (competencyGoals.jobCompetencies as string[]) || ['문제해결능력', '기술능력'],
+        isCheckList: true
+      }
+    ];
+  };
 
   // 섹션 렌더링 함수들
   const renderBasicInfoSection = () => (
@@ -231,8 +234,8 @@ const DetailLecture: React.FC = () => {
         <h2 className={styles.section.title}>기본 정보</h2>
       </div>
       <div className="flex flex-col gap-3">
-        <BasicInfoTable data={[mapCourseData(lectureData)]} type="courseInfo" />
-        <BasicInfoTable data={[mapEnrollmentData(lectureData)]} type="enrollment" />
+        <BasicInfoTable data={[mapCourseData(lectureData as unknown as Record<string, unknown>)]} type="courseInfo" />
+        <BasicInfoTable data={[mapEnrollmentData(lectureData as unknown as Record<string, unknown>)]} type="enrollment" />
         {renderTags()}
       </div>
       {renderCharts()}
@@ -308,7 +311,7 @@ const DetailLecture: React.FC = () => {
   const renderCompetencySection = () => (
     <div className={styles.section.wrapper}>
       <h2 className={styles.section.title}>강의 역량 및 목표</h2>
-      <VerticalTable rows={mapCompetencyRows(lectureData)} />
+      <VerticalTable rows={mapCompetencyRows(lectureData as unknown as Record<string, unknown>)} />
     </div>
   );
 
@@ -316,7 +319,7 @@ const DetailLecture: React.FC = () => {
     <div className={styles.section.wrapper}>
       <h2 className={styles.section.title}>성적평가항목</h2>
       <EvaluationTable
-        data={lectureData.evaluationItems || []}
+        data={(lectureData.evaluationItems || []) as unknown as Record<string, unknown>[]}
         expandedRows={expandedEvaluationItems}
         onToggleExpand={toggleEvaluationItem}
       />
@@ -326,14 +329,14 @@ const DetailLecture: React.FC = () => {
   const renderTextbookSection = () => (
     <div className={styles.section.wrapper}>
       <h2 className={styles.section.title}>교재명</h2>
-      <StandardTable data={lectureData.textbooks || []} type="textbooks" />
+      <StandardTable data={(lectureData.textbooks || []) as unknown as Record<string, unknown>[]} type="textbooks" />
     </div>
   );
 
   const renderAssignmentSection = () => (
     <div className={styles.section.wrapper}>
       <h2 className={styles.section.title}>과제명</h2>
-      <StandardTable data={lectureData.assignments || []} type="assignments" />
+      <StandardTable data={(lectureData.assignments || []) as unknown as Record<string, unknown>[]} type="assignments" />
     </div>
   );
 
