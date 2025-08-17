@@ -9,7 +9,7 @@ interface CourseCardProps {
 }
 
 const Tag: React.FC<{ label: string }> = ({ label }) => (
-  <span className="bg-darkgreen text-white px-3 py-2 w-12 h-8 rounded-xl whitespace-nowrap">
+  <span className="inline-flex items-center justify-center bg-darkgreen text-white px-3 py-2 rounded-xl whitespace-nowrap text">
     {label}
   </span>
 );
@@ -27,7 +27,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
   onAddToWishlist = () => console.log('학점 클릭')
 }) => {
   return (
-    <div className="self-stretch px-3 py-4 bg-beige hover:brightness-90 transition-all duration-200 rounded-[20px]">
+    <div className="self-stretch px-4 py-5 bg-beige hover:brightness-90 transition-all duration-200 rounded-[20px]">
       {/* Header */}
       <div className="flex justify-between items-start">
         <div className="flex-1 min-w-0 mb-1">
