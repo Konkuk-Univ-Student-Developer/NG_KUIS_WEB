@@ -233,7 +233,11 @@ const DetailLecture: React.FC = () => {
       },
       {
         label: '직무역량',
-        value: competencyGoals.jobCompetencies || ['문제해결능력', '기술능력'],
+        value: (competencyGoals.jobCompetencies && 
+                competencyGoals.jobCompetencies.length > 0 && 
+                competencyGoals.jobCompetencies.some(item => item.trim())) 
+               ? competencyGoals.jobCompetencies 
+               : ['문제해결능력', '기술능력'],
         isCheckList: true
       }
     ];
