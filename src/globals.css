@@ -65,3 +65,29 @@
     padding: 0;
   }
 }
+
+/* Custom animation for chip sliding */
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(calc(-100% + 250px));
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideCustom {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(var(--slide-distance, -50px));
+  }
+}
+
+.animate-slide {
+  animation: slide 3s ease-in-out infinite;
+}
