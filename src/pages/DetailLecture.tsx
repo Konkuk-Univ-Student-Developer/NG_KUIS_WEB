@@ -1,300 +1,763 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, Button } from '@/components/commons';
-import { LECTURE_DETAILS, DAYS_ORDER } from '@/constants/DetailLectureConstants';
-import { ChevronDown, ChevronUp, Star } from 'lucide-react';
+import { ArrowLeft, Download, BookOpen, Check, ChevronUp, ChevronDown } from 'lucide-react';
 
-// Local subcomponents kept in this file as requested
-
-const Section: React.FC<{ title: string; children: React.ReactNode; collapsible?: boolean; defaultOpen?: boolean }> = ({ title, children, collapsible = false, defaultOpen = true }) => {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
-
-  return (
-    <section className="bg-white rounded-2xl p-5 md:p-8 shadow-md border border-lightgray/30 hover:shadow-lg transition-shadow duration-200">
-      <div
-        className={`flex items-center justify-between mb-4 md:mb-6 ${collapsible ? 'cursor-pointer' : ''}`}
-        onClick={() => collapsible && setIsOpen(!isOpen)}
-      >
-        <h2 className="text-darkgreen text-mobile-medium-bold md:text-2xl md:font-bold">{title}</h2>
-        {collapsible && (
-          <button className="text-darkgray hover:text-darkgreen transition-colors">
-            {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-          </button>
-        )}
-      </div>
-      {(!collapsible || isOpen) && (
-        <div className="animate-fadeIn">
-          {children}
-        </div>
-      )}
-    </section>
-  );
-};
-
-const InfoRow: React.FC<{ label: string; value?: React.ReactNode }> = ({ label, value }) => (
-  <div className="flex items-center justify-between py-3 border-b border-lightgray/20 last:border-0 hover:bg-beige/30 transition-colors px-2 -mx-2 rounded">
-    <span className="text-darkgray font-medium">{label}</span>
-    <div className="text-black font-semibold">{value ?? '-'}</div>
-  </div>
-);
-
-const Pill: React.FC<{ children: React.ReactNode; variant?: 'default' | 'primary' | 'secondary' }> = ({ children, variant = 'default' }) => {
-  const variants = {
-    default: 'bg-beige text-black',
-    primary: 'bg-darkgreen text-white',
-    secondary: 'bg-lightgray text-darkgray'
-  };
-
-  return (
-    <span className={`inline-flex items-center rounded-xl px-4 py-2 text-sm font-medium mr-2 mb-2 transition-all hover:scale-105 ${variants[variant]}`}>
-      {children}
-    </span>
-  );
-};
-
-const DetailHeader: React.FC<{ name: string; code: string; professor: string; credit: number; category?: string; department?: string; evaluation?: string; rating?: number }> = ({ name, code, professor, credit, category, department, evaluation, rating }) => {
-  const navigate = useNavigate();
-  return (
-    <div className="bg-gradient-to-r from-darkgreen/5 to-lightgreen/5 rounded-2xl p-6 md:p-8 border border-lightgray/20">
-      <div className="flex flex-col gap-4 md:gap-5">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1">
-            <h1 className="text-xl md:text-3xl font-bold text-black mb-3">{name}</h1>
-            <div className="flex flex-wrap items-center gap-2 md:gap-4 text-darkgray text-sm md:text-base">
-              <span className="font-medium">{code}</span>
-              <span className="text-lightgray">•</span>
-              <span>{professor} 교수</span>
-              <span className="text-lightgray">•</span>
-              <span>{credit}학점</span>
-            </div>
-          </div>
-          <div className="flex flex-col md:flex-row gap-2">
-            <Button text="관심과목" size="small" variant="secondary" onClick={() => { }} />
-            <Button text="수강신청" size="small" variant="primary" onClick={() => { }} />
-            <Button text="뒤로" size="small" variant="secondary" onClick={() => navigate(-1)} />
-          </div>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          {category && <Pill variant="primary">{category}</Pill>}
-          {department && <Pill>{department}</Pill>}
-          {evaluation && <Pill variant="secondary">{evaluation}</Pill>}
-          {rating && (
-            <div className="flex items-center gap-1 ml-auto">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} size={16} className={i < rating ? 'text-orange fill-current' : 'text-lightgray'} />
-              ))}
-              <span className="text-sm text-darkgray ml-1">({rating}.0)</span>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const ScheduleTable: React.FC<{ blocks?: Array<{ day: string; start: string; end: string }>; room?: string }> = ({ blocks, room }) => {
-  const byDay: Record<string, Array<{ start: string; end: string }>> = {};
-  (blocks ?? []).forEach(b => {
-    if (!byDay[b.day]) byDay[b.day] = [];
-    byDay[b.day].push({ start: b.start, end: b.end });
-  });
-  return (
-    <div className="overflow-x-auto">
-      <Table>
-        <TableHeader className="bg-darkgreen/5">
-          <TableRow className="[&>th]:text-center [&>th]:font-bold [&>th]:text-darkgreen">
-            {DAYS_ORDER.map(d => (<TableHead key={d} className="py-3">{d}요일</TableHead>))}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow className="[&>td]:text-center [&>td]:py-6">
-            {DAYS_ORDER.map(d => (
-              <TableCell key={d} className="hover:bg-beige/50 transition-colors">
-                {(byDay[d] ?? []).length > 0 ? (
-                  <div className="space-y-2">
-                    {(byDay[d] ?? []).map((t, i) => (
-                      <div key={i} className="bg-darkgreen/10 rounded-lg p-3 mx-2">
-                        <div className="font-semibold text-sm">{t.start} - {t.end}</div>
-                        {room && <div className="text-xs text-darkgray mt-1">{room}</div>}
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <span className="text-lightgray">-</span>
-                )}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableBody>
-      </Table>
-    </div>
-  );
-};
-
-const EvaluationTable: React.FC<{ breakdown?: Array<{ item: string; weight: number }> }> = ({ breakdown }) => {
-  const getColorByWeight = (weight: number) => {
-    if (weight >= 30) return 'bg-darkgreen';
-    if (weight >= 20) return 'bg-green';
-    return 'bg-lightgreen';
-  };
-
-  return (
-    <div className="space-y-4">
-      {(breakdown ?? []).map((row, idx) => (
-        <div key={idx} className="flex items-center justify-between p-4 bg-beige/30 rounded-lg hover:bg-beige/50 transition-colors">
-          <span className="font-medium text-black">{row.item}</span>
-          <div className="flex items-center gap-3">
-            <div className="w-32 bg-lightgray/30 rounded-full h-2 overflow-hidden">
-              <div
-                className={`h-full ${getColorByWeight(row.weight)} transition-all duration-300`}
-                style={{ width: `${row.weight}%` }}
-              />
-            </div>
-            <span className="font-bold text-darkgreen min-w-[50px] text-right">{row.weight}%</span>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-const Notices: React.FC<{ notices?: Array<{ id: string; title: string; date: string; isNew?: boolean }> }> = ({ notices }) => (
-  <div className="space-y-3">
-    {(notices ?? []).map(n => (
-      <div key={n.id} className="flex items-center justify-between p-4 border border-lightgray/30 rounded-xl hover:bg-beige/30 hover:border-darkgreen/20 transition-all cursor-pointer group">
-        <div className="flex items-center gap-3 flex-1">
-          {n.isNew && (
-            <span className="bg-danger text-white text-xs px-2 py-1 rounded-full font-bold">NEW</span>
-          )}
-          <div className="truncate group-hover:text-darkgreen transition-colors">{n.title}</div>
-        </div>
-        <span className="text-sm text-darkgray whitespace-nowrap">{n.date}</span>
-      </div>
-    ))}
-    {(!notices || notices.length === 0) && (
-      <div className="text-center py-8 text-darkgray">
-        <div className="text-4xl mb-2">📭</div>
-        <div>등록된 공지가 없습니다.</div>
-      </div>
-    )}
-  </div>
-);
-
-// 관련 과목 카드 컴포넌트
-const RelatedCourseCard: React.FC<{ course: any }> = ({ course }) => {
-  const navigate = useNavigate();
-  return (
-    <div
-      className="p-4 border border-lightgray/30 rounded-xl hover:border-darkgreen/30 hover:bg-beige/20 transition-all cursor-pointer"
-      onClick={() => navigate(`/timetable/${course.subjectCode}`)}
-    >
-      <div className="font-semibold text-black mb-1">{course.subjectName}</div>
-      <div className="text-sm text-darkgray">
-        {course.professor} · {course.credit}학점
-      </div>
-      <div className="flex gap-2 mt-2">
-        <span className="text-xs bg-beige px-2 py-1 rounded">{course.category}</span>
-      </div>
-    </div>
-  );
-};
-
-const DetailLectureSchedule: React.FC = () => {
+const DetailLecture: React.FC = () => {
   const { subjectCode } = useParams<{ subjectCode: string }>();
-  const data = (subjectCode && LECTURE_DETAILS[subjectCode]) || undefined;
-
-  if (!data) {
-    return (
-      <div className="min-h-screen bg-white p-5 md:p-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="bg-white rounded-2xl p-12 border border-lightgray/30 text-center">
-            <div className="text-6xl mb-4">📚</div>
-            <h2 className="text-xl font-bold text-black mb-2">과목을 찾을 수 없습니다</h2>
-            <p className="text-darkgray">존재하지 않는 과목이거나 준비 중입니다.</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // 관련 과목 데이터 (실제로는 API에서 가져와야 함)
-  const relatedCourses = [
-    { subjectCode: "0201", subjectName: "자료구조", professor: "김철수", credit: 3, category: "전선" },
-    { subjectCode: "0312", subjectName: "이산수학", professor: "박소영", credit: 3, category: "전선" },
-  ].filter(c => c.subjectCode !== subjectCode);
+  const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-white p-5 md:p-8">
-      <div className="max-w-7xl mx-auto space-y-6 md:space-y-8">
-        <DetailHeader
-          name={data.subjectName}
-          code={data.subjectCode}
-          professor={data.professor}
-          credit={data.credit}
-          category={data.category}
-          department={data.department}
-          evaluation={data.evaluation}
-          rating={4}
-        />
+    <div className="w-full min-h-screen p-6">
+      <div className="max-w-7xl mx-auto flex flex-col gap-5 bg-white rounded-lg">
+        {/* Header */}
+        <div className="flex justify-between items-center">
+          <button
+            onClick={() => navigate(-1)}
+            className="w-6 h-6 relative hover:opacity-70 transition-opacity"
+          >
+            <ArrowLeft className="w-4 h-4 absolute left-[4px] top-[4px] text-gray-500" />
+          </button>
+          <div className="flex-1 text-center">
+            <h1 className="text-[#036B3F] text-lg font-bold font-['Noto_Sans'] leading-relaxed">
+              강의계획서 조회
+            </h1>
+          </div>
+          <div className="w-6 h-6" />
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
-          <div className="lg:col-span-2 space-y-6">
-            <Section title="강의 정보">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <InfoRow label="교강사" value={data.professor} />
-                  <InfoRow label="학점" value={`${data.credit}학점`} />
-                  <InfoRow label="이수구분" value={data.category} />
-                  <InfoRow label="학과" value={data.department} />
+        {/* Course Title Section */}
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-1">
+            <div className="text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+              분산시스템및컴퓨팅
+            </div>
+            <div className="text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+              DISTRIBUTED SYSTEM & COMPUTING
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex gap-1.5">
+            <button className="h-8 px-4 bg-[#036B3F] rounded-[10px] flex items-center gap-2 hover:bg-[#025830] transition-colors">
+              <BookOpen className="w-4 h-4 text-white" />
+              <span className="text-white text-sm font-semibold font-['Noto_Sans'] leading-none">
+                과목해설
+              </span>
+            </button>
+            <button className="h-8 px-4 bg-stone-200 rounded-[10px] flex items-center gap-2 hover:bg-stone-300 transition-colors">
+              <Download className="w-3.5 h-4 text-black" />
+              <span className="text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                다운로드
+              </span>
+            </button>
+          </div>
+        </div>
+
+        {/* Basic Information Section */}
+        <div className="flex flex-col gap-5">
+          <div className="flex justify-between items-center">
+            <h2 className="text-[#036B3F] text-sm font-semibold font-['Noto_Sans'] leading-none">
+              기본 정보
+            </h2>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            {/* First Table */}
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="bg-stone-200">
+                    <th className="border border-zinc-400 px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                      학년
+                    </th>
+                    <th className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                      학수번호
+                    </th>
+                    <th className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                      이수구분
+                    </th>
+                    <th className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                      과목번호
+                    </th>
+                    <th className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                      학점
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="bg-white">
+                    <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      4
+                    </td>
+                    <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      BBAB12012
+                    </td>
+                    <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      전선
+                    </td>
+                    <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      3143
+                    </td>
+                    <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      3.0
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Second Table */}
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="bg-stone-200">
+                    <th className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                      현재인원
+                    </th>
+                    <th className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                      학부인원
+                    </th>
+                    <th className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                      대학생인원
+                    </th>
+                    <th className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                      제한인원
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="bg-white">
+                    <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      45
+                    </td>
+                    <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      45
+                    </td>
+                    <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      0
+                    </td>
+                    <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      46
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Tags */}
+            <div className="flex flex-wrap gap-2">
+              <div className="px-4 py-1 bg-stone-200 rounded-[10px]">
+                <span className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
+                  컴퓨터공학부
+                </span>
+              </div>
+              <div className="px-4 py-1 bg-stone-200 rounded-[10px]">
+                <span className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
+                  캡스톤(A/B/F제)
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Charts Section */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* B-Learning Chart */}
+            <div className="p-4 bg-white rounded-2xl shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100">
+              <div className="text-gray-900 text-[10px] font-bold font-['Noto_Sans'] mb-4">
+                B러닝(녹화+대면)
+              </div>
+              <div className="flex flex-col items-center gap-4">
+                <div className="relative w-20 h-20">
+                  <div className="absolute w-20 h-20 bg-[#61A7DD]/60 rounded-full" />
+                  <div className="absolute w-20 h-20 bg-[#F6DB00]/60 rounded-full mix-blend-multiply" />
+                  <div className="absolute w-20 h-20 bg-[#036B3F]/60 rounded-full mix-blend-multiply" />
                 </div>
-                <div>
-                  <InfoRow label="강의실" value={data.room} />
-                  <InfoRow label="수업시간" value={data.time} />
-                  <InfoRow label="수강정원" value={data.capacity} />
-                  <InfoRow label="신청인원" value={data.enrolled} />
+                <div className="flex gap-2">
+                  <div className="flex flex-col items-center">
+                    <div className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-[#61A7DD]/60 rounded-full" />
+                      <span className="text-zinc-800 text-xs font-semibold font-['Inter'] leading-none">
+                        8주
+                      </span>
+                    </div>
+                    <span className="text-slate-500 text-[10px] font-normal font-['Inter']">
+                      대면
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-[#F6DB00]/60 rounded-full" />
+                      <span className="text-zinc-800 text-xs font-semibold font-['Inter'] leading-none">
+                        4주
+                      </span>
+                    </div>
+                    <span className="text-slate-500 text-[10px] font-normal font-['Inter']">
+                      녹화
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-[#036B3F]/60 rounded-full" />
+                      <span className="text-zinc-800 text-xs font-semibold font-['Inter'] leading-none">
+                        4주
+                      </span>
+                    </div>
+                    <span className="text-slate-500 text-[10px] font-normal font-['Inter']">
+                      실시간
+                    </span>
+                  </div>
                 </div>
               </div>
-            </Section>
+            </div>
 
-            <Section title="시간표">
-              <ScheduleTable blocks={data.scheduleBlocks} room={data.room} />
-            </Section>
+            {/* Core Competency Chart */}
+            <div className="p-4 bg-white rounded-2xl shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100">
+              <div className="text-gray-900 text-[10px] font-bold font-['Noto_Sans'] mb-4">
+                핵심역량
+              </div>
+              <div className="flex flex-col items-center gap-4">
+                <div className="relative w-20 h-20">
+                  <div className="absolute w-20 h-20 bg-[#61A7DD]/60 rounded-full" />
+                  <div className="absolute w-20 h-20 bg-[#F6DB00]/60 rounded-full mix-blend-multiply" />
+                  <div className="absolute w-20 h-20 bg-[#036B3F]/60 rounded-full mix-blend-multiply" />
+                </div>
+                <div className="grid grid-cols-3 gap-2 text-center">
+                  <div className="flex flex-col items-center">
+                    <div className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-[#61A7DD] rounded-full" />
+                      <span className="text-zinc-800 text-xs font-semibold font-['Inter'] leading-none">
+                        30%
+                      </span>
+                    </div>
+                    <span className="text-slate-500 text-[10px] font-normal font-['Inter']">
+                      성실성
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-[#036B3F] rounded-full" />
+                      <span className="text-zinc-800 text-xs font-semibold font-['Inter'] leading-none">
+                        0%
+                      </span>
+                    </div>
+                    <span className="text-slate-500 text-[10px] font-normal font-['Inter']">
+                      소통역량
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-[#F6DB00]/60 rounded-full" />
+                      <span className="text-zinc-800 text-xs font-semibold font-['Inter'] leading-none">
+                        0%
+                      </span>
+                    </div>
+                    <span className="text-slate-500 text-[10px] font-normal font-['Inter']">
+                      창의역량
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-neutral-400 rounded-full" />
+                      <span className="text-zinc-800 text-xs font-semibold font-['Inter'] leading-none">
+                        50%
+                      </span>
+                    </div>
+                    <span className="text-slate-500 text-[10px] font-normal font-['Inter']">
+                      종합적사고력
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-zinc-400/70 rounded-full" />
+                      <span className="text-zinc-800 text-xs font-semibold font-['Inter'] leading-none">
+                        20%
+                      </span>
+                    </div>
+                    <span className="text-slate-500 text-[10px] font-normal font-['Inter']">
+                      주도성
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-[#C283C6] rounded-full" />
+                      <span className="text-zinc-800 text-xs font-semibold font-['Inter'] leading-none">
+                        0%
+                      </span>
+                    </div>
+                    <span className="text-slate-500 text-[10px] font-normal font-['Inter']">
+                      글로벌시민의식
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-            {data.evaluationBreakdown && data.evaluationBreakdown.length > 0 && (
-              <Section title="평가 비율" collapsible defaultOpen={false}>
-                <EvaluationTable breakdown={data.evaluationBreakdown} />
-              </Section>
-            )}
-
-            {data.description && (
-              <Section title="과목 개요" collapsible>
-                <p className="text-darkgray leading-relaxed text-sm md:text-base">{data.description}</p>
-                {data.prerequisites && data.prerequisites.length > 0 && (
-                  <div className="mt-4 p-4 bg-beige/30 rounded-lg">
-                    <div className="text-black font-semibold mb-2">선수과목</div>
-                    <div className="flex flex-wrap">
-                      {data.prerequisites.map((p, i) => (<Pill key={i} variant="secondary">{p}</Pill>))}
+            {/* Professor Info Card */}
+            <div className="p-4 bg-white rounded-[20px] shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100">
+              <div className="flex flex-col h-full justify-between">
+                <div>
+                  <div className="text-black text-[10px] font-normal font-['Noto_Sans'] mb-1">
+                    담당교수 정보
+                  </div>
+                  <div className="text-black text-sm font-semibold font-['Noto_Sans'] leading-none mb-4">
+                    임민규 교수
+                  </div>
+                </div>
+                <div className="px-3 py-2 bg-stone-200 rounded-2xl">
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
+                        이메일
+                      </span>
+                      <span className="text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                        mingu@konkuk.ac.kr
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
+                        연락처
+                      </span>
+                      <span className="text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                        010-1111-2222
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
+                        상담 가능 시간
+                      </span>
+                      <span className="text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                        -
+                      </span>
                     </div>
                   </div>
-                )}
-              </Section>
-            )}
-          </div>
-
-          <div className="space-y-6">
-            <Section title="공지사항">
-              <Notices notices={data.notices} />
-            </Section>
-
-            {relatedCourses.length > 0 && (
-              <Section title="관련 과목">
-                <div className="space-y-3">
-                  {relatedCourses.map((course) => (
-                    <RelatedCourseCard key={course.subjectCode} course={course} />
-                  ))}
                 </div>
-              </Section>
-            )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Competency and Goals Section */}
+        <div className="flex flex-col gap-5">
+          <h2 className="text-[#036B3F] text-sm font-semibold font-['Noto_Sans'] leading-none">
+            강의 역량 및 목표
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse">
+              <tbody>
+                <tr>
+                  <td className="border border-zinc-400 bg-stone-200 px-2 py-4 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle" rowSpan={1}>
+                    핵심역량<br />강의목표
+                  </td>
+                  <td className="border border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    스스로 학습 어쩌고
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-zinc-400 bg-stone-200 px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    주 전공역량
+                  </td>
+                  <td className="border border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    대규모 SW의 협동 개발 능력 (상)
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-zinc-400 bg-stone-200 px-2 py-3 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
+                    주 전공역량<br />정의
+                  </td>
+                  <td className="border border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    스스로 학습 어쩌고
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-zinc-400 bg-stone-200 px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
+                    보조<br />전공역량1
+                  </td>
+                  <td className="border border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    대규모 SW의 협동 개발 능력 (상)
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-zinc-400 bg-stone-200 px-2 py-3 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
+                    보조<br />전공역량1 정의
+                  </td>
+                  <td className="border border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    스스로 학습 어쩌고
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-zinc-400 bg-stone-200 px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
+                    보조<br />전공역량2
+                  </td>
+                  <td className="border border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    대규모 SW의 협동 개발 능력 (상)
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-zinc-400 bg-stone-200 px-2 py-3 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
+                    보조<br />전공역량2 정의
+                  </td>
+                  <td className="border border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    스스로 학습 어쩌고
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-zinc-400 bg-stone-200 px-2 py-4 text-center text-black text-sm font-semibold font-['Noto_Sans'] align-middle">
+                    역량기반<br />교육목표
+                  </td>
+                  <td className="border border-zinc-400 bg-white px-3 py-2 text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    대규모 SW의 협동 개발 능력 (상)
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-zinc-400 bg-stone-200 px-2 py-4 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    직무역량
+                  </td>
+                  <td className="border border-zinc-400 bg-white px-3 py-2">
+                    <div className="flex flex-col gap-1">
+                      <div className="flex items-center gap-2">
+                        <Check className="w-3.5 h-3.5 text-zinc-400" />
+                        <span className="text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                          문제해결능력
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Check className="w-3.5 h-3.5 text-zinc-400" />
+                        <span className="text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                          기술능력
+                        </span>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Evaluation Section */}
+        <div className="flex flex-col gap-5">
+          <h2 className="text-[#036B3F] text-sm font-semibold font-['Noto_Sans'] leading-none">
+            성적평가항목
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-stone-200">
+                  <th className="border border-zinc-400 px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    항목
+                  </th>
+                  <th className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    비중
+                  </th>
+                  <th className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    만점
+                  </th>
+                  <th className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    공개여부
+                  </th>
+                  <th className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    설명
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="bg-white">
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    출석률
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    10%
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    10
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center">
+                    <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center">
+                    <ChevronDown className="w-3 h-2 text-[#036B3F] mx-auto" />
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan={5} className="border border-gray-500 bg-stone-200 px-2 py-1">
+                    <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      Checked with e-campus system
+                    </div>
+                  </td>
+                </tr>
+                <tr className="bg-white">
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    중간
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    10%
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    10
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center">
+                    <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center">
+                    <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
+                  </td>
+                </tr>
+                <tr className="bg-white">
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    기말
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    10%
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    10
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center">
+                    <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center">
+                    <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
+                  </td>
+                </tr>
+                <tr className="bg-white">
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    과제물
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    10%
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    10
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center">
+                    <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center">
+                    <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
+                  </td>
+                </tr>
+                <tr className="bg-white">
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    퀴즈
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    10%
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    10
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center">
+                    <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center">
+                    <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
+                  </td>
+                </tr>
+                <tr className="bg-white">
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    발표
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    10%
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    10
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center">
+                    <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center">
+                    <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
+                  </td>
+                </tr>
+                <tr className="bg-white">
+                  <td className="border border-zinc-400 px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    프로젝트
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    10%
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    10
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center">
+                    <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center">
+                    <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
+                  </td>
+                </tr>
+                <tr className="bg-white">
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    토론
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    10%
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    10
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center">
+                    <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center">
+                    <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
+                  </td>
+                </tr>
+                <tr className="bg-white">
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    기타5
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    0%
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    0
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center">
+                    <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Textbook Section */}
+        <div className="flex flex-col gap-5">
+          <h2 className="text-[#036B3F] text-sm font-semibold font-['Noto_Sans'] leading-none">
+            교재명
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-stone-200">
+                  <th className="border border-zinc-400 px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    번호
+                  </th>
+                  <th className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    교재구분
+                  </th>
+                  <th className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    교재명
+                  </th>
+                  <th className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    저자
+                  </th>
+                  <th className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    링크
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {[1, 2, 3, 4].map((num) => (
+                  <tr key={num} className="bg-white">
+                    <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      {num}
+                    </td>
+                    <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      10
+                    </td>
+                    <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      10
+                    </td>
+                    <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      10
+                    </td>
+                    <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      10
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Assignment Section */}
+        <div className="flex flex-col gap-5">
+          <h2 className="text-[#036B3F] text-sm font-semibold font-['Noto_Sans'] leading-none">
+            과제명
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-stone-200">
+                  <th className="border border-zinc-400 px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    번호
+                  </th>
+                  <th className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    구분
+                  </th>
+                  <th className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    과제명
+                  </th>
+                  <th className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    제출시기
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="bg-white">
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    1
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    10
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    10
+                  </td>
+                  <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    10
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Weekly Schedule Section */}
+        <div className="flex flex-col gap-5">
+          <h2 className="text-[#036B3F] text-sm font-semibold font-['Noto_Sans'] leading-none">
+            주별 강의계획
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {[1, 2, 3].map((week) => (
+              <div key={week} className="px-3 py-4 bg-stone-200 rounded-[20px] flex flex-col gap-5">
+                <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-1">
+                    <div className="text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                      week{week} (0408-0414)
+                    </div>
+                    <div className="text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      3. Processes : Servers, code migration
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <div className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
+                      담당 교강사 : 임민규
+                    </div>
+                    <div className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
+                      학습 활동 : Implement project progress assignment
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center gap-2">
+                  <div className="px-4 py-1 bg-white rounded-[10px]">
+                    <span className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
+                      Theory
+                    </span>
+                  </div>
+                  <div className="px-4 py-1 bg-white rounded-[10px]">
+                    <span className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
+                      월01-04(녹화강의), 수01-04(신공1201)
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -302,4 +765,4 @@ const DetailLectureSchedule: React.FC = () => {
   );
 };
 
-export default DetailLectureSchedule;
+export default DetailLecture;
