@@ -47,10 +47,10 @@ const DetailLecture: React.FC = () => {
   const currentYear = new Date().getFullYear().toString();
   
   // Log the parameters being sent to useLecturePlan
+  // Only need year and courseNumber (ltShtm is fixed as B01012)
   const lecturePlanParams = courseData ? {
     year: currentYear, // TODO: Get actual year from courseData or filters
-    courseCode: courseData.courseCode,
-    courseNumber: courseData.courseNumber
+    courseNumber: courseData.courseNumber  // Only courseNumber is needed for sbjtId
   } : undefined;
   
   React.useEffect(() => {
@@ -58,7 +58,7 @@ const DetailLecture: React.FC = () => {
       hasParams: !!lecturePlanParams,
       params: lecturePlanParams
     });
-  }, [lecturePlanParams?.year, lecturePlanParams?.courseCode, lecturePlanParams?.courseNumber]);
+  }, [lecturePlanParams?.year, lecturePlanParams?.courseNumber]);
   
   const { data: fetchedData, loading, error } = useLecturePlan(lecturePlanParams);
 

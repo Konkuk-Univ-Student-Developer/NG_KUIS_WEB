@@ -11,7 +11,7 @@ interface UseLecturePlanResult {
 
 /**
  * Custom hook to fetch lecture plan data from KUPIS
- * @param params - year, courseCode, courseNumber (all optional)
+ * @param params - year and courseNumber (ltShtm is fixed as B01012)
  * @returns Object with data, loading, error states and refetch function
  */
 export const useLecturePlan = (params?: Partial<LecturePlanParams>): UseLecturePlanResult => {
@@ -19,8 +19,8 @@ export const useLecturePlan = (params?: Partial<LecturePlanParams>): UseLectureP
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   
-  // Create a cache key from params
-  const cacheKey = params ? `${params.year}-${params.courseCode}-${params.courseNumber}` : '';
+  // Create a cache key from params (ltShtm is fixed, so not included)
+  const cacheKey = params ? `${params.year}-${params.courseNumber}` : '';
   
   // Simple in-memory cache
   const cache = useCallback(() => {
@@ -39,7 +39,7 @@ export const useLecturePlan = (params?: Partial<LecturePlanParams>): UseLectureP
   
   const fetchData = useCallback(async () => {
     // Skip if params are incomplete
-    if (!params?.year || !params?.courseCode || !params?.courseNumber) {
+    if (!params?.year || !params?.courseNumber) {
       return;
     }
     
@@ -56,7 +56,6 @@ export const useLecturePlan = (params?: Partial<LecturePlanParams>): UseLectureP
     try {
       const result = await fetchLecturePlan({
         year: params.year,
-        courseCode: params.courseCode,
         courseNumber: params.courseNumber,
       });
       
@@ -73,7 +72,7 @@ export const useLecturePlan = (params?: Partial<LecturePlanParams>): UseLectureP
     } finally {
       setLoading(false);
     }
-  }, [params?.year, params?.courseCode, params?.courseNumber, cacheKey, cache]);
+  }, [params?.year, params?.courseNumber, cacheKey, cache]);
   
   // Fetch data when params change
   useEffect(() => {

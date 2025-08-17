@@ -2,8 +2,8 @@ import type { LectureDetail } from '@/constants/DetailLectureConstants';
 
 interface LecturePlanParams {
   year: string;
-  courseCode: string;     // 학수번호 (e.g., BBAB67057)
-  courseNumber: string;   // 4자리 과목번호 (e.g., 0702, 1203)
+  courseNumber: string;   // 과목번호 - sbjtId로 전송 (e.g., 0702, 1203, 3143)
+  courseCode?: string;    // 학수번호 - 현재는 사용하지 않음 (ltShtm은 B01012로 고정)
 }
 
 /**
@@ -270,19 +270,20 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
 
 /**
  * Fetch lecture plan from KUPIS
- * @param params - year, courseCode, courseNumber
+ * @param params - year and courseNumber (ltShtm is fixed as B01012)
  * @returns Parsed lecture plan data
  */
 export const fetchLecturePlan = async (params: LecturePlanParams): Promise<Partial<LectureDetail>> => {
-  const { year, courseCode, courseNumber } = params;
+  const { year, courseNumber } = params;
   
-  // Build KUPIS URL
-  const url = `https://kupis.konkuk.ac.kr/sugang/acd/cour/plan/CourLecturePlanInq.jsp?ltYy=${year}&ltShtm=${courseCode}&sbjtId=${courseNumber}`;
+  // Build KUPIS URL - ltShtm is fixed as B01012
+  const ltShtm = 'B01012';  // 고정값
+  const url = `https://kupis.konkuk.ac.kr/sugang/acd/cour/plan/CourLecturePlanInq.jsp?ltYy=${year}&ltShtm=${ltShtm}&sbjtId=${courseNumber}`;
   
   console.log('🌐 Fetching Lecture Plan from KUPIS:', {
     year,
-    courseCode,
-    courseNumber,
+    ltShtm,  // Fixed as B01012
+    sbjtId: courseNumber,
     fullUrl: url
   });
   
@@ -294,7 +295,7 @@ export const fetchLecturePlan = async (params: LecturePlanParams): Promise<Parti
     // 3. Use a CORS proxy service
     
     // For development, assuming proxy is configured in vite.config.ts
-    const proxyUrl = `/api/kupis/sugang/acd/cour/plan/CourLecturePlanInq.jsp?ltYy=${year}&ltShtm=${courseCode}&sbjtId=${courseNumber}`;
+    const proxyUrl = `/api/kupis/sugang/acd/cour/plan/CourLecturePlanInq.jsp?ltYy=${year}&ltShtm=${ltShtm}&sbjtId=${courseNumber}`;
     
     console.log('📡 Attempting fetch with proxy URL:', proxyUrl);
     
