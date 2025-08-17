@@ -102,225 +102,327 @@ export interface LectureDetail {
   rating?: number; // 강의 평점
 }
 
-// Minimal demo dataset keyed by courseCode (학수번호)
+// Sample dataset keyed by courseCode (학수번호)
 export const LECTURE_DETAILS: Record<string, LectureDetail> = {
-  "BBAB12012": {
-    subjectCode: "BBAB12012",
-    subjectName: "분산시스템및컴퓨팅",
-    subjectNameEng: "DISTRIBUTED SYSTEM & COMPUTING",
-    courseCode: "BBAB12012",
-    classification: "전선",
-    courseNumber: "3143",
-    subjectNumber: "3143", // Legacy field
-    grade: 4,
-    professor: "임민규",
-    professorInfo: {
-      name: "임민규 교수",
-      email: "mingu@konkuk.ac.kr",
-      phone: "010-1111-2222",
-      consultationHours: "-"
-    },
-    credit: 3.0,
+  "BBAB55841": {
+    subjectCode: "BBAB55841",
+    subjectName: "졸업프로젝트2(종합설계)",
+    courseCode: "BBAB55841",
+    courseNumber: "4126",
+    professor: "정갑주",
+    credit: 3,
     category: "전선",
     department: "컴퓨터공학부",
-    evaluation: "캡스톤(A/B/F제)",
-    capacity: 46,
-    enrolled: 45,
-    undergraduateEnrolled: 45,
-    graduateEnrolled: 0,
-    tags: ["컴퓨터공학부", "캡스톤(A/B/F제)"],
-    competencyGoals: {
-      coreCompetencyGoal: "스스로 학습할 수 있는 역량",
-      mainCompetency: "대규모 SW의 협동 개발 능력 (상)",
-      mainCompetencyDefinition: "스스로 학습할 수 있는 역량",
-      subCompetency1: "대규모 SW의 협동 개발 능력 (상)",
-      subCompetency1Definition: "스스로 학습할 수 있는 역량",
-      subCompetency2: "대규모 SW의 협동 개발 능력 (상)",
-      subCompetency2Definition: "스스로 학습할 수 있는 역량",
-      competencyBasedGoal: "대규모 SW의 협동 개발 능력 (상)",
-      jobCompetencies: ["문제해결능력", "기술능력"]
-    },
-    evaluationItems: [
-      { item: "출석률", weight: "10%", maxScore: 10, isPublic: true, description: "Checked with e-campus system", hasDetail: true },
-      { item: "중간", weight: "10%", maxScore: 10, isPublic: true, hasDetail: false },
-      { item: "기말", weight: "10%", maxScore: 10, isPublic: true, hasDetail: false },
-      { item: "과제물", weight: "10%", maxScore: 10, isPublic: true, hasDetail: false },
-      { item: "퀴즈", weight: "10%", maxScore: 10, isPublic: true, hasDetail: false },
-      { item: "발표", weight: "10%", maxScore: 10, isPublic: true, hasDetail: false },
-      { item: "프로젝트", weight: "10%", maxScore: 10, isPublic: true, hasDetail: false },
-      { item: "토론", weight: "10%", maxScore: 10, isPublic: true, hasDetail: false },
-      { item: "기타5", weight: "0%", maxScore: 0, isPublic: true, hasDetail: false }
-    ],
-    textbooks: [
-      { id: 1, type: "10", name: "10", author: "10", link: "10" },
-      { id: 2, type: "10", name: "10", author: "10", link: "10" },
-      { id: 3, type: "10", name: "10", author: "10", link: "10" },
-      { id: 4, type: "10", name: "10", author: "10", link: "10" }
-    ],
-    assignments: [
-      { id: 1, type: "10", name: "10", dueDate: "10" }
-    ],
-    weeklyPlans: [
-      {
-        week: 1,
-        dateRange: "0408-0414",
-        topic: "3. Processes : Servers, code migration",
-        instructor: "임민규",
-        activities: "Implement project progress assignment",
-        type: "Theory",
-        schedule: "월01-04(녹화강의), 수01-04(신공1201)"
-      },
-      {
-        week: 2,
-        dateRange: "0408-0414",
-        topic: "3. Processes : Servers, code migration",
-        instructor: "임민규",
-        activities: "Implement project progress assignment",
-        type: "Theory",
-        schedule: "월01-04(녹화강의), 수01-04(신공1201)"
-      },
-      {
-        week: 3,
-        dateRange: "0408-0414",
-        topic: "3. Processes : Servers, code migration",
-        instructor: "임민규",
-        activities: "Implement project progress assignment",
-        type: "Theory",
-        schedule: "월01-04(녹화강의), 수01-04(신공1201)"
-      }
-    ],
+    grade: 4,
+    time: "월15-18(공C487), 수15-18(공C487)",
+    room: "공C487",
+    capacity: 30,
+    enrolled: 25,
     chartData: {
       bLearning: {
-        online: 70,
-        offline: 30
+        online: 20,
+        offline: 80
       },
       coreCompetency: [
-        { subject: "창의역량", value: 80, fullMark: 100 },
-        { subject: "종합사고역량", value: 60, fullMark: 100 },
-        { subject: "학문탐구역량", value: 90, fullMark: 100 },
-        { subject: "의사소통역량", value: 70, fullMark: 100 },
-        { subject: "대인관계역량", value: 50, fullMark: 100 },
+        { subject: "창의역량", value: 90, fullMark: 100 },
+        { subject: "종합사고역량", value: 85, fullMark: 100 },
+        { subject: "학문탐구역량", value: 80, fullMark: 100 },
+        { subject: "의사소통역량", value: 75, fullMark: 100 },
+        { subject: "대인관계역량", value: 70, fullMark: 100 },
         { subject: "자기관리역량", value: 85, fullMark: 100 }
       ]
     }
   },
-  "0312": {
-    subjectCode: "0312",
-    subjectName: "이산수학",
-    professor: "박소영",
+  "BBAB67656": {
+    subjectCode: "BBAB67656",
+    subjectName: "수치방법론",
+    courseCode: "BBAB67656",
+    courseNumber: "3198",
+    professor: "차영운",
     credit: 3,
     category: "전선",
-    department: "컴퓨터공학",
-    evaluation: "절대평가 (A/B/F)",
-    room: "새501",
-    time: "화 09-12 / 목 09-12",
-    description:
-      "논리, 집합, 관계, 그래프 등 컴퓨터공학의 기초 수학 개념을 학습합니다.",
-    prerequisites: ["대학수학"],
-    capacity: 60,
-    enrolled: 54,
-    evaluationBreakdown: [
-      { item: "중간고사", weight: 30 },
-      { item: "기말고사", weight: 30 },
-      { item: "과제", weight: 20 },
-      { item: "퀴즈/출석", weight: 20 },
-    ],
-    scheduleBlocks: [
-      { day: "화", start: "09:00", end: "12:00" },
-      { day: "목", start: "09:00", end: "12:00" },
-    ],
-    notices: [
-      { id: "n1", title: "1주차 강의자료 업로드", date: "2025-03-04", isNew: true },
-      { id: "n2", title: "퀴즈 일정 공지", date: "2025-03-18" },
-      { id: "n3", title: "중간고사 범위 및 유의사항", date: "2025-04-15" },
-    ],
+    department: "컴퓨터공학부",
+    grade: 2,
+    time: "화10-12(공B475), 목10-12(공B475)",
+    room: "공B475",
+    capacity: 40,
+    enrolled: 35,
+    chartData: {
+      bLearning: {
+        online: 30,
+        offline: 70
+      },
+      coreCompetency: [
+        { subject: "창의역량", value: 70, fullMark: 100 },
+        { subject: "종합사고역량", value: 85, fullMark: 100 },
+        { subject: "학문탐구역량", value: 90, fullMark: 100 },
+        { subject: "의사소통역량", value: 60, fullMark: 100 },
+        { subject: "대인관계역량", value: 50, fullMark: 100 },
+        { subject: "자기관리역량", value: 75, fullMark: 100 }
+      ]
+    }
   },
-  "0201": {
-    subjectCode: "0201",
-    subjectName: "자료구조",
-    professor: "김철수",
+  "BBAB67059": {
+    subjectCode: "BBAB67059",
+    subjectName: "전공심화프로젝트(종합설계)",
+    courseCode: "BBAB67059",
+    courseNumber: "3195",
+    professor: "김두현",
     credit: 3,
     category: "전선",
-    department: "컴퓨터공학",
-    evaluation: "절대평가 (A/B/F)",
+    department: "컴퓨터공학부",
+    grade: 3,
+    time: "화11-14(새502), 목11-14(새502)",
     room: "새502",
-    time: "월 10-12 / 수 10-12",
-    description: "선형/비선형 자료구조와 알고리즘의 기본을 학습합니다.",
-    prerequisites: ["프로그래밍 기초"],
+    capacity: 30,
+    enrolled: 28,
+    chartData: {
+      bLearning: {
+        online: 25,
+        offline: 75
+      },
+      coreCompetency: [
+        { subject: "창의역량", value: 85, fullMark: 100 },
+        { subject: "종합사고역량", value: 80, fullMark: 100 },
+        { subject: "학문탐구역량", value: 75, fullMark: 100 },
+        { subject: "의사소통역량", value: 80, fullMark: 100 },
+        { subject: "대인관계역량", value: 85, fullMark: 100 },
+        { subject: "자기관리역량", value: 80, fullMark: 100 }
+      ]
+    }
+  },
+  "BBAB67057": {
+    subjectCode: "BBAB67057",
+    subjectName: "전공기초프로젝트(종합설계)",
+    courseCode: "BBAB67057",
+    courseNumber: "3193",
+    professor: "차리서",
+    credit: 3,
+    category: "전선",
+    department: "컴퓨터공학부",
+    grade: 2,
+    time: "화13-16(새403), 금13-16(새403)",
+    room: "새403",
+    capacity: 30,
+    enrolled: 27,
+    chartData: {
+      bLearning: {
+        online: 20,
+        offline: 80
+      },
+      coreCompetency: [
+        { subject: "창의역량", value: 80, fullMark: 100 },
+        { subject: "종합사고역량", value: 75, fullMark: 100 },
+        { subject: "학문탐구역량", value: 70, fullMark: 100 },
+        { subject: "의사소통역량", value: 75, fullMark: 100 },
+        { subject: "대인관계역량", value: 80, fullMark: 100 },
+        { subject: "자기관리역량", value: 75, fullMark: 100 }
+      ]
+    }
+  },
+  "BBAB67036": {
+    subjectCode: "BBAB67036",
+    subjectName: "컴퓨터네트워크2",
+    courseCode: "BBAB67036",
+    courseNumber: "3190",
+    professor: "김기천",
+    credit: 3,
+    category: "전선",
+    department: "컴퓨터공학부",
+    grade: 3,
+    time: "월04-06(공B475), 수04-06(공B475)",
+    room: "공B475",
+    capacity: 45,
+    enrolled: 42,
+    chartData: {
+      bLearning: {
+        online: 40,
+        offline: 60
+      },
+      coreCompetency: [
+        { subject: "창의역량", value: 65, fullMark: 100 },
+        { subject: "종합사고역량", value: 80, fullMark: 100 },
+        { subject: "학문탐구역량", value: 85, fullMark: 100 },
+        { subject: "의사소통역량", value: 70, fullMark: 100 },
+        { subject: "대인관계역량", value: 60, fullMark: 100 },
+        { subject: "자기관리역량", value: 75, fullMark: 100 }
+      ]
+    }
+  },
+  "BBAB65264": {
+    subjectCode: "BBAB65264",
+    subjectName: "SIGNAL PROCESSING",
+    courseCode: "BBAB65264",
+    courseNumber: "3188",
+    professor: "임창훈",
+    credit: 3,
+    category: "전선",
+    department: "컴퓨터공학부",
+    grade: 3,
+    time: "화16-18(공B361), 목16-18(공B361)",
+    room: "공B361",
+    capacity: 40,
+    enrolled: 35,
+    chartData: {
+      bLearning: {
+        online: 35,
+        offline: 65
+      },
+      coreCompetency: [
+        { subject: "창의역량", value: 75, fullMark: 100 },
+        { subject: "종합사고역량", value: 85, fullMark: 100 },
+        { subject: "학문탐구역량", value: 90, fullMark: 100 },
+        { subject: "의사소통역량", value: 65, fullMark: 100 },
+        { subject: "대인관계역량", value: 55, fullMark: 100 },
+        { subject: "자기관리역량", value: 70, fullMark: 100 }
+      ]
+    }
+  },
+  "BBAB62866": {
+    subjectCode: "BBAB62866",
+    subjectName: "기계학습",
+    courseCode: "BBAB62866",
+    courseNumber: "3186",
+    professor: "민덕기",
+    credit: 3,
+    category: "전선",
+    department: "컴퓨터공학부",
+    grade: 3,
+    time: "화10-12(신공1214), 목10-12(신공1214)",
+    room: "신공1214",
+    capacity: 50,
+    enrolled: 48,
+    chartData: {
+      bLearning: {
+        online: 45,
+        offline: 55
+      },
+      coreCompetency: [
+        { subject: "창의역량", value: 80, fullMark: 100 },
+        { subject: "종합사고역량", value: 90, fullMark: 100 },
+        { subject: "학문탐구역량", value: 95, fullMark: 100 },
+        { subject: "의사소통역량", value: 70, fullMark: 100 },
+        { subject: "대인관계역량", value: 60, fullMark: 100 },
+        { subject: "자기관리역량", value: 75, fullMark: 100 }
+      ]
+    }
+  },
+  "BBAB62735": {
+    subjectCode: "BBAB62735",
+    subjectName: "인공지능",
+    courseCode: "BBAB62735",
+    courseNumber: "3185",
+    professor: "김은이",
+    credit: 3,
+    category: "전선",
+    department: "컴퓨터공학부",
+    grade: 3,
+    time: "월10-12(신공104), 수10-12(신공104)",
+    room: "신공104",
+    capacity: 60,
+    enrolled: 58,
+    chartData: {
+      bLearning: {
+        online: 40,
+        offline: 60
+      },
+      coreCompetency: [
+        { subject: "창의역량", value: 85, fullMark: 100 },
+        { subject: "종합사고역량", value: 90, fullMark: 100 },
+        { subject: "학문탐구역량", value: 95, fullMark: 100 },
+        { subject: "의사소통역량", value: 75, fullMark: 100 },
+        { subject: "대인관계역량", value: 65, fullMark: 100 },
+        { subject: "자기관리역량", value: 80, fullMark: 100 }
+      ]
+    }
+  },
+  "BBAB62251": {
+    subjectCode: "BBAB62251",
+    subjectName: "객체지향개발방법론",
+    courseCode: "BBAB62251",
+    courseNumber: "3184",
+    professor: "유준범",
+    credit: 3,
+    category: "전선",
+    department: "컴퓨터공학부",
+    grade: 3,
+    time: "월05-08(새502), 금05-08(새502)",
+    room: "새502",
+    capacity: 35,
+    enrolled: 32,
+    chartData: {
+      bLearning: {
+        online: 30,
+        offline: 70
+      },
+      coreCompetency: [
+        { subject: "창의역량", value: 75, fullMark: 100 },
+        { subject: "종합사고역량", value: 85, fullMark: 100 },
+        { subject: "학문탐구역량", value: 80, fullMark: 100 },
+        { subject: "의사소통역량", value: 80, fullMark: 100 },
+        { subject: "대인관계역량", value: 75, fullMark: 100 },
+        { subject: "자기관리역량", value: 80, fullMark: 100 }
+      ]
+    }
+  },
+  "BBAB59453": {
+    subjectCode: "BBAB59453",
+    subjectName: "컴퓨터구조",
+    courseCode: "BBAB59453",
+    courseNumber: "3183",
+    professor: "박능수",
+    credit: 3,
+    category: "전선",
+    department: "컴퓨터공학부",
+    grade: 3,
+    time: "월13-15(공B352), 수13-15(공B352)",
+    room: "공B352",
     capacity: 50,
     enrolled: 47,
-    evaluationBreakdown: [
-      { item: "중간고사", weight: 25 },
-      { item: "기말고사", weight: 35 },
-      { item: "과제", weight: 20 },
-      { item: "실습", weight: 20 },
-    ],
-    scheduleBlocks: [
-      { day: "월", start: "10:00", end: "12:00" },
-      { day: "수", start: "10:00", end: "12:00" },
-    ],
-    notices: [
-      { id: "n3", title: "실습 환경 안내", date: "2025-03-03", isNew: true },
-      { id: "n4", title: "과제 1 제출 안내", date: "2025-03-10" },
-    ],
+    chartData: {
+      bLearning: {
+        online: 25,
+        offline: 75
+      },
+      coreCompetency: [
+        { subject: "창의역량", value: 70, fullMark: 100 },
+        { subject: "종합사고역량", value: 85, fullMark: 100 },
+        { subject: "학문탐구역량", value: 90, fullMark: 100 },
+        { subject: "의사소통역량", value: 65, fullMark: 100 },
+        { subject: "대인관계역량", value: 55, fullMark: 100 },
+        { subject: "자기관리역량", value: 75, fullMark: 100 }
+      ]
+    }
   },
-  "0401": {
-    subjectCode: "0401",
-    subjectName: "운영체제",
-    professor: "이영희",
+  "BBAB59069": {
+    subjectCode: "BBAB59069",
+    subjectName: "클라우드IOT서비스",
+    courseCode: "BBAB59069",
+    courseNumber: "3180",
+    professor: "정갑주",
     credit: 3,
-    category: "전필",
-    department: "컴퓨터공학",
-    evaluation: "상대평가",
-    room: "새503",
-    time: "화 13-15 / 목 13-15",
-    description: "프로세스 관리, 메모리 관리, 파일 시스템 등 운영체제의 핵심 개념을 학습합니다.",
-    prerequisites: ["컴퓨터구조", "시스템프로그래밍"],
-    capacity: 45,
-    enrolled: 43,
-    evaluationBreakdown: [
-      { item: "중간고사", weight: 35 },
-      { item: "기말고사", weight: 35 },
-      { item: "프로젝트", weight: 20 },
-      { item: "출석", weight: 10 },
-    ],
-    scheduleBlocks: [
-      { day: "화", start: "13:00", end: "15:00" },
-      { day: "목", start: "13:00", end: "15:00" },
-    ],
-    notices: [
-      { id: "n5", title: "프로젝트 팀 구성 안내", date: "2025-03-15", isNew: true },
-    ],
-  },
-  "0501": {
-    subjectCode: "0501",
-    subjectName: "데이터베이스",
-    professor: "박민수",
-    credit: 3,
-    category: "전필",
-    department: "컴퓨터공학",
-    evaluation: "절대평가 (A/B/F)",
-    room: "새504",
-    time: "월 15-17 / 수 15-17",
-    description: "관계형 데이터베이스의 설계와 SQL, 트랜잭션 처리 등을 학습합니다.",
-    prerequisites: ["자료구조"],
-    capacity: 55,
-    enrolled: 52,
-    evaluationBreakdown: [
-      { item: "중간고사", weight: 30 },
-      { item: "기말고사", weight: 30 },
-      { item: "프로젝트", weight: 25 },
-      { item: "과제", weight: 15 },
-    ],
-    scheduleBlocks: [
-      { day: "월", start: "15:00", end: "17:00" },
-      { day: "수", start: "15:00", end: "17:00" },
-    ],
-    notices: [
-      { id: "n6", title: "SQL 실습 환경 설정 가이드", date: "2025-03-05", isNew: true },
-      { id: "n7", title: "1차 과제 공지", date: "2025-03-20" },
-    ],
-  },
+    category: "전선",
+    department: "컴퓨터공학부",
+    grade: 4,
+    time: "화15-18(공B475), 목15-18(공B475)",
+    room: "공B475",
+    capacity: 35,
+    enrolled: 30,
+    chartData: {
+      bLearning: {
+        online: 50,
+        offline: 50
+      },
+      coreCompetency: [
+        { subject: "창의역량", value: 85, fullMark: 100 },
+        { subject: "종합사고역량", value: 80, fullMark: 100 },
+        { subject: "학문탐구역량", value: 85, fullMark: 100 },
+        { subject: "의사소통역량", value: 75, fullMark: 100 },
+        { subject: "대인관계역량", value: 70, fullMark: 100 },
+        { subject: "자기관리역량", value: 80, fullMark: 100 }
+      ]
+    }
+  }
 };
 
 export const DAYS_ORDER = ["월", "화", "수", "목", "금"] as const;
