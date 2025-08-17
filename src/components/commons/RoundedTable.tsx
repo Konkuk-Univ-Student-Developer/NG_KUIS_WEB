@@ -287,7 +287,7 @@ export const VerticalTable: React.FC<VerticalTableProps> = ({ rows, className = 
 
 // 고차 컴포넌트 패턴 - 특화된 테이블들
 export interface BasicInfoTableProps {
-  data: Record<string, unknown>[];
+  data: Array<Record<string, string | number | unknown>>;
   type: 'courseInfo' | 'enrollment';
 }
 
@@ -300,7 +300,7 @@ export const BasicInfoTable: React.FC<BasicInfoTableProps> = ({ data, type }) =>
 );
 
 export interface StandardTableProps {
-  data: Record<string, unknown>[];
+  data: Array<Record<string, string | number | unknown>>;
   type: 'textbooks' | 'assignments';
 }
 
@@ -313,7 +313,7 @@ export const StandardTable: React.FC<StandardTableProps> = ({ data, type }) => (
 );
 
 export interface EvaluationTableProps {
-  data: Record<string, unknown>[];
+  data: Array<Record<string, string | number | boolean | unknown>>;
   expandedRows: Set<string>;
   onToggleExpand: (key: string) => void;
 }

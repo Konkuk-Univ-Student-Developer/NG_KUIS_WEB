@@ -18,6 +18,7 @@ export interface CompetencyGoals {
   subCompetency2Definition: string;
   competencyBasedGoal: string;
   jobCompetencies: string[];
+  [key: string]: unknown;
 }
 
 export interface EvaluationItem {
@@ -27,6 +28,7 @@ export interface EvaluationItem {
   isPublic: boolean;
   description?: string;
   hasDetail?: boolean;
+  [key: string]: unknown;
 }
 
 export interface Textbook {
@@ -35,6 +37,7 @@ export interface Textbook {
   name: string;
   author: string;
   link: string;
+  [key: string]: unknown;
 }
 
 export interface Assignment {
@@ -42,6 +45,7 @@ export interface Assignment {
   type: string;
   name: string;
   dueDate: string;
+  [key: string]: unknown;
 }
 
 export interface WeeklyPlan {
@@ -100,6 +104,7 @@ export interface LectureDetail {
   notices?: Array<{ id: string; title: string; date: string; isNew?: boolean }>;
   scheduleBlocks?: Array<{ day: string; start: string; end: string }>;
   rating?: number; // 강의 평점
+  [key: string]: unknown; // 인덱스 시그니처 추가
 }
 
 // Sample dataset keyed by courseCode (학수번호)
