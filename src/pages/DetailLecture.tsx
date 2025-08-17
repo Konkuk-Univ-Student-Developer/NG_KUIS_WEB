@@ -15,6 +15,7 @@ const DetailLecture: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [showError, setShowError] = useState(false);
+  const [expandedEvaluationItems, setExpandedEvaluationItems] = useState<Set<string>>(new Set());
 
   // Get course data from navigation state
   const courseData = location.state?.courseData as CourseData | undefined;
@@ -144,6 +145,19 @@ const DetailLecture: React.FC = () => {
       return () => clearTimeout(timer);
     }
   }, [error, showError]);
+
+  // Toggle function for evaluation items
+  const toggleEvaluationItem = (itemName: string) => {
+    setExpandedEvaluationItems(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(itemName)) {
+        newSet.delete(itemName);
+      } else {
+        newSet.add(itemName);
+      }
+      return newSet;
+    });
+  };
 
   return (
     <div className="w-full min-h-screen p-6">
@@ -489,7 +503,7 @@ const DetailLecture: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr className="bg-white">
+                <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('출석률')}>
                   <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                     출석률
                   </td>
@@ -506,14 +520,16 @@ const DetailLecture: React.FC = () => {
                     <ChevronDown className="w-3 h-2 text-[#036B3F] mx-auto" />
                   </td>
                 </tr>
-                <tr>
-                  <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
-                    <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                      Checked with e-campus system
-                    </div>
-                  </td>
-                </tr>
-                <tr className="bg-white">
+                {expandedEvaluationItems.has('출석률') && (
+                  <tr className="animate-fadeIn">
+                    <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
+                      <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
+                        Checked with e-campus system
+                      </div>
+                    </td>
+                  </tr>
+                )}
+                <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('중간')}>
                   <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                     중간
                   </td>
@@ -530,7 +546,16 @@ const DetailLecture: React.FC = () => {
                     <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
                   </td>
                 </tr>
-                <tr className="bg-white">
+                {expandedEvaluationItems.has('중간') && (
+                  <tr className="animate-fadeIn">
+                    <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
+                      <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
+                        Checked with e-campus system
+                      </div>
+                    </td>
+                  </tr>
+                )}
+                <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('기말')}>
                   <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                     기말
                   </td>
@@ -547,7 +572,16 @@ const DetailLecture: React.FC = () => {
                     <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
                   </td>
                 </tr>
-                <tr className="bg-white">
+                {expandedEvaluationItems.has('기말') && (
+                  <tr className="animate-fadeIn">
+                    <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
+                      <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
+                        Checked with e-campus system
+                      </div>
+                    </td>
+                  </tr>
+                )}
+                <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('과제물')}>
                   <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                     과제물
                   </td>
@@ -564,7 +598,16 @@ const DetailLecture: React.FC = () => {
                     <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
                   </td>
                 </tr>
-                <tr className="bg-white">
+                {expandedEvaluationItems.has('과제물') && (
+                  <tr className="animate-fadeIn">
+                    <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
+                      <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
+                        Checked with e-campus system
+                      </div>
+                    </td>
+                  </tr>
+                )}
+                <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('퀴즈')}>
                   <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                     퀴즈
                   </td>
@@ -581,7 +624,16 @@ const DetailLecture: React.FC = () => {
                     <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
                   </td>
                 </tr>
-                <tr className="bg-white">
+                {expandedEvaluationItems.has('퀴즈') && (
+                  <tr className="animate-fadeIn">
+                    <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
+                      <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
+                        Checked with e-campus system
+                      </div>
+                    </td>
+                  </tr>
+                )}
+                <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('발표')}>
                   <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                     발표
                   </td>
@@ -598,7 +650,16 @@ const DetailLecture: React.FC = () => {
                     <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
                   </td>
                 </tr>
-                <tr className="bg-white">
+                {expandedEvaluationItems.has('발표') && (
+                  <tr className="animate-fadeIn">
+                    <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
+                      <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
+                        Checked with e-campus system
+                      </div>
+                    </td>
+                  </tr>
+                )}
+                <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('프로젝트')}>
                   <td className="border-r border-b border-zinc-400 px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                     프로젝트
                   </td>
@@ -615,7 +676,16 @@ const DetailLecture: React.FC = () => {
                     <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
                   </td>
                 </tr>
-                <tr className="bg-white">
+                {expandedEvaluationItems.has('프로젝트') && (
+                  <tr className="animate-fadeIn">
+                    <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
+                      <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
+                        Checked with e-campus system
+                      </div>
+                    </td>
+                  </tr>
+                )}
+                <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('토론')}>
                   <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                     토론
                   </td>
@@ -632,7 +702,16 @@ const DetailLecture: React.FC = () => {
                     <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
                   </td>
                 </tr>
-                <tr className="bg-white">
+                {expandedEvaluationItems.has('토론') && (
+                  <tr className="animate-fadeIn">
+                    <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
+                      <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
+                        Checked with e-campus system
+                      </div>
+                    </td>
+                  </tr>
+                )}
+                <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('기타5')}>
                   <td className="border-r border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                     기타5
                   </td>
@@ -649,6 +728,15 @@ const DetailLecture: React.FC = () => {
                     <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
                   </td>
                 </tr>
+                {expandedEvaluationItems.has('기타5') && (
+                  <tr className="animate-fadeIn">
+                    <td colSpan={5} className="border-zinc-400 bg-beige px-2 py-1">
+                      <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
+                        Checked with e-campus system
+                      </div>
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

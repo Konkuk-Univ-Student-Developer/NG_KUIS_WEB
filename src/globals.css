@@ -91,3 +91,21 @@
 .animate-slide {
   animation: slide 3s ease-in-out infinite;
 }
+
+/* Custom animation for fade in */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+  }
+  100% {
+    opacity: 1;
+    max-height: 100px;
+    overflow: visible;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-in-out forwards;
+}
