@@ -25,19 +25,92 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
   const result: Partial<LectureDetail> = {};
   
   try {
-    // Cache headers for better performance
-    const allCells = Array.from(doc.querySelectorAll('th, td'));
+    // First, try regex-based extraction for malformed HTML
+    const extractByRegex = (pattern: RegExp): string => {
+      const match = html.match(pattern);
+      if (match && match[1]) {
+        const extracted = match[1].trim();
+        console.log(`✅ Regex extracted: ${extracted.substring(0, 50)}...`);
+        return extracted;
+      }
+      return '';
+    };
     
     // Helper function to extract table data by header text(s)
     const getTableCellByHeader = (...headerTexts: string[]): string => {
       for (const headerText of headerTexts) {
-        const header = allCells.find(h => h.textContent?.includes(headerText));
+        // Method 1: Try regex extraction first (handles malformed HTML)
+        const regexPatterns = [
+          // Standard patterns
+          new RegExp(`<th[^>]*>${headerText}</th>\\s*<td[^>]*>([^<]+)`, 'i'),
+          new RegExp(`<th[^>]*>${headerText}</th>\\s*<td[^>]*CLASS="txt_left">([^<]+)`, 'i'),
+          // Handle case where td is closed with </th> (malformed)
+          new RegExp(`<th[^>]*>${headerText}</th>\\s*<td[^>]*>([^<]+)</th>`, 'i'),
+          new RegExp(`<th[^>]*>${headerText}</th>\\s*<td[^>]*CLASS="txt_left">([^<]+)</th>`, 'i'),
+          // Handle newlines and extra spaces
+          new RegExp(`<th[^>]*>\\s*${headerText}\\s*</th>\\s*<td[^>]*>\\s*([^<]+)`, 'is'),
+          new RegExp(`<th[^>]*>\\s*${headerText}\\s*</th>\\s*<td[^>]*CLASS="txt_left">\\s*([^<]+)`, 'is'),
+          // Handle colspan
+          new RegExp(`<th[^>]*>\\s*${headerText}\\s*</th>\\s*<td[^>]*colspan[^>]*>\\s*([^<]+)`, 'is'),
+        ];
+        
+        for (const pattern of regexPatterns) {
+          const extracted = extractByRegex(pattern);
+          if (extracted) {
+            console.log(`✅ Found ${headerText} via regex: ${extracted}`);
+            return extracted;
+          }
+        }
+        
+        // Method 2: DOM-based extraction
+        const headers = Array.from(doc.querySelectorAll('th'));
+        const header = headers.find(h => {
+          const text = h.textContent?.trim() || '';
+          return text.includes(headerText);
+        });
+        
         if (header) {
-          const nextCell = header.nextElementSibling || 
-                          header.parentElement?.nextElementSibling?.querySelector('td');
-          return nextCell?.textContent?.trim() || '';
+          // Check parent row for any text after the header
+          const row = header.closest('tr');
+          if (row) {
+            // Get the raw HTML of the row
+            const rowHtml = row.innerHTML;
+            // Look for text content after the header
+            const afterHeaderPattern = new RegExp(`${headerText}[^>]*>([^<]+)`, 'i');
+            const match = rowHtml.match(afterHeaderPattern);
+            if (match && match[1]) {
+              const content = match[1].trim();
+              if (content && !content.includes('</') && !content.includes('/>')) {
+                console.log(`✅ Found ${headerText} in row HTML: ${content}`);
+                return content;
+              }
+            }
+            
+            // Try to get all text nodes in the row after the header
+            const cells = row.querySelectorAll('th, td');
+            let foundHeader = false;
+            for (const cell of cells) {
+              if (cell === header) {
+                foundHeader = true;
+              } else if (foundHeader && cell.textContent?.trim()) {
+                const content = cell.textContent.trim();
+                console.log(`✅ Found ${headerText} in cell: ${content}`);
+                return content;
+              }
+            }
+          }
+          
+          // Try next sibling
+          const nextSibling = header.nextElementSibling;
+          if (nextSibling?.textContent?.trim()) {
+            const content = nextSibling.textContent.trim();
+            console.log(`✅ Found ${headerText} (sibling): ${content}`);
+            return content;
+          }
         }
       }
+      
+      console.log(`⚠️ Could not find data for: ${headerTexts.join(', ')}`);
       return '';
     };
     
@@ -130,6 +203,7 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
     );
     
     if (evalTable) {
+      console.log('📊 Found evaluation table');
       const rows = evalTable.querySelectorAll('tbody tr');
       rows.forEach(row => {
         const cells = row.querySelectorAll('td');
@@ -140,19 +214,26 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
           if (item && !item.includes('합계')) {
             // Map evaluation item names
             const itemMapping: Record<string, string> = {
+              '출석률': '출석률',
               '출석': '출석률',
+              '중간고사': '중간',
               '중간': '중간',
+              '기말고사': '기말',
               '기말': '기말',
+              '과제물': '과제물',
               '과제': '과제물',
               '프로젝트': '프로젝트',
               '발표': '발표',
               '퀴즈': '퀴즈',
-              '토론': '토론'
+              '토론': '토론',
+              '기타': '기타'
             };
             
             const itemName = Object.entries(itemMapping).find(([key]) => 
               item.includes(key)
             )?.[1] || item;
+            
+            console.log(`📝 Found evaluation item: ${itemName} - ${weight}%`);
             
             evaluationItems.push({
               item: itemName,
@@ -164,6 +245,8 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
           }
         }
       });
+    } else {
+      console.log('⚠️ Could not find evaluation table');
     }
     
     if (evaluationItems.length > 0) {
@@ -177,6 +260,7 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
     );
     
     if (textbookTable) {
+      console.log('📚 Found textbook table');
       const rows = textbookTable.querySelectorAll('tbody tr');
       rows.forEach((row, index) => {
         const cells = row.querySelectorAll('td');
@@ -189,6 +273,7 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
           const year = cells[5]?.textContent?.trim() || '';
           
           if (name && name !== '-' && name !== '') {
+            console.log(`✅ Found textbook: ${type} - ${name} by ${author}`);
             textbooks.push({
               id: index + 1,
               type,
@@ -199,6 +284,8 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
           }
         }
       });
+    } else {
+      console.log('⚠️ Could not find textbook table');
     }
     
     if (textbooks.length > 0) {
@@ -212,7 +299,7 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
     );
     
     if (assignmentTable) {
-      const rows = assignmentTable.querySelectorAll('tbody tr');
+      console.log('📝 Found assignment table');
       // Handle multiple tbody elements in assignment table
       const tbodies = assignmentTable.querySelectorAll('tbody');
       let assignmentIndex = 0;
@@ -235,6 +322,8 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
                 formattedDate = `${dueDate.substring(0, 4)}-${dueDate.substring(4, 6)}-${dueDate.substring(6, 8)}`;
               }
               
+              console.log(`✅ Found assignment: ${name} - Due: ${formattedDate}`);
+              
               assignments.push({
                 id: assignmentIndex,
                 type: '과제',
@@ -245,6 +334,8 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
           }
         }
       });
+    } else {
+      console.log('⚠️ Could not find assignment table');
     }
     
     if (assignments.length > 0) {
@@ -305,6 +396,21 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
     console.error('Error parsing lecture plan HTML:', error);
   }
   
+  // Log summary of extracted data
+  console.log('📋 Parsing Summary:', {
+    subjectName: result.subjectName || '❌ Not found',
+    subjectNameEng: result.subjectNameEng || '❌ Not found',
+    courseCode: result.courseCode || '❌ Not found',
+    courseNumber: result.courseNumber || '❌ Not found',
+    professor: result.professor || '❌ Not found',
+    grade: result.grade || '❌ Not found',
+    credit: result.credit || '❌ Not found',
+    evaluationItemsCount: result.evaluationItems?.length || 0,
+    textbooksCount: result.textbooks?.length || 0,
+    assignmentsCount: result.assignments?.length || 0,
+    weeklyPlansCount: result.weeklyPlans?.length || 0,
+  });
+  
   return result;
 };
 
@@ -343,6 +449,7 @@ export const fetchLecturePlan = async (params: LecturePlanParams): Promise<Parti
       method: 'GET',
       headers: {
         'Accept': 'text/html,application/xhtml+xml',
+        'Accept-Charset': 'utf-8',
       },
     });
     
@@ -350,11 +457,28 @@ export const fetchLecturePlan = async (params: LecturePlanParams): Promise<Parti
       throw new Error(`Failed to fetch lecture plan: ${response.status} ${response.statusText}`);
     }
     
-    const html = await response.text();
+    // The response is encoded in EUC-KR (KSC5601), need to decode properly
+    const buffer = await response.arrayBuffer();
+    const decoder = new TextDecoder('euc-kr');
+    const html = decoder.decode(buffer);
     
     // Check if we got a valid HTML response
     if (!html?.trim()) {
       throw new Error('Empty response from KUPIS');
+    }
+    
+    // Log first part of HTML to debug structure
+    if (isDev) {
+      const snippet = html.substring(0, 2000);
+      console.log('📄 HTML Response snippet:', snippet);
+      
+      // Check for specific content
+      if (html.includes('발상의전환')) {
+        console.log('✅ HTML contains "발상의전환"');
+      }
+      if (html.includes('교과목명')) {
+        console.log('✅ HTML contains "교과목명" header');
+      }
     }
     
     // Parse the HTML
