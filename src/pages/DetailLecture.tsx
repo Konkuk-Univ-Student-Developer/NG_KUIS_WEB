@@ -44,6 +44,13 @@ const DetailLecture: React.FC = () => {
   
   // Priority: courseData.courseNumber > URL courseNumber parameter
   const effectiveCourseNumber = courseData?.courseNumber || courseNumber || '';
+  
+  console.log('🔑 Course Number Resolution:', {
+    fromCourseData: courseData?.courseNumber,
+    fromURL: courseNumber,
+    effective: effectiveCourseNumber,
+    hasEffectiveNumber: !!effectiveCourseNumber
+  });
 
   // Get default lecture data from constants
   // Try multiple keys: courseNumber first, then courseCode, then default
@@ -67,20 +74,29 @@ const DetailLecture: React.FC = () => {
   
   const defaultLectureData = getDefaultLectureData();
   
-  const lecturePlanParams = effectiveCourseNumber ? {
-    year: currentYear, // TODO: Get actual year from courseData or filters
-    courseNumber: effectiveCourseNumber  // Use courseNumber from courseData or URL param
-  } : undefined;
+  // Only create params if we have a valid courseNumber
+  const lecturePlanParams = React.useMemo(() => {
+    if (!effectiveCourseNumber) {
+      console.log('⚠️ No effective course number available');
+      return undefined;
+    }
+    
+    const params = {
+      year: currentYear,
+      courseNumber: effectiveCourseNumber
+    };
+    
+    console.log('📤 Creating Lecture Plan Parameters:', params);
+    return params;
+  }, [effectiveCourseNumber, currentYear]);
   
   React.useEffect(() => {
-    console.log('📤 Lecture Plan Parameters:', {
+    console.log('📊 Lecture Plan Hook Input:', {
       hasParams: !!lecturePlanParams,
-      courseNumberFromData: courseData?.courseNumber,
-      courseNumberFromURL: courseNumber,
-      effectiveCourseNumber,
-      params: lecturePlanParams
+      params: lecturePlanParams,
+      willFetch: !!(lecturePlanParams?.year && lecturePlanParams?.courseNumber)
     });
-  }, [lecturePlanParams?.year, lecturePlanParams?.courseNumber, courseData?.courseNumber, courseNumber]);
+  }, [lecturePlanParams]);
   
   const { data: fetchedData, loading, error } = useLecturePlan(lecturePlanParams);
 

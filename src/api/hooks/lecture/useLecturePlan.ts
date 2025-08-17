@@ -19,36 +19,21 @@ export const useLecturePlan = (params?: Partial<LecturePlanParams>): UseLectureP
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   
-  // Create a cache key from params (ltShtm is fixed, so not included)
-  const cacheKey = params ? `${params.year}-${params.courseNumber}` : '';
-  
-  // Simple in-memory cache
-  const cache = useCallback(() => {
-    if (typeof window !== 'undefined') {
-      const cached = sessionStorage.getItem(`lecture-plan-${cacheKey}`);
-      if (cached) {
-        try {
-          return JSON.parse(cached);
-        } catch {
-          return null;
-        }
-      }
-    }
-    return null;
-  }, [cacheKey]);
-  
   const fetchData = useCallback(async () => {
     // Skip if params are incomplete
     if (!params?.year || !params?.courseNumber) {
+      console.log('⏭️ Skipping fetch - missing params:', {
+        hasParams: !!params,
+        year: params?.year,
+        courseNumber: params?.courseNumber
+      });
       return;
     }
     
-    // Check cache first
-    const cachedData = cache();
-    if (cachedData) {
-      setData(cachedData);
-      return;
-    }
+    console.log('🔄 Fetching lecture plan from API:', {
+      year: params.year,
+      courseNumber: params.courseNumber
+    });
     
     setLoading(true);
     setError(null);
@@ -61,10 +46,7 @@ export const useLecturePlan = (params?: Partial<LecturePlanParams>): UseLectureP
       
       setData(result);
       
-      // Cache the result
-      if (typeof window !== 'undefined' && result) {
-        sessionStorage.setItem(`lecture-plan-${cacheKey}`, JSON.stringify(result));
-      }
+      console.log('✅ Lecture plan fetched successfully');
     } catch (err) {
       console.error('Failed to fetch lecture plan:', err);
       setError(err instanceof Error ? err : new Error('Failed to fetch lecture plan'));
@@ -72,21 +54,17 @@ export const useLecturePlan = (params?: Partial<LecturePlanParams>): UseLectureP
     } finally {
       setLoading(false);
     }
-  }, [params?.year, params?.courseNumber, cacheKey, cache]);
+  }, [params?.year, params?.courseNumber]);
   
   // Fetch data when params change
   useEffect(() => {
     fetchData();
   }, [fetchData]);
   
-  // Refetch function that bypasses cache
+  // Refetch function
   const refetch = useCallback(async () => {
-    // Clear cache for this key
-    if (typeof window !== 'undefined') {
-      sessionStorage.removeItem(`lecture-plan-${cacheKey}`);
-    }
     await fetchData();
-  }, [cacheKey, fetchData]);
+  }, [fetchData]);
   
   return {
     data,
