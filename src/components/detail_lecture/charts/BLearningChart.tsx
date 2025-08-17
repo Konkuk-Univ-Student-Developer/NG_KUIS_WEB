@@ -57,7 +57,7 @@ const BLearningChart: React.FC = () => {
             <Tooltip content={<CustomTooltip />} />
           </PieChart>
         </ResponsiveContainer>
-        <div className="flex gap-3 mt-2">
+        <div className={`flex gap-3 mt-2 ${isDesktop ? 'min-h-[60px] items-center justify-center' : ''}`}>
           {data.map((item, index) => (
             <div key={index} className="flex flex-col items-center">
               <div className="flex items-center gap-1">
