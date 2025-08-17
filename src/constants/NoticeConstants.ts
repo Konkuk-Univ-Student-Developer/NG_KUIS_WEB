@@ -19,3 +19,10 @@ export const NOTICE_CATEGORY_MAP: { [key: string]: number | undefined } = {
   일반: 240,
   산학: 4214,
 };
+
+export const SORT_OPTIONS = ["최신순", "오래된순"];
+
+export const SORT_MAP: { [key: string]: string } = {
+  최신순: "pubDate,desc",
+  오래된순: "pubDate,asc",
+};

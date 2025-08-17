@@ -15,6 +15,7 @@ export interface GetNoticesParams {
   keyword?: string;
   page?: number;
   size?: number;
+  sort?: string;
 }
 
 export interface NoticeResponse {

@@ -31,6 +31,7 @@ export const useNotices = (initialSize: number = 15) => {
   const [params, setParams] = useState<GetNoticesParams>({
     page: 0,
     size: initialSize,
+    sort: "pubDate,desc",
   });
 
   const [notices, setNotices] = useState<NoticeData[]>([]);
@@ -63,6 +64,11 @@ export const useNotices = (initialSize: number = 15) => {
   // 페이지 변경 함수
   const setPage = useCallback((page: number) => {
     setParams((prev) => ({ ...prev, page: page - 1 }));
+  }, []);
+
+  // 정렬 순서 변경 함수
+  const setSortOrder = useCallback((sort: string | undefined) => {
+    setParams((prev) => ({ ...prev, sort, page: 0 }));
   }, []);
 
   // 즐겨찾기(북마크) 상태 토글 함수
@@ -104,6 +110,7 @@ export const useNotices = (initialSize: number = 15) => {
     setPage,
     setCategory,
     setSearchQuery,
+    setSortOrder,
     handleToggleBookmark,
   };
 };
