@@ -1,45 +1,45 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Download, BookOpen, Check, ChevronUp, ChevronDown } from 'lucide-react';
+import { ArrowLeft, Download, Check, ChevronUp, ChevronDown } from 'lucide-react';
+import { BLearningChart, CoreCompetencyChart } from '@/components/detail_lecture/charts';
+import { TitleSection } from '@/components/commons';
+import SearchIcon from "@/assets/icon/ic_search.svg?react";
+import { LECTURE_DETAILS } from '@/constants/DetailLectureConstants';
+
 
 const DetailLecture: React.FC = () => {
   const { subjectCode } = useParams<{ subjectCode: string }>();
   const navigate = useNavigate();
 
+  // Get lecture data from constants or use default
+  const lectureData = LECTURE_DETAILS[subjectCode || 'BBAB12012'] || LECTURE_DETAILS['BBAB12012'];
+
   return (
     <div className="w-full min-h-screen p-6">
       <div className="max-w-7xl mx-auto flex flex-col gap-5 bg-white rounded-lg">
         {/* Header */}
-        <div className="flex justify-between items-center">
-          <button
-            onClick={() => navigate(-1)}
-            className="w-6 h-6 relative hover:opacity-70 transition-opacity"
-          >
-            <ArrowLeft className="w-4 h-4 absolute left-[4px] top-[4px] text-gray-500" />
-          </button>
-          <div className="flex-1 text-center">
-            <h1 className="text-[#036B3F] text-lg font-bold font-['Noto_Sans'] leading-relaxed">
-              강의계획서 조회
-            </h1>
-          </div>
-          <div className="w-6 h-6" />
-        </div>
+        <TitleSection
+          title="강의계획서 조회"
+          icon={<ArrowLeft />}
+          onClick={() => navigate(-1)}
+          iconPosition="left"
+        />
 
         {/* Course Title Section */}
         <div className="flex flex-col gap-3">
           <div className="flex flex-col gap-1">
             <div className="text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-              분산시스템및컴퓨팅
+              {lectureData.subjectName}
             </div>
             <div className="text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-              DISTRIBUTED SYSTEM & COMPUTING
+              {lectureData.subjectNameEng || lectureData.subjectName}
             </div>
           </div>
 
           {/* Action Buttons */}
           <div className="flex gap-1.5">
             <button className="h-8 px-4 bg-[#036B3F] rounded-[10px] flex items-center gap-2 hover:bg-[#025830] transition-colors">
-              <BookOpen className="w-4 h-4 text-white" />
+              <SearchIcon className="w-4 h-4 text-white" fill='#ffffff' />
               <span className="text-white text-sm font-semibold font-['Noto_Sans'] leading-none">
                 과목해설
               </span>
@@ -87,19 +87,19 @@ const DetailLecture: React.FC = () => {
                 <tbody>
                   <tr className="bg-white">
                     <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                      4
+                      {lectureData.grade || '-'}
                     </td>
                     <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                      BBAB12012
+                      {lectureData.courseCode || '-'}
                     </td>
                     <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                      전선
+                      {lectureData.classification || '-'}
                     </td>
                     <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                      3143
+                      {lectureData.subjectNumber || '-'}
                     </td>
                     <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                      3.0
+                      {lectureData.credit}
                     </td>
                   </tr>
                 </tbody>
@@ -128,16 +128,16 @@ const DetailLecture: React.FC = () => {
                 <tbody>
                   <tr className="bg-white">
                     <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                      45
+                      {lectureData.enrolled || 0}
                     </td>
                     <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                      45
+                      {lectureData.undergraduateEnrolled || 0}
                     </td>
                     <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                      0
+                      {lectureData.graduateEnrolled || 0}
                     </td>
                     <td className="border border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                      46
+                      {lectureData.capacity || 0}
                     </td>
                   </tr>
                 </tbody>
@@ -146,151 +146,23 @@ const DetailLecture: React.FC = () => {
 
             {/* Tags */}
             <div className="flex flex-wrap gap-2">
-              <div className="px-4 py-1 bg-stone-200 rounded-[10px]">
-                <span className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
-                  컴퓨터공학부
-                </span>
-              </div>
-              <div className="px-4 py-1 bg-stone-200 rounded-[10px]">
-                <span className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
-                  캡스톤(A/B/F제)
-                </span>
-              </div>
+              {lectureData.tags?.map((tag, index) => (
+                <div key={index} className="px-4 py-1 bg-stone-200 rounded-[10px]">
+                  <span className="text-gray-500 text-sm font-normal font-['Noto_Sans'] leading-none">
+                    {tag}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
 
           {/* Charts Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* B-Learning Chart */}
-            <div className="p-4 bg-white rounded-2xl shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100">
-              <div className="text-gray-900 text-[10px] font-bold font-['Noto_Sans'] mb-4">
-                B러닝(녹화+대면)
-              </div>
-              <div className="flex flex-col items-center gap-4">
-                <div className="relative w-20 h-20">
-                  <div className="absolute w-20 h-20 bg-[#61A7DD]/60 rounded-full" />
-                  <div className="absolute w-20 h-20 bg-[#F6DB00]/60 rounded-full mix-blend-multiply" />
-                  <div className="absolute w-20 h-20 bg-[#036B3F]/60 rounded-full mix-blend-multiply" />
-                </div>
-                <div className="flex gap-2">
-                  <div className="flex flex-col items-center">
-                    <div className="flex items-center gap-1">
-                      <div className="w-2 h-2 bg-[#61A7DD]/60 rounded-full" />
-                      <span className="text-zinc-800 text-xs font-semibold font-['Inter'] leading-none">
-                        8주
-                      </span>
-                    </div>
-                    <span className="text-slate-500 text-[10px] font-normal font-['Inter']">
-                      대면
-                    </span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <div className="flex items-center gap-1">
-                      <div className="w-2 h-2 bg-[#F6DB00]/60 rounded-full" />
-                      <span className="text-zinc-800 text-xs font-semibold font-['Inter'] leading-none">
-                        4주
-                      </span>
-                    </div>
-                    <span className="text-slate-500 text-[10px] font-normal font-['Inter']">
-                      녹화
-                    </span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <div className="flex items-center gap-1">
-                      <div className="w-2 h-2 bg-[#036B3F]/60 rounded-full" />
-                      <span className="text-zinc-800 text-xs font-semibold font-['Inter'] leading-none">
-                        4주
-                      </span>
-                    </div>
-                    <span className="text-slate-500 text-[10px] font-normal font-['Inter']">
-                      실시간
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <BLearningChart data={lectureData.chartData?.bLearning} />
 
             {/* Core Competency Chart */}
-            <div className="p-4 bg-white rounded-2xl shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100">
-              <div className="text-gray-900 text-[10px] font-bold font-['Noto_Sans'] mb-4">
-                핵심역량
-              </div>
-              <div className="flex flex-col items-center gap-4">
-                <div className="relative w-20 h-20">
-                  <div className="absolute w-20 h-20 bg-[#61A7DD]/60 rounded-full" />
-                  <div className="absolute w-20 h-20 bg-[#F6DB00]/60 rounded-full mix-blend-multiply" />
-                  <div className="absolute w-20 h-20 bg-[#036B3F]/60 rounded-full mix-blend-multiply" />
-                </div>
-                <div className="grid grid-cols-3 gap-2 text-center">
-                  <div className="flex flex-col items-center">
-                    <div className="flex items-center gap-1">
-                      <div className="w-2 h-2 bg-[#61A7DD] rounded-full" />
-                      <span className="text-zinc-800 text-xs font-semibold font-['Inter'] leading-none">
-                        30%
-                      </span>
-                    </div>
-                    <span className="text-slate-500 text-[10px] font-normal font-['Inter']">
-                      성실성
-                    </span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <div className="flex items-center gap-1">
-                      <div className="w-2 h-2 bg-[#036B3F] rounded-full" />
-                      <span className="text-zinc-800 text-xs font-semibold font-['Inter'] leading-none">
-                        0%
-                      </span>
-                    </div>
-                    <span className="text-slate-500 text-[10px] font-normal font-['Inter']">
-                      소통역량
-                    </span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <div className="flex items-center gap-1">
-                      <div className="w-2 h-2 bg-[#F6DB00]/60 rounded-full" />
-                      <span className="text-zinc-800 text-xs font-semibold font-['Inter'] leading-none">
-                        0%
-                      </span>
-                    </div>
-                    <span className="text-slate-500 text-[10px] font-normal font-['Inter']">
-                      창의역량
-                    </span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <div className="flex items-center gap-1">
-                      <div className="w-2 h-2 bg-neutral-400 rounded-full" />
-                      <span className="text-zinc-800 text-xs font-semibold font-['Inter'] leading-none">
-                        50%
-                      </span>
-                    </div>
-                    <span className="text-slate-500 text-[10px] font-normal font-['Inter']">
-                      종합적사고력
-                    </span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <div className="flex items-center gap-1">
-                      <div className="w-2 h-2 bg-zinc-400/70 rounded-full" />
-                      <span className="text-zinc-800 text-xs font-semibold font-['Inter'] leading-none">
-                        20%
-                      </span>
-                    </div>
-                    <span className="text-slate-500 text-[10px] font-normal font-['Inter']">
-                      주도성
-                    </span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <div className="flex items-center gap-1">
-                      <div className="w-2 h-2 bg-[#C283C6] rounded-full" />
-                      <span className="text-zinc-800 text-xs font-semibold font-['Inter'] leading-none">
-                        0%
-                      </span>
-                    </div>
-                    <span className="text-slate-500 text-[10px] font-normal font-['Inter']">
-                      글로벌시민의식
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <CoreCompetencyChart data={lectureData.chartData?.coreCompetency} />
 
             {/* Professor Info Card */}
             <div className="p-4 bg-white rounded-[20px] shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100">
@@ -300,7 +172,7 @@ const DetailLecture: React.FC = () => {
                     담당교수 정보
                   </div>
                   <div className="text-black text-sm font-semibold font-['Noto_Sans'] leading-none mb-4">
-                    임민규 교수
+                    {lectureData.professorInfo?.name || lectureData.professor}
                   </div>
                 </div>
                 <div className="px-3 py-2 bg-stone-200 rounded-2xl">
@@ -310,7 +182,7 @@ const DetailLecture: React.FC = () => {
                         이메일
                       </span>
                       <span className="text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                        mingu@konkuk.ac.kr
+                        {lectureData.professorInfo?.email || '-'}
                       </span>
                     </div>
                     <div className="flex justify-between">
@@ -318,7 +190,7 @@ const DetailLecture: React.FC = () => {
                         연락처
                       </span>
                       <span className="text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                        010-1111-2222
+                        {lectureData.professorInfo?.phone || '-'}
                       </span>
                     </div>
                     <div className="flex justify-between">
@@ -326,7 +198,7 @@ const DetailLecture: React.FC = () => {
                         상담 가능 시간
                       </span>
                       <span className="text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                        -
+                        {lectureData.professorInfo?.consultationHours || '-'}
                       </span>
                     </div>
                   </div>
