@@ -42,10 +42,10 @@ const DetailLecture: React.FC = () => {
   // Fetch lecture plan from KUPIS
   // Note: We need year from courseData or default to current year
   const currentYear = new Date().getFullYear().toString();
-  
+
   // Priority: courseData.courseNumber > URL courseNumber parameter
   const effectiveCourseNumber = courseData?.courseNumber || courseNumber || '';
-  
+
   console.log('🔑 Course Number Resolution:', {
     fromCourseData: courseData?.courseNumber,
     fromURL: courseNumber,
@@ -61,36 +61,36 @@ const DetailLecture: React.FC = () => {
       console.log('📚 Found lecture data with courseNumber:', effectiveCourseNumber);
       return LECTURE_DETAILS[effectiveCourseNumber];
     }
-    
+
     // Try with courseCode if available
     if (courseData?.courseCode && LECTURE_DETAILS[courseData.courseCode]) {
       console.log('📚 Found lecture data with courseCode:', courseData.courseCode);
       return LECTURE_DETAILS[courseData.courseCode];
     }
-    
+
     // Fallback to default
     console.log('📚 Using default lecture data (BBAB55841)');
     return LECTURE_DETAILS['BBAB55841'] || {};
   };
-  
+
   const defaultLectureData = getDefaultLectureData();
-  
+
   // Only create params if we have a valid courseNumber
   const lecturePlanParams = React.useMemo(() => {
     if (!effectiveCourseNumber) {
       console.log('⚠️ No effective course number available');
       return undefined;
     }
-    
+
     const params = {
       year: currentYear,
       courseNumber: effectiveCourseNumber
     };
-    
+
     console.log('📤 Creating Lecture Plan Parameters:', params);
     return params;
   }, [effectiveCourseNumber, currentYear]);
-  
+
   React.useEffect(() => {
     console.log('📊 Lecture Plan Hook Input:', {
       hasParams: !!lecturePlanParams,
@@ -98,7 +98,7 @@ const DetailLecture: React.FC = () => {
       willFetch: !!(lecturePlanParams?.year && lecturePlanParams?.courseNumber)
     });
   }, [lecturePlanParams]);
-  
+
   const { data: fetchedData, loading, error } = useLecturePlan(lecturePlanParams);
 
   // Log fetched data
@@ -506,8 +506,8 @@ const DetailLecture: React.FC = () => {
                 {lectureData.evaluationItems && lectureData.evaluationItems.length > 0 ? (
                   lectureData.evaluationItems.map((evalItem, index, arr) => (
                     <React.Fragment key={evalItem.item}>
-                      <tr 
-                        className="bg-white cursor-pointer hover:bg-gray-50" 
+                      <tr
+                        className="bg-white cursor-pointer hover:bg-gray-50"
                         onClick={() => evalItem.description && toggleEvaluationItem(evalItem.item)}
                       >
                         <td className={`border-r ${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none`}>
@@ -795,10 +795,10 @@ const DetailLecture: React.FC = () => {
           <h2 className="text-[#036B3F] text-sm font-semibold font-['Noto_Sans'] leading-none">
             주별 강의계획
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {lectureData.weeklyPlans && lectureData.weeklyPlans.length > 0 ? (
               lectureData.weeklyPlans.map((plan) => (
-                <div key={plan.week} className="px-3 py-4 bg-beige rounded-[20px] flex flex-col gap-5">
+                <div key={plan.week} className="p-4 bg-beige rounded-[20px] flex flex-col gap-5">
                   <div className="flex flex-col gap-2">
                     <div className="flex flex-col gap-1">
                       <div className="text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
