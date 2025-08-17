@@ -5,8 +5,9 @@ import { formatDate } from "@/utils/date";
 interface Notice {
   id: number;
   title: string;
-  createdAt: string; // "2025-02-16" 형태의 날짜 문자열
+  createdAt: string;
   isFavorite: boolean;
+  link: string;
 }
 
 interface NoticeRowProps {
@@ -33,9 +34,14 @@ const NoticeRow = ({ notice, onToggleFavorite }: NoticeRowProps) => {
 
       <div className="basis-[15%] md:basis-[10%]">{notice.id}</div>
 
-      <div className="flex-1 basis-[50%] cursor-pointer truncate px-2 pr-4 hover:underline md:basis-[60%]">
+      <a
+        href={notice.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex-1 basis-[50%] cursor-pointer truncate px-2 pr-4 hover:underline md:basis-[60%]"
+      >
         {notice.title}
-      </div>
+      </a>
 
       <div className="basis-[20%]">
         {formatDate(notice.createdAt, isDesktop ? "full" : "short")}

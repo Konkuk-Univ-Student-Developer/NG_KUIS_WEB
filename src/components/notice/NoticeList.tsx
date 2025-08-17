@@ -21,6 +21,7 @@ const NoticeList = ({ notices, onToggleBookmark }: NoticeListProps) => {
                 title: notice.title,
                 createdAt: notice.pubDate,
                 isFavorite: notice.isBookMarked,
+                link: notice.link,
               }}
               onToggleFavorite={onToggleBookmark}
             />
