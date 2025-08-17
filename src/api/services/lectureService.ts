@@ -259,7 +259,7 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
             isPublic: cells[3]?.textContent?.includes('공개') || 
                      cells[3]?.textContent?.includes('O') || 
                      cells[3]?.textContent?.includes('checked') || false,
-            description: cells[4]?.textContent?.trim() || ''
+            description: cells[4]?.textContent?.trim() || 'Checked with e-campus system'
           });
         }
       });

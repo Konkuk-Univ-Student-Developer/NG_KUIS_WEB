@@ -131,7 +131,14 @@ export const LECTURE_DETAILS: Record<string, LectureDetail> = {
         { subject: "대인관계역량", value: 70, fullMark: 100 },
         { subject: "자기관리역량", value: 85, fullMark: 100 }
       ]
-    }
+    },
+    evaluationItems: [
+      { item: "출석률", weight: "10%", maxScore: 10, isPublic: true, description: "Checked with e-campus system" },
+      { item: "중간", weight: "30%", maxScore: 30, isPublic: true, description: "Checked with e-campus system" },
+      { item: "기말", weight: "30%", maxScore: 30, isPublic: true, description: "Checked with e-campus system" },
+      { item: "과제물", weight: "20%", maxScore: 20, isPublic: true, description: "Checked with e-campus system" },
+      { item: "프로젝트", weight: "10%", maxScore: 10, isPublic: true, description: "Checked with e-campus system" }
+    ]
   },
   "BBAB67656": {
     subjectCode: "BBAB67656",

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Check, ChevronUp, ChevronDown, Loader2 } from 'lucide-react';
+import { ArrowLeft, Check, ChevronDown, Loader2 } from 'lucide-react';
 import { BLearningChart, CoreCompetencyChart } from '@/components/detail_lecture/charts';
 import { TitleSection, Badge } from '@/components/commons';
 import SearchIcon from "@/assets/icon/ic_search.svg?react";
@@ -69,8 +69,8 @@ const DetailLecture: React.FC = () => {
     }
     
     // Fallback to default
-    console.log('📚 Using default lecture data (BBAB12012)');
-    return LECTURE_DETAILS['BBAB12012'];
+    console.log('📚 Using default lecture data (BBAB55841)');
+    return LECTURE_DETAILS['BBAB55841'] || {};
   };
   
   const defaultLectureData = getDefaultLectureData();
@@ -524,13 +524,9 @@ const DetailLecture: React.FC = () => {
                         </td>
                         <td className={`${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center`}>
                           {evalItem.description ? (
-                            expandedEvaluationItems.has(evalItem.item) ? (
-                              <ChevronUp className="w-3 h-2 text-[#036B3F] mx-auto" />
-                            ) : (
-                              <ChevronDown className="w-3 h-2 text-[#036B3F] mx-auto" />
-                            )
+                            <ChevronDown className={`w-4 h-4 text-[#036B3F] mx-auto transition-transform duration-300 ${expandedEvaluationItems.has(evalItem.item) ? 'rotate-180' : ''}`} />
                           ) : (
-                            <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
+                            <ChevronDown className="w-4 h-4 text-gray-400 mx-auto" />
                           )}
                         </td>
                       </tr>
@@ -548,7 +544,7 @@ const DetailLecture: React.FC = () => {
                 ) : (
                   // 기본값 표시
                   <>
-                    <tr className="bg-white">
+                    <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('출석률')}>
                       <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                         출석률
                       </td>
@@ -562,10 +558,19 @@ const DetailLecture: React.FC = () => {
                         <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
                       </td>
                       <td className="border-b border-zinc-400 px-3 py-2 text-center">
-                        <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
+                        <ChevronDown className={`w-4 h-4 text-[#036B3F] mx-auto transition-transform duration-300 ${expandedEvaluationItems.has('출석률') ? 'rotate-180' : ''}`} />
                       </td>
                     </tr>
-                    <tr className="bg-white">
+                    {expandedEvaluationItems.has('출석률') && (
+                      <tr className="animate-fadeIn">
+                        <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
+                          <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
+                            Checked with e-campus system
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                    <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('중간')}>
                       <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                         중간
                       </td>
@@ -579,10 +584,19 @@ const DetailLecture: React.FC = () => {
                         <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
                       </td>
                       <td className="border-b border-zinc-400 px-3 py-2 text-center">
-                        <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
+                        <ChevronDown className={`w-4 h-4 text-[#036B3F] mx-auto transition-transform duration-300 ${expandedEvaluationItems.has('중간') ? 'rotate-180' : ''}`} />
                       </td>
                     </tr>
-                    <tr className="bg-white">
+                    {expandedEvaluationItems.has('중간') && (
+                      <tr className="animate-fadeIn">
+                        <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
+                          <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
+                            Checked with e-campus system
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                    <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('기말')}>
                       <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                         기말
                       </td>
@@ -596,10 +610,19 @@ const DetailLecture: React.FC = () => {
                         <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
                       </td>
                       <td className="border-b border-zinc-400 px-3 py-2 text-center">
-                        <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
+                        <ChevronDown className={`w-4 h-4 text-[#036B3F] mx-auto transition-transform duration-300 ${expandedEvaluationItems.has('기말') ? 'rotate-180' : ''}`} />
                       </td>
                     </tr>
-                    <tr className="bg-white">
+                    {expandedEvaluationItems.has('기말') && (
+                      <tr className="animate-fadeIn">
+                        <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
+                          <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
+                            Checked with e-campus system
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                    <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('과제물')}>
                       <td className="border-r border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
                         과제물
                       </td>
@@ -613,9 +636,18 @@ const DetailLecture: React.FC = () => {
                         <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
                       </td>
                       <td className="px-3 py-2 text-center">
-                        <ChevronUp className="w-3 h-2 text-gray-500 mx-auto rotate-90" />
+                        <ChevronDown className={`w-4 h-4 text-[#036B3F] mx-auto transition-transform duration-300 ${expandedEvaluationItems.has('과제물') ? 'rotate-180' : ''}`} />
                       </td>
                     </tr>
+                    {expandedEvaluationItems.has('과제물') && (
+                      <tr className="animate-fadeIn">
+                        <td colSpan={5} className="border-zinc-400 bg-beige px-2 py-1">
+                          <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
+                            Checked with e-campus system
+                          </div>
+                        </td>
+                      </tr>
+                    )}
                   </>
                 )}
               </tbody>
