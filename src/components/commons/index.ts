@@ -27,11 +27,13 @@ export {
   ExpandableTable, 
   VerticalTable,
   BasicInfoTable,
+  DesktopBasicInfoTables,
   StandardTable,
   EvaluationTable,
   tableStyles,
   getCellClass,
   TableCellRenderers,
   TABLE_CONFIGS,
-  createDefaultData
+  createDefaultData,
+  mapDesktopBasicData
 } from "./RoundedTable";
