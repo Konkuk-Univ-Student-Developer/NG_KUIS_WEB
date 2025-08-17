@@ -9,6 +9,48 @@ import { DownloadIcon } from '@/assets/icon';
 import type { CourseData } from '@/constants/TimetableConstants';
 import { useLecturePlan, useMergedLectureData } from '@/api/hooks/lecture/useLecturePlan';
 
+// 공통 스타일 상수
+const styles = {
+  table: {
+    wrapper: "overflow-hidden rounded-lg overflow-x-auto border border-zinc-400",
+    base: "w-full border-collapse",
+    headerRow: "bg-beige",
+    bodyRow: "bg-white"
+  },
+  cell: {
+    headerBase: "border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none",
+    bodyBase: "border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none",
+    firstHeader: "border-zinc-400 px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none",
+    bodyBold: "border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none"
+  },
+  section: {
+    title: "text-[#036B3F] text-sm font-semibold font-['Noto_Sans'] leading-none",
+    wrapper: "flex flex-col gap-5"
+  },
+  evaluation: {
+    expandRow: "bg-white cursor-pointer hover:bg-gray-50",
+    chevron: "w-4 h-4 text-[#036B3F] mx-auto transition-transform duration-300",
+    chevronDisabled: "w-4 h-4 text-gray-400 mx-auto",
+    expandedContent: "bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out"
+  }
+};
+
+// 헬퍼 함수: 테두리 클래스 생성
+const getCellClass = (type: 'header' | 'body' | 'bodyBold', index: number, total: number, isLastRow: boolean = false) => {
+  let baseClass = '';
+  if (type === 'header') {
+    baseClass = index === 0 ? styles.cell.firstHeader : styles.cell.headerBase;
+  } else if (type === 'bodyBold') {
+    baseClass = styles.cell.bodyBold;
+  } else {
+    baseClass = styles.cell.bodyBase;
+  }
+  
+  const borderRight = index < total - 1 ? 'border-r' : '';
+  const borderBottom = !isLastRow ? 'border-b' : '';
+  
+  return `${baseClass} ${borderRight} ${borderBottom}`.trim();
+};
 
 const DetailLecture: React.FC = () => {
   const { courseNumber } = useParams<{ courseNumber: string }>();
@@ -159,6 +201,34 @@ const DetailLecture: React.FC = () => {
     });
   };
 
+  // SimpleTable 컴포넌트: 기본 정보, 교재, 과제 테이블용
+  const SimpleTable = ({ headers, data, renderCell }: {
+    headers: string[];
+    data: any[];
+    renderCell: (row: any, rowIdx: number, totalRows: number) => React.ReactNode;
+  }) => (
+    <div className={styles.table.wrapper}>
+      <table className={styles.table.base}>
+        <thead>
+          <tr className={styles.table.headerRow}>
+            {headers.map((header, idx) => (
+              <th key={idx} className={getCellClass('header', idx, headers.length)}>
+                {header}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((row, rowIdx) => (
+            <tr key={rowIdx} className={styles.table.bodyRow}>
+              {renderCell(row, rowIdx, data.length)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+
   return (
     <div className="w-full min-h-screen p-6">
       <div className="max-w-7xl mx-auto flex flex-col gap-5 bg-white rounded-lg">
@@ -225,95 +295,71 @@ const DetailLecture: React.FC = () => {
         </div>
 
         {/* Basic Information Section */}
-        <div className="flex flex-col gap-5">
+        <div className={styles.section.wrapper}>
           <div className="flex justify-between items-center">
-            <h2 className="text-[#036B3F] text-sm font-semibold font-['Noto_Sans'] leading-none">
+            <h2 className={styles.section.title}>
               기본 정보
             </h2>
           </div>
 
           <div className="flex flex-col gap-3">
             {/* First Table */}
-            <div className="overflow-hidden rounded-lg overflow-x-auto border border-zinc-400">
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="bg-beige">
-                    <th className="border-r border-b border-zinc-400 px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                      학년
-                    </th>
-                    <th className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                      학수번호
-                    </th>
-                    <th className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                      이수구분
-                    </th>
-                    <th className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                      과목번호
-                    </th>
-                    <th className="border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                      학점
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="bg-white">
-                    <td className="border-r  border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                      {lectureData.grade || '-'}
-                    </td>
-                    <td className="border-r  border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                      {lectureData.courseCode || '-'}
-                    </td>
-                    <td className="border-r border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                      {lectureData.category || lectureData.classification || '-'}
-                    </td>
-                    <td className="border-r border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                      {lectureData.courseNumber || '-'}
-                    </td>
-                    <td className="px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                      {lectureData.credit || 3}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <SimpleTable
+              headers={['학년', '학수번호', '이수구분', '과목번호', '학점']}
+              data={[{
+                grade: lectureData.grade || '-',
+                courseCode: lectureData.courseCode || '-',
+                category: lectureData.category || lectureData.classification || '-',
+                courseNumber: lectureData.courseNumber || '-',
+                credit: lectureData.credit || 3
+              }]}
+              renderCell={(row, rowIdx, totalRows) => (
+                <>
+                  <td className={getCellClass('body', 0, 5, true)}>
+                    {row.grade}
+                  </td>
+                  <td className={getCellClass('body', 1, 5, true)}>
+                    {row.courseCode}
+                  </td>
+                  <td className={getCellClass('body', 2, 5, true)}>
+                    {row.category}
+                  </td>
+                  <td className={getCellClass('body', 3, 5, true)}>
+                    {row.courseNumber}
+                  </td>
+                  <td className={getCellClass('body', 4, 5, true)}>
+                    {row.credit}
+                  </td>
+                </>
+              )}
+            />
 
             {/* Second Table */}
-            <div className="overflow-hidden rounded-lg overflow-x-auto border border-zinc-400">
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="bg-beige">
-                    <th className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                      현재인원
-                    </th>
-                    <th className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                      학부인원
-                    </th>
-                    <th className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                      대학생인원
-                    </th>
-                    <th className="border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                      제한인원
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="bg-white">
-                    <td className="border-r  border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                      {lectureData.enrolled || 0}
-                    </td>
-                    <td className="border-r  border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                      {lectureData.undergraduateEnrolled || 0}
-                    </td>
-                    <td className="border-r  border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                      {lectureData.graduateEnrolled || 0}
-                    </td>
-                    <td className=" border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
-                      {lectureData.capacity || 0}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <SimpleTable
+              headers={['현재인원', '학부인원', '대학생인원', '제한인원']}
+              data={[{
+                enrolled: lectureData.enrolled || 0,
+                undergraduateEnrolled: lectureData.undergraduateEnrolled || 0,
+                graduateEnrolled: lectureData.graduateEnrolled || 0,
+                capacity: lectureData.capacity || 0
+              }]}
+              renderCell={(row, rowIdx, totalRows) => (
+                <>
+                  <td className={getCellClass('body', 0, 4, true)}>
+                    {row.enrolled}
+                  </td>
+                  <td className={getCellClass('body', 1, 4, true)}>
+                    {row.undergraduateEnrolled}
+                  </td>
+                  <td className={getCellClass('body', 2, 4, true)}>
+                    {row.graduateEnrolled}
+                  </td>
+                  <td className={getCellClass('body', 3, 4, true)}>
+                    {row.capacity}
+                  </td>
+                </>
+              )}
+            />
 
             {/* Tags */}
             <div className="flex flex-wrap gap-2">
@@ -383,8 +429,8 @@ const DetailLecture: React.FC = () => {
         </div>
 
         {/* Competency and Goals Section */}
-        <div className="flex flex-col gap-5">
-          <h2 className="text-[#036B3F] text-sm font-semibold font-['Noto_Sans'] leading-none">
+        <div className={styles.section.wrapper}>
+          <h2 className={styles.section.title}>
             강의 역량 및 목표
           </h2>
           <div className="overflow-hidden rounded-lg overflow-x-auto border border-zinc-400">
@@ -477,8 +523,8 @@ const DetailLecture: React.FC = () => {
         </div>
 
         {/* Evaluation Section */}
-        <div className="flex flex-col gap-5">
-          <h2 className="text-[#036B3F] text-sm font-semibold font-['Noto_Sans'] leading-none">
+        <div className={styles.section.wrapper}>
+          <h2 className={styles.section.title}>
             성적평가항목
           </h2>
           <div className="overflow-hidden rounded-lg overflow-x-auto border border-zinc-400">
@@ -507,33 +553,33 @@ const DetailLecture: React.FC = () => {
                   lectureData.evaluationItems.map((evalItem, index, arr) => (
                     <React.Fragment key={evalItem.item}>
                       <tr
-                        className="bg-white cursor-pointer hover:bg-gray-50"
+                        className={styles.evaluation.expandRow}
                         onClick={() => evalItem.description && toggleEvaluationItem(evalItem.item)}
                       >
-                        <td className={`border-r ${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none`}>
+                        <td className={getCellClass('bodyBold', 0, 5, index === arr.length - 1)}>
                           {evalItem.item}
                         </td>
-                        <td className={`border-r ${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none`}>
+                        <td className={getCellClass('body', 1, 5, index === arr.length - 1)}>
                           {evalItem.weight}
                         </td>
-                        <td className={`border-r ${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none`}>
+                        <td className={getCellClass('body', 2, 5, index === arr.length - 1)}>
                           {evalItem.maxScore}
                         </td>
-                        <td className={`border-r ${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center`}>
+                        <td className={`${getCellClass('body', 3, 5, index === arr.length - 1).replace(styles.cell.bodyBase, '').trim()} border-zinc-400 px-3 py-2 text-center`}>
                           {evalItem.isPublic && <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />}
                         </td>
-                        <td className={`${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center`}>
+                        <td className={`${index === arr.length - 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center`}>
                           {evalItem.description ? (
-                            <ChevronDown className={`w-4 h-4 text-[#036B3F] mx-auto transition-transform duration-300 ${expandedEvaluationItems.has(evalItem.item) ? 'rotate-180' : ''}`} />
+                            <ChevronDown className={`${styles.evaluation.chevron} ${expandedEvaluationItems.has(evalItem.item) ? 'rotate-180' : ''}`} />
                           ) : (
-                            <ChevronDown className="w-4 h-4 text-gray-400 mx-auto" />
+                            <ChevronDown className={styles.evaluation.chevronDisabled} />
                           )}
                         </td>
                       </tr>
                       {expandedEvaluationItems.has(evalItem.item) && evalItem.description && (
                         <tr className="animate-fadeIn">
-                          <td colSpan={5} className={`${arr.length === index + 1 ? '' : 'border-b'} border-gray-500 bg-beige px-2 py-1`}>
-                            <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
+                          <td colSpan={5} className={`${index === arr.length - 1 ? '' : 'border-b'} border-gray-500 bg-beige px-2 py-1`}>
+                            <div className={styles.evaluation.expandedContent}>
                               {evalItem.description}
                             </div>
                           </td>
@@ -544,105 +590,105 @@ const DetailLecture: React.FC = () => {
                 ) : (
                   // 기본값 표시
                   <>
-                    <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('출석률')}>
-                      <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    <tr className={styles.evaluation.expandRow} onClick={() => toggleEvaluationItem('출석률')}>
+                      <td className={getCellClass('bodyBold', 0, 5, false)}>
                         출석률
                       </td>
-                      <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      <td className={getCellClass('body', 1, 5, false)}>
                         10%
                       </td>
-                      <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      <td className={getCellClass('body', 2, 5, false)}>
                         10
                       </td>
                       <td className="border-r border-b border-zinc-400 px-3 py-2 text-center">
                         <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
                       </td>
                       <td className="border-b border-zinc-400 px-3 py-2 text-center">
-                        <ChevronDown className={`w-4 h-4 text-[#036B3F] mx-auto transition-transform duration-300 ${expandedEvaluationItems.has('출석률') ? 'rotate-180' : ''}`} />
+                        <ChevronDown className={`${styles.evaluation.chevron} ${expandedEvaluationItems.has('출석률') ? 'rotate-180' : ''}`} />
                       </td>
                     </tr>
                     {expandedEvaluationItems.has('출석률') && (
                       <tr className="animate-fadeIn">
                         <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
-                          <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
+                          <div className={styles.evaluation.expandedContent}>
                             Checked with e-campus system
                           </div>
                         </td>
                       </tr>
                     )}
-                    <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('중간')}>
-                      <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    <tr className={styles.evaluation.expandRow} onClick={() => toggleEvaluationItem('중간')}>
+                      <td className={getCellClass('bodyBold', 0, 5, false)}>
                         중간
                       </td>
-                      <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      <td className={getCellClass('body', 1, 5, false)}>
                         30%
                       </td>
-                      <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      <td className={getCellClass('body', 2, 5, false)}>
                         30
                       </td>
                       <td className="border-r border-b border-zinc-400 px-3 py-2 text-center">
                         <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
                       </td>
                       <td className="border-b border-zinc-400 px-3 py-2 text-center">
-                        <ChevronDown className={`w-4 h-4 text-[#036B3F] mx-auto transition-transform duration-300 ${expandedEvaluationItems.has('중간') ? 'rotate-180' : ''}`} />
+                        <ChevronDown className={`${styles.evaluation.chevron} ${expandedEvaluationItems.has('중간') ? 'rotate-180' : ''}`} />
                       </td>
                     </tr>
                     {expandedEvaluationItems.has('중간') && (
                       <tr className="animate-fadeIn">
                         <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
-                          <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
+                          <div className={styles.evaluation.expandedContent}>
                             Checked with e-campus system
                           </div>
                         </td>
                       </tr>
                     )}
-                    <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('기말')}>
-                      <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    <tr className={styles.evaluation.expandRow} onClick={() => toggleEvaluationItem('기말')}>
+                      <td className={getCellClass('bodyBold', 0, 5, false)}>
                         기말
                       </td>
-                      <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      <td className={getCellClass('body', 1, 5, false)}>
                         30%
                       </td>
-                      <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      <td className={getCellClass('body', 2, 5, false)}>
                         30
                       </td>
                       <td className="border-r border-b border-zinc-400 px-3 py-2 text-center">
                         <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
                       </td>
                       <td className="border-b border-zinc-400 px-3 py-2 text-center">
-                        <ChevronDown className={`w-4 h-4 text-[#036B3F] mx-auto transition-transform duration-300 ${expandedEvaluationItems.has('기말') ? 'rotate-180' : ''}`} />
+                        <ChevronDown className={`${styles.evaluation.chevron} ${expandedEvaluationItems.has('기말') ? 'rotate-180' : ''}`} />
                       </td>
                     </tr>
                     {expandedEvaluationItems.has('기말') && (
                       <tr className="animate-fadeIn">
                         <td colSpan={5} className="border-b border-gray-500 bg-beige px-2 py-1">
-                          <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
+                          <div className={styles.evaluation.expandedContent}>
                             Checked with e-campus system
                           </div>
                         </td>
                       </tr>
                     )}
-                    <tr className="bg-white cursor-pointer hover:bg-gray-50" onClick={() => toggleEvaluationItem('과제물')}>
-                      <td className="border-r border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
+                    <tr className={styles.evaluation.expandRow} onClick={() => toggleEvaluationItem('과제물')}>
+                      <td className={getCellClass('bodyBold', 0, 5, true)}>
                         과제물
                       </td>
-                      <td className="border-r border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      <td className={getCellClass('body', 1, 5, true)}>
                         30%
                       </td>
-                      <td className="border-r border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                      <td className={getCellClass('body', 2, 5, true)}>
                         30
                       </td>
                       <td className="border-r border-zinc-400 px-3 py-2 text-center">
                         <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" />
                       </td>
                       <td className="px-3 py-2 text-center">
-                        <ChevronDown className={`w-4 h-4 text-[#036B3F] mx-auto transition-transform duration-300 ${expandedEvaluationItems.has('과제물') ? 'rotate-180' : ''}`} />
+                        <ChevronDown className={`${styles.evaluation.chevron} ${expandedEvaluationItems.has('과제물') ? 'rotate-180' : ''}`} />
                       </td>
                     </tr>
                     {expandedEvaluationItems.has('과제물') && (
                       <tr className="animate-fadeIn">
-                        <td colSpan={5} className="border-zinc-400 bg-beige px-2 py-1">
-                          <div className="bg-white border border-gray-500 rounded px-2 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none transition-all duration-300 ease-in-out">
+                        <td colSpan={5} className="bg-beige px-2 py-1">
+                          <div className={styles.evaluation.expandedContent}>
                             Checked with e-campus system
                           </div>
                         </td>
@@ -656,143 +702,120 @@ const DetailLecture: React.FC = () => {
         </div>
 
         {/* Textbook Section */}
-        <div className="flex flex-col gap-5">
-          <h2 className="text-[#036B3F] text-sm font-semibold font-['Noto_Sans'] leading-none">
+        <div className={styles.section.wrapper}>
+          <h2 className={styles.section.title}>
             교재명
           </h2>
-          <div className="overflow-hidden rounded-lg overflow-x-auto border border-zinc-400">
-            <table className="w-full border-collapse">
-              <thead>
-                <tr className="bg-beige">
-                  <th className="border-r border-b border-zinc-400 px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                    번호
-                  </th>
-                  <th className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                    교재구분
-                  </th>
-                  <th className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                    교재명
-                  </th>
-                  <th className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                    저자
-                  </th>
-                  <th className="border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                    링크
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {lectureData.textbooks && lectureData.textbooks.length > 0 ? (
-                  lectureData.textbooks.map((book, index, arr) => (
-                    <tr key={index} className="bg-white">
-                      <td className={`border-r ${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none`}>
-                        {index + 1}
-                      </td>
-                      <td className={`border-r ${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none`}>
-                        {book.type}
-                      </td>
-                      <td className={`border-r ${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none`}>
-                        {book.name}
-                      </td>
-                      <td className={`border-r ${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none`}>
-                        {book.author}
-                      </td>
-                      <td className={`${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none`}>
-                        {book.link || '-'}
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  [1, 2, 3, 4].map((num, index, arr) => (
-                    <tr key={num} className="bg-white">
-                      <td className={`border-r ${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none`}>
-                        {num}
-                      </td>
-                      <td className={`border-r ${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none`}>
-                        -
-                      </td>
-                      <td className={`border-r ${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none`}>
-                        -
-                      </td>
-                      <td className={`border-r ${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none`}>
-                        -
-                      </td>
-                      <td className={`${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none`}>
-                        -
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+          <SimpleTable
+            headers={['번호', '교재구분', '교재명', '저자', '링크']}
+            data={
+              lectureData.textbooks && lectureData.textbooks.length > 0
+                ? lectureData.textbooks
+                : [1, 2, 3, 4].map(num => ({ num, type: '-', name: '-', author: '-', link: '-' }))
+            }
+            renderCell={(book, rowIdx, totalRows) => {
+              const isLastRow = rowIdx === totalRows - 1;
+              if (lectureData.textbooks && lectureData.textbooks.length > 0) {
+                return (
+                  <>
+                    <td className={getCellClass('body', 0, 5, isLastRow)}>
+                      {rowIdx + 1}
+                    </td>
+                    <td className={getCellClass('body', 1, 5, isLastRow)}>
+                      {book.type}
+                    </td>
+                    <td className={getCellClass('body', 2, 5, isLastRow)}>
+                      {book.name}
+                    </td>
+                    <td className={getCellClass('body', 3, 5, isLastRow)}>
+                      {book.author}
+                    </td>
+                    <td className={getCellClass('body', 4, 5, isLastRow)}>
+                      {book.link || '-'}
+                    </td>
+                  </>
+                );
+              } else {
+                return (
+                  <>
+                    <td className={getCellClass('body', 0, 5, isLastRow)}>
+                      {book.num}
+                    </td>
+                    <td className={getCellClass('body', 1, 5, isLastRow)}>
+                      -
+                    </td>
+                    <td className={getCellClass('body', 2, 5, isLastRow)}>
+                      -
+                    </td>
+                    <td className={getCellClass('body', 3, 5, isLastRow)}>
+                      -
+                    </td>
+                    <td className={getCellClass('body', 4, 5, isLastRow)}>
+                      -
+                    </td>
+                  </>
+                );
+              }
+            }}
+          />
         </div>
 
         {/* Assignment Section */}
-        <div className="flex flex-col gap-5">
-          <h2 className="text-[#036B3F] text-sm font-semibold font-['Noto_Sans'] leading-none">
+        <div className={styles.section.wrapper}>
+          <h2 className={styles.section.title}>
             과제명
           </h2>
-          <div className="overflow-hidden rounded-lg overflow-x-auto border border-zinc-400">
-            <table className="w-full border-collapse">
-              <thead>
-                <tr className="bg-beige">
-                  <th className="border-r border-b border-zinc-400 px-2 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                    번호
-                  </th>
-                  <th className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                    구분
-                  </th>
-                  <th className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                    과제명
-                  </th>
-                  <th className="border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-semibold font-['Noto_Sans'] leading-none">
-                    제출시기
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {lectureData.assignments && lectureData.assignments.length > 0 ? (
-                  lectureData.assignments.map((assignment, index, arr) => (
-                    <tr key={index} className="bg-white">
-                      <td className={`border-r ${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none`}>
-                        {index + 1}
-                      </td>
-                      <td className={`border-r ${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none`}>
-                        {assignment.type}
-                      </td>
-                      <td className={`border-r ${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none`}>
-                        {assignment.name}
-                      </td>
-                      <td className={`${arr.length === index + 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none`}>
-                        {assignment.dueDate}
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr className="bg-white">
-                    <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+          <SimpleTable
+            headers={['번호', '구분', '과제명', '제출시기']}
+            data={
+              lectureData.assignments && lectureData.assignments.length > 0
+                ? lectureData.assignments
+                : [{ num: 1, type: '-', name: '-', dueDate: '-' }]
+            }
+            renderCell={(assignment, rowIdx, totalRows) => {
+              const isLastRow = rowIdx === totalRows - 1;
+              if (lectureData.assignments && lectureData.assignments.length > 0) {
+                return (
+                  <>
+                    <td className={getCellClass('body', 0, 4, isLastRow)}>
+                      {rowIdx + 1}
+                    </td>
+                    <td className={getCellClass('body', 1, 4, isLastRow)}>
+                      {assignment.type}
+                    </td>
+                    <td className={getCellClass('body', 2, 4, isLastRow)}>
+                      {assignment.name}
+                    </td>
+                    <td className={getCellClass('body', 3, 4, isLastRow)}>
+                      {assignment.dueDate}
+                    </td>
+                  </>
+                );
+              } else {
+                return (
+                  <>
+                    <td className={getCellClass('body', 0, 4, true)}>
                       1
                     </td>
-                    <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    <td className={getCellClass('body', 1, 4, true)}>
                       -
                     </td>
-                    <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    <td className={getCellClass('body', 2, 4, true)}>
                       -
                     </td>
-                    <td className="border-r border-b border-zinc-400 px-3 py-2 text-center text-black text-sm font-normal font-['Noto_Sans'] leading-none">
+                    <td className={getCellClass('body', 3, 4, true)}>
                       -
                     </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+                  </>
+                );
+              }
+            }}
+          />
         </div>
 
         {/* Weekly Schedule Section */}
-        <div className="flex flex-col gap-5">
-          <h2 className="text-[#036B3F] text-sm font-semibold font-['Noto_Sans'] leading-none">
+        <div className={styles.section.wrapper}>
+          <h2 className={styles.section.title}>
             주별 강의계획
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
