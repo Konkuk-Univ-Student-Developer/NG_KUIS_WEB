@@ -45,7 +45,7 @@ export interface ApiResponse {
 
 // 더미 데이터들
 export const YEAR_OPTIONS = ['2024', '2025'];
-export const SEMESTER_OPTIONS = ['1학기', '2학기', '하계 계절학기', '동계 계절학기'];
+export const SEMESTER_OPTIONS = ['1학기', '하계 계절학기', '2학기', '동계 계절학기'];
 export const CATEGORY_OPTIONS = ['전필', '전선', '반교', '선교', '지필', '지교', '일선', '교직', '전기', '기교', '핵교', '일교', '심교', '융필', '융선'];
 
 export const COURSE_DATA: CourseData[] = [
