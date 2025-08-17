@@ -35,7 +35,7 @@ const TimetablePage: React.FC = () => {
         />
 
         {/* Filters and Search - 모바일: 2줄, 데스크톱: 1줄 */}
-        <div className="grid grid-cols-3 gap-3 md:grid-cols-6">
+        <div className="grid grid-cols-3 gap-3 lg:grid-cols-6">
           {/* Filter Dropdowns */}
           <Select
             value={filters.year}
@@ -120,12 +120,14 @@ const TimetablePage: React.FC = () => {
         </div>
       ) : (
         /* Card View */
-        <div className="px-5 space-y-3 md:px-16">
-          {COURSE_DATA.map((course, index) => (
-            <div key={index} onClick={() => goDetail(course.subjectCode)} className="cursor-pointer">
-              <CourseCard course={course} />
-            </div>
-          ))}
+        <div className="px-5 md:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-[36px] justify-items-center">
+            {COURSE_DATA.map((course, index) => (
+              <div key={index} onClick={() => goDetail(course.subjectCode)} className="cursor-pointer w-full">
+                <CourseCard course={course} />
+              </div>
+            ))}
+          </div>
         </div>
       )}
 

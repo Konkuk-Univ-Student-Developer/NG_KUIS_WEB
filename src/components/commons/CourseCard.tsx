@@ -27,9 +27,9 @@ const CourseCard: React.FC<CourseCardProps> = ({
   onAddToWishlist = () => console.log('학점 클릭')
 }) => {
   return (
-    <div className="self-stretch px-4 py-5 bg-beige hover:brightness-90 transition-all duration-200 rounded-[20px]">
+    <div className="w-full max-h-[200px] px-4 py-5 bg-beige hover:brightness-90 transition-all duration-200 rounded-[20px] flex flex-col">
       {/* Header */}
-      <div className="flex justify-between items-start">
+      <div className="flex justify-between items-start flex-shrink-0">
         <div className="flex-1 min-w-0 mb-1">
           <div className="text-darkgray truncate">
             {course.subjectCode}
@@ -54,21 +54,21 @@ const CourseCard: React.FC<CourseCardProps> = ({
       </div>
 
       {/* Course Details */}
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center flex-shrink-0">
         <div className="text-darkgray text-mobile-extrasmall truncate">
           {course.room}  {course.time ?? ''}  {course.subjectCode}
         </div>
       </div>
 
       {/* Bottom Info */}
-      <div className="pt-5">
+      <div className="mt-auto pt-5">
         <div className="flex justify-between items-center">
-          <div className="flex gap-2.5 flex-wrap">
+          <div className="flex gap-2.5 flex-nowrap overflow-hidden">
             <Chip>{course.grade}학년</Chip>
             <Chip>{course.department ?? '컴퓨터공학'}</Chip>
             <Chip>{course.evaluation ?? '절대평가 (A/B/F)'}</Chip>
           </div>
-          <ExternalLink className="w-6 h-6 text-darkgray" />
+          <ExternalLink className="w-6 h-6 text-darkgray flex-shrink-0" />
         </div>
       </div>
     </div>
