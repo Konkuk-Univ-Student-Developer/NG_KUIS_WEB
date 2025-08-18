@@ -24,11 +24,6 @@
       ]
     }
   ],
-  "functions": {
-    "api/kupis/**/*": {
-      "maxDuration": 10
-    }
-  },
   "trailingSlash": false,
   "cleanUrls": true
 }
