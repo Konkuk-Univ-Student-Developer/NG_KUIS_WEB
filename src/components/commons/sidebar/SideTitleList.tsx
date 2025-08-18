@@ -17,7 +17,7 @@ const SideTitleList: React.FC<SideTitleListProps> = ({
   itemClassName = "",
 }) => {
   return (
-    <nav className={`bg-beige flex overflow-y-auto ${listClassName}`}>
+    <nav className={`bg-beige h-full flex ${listClassName}`}>
       {categories.map((item) => (
         <SideTitleItem
           key={item.category}
