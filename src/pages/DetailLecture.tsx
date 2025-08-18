@@ -30,13 +30,15 @@ const DetailLecture: React.FC = () => {
   const isTablet = useMediaQuery('(min-width: 768px)');
   const isDesktop = useMediaQuery('(min-width: 1440px)');
 
-  // Get course data from navigation state
+  // Get course data and semester from navigation state
   const courseData = location.state?.courseData as CourseData | undefined;
+  const semester = location.state?.semester as string | undefined;
 
   // Log navigation data for debugging
   React.useEffect(() => {
     console.log('🔍 DetailLecture Component Loaded:', {
       urlCourseNumber: courseNumber,
+      semester: semester,
       hasCourseData: !!courseData,
       courseDataDetails: courseData ? {
         courseCode: courseData.courseCode,
@@ -50,7 +52,7 @@ const DetailLecture: React.FC = () => {
         fullData: courseData
       } : null
     });
-  }, [courseData, courseNumber]);
+  }, [courseData, courseNumber, semester]);
 
   // Fetch lecture plan from KUPIS
   // Note: We need year from courseData or default to current year
@@ -97,12 +99,13 @@ const DetailLecture: React.FC = () => {
 
     const params = {
       year: currentYear,
-      courseNumber: effectiveCourseNumber
+      courseNumber: effectiveCourseNumber,
+      semester: semester // 학기 정보 추가
     };
 
     console.log('📤 Creating Lecture Plan Parameters:', params);
     return params;
-  }, [effectiveCourseNumber, currentYear]);
+  }, [effectiveCourseNumber, currentYear, semester]);
 
   React.useEffect(() => {
     console.log('📊 Lecture Plan Hook Input:', {

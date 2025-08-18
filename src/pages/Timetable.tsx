@@ -69,6 +69,7 @@ const TimetablePage: React.FC = () => {
   const goDetail = (courseNumber: string, courseData?: any) => {
     console.log('🚀 Navigating to DetailLecture:', {
       courseNumber,
+      semester: filters.semester,
       courseData: {
         courseCode: courseData?.courseCode,
         courseNumber: courseData?.courseNumber,
@@ -76,7 +77,12 @@ const TimetablePage: React.FC = () => {
         fullData: courseData
       }
     });
-    navigate(courseNumber, { state: { courseData } });
+    navigate(courseNumber, { 
+      state: { 
+        courseData,
+        semester: filters.semester // 학기 정보 추가
+      } 
+    });
   };
 
   return (
@@ -181,7 +187,6 @@ const TimetablePage: React.FC = () => {
                 <TableHead>학점</TableHead>
                 <TableHead>담당교수</TableHead>
                 <TableHead>수업시간 및 강의실</TableHead>
-                <TableHead>수업방법</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody className="[&>tr]:hover:bg-gray-100">
@@ -193,7 +198,6 @@ const TimetablePage: React.FC = () => {
                   <TableCell>{course.credit || 3}</TableCell>
                   <TableCell>{course.professor}</TableCell>
                   <TableCell>{course.schedule}</TableCell>
-                  <TableCell>{course.method}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -9,6 +9,7 @@ import type {
 interface LecturePlanParams {
   year: string;
   courseNumber: string;   // 과목번호 - sbjtId로 전송 (e.g., 0702, 1203, 3143)
+  semester?: string;      // 학기 정보 (e.g., '1학기', '2학기')
 }
 
 // Development mode flag
@@ -425,20 +426,36 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
 };
 
 /**
+ * Get semester code for KUPIS API
+ * @param semester - 학기 정보 (e.g., '1학기', '2학기')
+ * @returns KUPIS semester code
+ */
+const getSemesterCode = (semester?: string): string => {
+  // 학기별 코드 매핑
+  if (semester === '1학기') return 'B01011';
+  if (semester === '2학기') return 'B01012';
+  if (semester === '하계 계절학기') return 'B01014';  // 하계 계절학기 (필요시)
+  if (semester === '동계 계절학기') return 'B01015';  // 동계 계절학기 (필요시)
+  
+  // 기본값: 2학기
+  return 'B01012';
+};
+
+/**
  * Fetch lecture plan from KUPIS
- * @param params - year and courseNumber (ltShtm is fixed as B01012)
+ * @param params - year, courseNumber, and optional semester
  * @returns Parsed lecture plan data
  */
 export const fetchLecturePlan = async (params: LecturePlanParams): Promise<Partial<LectureDetail>> => {
-  const { year, courseNumber } = params;
+  const { year, courseNumber, semester } = params;
   
   // Validate courseNumber is 4 digits
   if (!courseNumber || courseNumber.length !== 4) {
     console.warn(`⚠️ Invalid courseNumber format: "${courseNumber}" (expected 4 digits)`);
   }
   
-  // Build KUPIS URL - ltShtm is fixed as B01012
-  const ltShtm = 'B01012';  // 고정값
+  // Build KUPIS URL - ltShtm is determined by semester
+  const ltShtm = getSemesterCode(semester);
   const url = `https://kupis.konkuk.ac.kr/sugang/acd/cour/plan/CourLecturePlanInq.jsp?ltYy=${year}&ltShtm=${ltShtm}&sbjtId=${courseNumber}`;
   
   
