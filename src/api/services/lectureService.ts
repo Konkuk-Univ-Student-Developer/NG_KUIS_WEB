@@ -324,10 +324,10 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
         if (row) {
           const cells = row.querySelectorAll('td');
           if (cells.length >= 3) {
-            const number = cells[0]?.textContent?.trim();
+            // const number = cells[0]?.textContent?.trim(); // 사용하지 않음
             const name = cells[1]?.textContent?.trim();
             const dueDate = cells[2]?.textContent?.trim() || '';
-            const method = cells[3]?.textContent?.trim() || '';
+            // const method = cells[3]?.textContent?.trim() || ''; // 사용하지 않음
             
             if (name && name !== '-' && name !== '') {
               assignmentIndex++;
@@ -368,7 +368,7 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
       const allRows = weeklyTable.querySelectorAll('tr');
       let dataRowCount = 0;
       
-      allRows.forEach((row, index) => {
+      allRows.forEach((row) => {
         const cells = row.querySelectorAll('td');
         // Skip header rows (those with th elements)
         if (row.querySelector('th')) {
@@ -456,9 +456,9 @@ export const fetchLecturePlan = async (params: LecturePlanParams): Promise<Parti
   
   // Build KUPIS URL - ltShtm is determined by semester
   const ltShtm = getSemesterCode(semester);
-  const url = `https://kupis.konkuk.ac.kr/sugang/acd/cour/plan/CourLecturePlanInq.jsp?ltYy=${year}&ltShtm=${ltShtm}&sbjtId=${courseNumber}`;
+  // const url = `https://kupis.konkuk.ac.kr/sugang/acd/cour/plan/CourLecturePlanInq.jsp?ltYy=${year}&ltShtm=${ltShtm}&sbjtId=${courseNumber}`;
   
-  
+  console.log('📚 Fetching lecture plan with semester:', { year, courseNumber, semester, ltShtm });
   try {
     // Use proxy URL for development (configured in vite.config.ts)
     const proxyUrl = `/api/kupis/sugang/acd/cour/plan/CourLecturePlanInq.jsp?ltYy=${year}&ltShtm=${ltShtm}&sbjtId=${courseNumber}`;

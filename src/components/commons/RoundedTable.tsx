@@ -223,7 +223,7 @@ export const RoundedTable: React.FC<RoundedTableProps> = ({
                   
                   return (
                     <td key={colIdx} className={getCellClass(cellType, colIdx, columns.length, isLastRow, variant)}>
-                      {value || '-'}
+                      {(value as React.ReactNode) || '-'}
                     </td>
                   );
                 })
@@ -501,25 +501,25 @@ export const EvaluationTable: React.FC<EvaluationTableProps> = ({
       data={data && data.length > 0 ? data : createDefaultData('evaluation')}
       expandedRows={expandedRows}
       onToggleExpand={onToggleExpand}
-      getRowKey={(row) => row.item}
-      getExpandContent={(row) => row.description}
+      getRowKey={(row) => (row as any).item as string}
+      getExpandContent={(row) => (row as any).description as React.ReactNode}
       variant={variant}
       renderRow={(row, rowIdx, totalRows, isExpanded) => (
         <>
           <td className={getCellClass('bodyBold', 0, 5, rowIdx === totalRows - 1, variant)}>
-            {row.item}
+            {(row as any).item as React.ReactNode}
           </td>
           <td className={getCellClass('body', 1, 5, rowIdx === totalRows - 1, variant)}>
-            {row.weight}
+            {(row as any).weight as React.ReactNode}
           </td>
           <td className={getCellClass('body', 2, 5, rowIdx === totalRows - 1, variant)}>
-            {row.maxScore}
+            {(row as any).maxScore as React.ReactNode}
           </td>
           <td className={`${getCellClass('body', 3, 5, rowIdx === totalRows - 1, variant).replace(/text-black text-\w+ font-normal font-\['Noto_Sans'\] leading-\w+/, '').trim()}`}>
-            {TableCellRenderers.checkIcon(row.isPublic)}
+            {TableCellRenderers.checkIcon((row as any).isPublic as boolean)}
           </td>
           <td className={`${rowIdx === totalRows - 1 ? '' : 'border-b'} border-zinc-400 px-3 py-2 text-center`}>
-            {TableCellRenderers.expandIcon(!!row.description, isExpanded)}
+            {TableCellRenderers.expandIcon(!!(row as any).description, isExpanded)}
           </td>
         </>
       )}

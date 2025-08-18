@@ -13,7 +13,7 @@ interface DefaultWeeklyPlanCardProps {
   fallbackProfessor?: string;
 }
 
-const WeeklyPlanCard: React.FC<WeeklyPlanCardProps> = ({ plan, fallbackProfessor }) => {
+const WeeklyPlanCard: React.FC<WeeklyPlanCardProps> = ({ plan }) => {
   const isTablet = useMediaQuery('(min-width: 768px)');
   
   if (isTablet) {
