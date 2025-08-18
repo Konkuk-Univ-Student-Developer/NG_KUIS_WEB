@@ -1,0 +1,57 @@
+import type { DetailGrade } from '@/types/grade';
+import { GRADE_CATEGORIES } from '@/constants/GradeConstants';
+
+interface DetailGradeTableProps {
+  detailGrade: DetailGrade;
+}
+
+const DetailGradeTable = ({ detailGrade }: DetailGradeTableProps) => {
+  return (
+    <div className="border-b border-coolgray bg-gray-50 min-w-[1704px] md:min-w-full">
+      <div className="p-4 md:p-6">
+        <div className="bg-white rounded-lg overflow-hidden border border-coolgray">
+          {/* Header */}
+          <div className="bg-darkgreen text-white px-4 py-2 min-w-max md:min-w-full">
+            <div className="grid grid-cols-9 gap-2 text-mobile-small-bold font-bold text-center">
+              {GRADE_CATEGORIES.map((category) => (
+                <div key={category} className="min-w-[90px] md:min-w-0">
+                  {category}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 만점 기준 */}
+          <div className="bg-beige px-4 py-2 border-b border-coolgray min-w-max md:min-w-full">
+            <div className="grid grid-cols-9 gap-2 text-mobile-small text-center">
+              {GRADE_CATEGORIES.map((category) => (
+                <div
+                  key={`${category}-max`}
+                  className="text-black min-w-[90px] md:min-w-0"
+                >
+                  {detailGrade[category].max}점
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 학생 점수 */}
+          <div className="bg-white px-4 py-2 min-w-max md:min-w-full">
+            <div className="grid grid-cols-9 gap-2 text-mobile-small text-center">
+              {GRADE_CATEGORIES.map((category) => (
+                <div
+                  key={`${category}-score`}
+                  className="text-black min-w-[90px] md:min-w-0"
+                >
+                  {detailGrade[category].score}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default DetailGradeTable;

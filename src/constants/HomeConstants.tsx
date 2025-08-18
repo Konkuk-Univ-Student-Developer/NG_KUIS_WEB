@@ -15,7 +15,7 @@ export const QUICK_MENU_ITEMS = [
         <span className="hidden md:block">성적 조회</span>
       </>
     ),
-    path: "/grades",
+    path: "/1140302",
   },
   {
     icon: <CalendarIcon className="size-6 md:size-11" />,
