@@ -1,26 +1,82 @@
-import { useState } from 'react';
-import EditIcon from '@/assets/icon/ic_edit.svg?react';
-import MagnifierIcon from '@/assets/icon/ic_magnifier.svg?react';
-import TitleSection from '@/components/commons/TitleSection';
-import QuickMenu from '@/components/home/QuickMenu';
-import SearchMain from '@/components/home/SearchMain';
-import ScheduleList from '@/components/home/ScheduleList';
-import NoticeList from '@/components/home/NoticeList';
-import Tab from '@/components/commons/Tab';
-import HomeHeader from '@/components/home/HomeHeader';
-import {
-  QUICK_MENU_ITEMS,
-  SCHOOL_LIFE_ITEMS,
-  NOTICE_ITEMS,
-} from "@/constants/HomeConstants";
-import { NOTICE_TABS } from "@/constants/NoticeConstants";
+import { useEffect, useRef, useState } from "react";
+import EditIcon from "@/assets/icon/ic_edit.svg?react";
+import MagnifierIcon from "@/assets/icon/ic_magnifier.svg?react";
+import TitleSection from "@/components/commons/TitleSection";
+import QuickMenu from "@/components/home/QuickMenu";
+import SearchMain, { type SearchResult } from "@/components/home/SearchMain";
+import ScheduleList from "@/components/home/ScheduleList";
+import NoticeList from "@/components/home/NoticeList";
+import Tab from "@/components/commons/Tab";
+import HomeHeader from "@/components/home/HomeHeader";
+import { QUICK_MENU_ITEMS } from "@/constants/HomeConstants";
+import { NOTICE_CATEGORY_MAP, NOTICE_TABS } from "@/constants/NoticeConstants";
 import KUMark from "/img/img_ku_mark.png";
 import useAuthStore from "@/stores/authStore";
+import { useHomeData } from "@/api/hooks/home/useHome";
+import { useCalendars } from "@/api/hooks/home/useCalendars";
+import { useNotices } from "@/api/hooks/notice/useNotices";
+import useMediaQuery from "@/hooks/useMediaQuery";
+import { useNavigate } from "react-router-dom";
+import { MENU_DATA } from "@/constants/SidebarConstants";
 
 const HomePage = () => {
-  const { isLoggedIn, userName } = useAuthStore();
-  const [activeTab, setActiveTab] = useState('전체');
-  const [searchValue, setSearchValue] = useState('');
+  const { isLoggedIn } = useAuthStore();
+  const [activeTab, setActiveTab] = useState("전체");
+
+  const [searchValue, setSearchValue] = useState("");
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const navigate = useNavigate();
+  const searchContainerRef = useRef<HTMLDivElement>(null);
+
+  const { homeData } = useHomeData();
+  const { calendars } = useCalendars();
+  const { notices, setCategory } = useNotices(3);
+
+  const isMobile = useMediaQuery("(max-width: 767px)");
+
+  useEffect(() => {
+    if (isMobile) {
+      setCategory(NOTICE_CATEGORY_MAP["전체"]);
+    } else {
+      setCategory(NOTICE_CATEGORY_MAP[activeTab]);
+    }
+  }, [activeTab, isMobile, setCategory]);
+
+  const handleSearch = () => {
+    if (!searchValue.trim()) {
+      setSearchResults([]);
+      setShowDropdown(false);
+      return;
+    }
+
+    const results: SearchResult[] = [];
+    const query = searchValue.toLowerCase();
+
+    MENU_DATA.forEach((category) => {
+      category.subSections.forEach((subSection) => {
+        subSection.items.forEach((item) => {
+          if (item.name.toLowerCase().includes(query)) {
+            results.push({
+              id: item.id,
+              name: item.name,
+              path: `${category.category} > ${subSection.title}`,
+            });
+          }
+        });
+      });
+    });
+
+    setSearchResults(results);
+    setShowDropdown(true);
+  };
+
+  const handleResultClick = (id: string) => {
+    navigate(`/${id}`);
+    setSearchValue("");
+    setSearchResults([]);
+    setShowDropdown(false);
+  };
 
   return (
     <div className="min-h-screen relative">
@@ -33,13 +89,20 @@ const HomePage = () => {
       <main className="mx-auto px-5 py-6 md:px-24 md:py-13 flex flex-col gap-8 md:gap-18 md:max-w-350">
         {/* Greeting */}
         <section className="text-left md:text-center">
-          <HomeHeader isLoggedIn={isLoggedIn} userName={userName} />
+          <HomeHeader isLoggedIn={isLoggedIn} userName={homeData?.nickname} />
 
-          <div className="mt-4 md:mt-6 flex w-full items-center justify-center">
+          <div
+            ref={searchContainerRef}
+            className="mt-4 md:mt-6 flex w-full items-center justify-center"
+          >
             <SearchMain
               value={searchValue}
               onChange={setSearchValue}
               placeholder="이번 학기 성적 확인하기"
+              onSearch={handleSearch}
+              results={searchResults}
+              showResults={showDropdown}
+              onResultClick={handleResultClick}
             />
           </div>
         </section>
@@ -73,9 +136,9 @@ const HomePage = () => {
               icon={
                 <MagnifierIcon className="size-6 cursor-pointer md:size-12" />
               }
-              path="/quick-menu"
+              path="https://www.konkuk.ac.kr/konkuk/2161/subview.do"
             />
-            <ScheduleList items={SCHOOL_LIFE_ITEMS} />
+            <ScheduleList items={calendars} />
           </div>
 
           {/* 공지사항 */}
@@ -96,7 +159,7 @@ const HomePage = () => {
               />
             </div>
 
-            <NoticeList items={NOTICE_ITEMS} />
+            <NoticeList items={notices} />
           </div>
         </section>
       </main>

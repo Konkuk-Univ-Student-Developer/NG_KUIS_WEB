@@ -1,5 +1,10 @@
-import React from 'react';
-import { PrevArrowIcon, PrevDoubleArrowIcon, NextArrowIcon, NextDoubleArrowIcon } from "@/assets/icon";
+import React from "react";
+import {
+  PrevArrowIcon,
+  PrevDoubleArrowIcon,
+  NextArrowIcon,
+  NextDoubleArrowIcon,
+} from "@/assets/icon";
 
 interface PaginationProps {
   currentPage: number;
@@ -12,7 +17,7 @@ const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
   onPageChange,
-  className = ""
+  className = "",
 }) => {
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {

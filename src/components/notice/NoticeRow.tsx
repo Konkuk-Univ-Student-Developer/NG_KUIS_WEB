@@ -5,13 +5,14 @@ import { formatDate } from "@/utils/date";
 interface Notice {
   id: number;
   title: string;
-  createdAt: string; // "2025-02-16" 형태의 날짜 문자열
+  createdAt: string;
   isFavorite: boolean;
+  link: string;
 }
 
 interface NoticeRowProps {
   notice: Notice;
-  onToggleFavorite: (id: number) => void;
+  onToggleFavorite: (id: number, isFavorite: boolean) => void;
 }
 
 const NoticeRow = ({ notice, onToggleFavorite }: NoticeRowProps) => {
@@ -21,7 +22,7 @@ const NoticeRow = ({ notice, onToggleFavorite }: NoticeRowProps) => {
     <div className="flex gap-4 w-full px-5 items-center border-b-[0.5px] h-10 border-coolgray text-center text-sm font-normal leading-[1.2]">
       <div
         className="flex basis-[15%] justify-center md:basis-[10%] cursor-pointer"
-        onClick={() => onToggleFavorite(notice.id)}
+        onClick={() => onToggleFavorite(notice.id, notice.isFavorite)}
       >
         <Star
           className={`size-5 ${
@@ -33,9 +34,14 @@ const NoticeRow = ({ notice, onToggleFavorite }: NoticeRowProps) => {
 
       <div className="basis-[15%] md:basis-[10%]">{notice.id}</div>
 
-      <div className="flex-1 basis-[50%] cursor-pointer truncate px-2 pr-4 hover:underline md:basis-[60%]">
+      <a
+        href={notice.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex-1 basis-[50%] cursor-pointer truncate px-2 pr-4 hover:underline md:basis-[60%]"
+      >
         {notice.title}
-      </div>
+      </a>
 
       <div className="basis-[20%]">
         {formatDate(notice.createdAt, isDesktop ? "full" : "short")}

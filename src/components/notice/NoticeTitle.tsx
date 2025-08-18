@@ -7,7 +7,7 @@ const NoticeTitle = () => {
 
       <div className="basis-[15%] md:basis-[10%]">번호</div>
 
-      <div className="flex-1 basis-[50%] cursor-pointer truncate px-2 pr-4 hover:underline md:basis-[60%] md:whitespace-normal">
+      <div className="flex-1 basis-[50%] truncate px-2 pr-4 md:basis-[60%] md:whitespace-normal">
         제목
       </div>
 
