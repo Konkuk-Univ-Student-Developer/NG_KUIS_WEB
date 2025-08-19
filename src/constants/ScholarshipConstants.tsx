@@ -1,4 +1,3 @@
-// Update the import path to the correct location if necessary
 import ScholarshipApplication from '@/components/scholarship/ScholarshipApplication';
 import ScholarshipLookup from '@/components/scholarship/ScholarshipLookup';
 import LinkIcon from '@/assets/icon/ic_link.svg?react';

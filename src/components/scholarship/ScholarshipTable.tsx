@@ -3,26 +3,32 @@ import {
   headerTextClasses,
   valueTextClasses,
 } from '@/constants/ScholarshipConstants';
-import type { TableProps } from '@/types/scholarship';
+import type { ColumnConfig, RowData } from '@/types/scholarship';
+
+interface ScholarshipTableProps {
+  columns: ColumnConfig[];
+  rows: RowData[];
+  headerBgColor?: string;
+}
 
 function ScholarshipTable({
-  headers,
+  columns,
   rows,
   headerBgColor = 'bg-beige',
-}: TableProps) {
+}: ScholarshipTableProps) {
   return (
     <div className="overflow-x-auto w-full">
       <div className="flex flex-col rounded overflow-hidden border border-coolgray" style={{ minWidth: '800px' }}>
       {/* Header */}
       <div className={`flex ${headerBgColor}`}>
-        {headers.map((header, index) => (
+        {columns.map((column, index) => (
           <div
             key={index}
-            className={`${cellBaseClasses} ${header.widthClass} ${
+            className={`${cellBaseClasses} ${column.desktop?.widthClass || 'w-1/6'} ${
               index > 0 ? 'border-l border-coolgray' : ''
             }`}
           >
-            <div className={headerTextClasses}>{header.content}</div>
+            <div className={headerTextClasses}>{column.label}</div>
           </div>
         ))}
       </div>
@@ -30,18 +36,16 @@ function ScholarshipTable({
       {/* Body */}
       {rows.map((row, rowIndex) => (
         <div key={rowIndex} className="flex bg-white border-t border-coolgray">
-          {row.map((cell, cellIndex) => {
-            const textStyle = cell.textColor
-              ? `${valueTextClasses} ${cell.textColor}`
-              : valueTextClasses;
+          {columns.map((column, cellIndex) => {
+            const content = row[column.id] || '';
             return (
               <div
                 key={cellIndex}
-                className={`${cellBaseClasses} ${cell.widthClass} ${
+                className={`${cellBaseClasses} ${column.desktop?.widthClass || 'w-1/6'} ${
                   cellIndex > 0 ? 'border-l border-coolgray' : ''
                 }`}
               >
-                <div className={textStyle}>{cell.content}</div>
+                <div className={valueTextClasses}>{content}</div>
               </div>
             );
           })}
