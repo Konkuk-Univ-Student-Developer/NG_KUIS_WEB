@@ -100,18 +100,6 @@ const HomePage = () => {
           </div>
         </section>
       </main>
-
-      {/* Footer */}
-      <footer className="hidden md:block text-xs text-gray-500 mt-12 space-y-1 text-center">
-        <div>
-          건국대학교 (05029) 120 Neungdong-ro, Gwangjin-gu, Seoul (05029) KOREA
-        </div>
-        <div>TEL : 02-450-3114</div>
-        <div className="text-gray-400">
-          COPYRIGHT &copy; 2025 KONKUK UNIVERSITY STUDENTS DEVELOPER. ALL RIGHTS
-          RESERVED
-        </div>
-      </footer>
     </div>
   );
 };

@@ -13,9 +13,9 @@ const SideDetailItem: React.FC<SideDetailItemProps> = ({
   return (
     <a
       href={href}
-      className="flex justify-between items-center px-2 py-3 text-xs text-font border-b-[0.10px] border-darkgray hover:bg-gray-100"
+      className="flex justify-between items-center py-2 px-1 md:px-2 md:py-3 md:min-w-24 text-[11px] md:text-xs text-font border-b-[0.10px] border-darkgray hover:bg-gray-100"
     >
-      <span className="flex-1 min-w-0 break-keep ">{children}</span>
+      <span className="flex-1 min-w-0 break-words">{children}</span>
       <ArrowRightIcon />
     </a>
   );

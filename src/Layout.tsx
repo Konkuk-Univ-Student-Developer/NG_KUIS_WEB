@@ -10,7 +10,7 @@ const Layout: React.FC = () => {
   const { isSidebarOpen } = useSidebarStore();
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pt-14 md:pt-16">
       <TopBar />
       {isSidebarOpen && (
         <>
