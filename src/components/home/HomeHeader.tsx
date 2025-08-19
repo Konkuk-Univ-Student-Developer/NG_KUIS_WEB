@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 interface HomeHeaderProps {
   isLoggedIn: boolean;
-  userName: string;
+  userName: string | undefined;
 }
 
 const HomeHeader = ({ isLoggedIn, userName }: HomeHeaderProps) => {
