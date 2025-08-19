@@ -1,10 +1,7 @@
-interface ScheduleItem {
-  title: string;
-  date: string;
-}
+import type { CalendarItem } from "@/types/home";
 
 interface ScheduleListProps {
-  items: ScheduleItem[];
+  items: CalendarItem[];
 }
 
 const ScheduleList = ({ items }: ScheduleListProps) => {
@@ -19,7 +16,7 @@ const ScheduleList = ({ items }: ScheduleListProps) => {
             {item.title}
           </span>
           <span className="flex-shrink-0 text-darkgreen text-sm font-semibold leading-[1.2] tracking-[-0.28px] md:text-xl md:font-bold md:leading-[2.0]">
-            {item.date}
+            {item.dday}
           </span>
         </div>
       ))}
