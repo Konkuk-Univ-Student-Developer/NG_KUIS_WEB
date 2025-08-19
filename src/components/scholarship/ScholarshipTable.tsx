@@ -11,7 +11,8 @@ function ScholarshipTable({
   headerBgColor = 'bg-beige',
 }: TableProps) {
   return (
-    <div className="flex flex-col rounded overflow-hidden border border-coolgray">
+    <div className="overflow-x-auto w-full">
+      <div className="flex flex-col rounded overflow-hidden border border-coolgray" style={{ minWidth: '800px' }}>
       {/* Header */}
       <div className={`flex ${headerBgColor}`}>
         {headers.map((header, index) => (
@@ -46,6 +47,7 @@ function ScholarshipTable({
           })}
         </div>
       ))}
+      </div>
     </div>
   );
 }
