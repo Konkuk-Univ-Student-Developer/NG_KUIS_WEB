@@ -14,7 +14,7 @@ const ScholarshipPage: React.FC = () => {
         장학 관리
       </h2>
 
-      <div className="px-5 md:px-0">
+      <div className="px-5 md:px-0 md:pb-14">
         <Tab
           tabs={SCHOLARSHIP_TABS}
           activeTab={activeTab}
