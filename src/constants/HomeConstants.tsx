@@ -1,6 +1,6 @@
-import BookIcon from "@/assets/icon/ic_book.svg?react";
-import CalendarIcon from "@/assets/icon/ic_calendar.svg?react";
-import GraduationIcon from "@/assets/icon/ic_graduation.svg?react";
+import BookIcon from '@/assets/icon/ic_book.svg?react';
+import CalendarIcon from '@/assets/icon/ic_calendar.svg?react';
+import GraduationIcon from '@/assets/icon/ic_graduation.svg?react';
 
 export const QUICK_MENU_ITEMS = [
   {
@@ -15,7 +15,7 @@ export const QUICK_MENU_ITEMS = [
         <span className="hidden md:block">성적 조회</span>
       </>
     ),
-    path: "/1140302",
+    path: '/1140302',
   },
   {
     icon: <CalendarIcon className="size-6 md:size-11" />,
@@ -33,7 +33,7 @@ export const QUICK_MENU_ITEMS = [
         </span>
       </>
     ),
-    path: "/timetable",
+    path: '/timetable',
   },
   {
     icon: <GraduationIcon className="size-6 md:size-11" />,
@@ -51,7 +51,7 @@ export const QUICK_MENU_ITEMS = [
         </span>
       </>
     ),
-    path: "/1170201",
+    path: '/1170201',
   },
   {
     icon: <GraduationIcon className="size-6 md:size-11" />,
@@ -65,18 +65,6 @@ export const QUICK_MENU_ITEMS = [
         <span className="hidden md:block">장학 관리</span>
       </>
     ),
-    path: "/scholarship",
+    path: '/1150502',
   },
-];
-
-export const SCHOOL_LIFE_ITEMS = [
-  { title: "2학기 수강신청 시작", date: "D-3" },
-  { title: "여름 계절학기 성적 확인", date: "D-5" },
-  { title: "총장배 축구대회 결승전", date: "D-7" },
-];
-
-export const NOTICE_ITEMS = [
-  { title: "2025년 2학기 조기 졸업 신청 안내", date: "2025.06.28" },
-  { title: "2025년 하계방학 단축근무 안내", date: "2025.06.25" },
-  { title: "2025학년도 1학기 성적 열람 및 정정 안내", date: "2025.06.21" },
 ];

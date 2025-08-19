@@ -24,14 +24,14 @@ export type RowData = {
 };
 
 export type SubjectRowData = RowData & {
-  year?: string;
+  courseYear?: number;
   semester?: string;
   gradeLevel?: string;
-  courseCode?: string;
-  courseName?: string;
-  classification?: string;
-  credits?: string | number;
-  grade?: string;
+  courseNumber: string;
+  courseName: string;
+  divisionLabel: string;
+  credit: number;
+  letterGrade: string;
 };
 
 export interface ColumnConfig {
@@ -48,6 +48,12 @@ export interface RowGroup {
     row: RowData; 
     originalIndex: number }[];
 };
+
+export interface ResponsiveListTableProps {
+  columns: ColumnConfig[];
+  rows: RowData[];
+  headerBgColor?: string;
+}
 
 export interface StatusCircleProps {
   status: "pass" | "non-pass";
@@ -69,12 +75,6 @@ export interface MobileExpandableTableProps {
   group: RowGroup;
   headerBgColor?: string;
   renderDetails: (row: RowData) => React.ReactNode;
-}
-
-export interface ResponsiveListTableProps {
-  columns: ColumnConfig[];
-  rows: RowData[];
-  headerBgColor?: string;
 }
 
 export interface MobileAccordionRowProps {
@@ -102,3 +102,7 @@ export interface CreditSubSectionProps {
   card: CreditInfoCardProps[];
   table: ResponsiveListTableProps;
 }
+
+export type GraduationTabProps = {
+  member: number;
+};
