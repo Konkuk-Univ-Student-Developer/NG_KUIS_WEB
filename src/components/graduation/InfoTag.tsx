@@ -7,10 +7,9 @@ function InfoTag ({
 
   return (
     <div
-      className={`relative flex justify-center items-center px-3 py-2 ${widthClass}`}
+      className={`relative flex justify-center items-center px-3 py-2 ${widthClass} absolute inset-0 bg-beige rounded-xl z-0`}
     >
-      <div className="absolute inset-0 bg-beige rounded-xl z-0"></div>
-      <span className="relative z-10 text-center text-black text-sm font-semibold leading-tight">
+      <span className="relative z-10 text-center text-black text-sm font-semibold leading-tight truncate">
         {label}
       </span>
     </div>
