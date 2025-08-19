@@ -7,7 +7,7 @@ interface TabProps {
 
 const Tab = ({ tabs, activeTab, variant = "full", onTabClick }: TabProps) => {
   const navContainerClasses = `
-    items-center gap-x-2 rounded-[6px] bg-beige p-[5px] md:p-2
+    items-center gap-x-1 md:gap-x-2 rounded-[6px] bg-beige p-[5px] md:p-2
     ${variant === "fit" ? "inline-flex" : "flex overflow-x-auto"}
   `;
 
