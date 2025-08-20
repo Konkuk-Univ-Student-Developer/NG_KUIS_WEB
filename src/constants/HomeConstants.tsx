@@ -33,6 +33,7 @@ export const QUICK_MENU_ITEMS = [
         </span>
       </>
     ),
+
     path: '/1130420',
   },
   {
