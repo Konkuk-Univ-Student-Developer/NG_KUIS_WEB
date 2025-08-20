@@ -1,11 +1,7 @@
 import TermGrade from '@/components/grade/TermGrade';
 import TotalGrade from '@/components/grade/TotalGrade';
 
-import type { 
-  ColumnConfig, 
-  RowData, 
-  GradeSummaryData
-} from '@/types/grade';
+import type { ColumnConfig, RowData, GradeSummaryData } from '@/types/grade';
 
 // 테이블 스타일 관련 상수
 export const cellBaseClasses =
@@ -15,11 +11,7 @@ export const headerTextClasses =
 export const valueTextClasses = 'text-black text-sm md:text-lg text-center';
 
 // Grade 탭 관련 상수
-export const GRADE_TABS = [
-  '정규학기 성적 조회',
-  '계절학기 성적 조회',
-  '전체 성적 조회',
-];
+export const GRADE_TABS = ['정규학기 성적 조회', '전체 성적 조회'];
 
 export const TAB_COMPONENTS: { [key: string]: React.FC } = {
   '정규학기 성적 조회': TermGrade,

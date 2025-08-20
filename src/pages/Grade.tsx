@@ -1,13 +1,10 @@
 import { useState } from 'react';
 import Tab from '@/components/commons/Tab';
 import { GRADE_TABS, TAB_COMPONENTS } from '@/constants/GradeConstants';
-import useMediaQuery from '@/hooks/useMediaQuery';
 
 const GradePage: React.FC = () => {
   const [activeTab, setActiveTab] = useState(GRADE_TABS[0]);
   const ActiveComponent = TAB_COMPONENTS[activeTab];
-  const isDesktop = useMediaQuery('(min-width: 768px)');
-  const tabVariant = isDesktop ? 'fit' : 'distributed';
 
   return (
     <div className="flex flex-col gap-6 md:mx-auto md:max-w-350 py-8 md:block md:px-16 lg:px-24 md:py-12">
@@ -20,7 +17,7 @@ const GradePage: React.FC = () => {
           tabs={GRADE_TABS}
           activeTab={activeTab}
           onTabClick={setActiveTab}
-          variant={tabVariant}
+          variant="fit"
         />
       </div>
 
