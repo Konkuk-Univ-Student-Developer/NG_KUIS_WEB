@@ -1,5 +1,10 @@
-import React from 'react';
-import { PrevArrowIcon, PrevDoubleArrowIcon, NextArrowIcon, NextDoubleArrowIcon } from "@/assets/icon";
+import React from "react";
+import {
+  PrevArrowIcon,
+  PrevDoubleArrowIcon,
+  NextArrowIcon,
+  NextDoubleArrowIcon,
+} from "@/assets/icon";
 
 interface PaginationProps {
   currentPage: number;
@@ -12,7 +17,7 @@ const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
   onPageChange,
-  className = ""
+  className = "",
 }) => {
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
@@ -41,8 +46,8 @@ const Pagination: React.FC<PaginationProps> = ({
         onClick={() => handlePageChange(1)}
         disabled={currentPage === 1}
         className={`flex items-center justify-center w-8 md:w-10 h-8 md:h-10 transition-colors cursor-pointer ${currentPage === 1
-          ? 'text-lightgray'
-          : 'text-black hover:text-darkgreen'
+            ? "text-lightgray"
+            : "text-black hover:text-darkgreen"
           }`}
       >
         <PrevDoubleArrowIcon
@@ -56,8 +61,8 @@ const Pagination: React.FC<PaginationProps> = ({
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
         className={`flex items-center justify-center w-8 md:w-10 h-8 md:h-10 transition-colors cursor-pointer ${currentPage === 1
-          ? 'text-lightgray'
-          : 'text-black hover:text-darkgreen'
+            ? "text-lightgray"
+            : "text-black hover:text-darkgreen"
           }`}
       >
         <PrevArrowIcon
@@ -116,8 +121,8 @@ const Pagination: React.FC<PaginationProps> = ({
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         className={`flex items-center justify-center w-8 md:w-10 h-8 md:h-10 transition-colors cursor-pointer ${currentPage === totalPages
-          ? 'text-lightgray'
-          : 'text-black hover:text-darkgreen'
+            ? "text-lightgray"
+            : "text-black hover:text-darkgreen"
           }`}
       >
         <NextArrowIcon
@@ -131,8 +136,8 @@ const Pagination: React.FC<PaginationProps> = ({
         onClick={() => handlePageChange(totalPages)}
         disabled={currentPage === totalPages}
         className={`flex items-center justify-center w-8 md:w-10 h-8 md:h-10 transition-colors cursor-pointer ${currentPage === totalPages
-          ? 'text-lightgray'
-          : 'text-black hover:text-darkgreen'
+            ? "text-lightgray"
+            : "text-black hover:text-darkgreen"
           }`}
       >
         <NextDoubleArrowIcon

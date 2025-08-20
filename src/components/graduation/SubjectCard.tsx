@@ -1,18 +1,18 @@
 ﻿import type { SubjectRowData } from "@/types/graduation";
-import InfoTag from "./InfoTag";
+import InfoTag from "@/components/graduation/InfoTag";
 
 function SubjectCard({
-  courseCode,
-  courseName,
-  classification,
-  credits,
-  grade,
-  year,
+  courseYear,
   semester,
   gradeLevel,
+  courseNumber,
+  courseName,
+  divisionLabel,
+  credit,
+  letterGrade
 }: SubjectRowData) {
 
-  const showDetails = year && semester && gradeLevel;
+  const isShowDetails = courseYear && semester && gradeLevel;
 
   return (
     <div className="w-full mt-1 mb-1 px-3 py-4 bg-white rounded-2xl border border-gray-100 flex flex-col justify-start items-start gap-1">
@@ -20,7 +20,7 @@ function SubjectCard({
         {/* Left Section: Course Info */}
         <div className="flex flex-col justify-start items-start gap-1">
           <div className="text-gray-500 text-xs font-light">
-            {courseCode ?? "N/A"}
+            {courseNumber ?? "N/A"}
           </div>
           <div className="text-black text-base font-bold">
             {courseName ?? "Unnamed Course"}
@@ -29,16 +29,16 @@ function SubjectCard({
 
         {/* Right Section: Tags */}
         <div className="flex justify-start items-center gap-2">
-          <InfoTag label={classification ?? "-"} widthClass="w-[50px]" />
-          <InfoTag label={`${credits ?? 0}학점`} widthClass="w-[58px]" />
-          <InfoTag label={grade ?? "-"} widthClass="w-[42px]" />
+          <InfoTag label={divisionLabel ?? "-"} widthClass="w-[72px]" />
+          <InfoTag label={`${credit ?? 0}학점`} widthClass="w-[58px]" />
+          <InfoTag label={letterGrade ?? "-"} widthClass="w-[42px]" />
         </div>
       </div>
-      {showDetails && (
+      {isShowDetails && (
         <div className="inline-flex justify-start items-center gap-2 text-gray-500 text-sm">
-          <span>{year}년</span>
+          <span>{courseYear}년</span>
           <span>{semester}</span>
-          <span>{gradeLevel}학년</span>
+          <span>{gradeLevel}</span>
         </div>
       )}
     </div>
