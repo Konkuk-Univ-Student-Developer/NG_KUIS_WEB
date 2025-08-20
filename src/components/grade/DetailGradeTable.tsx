@@ -1,57 +1,72 @@
-import type { DetailGrade } from '@/types/grade';
-import { GRADE_CATEGORIES } from '@/constants/GradeConstants';
+import {
+  DETAIL_GRADE_COLUMNS,
+  DETAIL_GRADE_ROWS,
+  cellBaseClasses,
+  headerTextClasses,
+  valueTextClasses,
+} from '@/constants/GradeConstants';
 
 interface DetailGradeTableProps {
-  detailGrade: DetailGrade;
+  isVisible: boolean;
 }
 
-const DetailGradeTable = ({ detailGrade }: DetailGradeTableProps) => {
+function DetailGradeTable({ isVisible }: DetailGradeTableProps) {
+  if (!isVisible) return null;
+
   return (
-    <div className="border-b border-coolgray bg-gray-50 min-w-[1704px] md:min-w-full">
-      <div className="p-4 md:p-6">
-        <div className="bg-white rounded-lg overflow-hidden border border-coolgray">
-          {/* Header */}
-          <div className="bg-darkgreen text-white px-4 py-2 min-w-max md:min-w-full">
-            <div className="grid grid-cols-9 gap-2 text-mobile-small-bold font-bold text-center">
-              {GRADE_CATEGORIES.map((category) => (
-                <div key={category} className="min-w-[90px] md:min-w-0">
-                  {category}
-                </div>
-              ))}
+    <div className="w-full px-3 md:px-6 py-4 md:py-6 bg-beige">
+      <div
+        className="flex flex-col rounded overflow-hidden border border-coolgray"
+        style={{ 
+          minWidth: '100%',
+          maxWidth: '100%'
+        }}
+      >
+        {/* Header */}
+        <div className="flex bg-darkgreen">
+          {DETAIL_GRADE_COLUMNS.map((column, index) => (
+            <div
+              key={index}
+              className={`${cellBaseClasses} ${
+                column.desktop?.widthClass || 'w-1/6'
+              } ${index > 0 ? 'border-l border-coolgray' : ''}`}
+            >
+              <div className={`${headerTextClasses} text-white`}>
+                {column.label}
+              </div>
             </div>
-          </div>
-
-          {/* 만점 기준 */}
-          <div className="bg-beige px-4 py-2 border-b border-coolgray min-w-max md:min-w-full">
-            <div className="grid grid-cols-9 gap-2 text-mobile-small text-center">
-              {GRADE_CATEGORIES.map((category) => (
-                <div
-                  key={`${category}-max`}
-                  className="text-black min-w-[90px] md:min-w-0"
-                >
-                  {detailGrade[category].max}점
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* 학생 점수 */}
-          <div className="bg-white px-4 py-2 min-w-max md:min-w-full">
-            <div className="grid grid-cols-9 gap-2 text-mobile-small text-center">
-              {GRADE_CATEGORIES.map((category) => (
-                <div
-                  key={`${category}-score`}
-                  className="text-black min-w-[90px] md:min-w-0"
-                >
-                  {detailGrade[category].score}
-                </div>
-              ))}
-            </div>
-          </div>
+          ))}
         </div>
+
+        {/* Body */}
+        {DETAIL_GRADE_ROWS.map((row, rowIndex) => {
+          const isLastRow = rowIndex === DETAIL_GRADE_ROWS.length - 1;
+          return (
+            <div
+              key={rowIndex}
+              className={`flex border-t border-coolgray ${
+                isLastRow ? 'bg-white' : 'bg-beige'
+              }`}
+            >
+              {DETAIL_GRADE_COLUMNS.map((column, cellIndex) => {
+                const content = row[column.id] || '';
+                return (
+                  <div
+                    key={cellIndex}
+                    className={`${cellBaseClasses} ${
+                      column.desktop?.widthClass || 'w-1/6'
+                    } ${cellIndex > 0 ? 'border-l border-coolgray' : ''}`}
+                  >
+                    <div className={valueTextClasses}>{content}</div>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
-};
+}
 
 export default DetailGradeTable;
