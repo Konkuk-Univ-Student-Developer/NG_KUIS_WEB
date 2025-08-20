@@ -10,7 +10,7 @@ import Tab from '@/components/commons/Tab';
 import HomeHeader from '@/components/home/HomeHeader';
 import { QUICK_MENU_ITEMS } from '@/constants/HomeConstants';
 import { NOTICE_CATEGORY_MAP, NOTICE_TABS } from '@/constants/NoticeConstants';
-import KUMark from '../assets/img/img_ku_mark.png';
+import KUMark from '/img/img_ku_mark.png';
 import useAuthStore from '@/stores/authStore';
 import { useHomeData } from '@/api/hooks/home/useHome';
 import { useCalendars } from '@/api/hooks/home/useCalendars';
