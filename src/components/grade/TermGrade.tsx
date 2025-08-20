@@ -1,10 +1,10 @@
+import TitleSection from '@/components/commons/TitleSection';
+import GradeTable from '@/components/grade/GradeTable';
+import TermGradeSummary from '@/components/grade/TermGradeSummary';
 import {
   TERM_GRADE_COLUMNS,
   TERM_GRADE_ROWS,
 } from '@/constants/GradeConstants';
-import TitleSection from '@/components/commons/TitleSection';
-import GradeTable from '@/components/grade/GradeTable';
-import TermGradeSummary from '@/components/grade/TermGradeSummary';
 
 function TermGrade() {
   return (

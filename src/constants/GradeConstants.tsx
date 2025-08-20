@@ -1,7 +1,11 @@
 import TermGrade from '@/components/grade/TermGrade';
 import TotalGrade from '@/components/grade/TotalGrade';
 
-import type { ColumnConfig, RowData, GradeSummaryData } from '@/types/grade';
+import type { 
+  ColumnConfig, 
+  RowData, 
+  GradeSummaryData
+} from '@/types/grade';
 
 // 테이블 스타일 관련 상수
 export const cellBaseClasses =
