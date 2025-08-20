@@ -34,7 +34,7 @@ function TotalGradeSummaryCard({ card }: TotalGradeSummaryCardProps) {
 function TotalGradeSummary() {
   return (
     <div className="flex justify-start md:justify-end">
-      <div className="grid grid-cols-4 md:flex md:flex-row items-center py-4 px-6 md:py-6 md:px-8 gap-4 md:gap-8 bg-beige rounded-[15px] w-full md:w-auto">
+      <div className="grid grid-cols-4 md:flex md:flex-row items-center py-4 px-6 md:py-6 md:px-8 gap-3 md:gap-8 bg-beige rounded-[15px] w-full md:w-auto">
         {TOTAL_SUMMARY_DATA.cards.map((card) => (
           <TotalGradeSummaryCard key={card.title} card={card} />
         ))}
