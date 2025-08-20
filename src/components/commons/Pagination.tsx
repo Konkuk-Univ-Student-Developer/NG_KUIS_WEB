@@ -30,11 +30,10 @@ const Pagination: React.FC<PaginationProps> = ({
     <button
       key={page}
       onClick={() => handlePageChange(page)}
-      className={`flex items-center justify-center min-w-[28px] md:min-w-[36px] h-[34px] md:h-[42px] transition-colors cursor-pointer ${
-        page === currentPage
-          ? "text-darkgreen font-bold text-lg md:text-xl"
-          : "text-black hover:text-darkgreen font-normal text-lg md:text-xl"
-      }`}
+      className={`flex items-center justify-center px-2 md:px-3 h-[34px] md:h-[42px] transition-colors cursor-pointer ${page === currentPage
+        ? 'text-darkgreen font-bold text-lg md:text-xl'
+        : 'text-black hover:text-darkgreen font-normal text-lg md:text-xl'
+        }`}
     >
       {page}
     </button>
@@ -46,11 +45,10 @@ const Pagination: React.FC<PaginationProps> = ({
       <button
         onClick={() => handlePageChange(1)}
         disabled={currentPage === 1}
-        className={`flex items-center justify-center w-8 md:w-10 h-8 md:h-10 transition-colors cursor-pointer ${
-          currentPage === 1
+        className={`flex items-center justify-center w-8 md:w-10 h-8 md:h-10 transition-colors cursor-pointer ${currentPage === 1
             ? "text-lightgray"
             : "text-black hover:text-darkgreen"
-        }`}
+          }`}
       >
         <PrevDoubleArrowIcon
           className="w-5 md:w-6 h-5 md:h-6"
@@ -62,11 +60,10 @@ const Pagination: React.FC<PaginationProps> = ({
       <button
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className={`flex items-center justify-center w-8 md:w-10 h-8 md:h-10 transition-colors cursor-pointer ${
-          currentPage === 1
+        className={`flex items-center justify-center w-8 md:w-10 h-8 md:h-10 transition-colors cursor-pointer ${currentPage === 1
             ? "text-lightgray"
             : "text-black hover:text-darkgreen"
-        }`}
+          }`}
       >
         <PrevArrowIcon
           className="w-5 md:w-6 h-5 md:h-6"
@@ -75,7 +72,7 @@ const Pagination: React.FC<PaginationProps> = ({
       </button>
 
       {/* Page Numbers */}
-      <div className="flex items-center">
+      <div className="flex items-center gap-1 md:gap-2">
         {totalPages <= 4 ? (
           // 전체 페이지 수가 작으면 모두 노출
           Array.from({ length: totalPages }, (_, i) => renderPageButton(i + 1))
@@ -87,9 +84,7 @@ const Pagination: React.FC<PaginationProps> = ({
                 {renderPageButton(1)}
                 {renderPageButton(2)}
                 {renderPageButton(3)}
-                <div className="flex items-center justify-center w-[20px] md:w-[24px] h-[34px] md:h-[42px] text-black text-lg md:text-xl font-normal">
-                  ...
-                </div>
+                <div className="flex items-center justify-center px-1 md:px-2 h-[34px] md:h-[42px] text-black text-lg md:text-xl font-normal">...</div>
                 {renderPageButton(totalPages)}
               </>
             )}
@@ -98,15 +93,11 @@ const Pagination: React.FC<PaginationProps> = ({
             {currentPage > 3 && currentPage < totalPages - 2 && (
               <>
                 {renderPageButton(1)}
-                <div className="flex items-center justify-center w-[20px] md:w-[24px] h-[34px] md:h-[42px] text-black text-lg md:text-xl font-normal">
-                  ...
-                </div>
+                <div className="flex items-center justify-center px-1 md:px-2 h-[34px] md:h-[42px] text-black text-lg md:text-xl font-normal">...</div>
                 {renderPageButton(currentPage - 1)}
                 {renderPageButton(currentPage)}
                 {renderPageButton(currentPage + 1)}
-                <div className="flex items-center justify-center w-[20px] md:w-[24px] h-[34px] md:h-[42px] text-black text-lg md:text-xl font-normal">
-                  ...
-                </div>
+                <div className="flex items-center justify-center px-1 md:px-2 h-[34px] md:h-[42px] text-black text-lg md:text-xl font-normal">...</div>
                 {renderPageButton(totalPages)}
               </>
             )}
@@ -115,9 +106,7 @@ const Pagination: React.FC<PaginationProps> = ({
             {currentPage >= totalPages - 2 && (
               <>
                 {renderPageButton(1)}
-                <div className="flex items-center justify-center w-[20px] md:w-[24px] h-[34px] md:h-[42px] text-black text-lg md:text-xl font-normal">
-                  ...
-                </div>
+                <div className="flex items-center justify-center px-1 md:px-2 h-[34px] md:h-[42px] text-black text-lg md:text-xl font-normal">...</div>
                 {renderPageButton(totalPages - 2)}
                 {renderPageButton(totalPages - 1)}
                 {renderPageButton(totalPages)}
@@ -131,11 +120,10 @@ const Pagination: React.FC<PaginationProps> = ({
       <button
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className={`flex items-center justify-center w-8 md:w-10 h-8 md:h-10 transition-colors cursor-pointer ${
-          currentPage === totalPages
+        className={`flex items-center justify-center w-8 md:w-10 h-8 md:h-10 transition-colors cursor-pointer ${currentPage === totalPages
             ? "text-lightgray"
             : "text-black hover:text-darkgreen"
-        }`}
+          }`}
       >
         <NextArrowIcon
           className="w-5 md:w-6 h-5 md:h-6"
@@ -147,11 +135,10 @@ const Pagination: React.FC<PaginationProps> = ({
       <button
         onClick={() => handlePageChange(totalPages)}
         disabled={currentPage === totalPages}
-        className={`flex items-center justify-center w-8 md:w-10 h-8 md:h-10 transition-colors cursor-pointer ${
-          currentPage === totalPages
+        className={`flex items-center justify-center w-8 md:w-10 h-8 md:h-10 transition-colors cursor-pointer ${currentPage === totalPages
             ? "text-lightgray"
             : "text-black hover:text-darkgreen"
-        }`}
+          }`}
       >
         <NextDoubleArrowIcon
           className="w-5 md:w-6 h-5 md:h-6"

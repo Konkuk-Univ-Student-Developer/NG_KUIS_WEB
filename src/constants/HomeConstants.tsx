@@ -33,7 +33,9 @@ export const QUICK_MENU_ITEMS = [
         </span>
       </>
     ),
-    path: '/timetable',
+
+    path: "/1130420",
+
   },
   {
     icon: <GraduationIcon className="size-6 md:size-11" />,

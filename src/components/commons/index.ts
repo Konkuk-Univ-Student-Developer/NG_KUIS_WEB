@@ -1,3 +1,4 @@
+export { default as Badge } from "./Badge";
 export { default as Button } from "./Button";
 export { default as CourseCard } from "./CourseCard";
 export { default as Footer } from "./Footer";
@@ -19,3 +20,20 @@ export {
 export { default as Timer } from "./Timer";
 export { default as TitleSection } from "./TitleSection";
 export { default as TopBar } from "./TopBar";
+
+// Rounded Table components
+export { 
+  RoundedTable, 
+  ExpandableTable, 
+  VerticalTable,
+  BasicInfoTable,
+  DesktopBasicInfoTables,
+  StandardTable,
+  EvaluationTable,
+  tableStyles,
+  getCellClass,
+  TableCellRenderers,
+  TABLE_CONFIGS,
+  createDefaultData,
+  mapDesktopBasicData
+} from "./RoundedTable";

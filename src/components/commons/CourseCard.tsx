@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { ExternalLink } from 'lucide-react';
 import type { CourseData } from '@/constants/TimetableConstants';
+import Badge from './Badge';
 
 interface CourseCardProps {
   course: CourseData;
@@ -9,15 +10,8 @@ interface CourseCardProps {
 }
 
 const Tag: React.FC<{ label: string }> = ({ label }) => (
-  <span className="bg-darkgreen text-white px-3 py-2 w-12 h-8 rounded-xl whitespace-nowrap">
+  <span className="inline-flex items-center justify-center bg-darkgreen text-white px-3 py-2 rounded-xl whitespace-nowrap text">
     {label}
-  </span>
-);
-
-// Figma-style Chip for meta information (학년/학과/평가)
-const Chip: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <span className="bg-white text-darkgray px-4 py-1 rounded-[10px] text-mobile-small text-center whitespace-nowrap">
-    {children}
   </span>
 );
 
@@ -26,17 +20,48 @@ const CourseCard: React.FC<CourseCardProps> = ({
   onEnroll = () => console.log('이수구분 클릭'),
   onAddToWishlist = () => console.log('학점 클릭')
 }) => {
+  const [isOverflowing, setIsOverflowing] = useState(false);
+  const [slideDistance, setSlideDistance] = useState(0);
+  const chipContainerRef = useRef<HTMLDivElement>(null);
+  const chipWrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const checkOverflow = () => {
+      if (chipContainerRef.current && chipWrapperRef.current) {
+        const containerWidth = chipContainerRef.current.offsetWidth;
+        const wrapperWidth = chipWrapperRef.current.scrollWidth;
+        const overflow = wrapperWidth > containerWidth;
+        setIsOverflowing(overflow);
+
+        if (overflow) {
+          // Calculate the exact distance needed to show all chips
+          setSlideDistance(wrapperWidth - containerWidth + 10); // +10 for some padding
+        }
+      }
+    };
+
+    checkOverflow();
+    // Small delay to ensure proper measurement after render
+    const timeout = setTimeout(checkOverflow, 100);
+
+    window.addEventListener('resize', checkOverflow);
+    return () => {
+      window.removeEventListener('resize', checkOverflow);
+      clearTimeout(timeout);
+    };
+  }, [course]);
+
   return (
-    <div className="self-stretch px-3 py-4 bg-beige hover:brightness-90 transition-all duration-200 rounded-[20px]">
+    <div className="group w-full max-h-[200px] px-4 py-5 bg-beige hover:brightness-90 transition-all duration-200 rounded-[20px] flex flex-col">
       {/* Header */}
-      <div className="flex justify-between items-start">
+      <div className="flex justify-between items-start flex-shrink-0">
         <div className="flex-1 min-w-0 mb-1">
           <div className="text-darkgray truncate">
-            {course.subjectCode}
+            {course.courseCode}
           </div>
           <div className="mt-1">
             <span className="justify-center text-black font-semibold">
-              {course.subjectName}
+              {course.courseName}
             </span>
             <span className="ml-2 text-darkgray truncate">
               {course.professor}
@@ -45,30 +70,42 @@ const CourseCard: React.FC<CourseCardProps> = ({
         </div>
         <div className="flex gap-2 ml-3 shrink-0">
           <button onClick={onEnroll}>
-            <Tag label={course.category ?? '전선'} />
+            <Tag label={course.courseCategory} />
           </button>
           <button onClick={onAddToWishlist}>
-            <Tag label={`${course.credit}학점`} />
+            <Tag label={`${course.credit || 3}학점`} />
           </button>
         </div>
       </div>
 
       {/* Course Details */}
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center flex-shrink-0">
         <div className="text-darkgray text-mobile-extrasmall truncate">
-          {course.room}  {course.time ?? ''}  {course.subjectCode}
+          {course.schedule}  {course.courseNumber}
         </div>
       </div>
 
       {/* Bottom Info */}
-      <div className="pt-5">
+      <div className="mt-auto pt-5">
         <div className="flex justify-between items-center">
-          <div className="flex gap-2.5 flex-wrap">
-            <Chip>{course.grade}학년</Chip>
-            <Chip>{course.department ?? '컴퓨터공학'}</Chip>
-            <Chip>{course.evaluation ?? '절대평가 (A/B/F)'}</Chip>
+          <div
+            ref={chipContainerRef}
+            className="relative overflow-hidden flex-1 mr-3"
+          >
+            <div
+              ref={chipWrapperRef}
+              className={`flex gap-2.5 flex-nowrap ${isOverflowing ? 'group-hover:animate-[slideCustom_4s_ease-in-out_infinite]' : ''
+                }`}
+              style={{
+                '--slide-distance': `-${slideDistance}px`
+              } as React.CSSProperties}
+            >
+              {course.grade && <Badge variant="white">{course.grade}학년</Badge>}
+              {course.departmentName && <Badge variant="white">{course.departmentName}</Badge>}
+              {course.method && <Badge variant="white">{course.method}</Badge>}
+            </div>
           </div>
-          <ExternalLink className="w-6 h-6 text-darkgray" />
+          <ExternalLink className="w-6 h-6 text-darkgray flex-shrink-0" />
         </div>
       </div>
     </div>
