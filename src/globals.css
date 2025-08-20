@@ -65,3 +65,47 @@
     padding: 0;
   }
 }
+
+/* Custom animation for chip sliding */
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(calc(-100% + 250px));
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideCustom {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(var(--slide-distance, -50px));
+  }
+}
+
+.animate-slide {
+  animation: slide 3s ease-in-out infinite;
+}
+
+/* Custom animation for fade in */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+  }
+  100% {
+    opacity: 1;
+    max-height: 100px;
+    overflow: visible;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-in-out forwards;
+}
