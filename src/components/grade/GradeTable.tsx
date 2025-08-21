@@ -90,7 +90,7 @@ function GradeTable({
                 // 과목명 컬럼인 경우 줄바꿈 스타일 적용
                 const isCourseName = column.id === 'courseName';
                 const cellTextClasses = isCourseName
-                  ? 'text-black text-sm md:text-lg text-left break-words leading-relaxed'
+                  ? 'text-black text-sm md:text-lg text-left break-all whitespace-normal leading-relaxed'
                   : valueTextClasses;
 
                 return (
