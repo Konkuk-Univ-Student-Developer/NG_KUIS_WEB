@@ -52,7 +52,9 @@ function TotalGradeTable({ columns, rows }: TotalGradeTableProps) {
                   <div
                     key={cellIndex}
                     className={`${cellBaseClasses} ${
-                      column.desktop?.widthClass || 'w-1/6'
+                      isLastRow && isMajorColumn
+                        ? 'w-2/19'
+                        : column.desktop?.widthClass || 'w-1/6'
                     } ${
                       cellIndex > 0 && !(isLastRow && isCategoryColumn)
                         ? 'border-l border-coolgray'
@@ -65,6 +67,10 @@ function TotalGradeTable({ columns, rows }: TotalGradeTableProps) {
                       } ${
                         isLastRow && isMajorColumn
                           ? 'text-darkgreen font-bold'
+                          : ''
+                      } ${
+                        isLastRow && isMajorColumn
+                          ? 'px-4'
                           : ''
                       }`}
                     >
