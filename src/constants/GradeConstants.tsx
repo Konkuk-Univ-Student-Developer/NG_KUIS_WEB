@@ -24,52 +24,52 @@ export const TERM_GRADE_COLUMNS: ColumnConfig[] = [
   {
     id: 'number',
     label: 'No',
-    desktop: { row: 1, widthClass: 'w-1/15' },
+    desktop: { row: 1, widthClass: 'w-1/24' },
   },
   {
     id: 'courseNumber',
     label: '학수번호',
-    desktop: { row: 1, widthClass: 'w-2/15' },
+    desktop: { row: 1, widthClass: 'w-3/24' },
   },
   {
     id: 'subjectNumber',
     label: '과목번호',
-    desktop: { row: 1, widthClass: 'w-1/15' },
+    desktop: { row: 1, widthClass: 'w-2/24' },
   },
   {
     id: 'courseName',
     label: '과목명',
-    desktop: { row: 1, widthClass: 'w-3/15' },
+    desktop: { row: 1, widthClass: 'w-6/24' },
   },
   {
     id: 'professor',
     label: '담당교수',
-    desktop: { row: 1, widthClass: 'w-1/15' },
+    desktop: { row: 1, widthClass: 'w-2/24' },
   },
   {
     id: 'unit',
     label: '학점',
-    desktop: { row: 1, widthClass: 'w-1/15' },
+    desktop: { row: 1, widthClass: 'w-1/24' },
   },
   {
     id: 'classification',
     label: '이수구분',
-    desktop: { row: 1, widthClass: 'w-1/15' },
+    desktop: { row: 1, widthClass: 'w-2/24' },
   },
   {
     id: 'rating',
     label: '등급',
-    desktop: { row: 1, widthClass: 'w-1/15' },
+    desktop: { row: 1, widthClass: 'w-1/24' },
   },
   {
     id: 'evaluationMethod',
     label: '성적평가방법',
-    desktop: { row: 1, widthClass: 'w-2/15' },
+    desktop: { row: 1, widthClass: 'w-3/24' },
   },
   {
     id: 'DetailedGrades',
     label: '상세성적 보기',
-    desktop: { row: 1, widthClass: 'w-2/15' },
+    desktop: { row: 1, widthClass: 'w-3/24' },
   },
 ];
 
@@ -147,43 +147,41 @@ export const TOTALTERM_GRADE_COLUMNS: ColumnConfig[] = [
   {
     id: 'classification',
     label: '이수구분',
-    desktop: { row: 1, widthClass: 'w-1/13' },
+    desktop: { row: 1, widthClass: 'w-2/24' },
   },
   {
     id: 'courseNumber',
     label: '학수번호',
-    desktop: { row: 1, widthClass: 'w-2/13' },
+    desktop: { row: 1, widthClass: 'w-3/24' },
   },
   {
     id: 'courseName',
     label: '과목명',
-    desktop: { row: 1, widthClass: 'w-2/13' },
+    desktop: { row: 1, widthClass: 'w-8/24' },
   },
   {
     id: 'unit',
     label: '학점',
-    desktop: { row: 1, widthClass: 'w-1/13' },
+    desktop: { row: 1, widthClass: 'w-1/24' },
   },
   {
     id: 'rating',
     label: '등급',
-    desktop: { row: 1, widthClass: 'w-1/13' },
+    desktop: { row: 1, widthClass: 'w-1/24' },
   },
   {
     id: 'recognitionType',
     label: '인정구분',
-    desktop: { row: 1, widthClass: 'w-2/13' },
+    desktop: { row: 1, widthClass: 'w-3/24' },
   },
   {
     id: 'deletionType',
     label: '삭제구분',
-    desktop: { row: 1, widthClass: 'w-2/13' },
+    desktop: { row: 1, widthClass: 'w-3/24' },
   },
   {
     id: 'deletionDate',
     label: '삭제일자',
-    desktop: { row: 1, widthClass: 'w-2/13' },
+    desktop: { row: 1, widthClass: 'w-3/24' },
   },
 ];
-
-
