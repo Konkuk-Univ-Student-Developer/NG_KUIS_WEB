@@ -64,7 +64,11 @@ function ScholarshipApplication() {
                      item.applicationSemester === 'SUMMER' ? '여름학기' : '겨울학기',
       scholarshipName: item.scholarshipName,
       applyDate: item.appliedDate,
-      applyStatus: <span className="text-darkgreen font-bold">{item.status}</span>,
+      applyStatus: (
+        <span className={`font-bold ${item.status === '탈락' ? 'text-red-500' : 'text-darkgreen'}`}>
+          {item.status}
+        </span>
+      ),
       failReason: item.rejectionReason || '',
     }));
   };

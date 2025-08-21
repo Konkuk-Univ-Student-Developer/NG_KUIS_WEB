@@ -75,6 +75,7 @@ function ScholarshipTable({
           >
             {columns.map((column, cellIndex) => {
               const content = row[column.id] || '';
+              
               return (
                 <div
                   key={cellIndex}
@@ -82,7 +83,9 @@ function ScholarshipTable({
                     column.desktop?.widthClass || 'w-1/6'
                   } ${cellIndex > 0 ? 'border-l border-coolgray' : ''}`}
                 >
-                  <div className={valueTextClasses}>{content}</div>
+                  <div className={valueTextClasses}>
+                    {typeof content === 'string' ? content : content}
+                  </div>
                 </div>
               );
             })}
