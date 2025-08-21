@@ -1,9 +1,8 @@
-import {
-  SCHOLARSHIP_LOOKUP_COLUMNS,
-} from '@/constants/ScholarshipConstants';
+import { SCHOLARSHIP_LOOKUP_COLUMNS } from '@/constants/ScholarshipConstants';
 import TitleSection from '@/components/commons/TitleSection';
 import ScholarshipTable from '@/components/scholarship/ScholarshipTable';
 import { useScholarshipDisbursements } from '@/api/hooks/scholarship/useScholarshipDisbursements';
+import type { RowData } from '@/types/scholarship';
 
 function ScholarshipLookup() {
   const memberId = Number(import.meta.env.VITE_MEMBER_ID) || 1;
@@ -12,10 +11,10 @@ function ScholarshipLookup() {
   // 장학금 지급 이력 데이터 변환
   const transformDisbursementsToRows = () => {
     if (!disbursementsData?.years) return [];
-    
-    const allRows: any[] = [];
+
+    const allRows: RowData[] = [];
     let rowNumber = 1;
-    
+
     disbursementsData.years.forEach((yearData) => {
       yearData.items.forEach((item) => {
         allRows.push({
@@ -29,7 +28,7 @@ function ScholarshipLookup() {
         });
       });
     });
-    
+
     return allRows;
   };
 
@@ -38,9 +37,11 @@ function ScholarshipLookup() {
     if (!disbursementsData?.years || disbursementsData.years.length === 0) {
       return '2025';
     }
-    
+
     // 연도들을 정렬하여 가장 최근 연도 반환
-    const years = disbursementsData.years.map(yearData => yearData.year).sort((a, b) => b - a);
+    const years = disbursementsData.years
+      .map((yearData) => yearData.year)
+      .sort((a, b) => b - a);
     return years[0].toString();
   };
 
