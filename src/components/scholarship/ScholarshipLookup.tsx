@@ -33,12 +33,24 @@ function ScholarshipLookup() {
     return allRows;
   };
 
+  // 연도 정보 추출 (가장 최근 연도 또는 첫 번째 연도)
+  const getYearTitle = () => {
+    if (!disbursementsData?.years || disbursementsData.years.length === 0) {
+      return '2025';
+    }
+    
+    // 연도들을 정렬하여 가장 최근 연도 반환
+    const years = disbursementsData.years.map(yearData => yearData.year).sort((a, b) => b - a);
+    return years[0].toString();
+  };
+
   const disbursementRows = transformDisbursementsToRows();
+  const yearTitle = getYearTitle();
 
   return (
     <div className="flex flex-col md:mx-auto md:max-w-350 py-4 gap-12">
       <section>
-        <TitleSection title="2025" />
+        <TitleSection title={yearTitle} />
         <div className="overflow-x-auto">
           <ScholarshipTable
             columns={SCHOLARSHIP_LOOKUP_COLUMNS}
