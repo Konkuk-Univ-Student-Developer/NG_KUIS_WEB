@@ -6,8 +6,7 @@ import type { GradeRequestParams, GradeItem } from '@/types/grade';
 import { TERM_GRADE_COLUMNS } from '@/constants/GradeConstants';
 
 function TermGrade() {
-  // 테스트용 memberId (실제로는 로그인 후 사용자 정보에서 가져와야 함)
-  const memberId = 1;
+  const memberId = Number(import.meta.env.VITE_MEMBER_ID) || 1;
 
   const params: GradeRequestParams = {
     memberId,
