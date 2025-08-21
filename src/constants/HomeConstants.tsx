@@ -1,6 +1,6 @@
-import BookIcon from "@/assets/icon/ic_book.svg?react";
-import CalendarIcon from "@/assets/icon/ic_calendar.svg?react";
-import GraduationIcon from "@/assets/icon/ic_graduation.svg?react";
+import BookIcon from '@/assets/icon/ic_book.svg?react';
+import CalendarIcon from '@/assets/icon/ic_calendar.svg?react';
+import GraduationIcon from '@/assets/icon/ic_graduation.svg?react';
 
 export const QUICK_MENU_ITEMS = [
   {
@@ -15,7 +15,7 @@ export const QUICK_MENU_ITEMS = [
         <span className="hidden md:block">성적 조회</span>
       </>
     ),
-    path: "/grades",
+    path: '/1140302',
   },
   {
     icon: <CalendarIcon className="size-6 md:size-11" />,
@@ -33,7 +33,8 @@ export const QUICK_MENU_ITEMS = [
         </span>
       </>
     ),
-    path: "/1130420",
+
+    path: '/1130420',
   },
   {
     icon: <GraduationIcon className="size-6 md:size-11" />,
@@ -51,7 +52,7 @@ export const QUICK_MENU_ITEMS = [
         </span>
       </>
     ),
-    path: "/1170201",
+    path: '/1170201',
   },
   {
     icon: <GraduationIcon className="size-6 md:size-11" />,
@@ -65,6 +66,6 @@ export const QUICK_MENU_ITEMS = [
         <span className="hidden md:block">장학 관리</span>
       </>
     ),
-    path: "/scholarship",
+    path: '/1150502',
   },
 ];

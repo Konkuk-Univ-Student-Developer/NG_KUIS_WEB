@@ -68,7 +68,7 @@ const TitleSection = (props: TitleSectionProps) => {
 
   if (iconPosition === "left") {
     return (
-      <div className="flex items-center gap-x-2 md:gap-x-3 mb-5">
+      <div className="flex items-center gap-x-2 md:gap-x-3">
         <IconWrapper />
         {TitleText}
       </div>
@@ -76,7 +76,7 @@ const TitleSection = (props: TitleSectionProps) => {
   }
 
   return (
-    <div className="flex items-center justify-between mb-5">
+    <div className="flex items-center justify-between">
       {TitleText}
       <IconWrapper />
     </div>
