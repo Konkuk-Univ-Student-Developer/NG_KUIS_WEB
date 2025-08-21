@@ -37,7 +37,16 @@ function ScholarshipApplication() {
       ),
       scholarshipName: item.name,
       applyPeriod: item.periodText,
-      notice: item.noticeUrl && item.noticeUrl.trim() !== '' ? <LinkIcon className="w-5 h-5" /> : '-',
+      notice: item.noticeUrl && item.noticeUrl.trim() !== '' ? (
+        <a 
+          href={item.noticeUrl} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-darkgreen hover:text-green-700"
+        >
+          <LinkIcon className="w-5 h-5" />
+        </a>
+      ) : '-',
       attachment: item.hasAttachment ? 'Y' : 'N',
       applyStatus: item.myApplicationStatus || '',
     }));
