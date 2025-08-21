@@ -1,12 +1,16 @@
 import {
-  TOTAL_GRADE_COLUMNS,
-  TOTAL_GRADE_ROWS,
   cellBaseClasses,
   headerTextClasses,
   valueTextClasses,
 } from '@/constants/GradeConstants';
+import type { ColumnConfig, RowData } from '@/types/grade';
 
-function TotalGradeTable() {
+interface TotalGradeTableProps {
+  columns: ColumnConfig[];
+  rows: RowData[];
+}
+
+function TotalGradeTable({ columns, rows }: TotalGradeTableProps) {
   return (
     <div className="overflow-x-auto w-full">
       <div
@@ -15,7 +19,7 @@ function TotalGradeTable() {
       >
         {/* Header */}
         <div className="flex bg-[#B0CDA6]">
-          {TOTAL_GRADE_COLUMNS.map((column, index) => (
+          {columns.map((column, index) => (
             <div
               key={index}
               className={`${cellBaseClasses} ${
@@ -30,11 +34,11 @@ function TotalGradeTable() {
         </div>
 
         {/* Body */}
-        {TOTAL_GRADE_ROWS.map((row, rowIndex) => {
-          const isLastRow = rowIndex === TOTAL_GRADE_ROWS.length - 1;
+        {rows.map((row, rowIndex) => {
+          const isLastRow = rowIndex === rows.length - 1;
           return (
             <div key={rowIndex} className={`flex border-t border-coolgray`}>
-              {TOTAL_GRADE_COLUMNS.map((column, cellIndex) => {
+              {columns.map((column, cellIndex) => {
                 const content = row[column.id] || '';
                 const isCategoryColumn = column.id === 'category';
                 const isMajorColumn = column.id === 'major';
@@ -59,7 +63,9 @@ function TotalGradeTable() {
                       className={`${valueTextClasses} ${
                         isCategoryColumn ? 'text-darkgreen font-bold' : ''
                       } ${
-                        isLastRow && isMajorColumn ? 'text-darkgreen font-bold' : ''
+                        isLastRow && isMajorColumn
+                          ? 'text-darkgreen font-bold'
+                          : ''
                       }`}
                     >
                       {content}

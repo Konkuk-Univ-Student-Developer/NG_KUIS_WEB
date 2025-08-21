@@ -1,6 +1,15 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import Tab from '@/components/commons/Tab';
-import { GRADE_TABS, TAB_COMPONENTS } from '@/constants/GradeConstants';
+import { GRADE_TABS } from '@/constants/GradeConstants';
+
+// Lazy loading으로 컴포넌트 import
+const TermGrade = lazy(() => import('@/components/grade/TermGrade'));
+const TotalGrade = lazy(() => import('@/components/grade/TotalGrade'));
+
+const TAB_COMPONENTS: { [key: string]: React.ComponentType } = {
+  '정규학기 성적 조회': TermGrade,
+  '전체 성적 조회': TotalGrade,
+};
 
 const GradePage: React.FC = () => {
   const [activeTab, setActiveTab] = useState(GRADE_TABS[0]);
@@ -22,7 +31,9 @@ const GradePage: React.FC = () => {
       </div>
 
       <div className="px-5 md:px-0">
-        {ActiveComponent && <ActiveComponent />}
+        <Suspense fallback={<div>로딩 중...</div>}>
+          {ActiveComponent && <ActiveComponent />}
+        </Suspense>
       </div>
     </div>
   );

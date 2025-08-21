@@ -4,7 +4,7 @@ import {
   headerTextClasses,
   valueTextClasses,
 } from '@/constants/GradeConstants';
-import type { ColumnConfig, RowData } from '@/types/grade';
+import type { ColumnConfig, RowData, GradeItem } from '@/types/grade';
 import ArrowDownIcon from '@/assets/icon/ic_arrow_down.svg?react';
 import ArrowUpIcon from '@/assets/icon/ic_arrow_up.svg?react';
 import DetailGradeTable from './DetailGradeTable';
@@ -13,12 +13,14 @@ interface GradeTableProps {
   columns: ColumnConfig[];
   rows: RowData[];
   headerBgColor?: string;
+  originalData?: GradeItem[]; // API 원본 데이터
 }
 
 function GradeTable({
   columns,
   rows,
   headerBgColor = 'bg-beige',
+  originalData,
 }: GradeTableProps) {
   const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set());
 
@@ -85,6 +87,12 @@ function GradeTable({
                   );
                 }
 
+                // 과목명 컬럼인 경우 줄바꿈 스타일 적용
+                const isCourseName = column.id === 'courseName';
+                const cellTextClasses = isCourseName
+                  ? 'text-black text-sm md:text-lg text-left break-words leading-relaxed'
+                  : valueTextClasses;
+
                 return (
                   <div
                     key={cellIndex}
@@ -92,13 +100,16 @@ function GradeTable({
                       column.desktop?.widthClass || 'w-1/6'
                     } ${cellIndex > 0 ? 'border-l border-coolgray' : ''}`}
                   >
-                    <div className={valueTextClasses}>{content}</div>
+                    <div className={cellTextClasses}>{content}</div>
                   </div>
                 );
               })}
             </div>
             {/* 상세 성적 테이블 */}
-            <DetailGradeTable isVisible={expandedRows.has(rowIndex)} />
+            <DetailGradeTable
+              isVisible={expandedRows.has(rowIndex)}
+              gradeDetailData={originalData?.[rowIndex]?.gradeDetailResponse}
+            />
           </div>
         ))}
       </div>
