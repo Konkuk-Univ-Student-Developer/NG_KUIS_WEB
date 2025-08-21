@@ -56,7 +56,7 @@ function TermGrade() {
   }학기`;
 
   return (
-    <div className="flex flex-col md:mx-auto md:max-w-350 py-4 gap-12">
+    <div className="flex flex-col md:mx-auto md:max-w-350 py-4 gap-4">
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <TitleSection title={semesterText} />
         <TermGradeSummary summaryData={termGradeData.summary} />
