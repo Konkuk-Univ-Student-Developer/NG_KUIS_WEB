@@ -124,8 +124,4 @@ export const SCHOLARSHIP_LOOKUP_COLUMNS: ColumnConfig[] = [
   },
 ];
 
-export const cellBaseClasses =
-  'flex justify-center items-center p-2 flex-shrink-0 break-keep';
-export const headerTextClasses =
-  'text-black text-sm md:text-lg font-bold text-center';
-export const valueTextClasses = 'text-black text-sm md:text-lg text-center';
+
