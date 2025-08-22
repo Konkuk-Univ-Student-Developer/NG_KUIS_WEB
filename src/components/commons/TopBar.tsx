@@ -36,6 +36,7 @@ const TopBar: React.FC = () => {
                   type="button"
                   key={link.id}
                   onClick={toggleSidebar}
+                  data-sidebar-toggle
                   className="text-lg font-bold text-font hover:text-darkgreen transition-colors"
                 >
                   {link.label}
