@@ -1,11 +1,11 @@
 import { TERM_SUMMARY_DATA } from '@/constants/GradeConstants';
-import type { GradeSummaryCard, GradeSummary } from '@/types/grade';
+import type { GradeSummaryCard } from '@/types/grade';
 
-interface TermGradeSummaryCardProps {
+interface SemesterGradeSummaryCardProps {
   card: GradeSummaryCard;
 }
 
-function TermGradeSummaryCard({ card }: TermGradeSummaryCardProps) {
+function SemesterGradeSummaryCard({ card }: SemesterGradeSummaryCardProps) {
   return (
     <div className="flex flex-col items-start">
       <span className="text-black text-sm md:text-base font-normal text-center">
@@ -31,11 +31,20 @@ function TermGradeSummaryCard({ card }: TermGradeSummaryCardProps) {
   );
 }
 
-interface TermGradeSummaryProps {
-  summaryData?: GradeSummary;
+interface SemesterGradeSummaryProps {
+  summaryData?: {
+    gpa: number;
+    gpaScale: number;
+    earnedCredits: number;
+    appliedCredits: number;
+    registeredCredits?: number; // 추가
+    percentage: number;
+    rank: string | null;
+    totalInSemester: number | null;
+  };
 }
 
-function TermGradeSummary({ summaryData }: TermGradeSummaryProps) {
+function SemesterGradeSummary({ summaryData }: SemesterGradeSummaryProps) {
   // API 데이터가 있으면 사용하고, 없으면 기본 데이터 사용
   const cards: GradeSummaryCard[] = summaryData
     ? [
@@ -48,28 +57,39 @@ function TermGradeSummary({ summaryData }: TermGradeSummaryProps) {
         {
           title: '취득/신청학점',
           value: summaryData.earnedCredits,
-          unit: `/${summaryData.registeredCredits}`,
+          unit: `/${
+            summaryData.appliedCredits || summaryData.registeredCredits
+          }`,
           isHighlighted: true,
         },
         {
-          title: '학사경고/우등구분',
-          value: `${summaryData.probation ? 'Y' : 'N'} / ${
-            summaryData.honors ? 'Y' : 'N'
-          }`,
-          isHighlighted: false,
+          title: '백분율',
+          value:
+            summaryData.percentage ||
+            (summaryData.appliedCredits > 0
+              ? Math.round(
+                  (summaryData.earnedCredits / summaryData.appliedCredits) * 100
+                )
+              : 0),
+          isHighlighted: true,
+        },
+        {
+          title: '학기별 석차',
+          value: summaryData.rank || '-',
+          isHighlighted: true,
         },
       ]
     : TERM_SUMMARY_DATA.cards;
 
   return (
     <div className="flex justify-start md:justify-end">
-      <div className="grid grid-cols-3 md:flex md:flex-row items-center py-4 px-6 md:py-6 md:px-8 gap-4 md:gap-8 bg-beige rounded-[15px] w-full md:w-auto">
+      <div className="grid grid-cols-4 md:flex md:flex-row items-center py-4 px-6 md:py-6 md:px-8 gap-2 md:gap-8 bg-beige rounded-[15px] w-full md:w-auto">
         {cards.map((card) => (
-          <TermGradeSummaryCard key={card.title} card={card} />
+          <SemesterGradeSummaryCard key={card.title} card={card} />
         ))}
       </div>
     </div>
   );
 }
 
-export default TermGradeSummary;
+export default SemesterGradeSummary;
