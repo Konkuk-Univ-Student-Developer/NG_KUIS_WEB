@@ -28,7 +28,7 @@ const ChatPage: React.FC = () => {
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)] bg-gray-50 font-sans">
       <header className="p-4 border-b bg-white shadow-sm">
-        <h1 className="text-xl font-bold text-center text-emerald-900">
+        <h1 className="text-xl font-bold text-center text-darkgreen">
           AI Chatbot
         </h1>
       </header>
@@ -45,7 +45,7 @@ const ChatPage: React.FC = () => {
               <div
                 className={`max-w-xs md:max-w-md lg:max-w-2xl rounded-xl px-4 py-2 whitespace-pre-wrap shadow-sm ${
                   message.sender === "user"
-                    ? "bg-emerald-800 text-white"
+                    ? "bg-darkgreen text-white"
                     : "bg-white text-black border"
                 }`}
               >
@@ -71,26 +71,25 @@ const ChatPage: React.FC = () => {
       </main>
 
       <footer className="p-4 bg-white border-t">
-        <form
-          onSubmit={handleSubmit}
-          className="flex items-center gap-2 max-w-4xl mx-auto"
-        >
-          <input
-            type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            placeholder="질문을 입력하세요!"
-            disabled={isLoading}
-            className="flex-1 w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-600 transition"
-          />
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="p-3 bg-emerald-800 text-white rounded-full hover:bg-emerald-900 disabled:bg-gray-400 transition-colors flex-shrink-0"
-            aria-label="Send message"
-          >
-            <SendIcon className="w-6 h-5" />
-          </button>
+        <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
+          <div className="relative flex items-center">
+            <input
+              type="text"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder="질문을 입력하세요!"
+              disabled={isLoading}
+              className="flex-1 w-full py-2 pl-5 pr-12 border rounded-full focus:outline-none transition"
+            />
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-darkgreen text-white rounded-full hover:bg-emerald-900 disabled:bg-gray-400 transition-colors flex-shrink-0"
+              aria-label="Send message"
+            >
+              <SendIcon className="w-6 h-4" />
+            </button>
+          </div>
         </form>
       </footer>
     </div>
