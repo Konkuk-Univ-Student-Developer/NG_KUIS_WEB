@@ -10,6 +10,7 @@ const DetailLectureSchedulePage = lazy(() => import("./pages/DetailLecture"));
 const GraduationPage = lazy(() => import("./pages/Graduation"));
 const ScholarshipPage = lazy(() => import("./pages/Scholarship"));
 const NoticePage = lazy(() => import("./pages/Notice"));
+const ChatPage = lazy(() => import("./pages/ChatPage"));
 
 // Loading component
 const PageLoader: React.FC = () => (
@@ -86,6 +87,14 @@ const Router: React.FC = () => {
             element={
               <Suspense fallback={<PageLoader />}>
                 <NoticePage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="chat"
+            element={
+              <Suspense fallback={<PageLoader />}>
+                <ChatPage />
               </Suspense>
             }
           />
