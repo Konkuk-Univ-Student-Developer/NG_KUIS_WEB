@@ -2,6 +2,7 @@ import React from "react";
 
 import MenuIcon from "@/assets/icon/ic_hamburger.svg?react";
 import UserIcon from "@/assets/icon/ic_user.svg?react";
+import ChatbotIcon from "@/assets/icon/ic_chatbot.svg?react";
 
 import Logo from "@/components/commons/Logo";
 import Button from "@/components/commons/Button";
@@ -11,6 +12,7 @@ import { NAV_LINKS } from "@/constants/TopBarConstants";
 import useSidebarStore from "@/stores/sidebarStore";
 import useAuthStore from "@/stores/authStore";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const TopBar: React.FC = () => {
   const { isLoggedIn, login } = useAuthStore();
@@ -60,6 +62,9 @@ const TopBar: React.FC = () => {
               <div className="hidden md:block">
                 <SessionTimer />
               </div>
+              <Link to={"/chat"}>
+                <ChatbotIcon />
+              </Link>
               <button type="button" className="flex items-center gap-x-2">
                 <UserIcon className="h-8 w-8" />
               </button>
