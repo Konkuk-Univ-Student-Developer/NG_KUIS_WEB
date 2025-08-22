@@ -35,10 +35,16 @@ const Layout: React.FC = () => {
     <div className="min-h-screen pt-14 md:pt-16">
       <TopBar />
       {isSidebarOpen && (
-        <div ref={sidebarRef}>
-          <WebSidebar />
-          <MobileSidebar />
-        </div>
+        <>
+          <div
+            className="hidden md:block fixed inset-0 top-16 bg-black/50 backdrop-blur-xs z-30"
+            aria-hidden="true"
+          />
+          <div ref={sidebarRef}>
+            <WebSidebar />
+            <MobileSidebar />
+          </div>
+        </>
       )}
       <Outlet />
       {showFooter && <Footer />}
