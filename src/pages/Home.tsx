@@ -1,29 +1,44 @@
-import { useEffect, useRef, useState } from 'react';
-import EditIcon from '@/assets/icon/ic_edit.svg?react';
-import MagnifierIcon from '@/assets/icon/ic_magnifier.svg?react';
-import TitleSection from '@/components/commons/TitleSection';
-import QuickMenu from '@/components/home/QuickMenu';
-import SearchMain, { type SearchResult } from '@/components/home/SearchMain';
-import ScheduleList from '@/components/home/ScheduleList';
-import NoticeList from '@/components/home/NoticeList';
-import Tab from '@/components/commons/Tab';
-import HomeHeader from '@/components/home/HomeHeader';
-import { QUICK_MENU_ITEMS } from '@/constants/HomeConstants';
-import { NOTICE_CATEGORY_MAP, NOTICE_TABS } from '@/constants/NoticeConstants';
-import KUMark from '/img/img_ku_mark.png';
-import useAuthStore from '@/stores/authStore';
-import { useHomeData } from '@/api/hooks/home/useHome';
-import { useCalendars } from '@/api/hooks/home/useCalendars';
-import { useNotices } from '@/api/hooks/notice/useNotices';
-import useMediaQuery from '@/hooks/useMediaQuery';
-import { useNavigate } from 'react-router-dom';
-import { MENU_DATA } from '@/constants/SidebarConstants';
+import { useEffect, useRef, useState } from "react";
+import EditIcon from "@/assets/icon/ic_edit.svg?react";
+import MagnifierIcon from "@/assets/icon/ic_magnifier.svg?react";
+import TitleSection from "@/components/commons/TitleSection";
+import QuickMenu from "@/components/home/QuickMenu";
+import SearchMain, { type SearchResult } from "@/components/home/SearchMain";
+import ScheduleList from "@/components/home/ScheduleList";
+import NoticeList from "@/components/home/NoticeList";
+import Tab from "@/components/commons/Tab";
+import HomeHeader from "@/components/home/HomeHeader";
+import { QUICK_MENU_ITEMS } from "@/constants/HomeConstants";
+import { NOTICE_CATEGORY_MAP, NOTICE_TABS } from "@/constants/NoticeConstants";
+import KUMark from "/img/img_ku_mark.png";
+import useAuthStore from "@/stores/authStore";
+import { useHomeData } from "@/api/hooks/home/useHome";
+import { useCalendars } from "@/api/hooks/home/useCalendars";
+import { useNotices } from "@/api/hooks/notice/useNotices";
+import useMediaQuery from "@/hooks/useMediaQuery";
+import { useNavigate } from "react-router-dom";
+import { MENU_DATA } from "@/constants/SidebarConstants";
+
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  horizontalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
 const HomePage = () => {
   const { isLoggedIn } = useAuthStore();
-  const [activeTab, setActiveTab] = useState('전체');
+  const [activeTab, setActiveTab] = useState("전체");
 
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
@@ -33,11 +48,11 @@ const HomePage = () => {
   const { calendars } = useCalendars();
   const { notices, setCategory } = useNotices(3);
 
-  const isMobile = useMediaQuery('(max-width: 767px)');
+  const isMobile = useMediaQuery("(max-width: 767px)");
 
   useEffect(() => {
     if (isMobile) {
-      setCategory(NOTICE_CATEGORY_MAP['전체']);
+      setCategory(NOTICE_CATEGORY_MAP["전체"]);
     } else {
       setCategory(NOTICE_CATEGORY_MAP[activeTab]);
     }
@@ -73,9 +88,38 @@ const HomePage = () => {
 
   const handleResultClick = (id: string) => {
     navigate(`/${id}`);
-    setSearchValue('');
+    setSearchValue("");
     setSearchResults([]);
     setShowDropdown(false);
+  };
+
+  const [quickMenuItems, setQuickMenuItems] = useState(QUICK_MENU_ITEMS);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
+      },
+    })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      setQuickMenuItems((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over.id);
+
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
   };
 
   return (
@@ -115,16 +159,28 @@ const HomePage = () => {
             path="/quick-menu"
           />
 
-          <div className="flex justify-between gap-3">
-            {QUICK_MENU_ITEMS.map((item, i) => (
-              <QuickMenu
-                key={i}
-                icon={item.icon}
-                label={item.label}
-                path={item.path}
-              />
-            ))}
-          </div>
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext
+              items={quickMenuItems.map((item) => item.id)}
+              strategy={horizontalListSortingStrategy}
+            >
+              <div className="flex justify-between gap-3">
+                {quickMenuItems.map((item) => (
+                  <QuickMenu
+                    key={item.id}
+                    id={item.id}
+                    icon={item.icon}
+                    label={item.label}
+                    path={item.path}
+                  />
+                ))}
+              </div>
+            </SortableContext>
+          </DndContext>
         </section>
 
         {/* 생활 & 공지 */}

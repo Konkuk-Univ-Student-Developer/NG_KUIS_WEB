@@ -1,16 +1,39 @@
 import { Link } from "react-router-dom";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 interface QuickMenuProps {
+  id: string;
   icon: React.ReactNode;
   label: React.ReactNode;
   path: string;
 }
 
-const QuickMenu = ({ icon, label, path }: QuickMenuProps) => {
+const QuickMenu = ({ id, icon, label, path }: QuickMenuProps) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 10 : "auto",
+  };
+
   return (
     <Link
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
       to={path}
-      className="flex-1 bg-beige relative w-full md:max-w-65 h-21 rounded-[10px] md:rounded-2xl md:h-37"
+      className="flex-1 bg-beige relative w-full md:max-w-65 h-21 rounded-[10px] md:rounded-2xl md:h-37 touch-none" // touch-none 추가로 기본 터치 동작 방지
     >
       <div className="absolute size-6 top-2 left-2 md:top-3 md:left-6 md:size-11">
         {icon}

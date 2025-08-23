@@ -1,9 +1,10 @@
-import BookIcon from '@/assets/icon/ic_book.svg?react';
-import CalendarIcon from '@/assets/icon/ic_calendar.svg?react';
-import GraduationIcon from '@/assets/icon/ic_graduation.svg?react';
+import BookIcon from "@/assets/icon/ic_book.svg?react";
+import CalendarIcon from "@/assets/icon/ic_calendar.svg?react";
+import GraduationIcon from "@/assets/icon/ic_graduation.svg?react";
 
 export const QUICK_MENU_ITEMS = [
   {
+    id: "1",
     icon: <BookIcon className="size-6 md:size-11" />,
     label: (
       <>
@@ -15,9 +16,10 @@ export const QUICK_MENU_ITEMS = [
         <span className="hidden md:block">성적 조회</span>
       </>
     ),
-    path: '/1140302',
+    path: "/1140302",
   },
   {
+    id: "2",
     icon: <CalendarIcon className="size-6 md:size-11" />,
     label: (
       <>
@@ -34,9 +36,10 @@ export const QUICK_MENU_ITEMS = [
       </>
     ),
 
-    path: '/1130420',
+    path: "/1130420",
   },
   {
+    id: "3",
     icon: <GraduationIcon className="size-6 md:size-11" />,
     label: (
       <>
@@ -52,9 +55,10 @@ export const QUICK_MENU_ITEMS = [
         </span>
       </>
     ),
-    path: '/1170201',
+    path: "/1170201",
   },
   {
+    id: "4",
     icon: <GraduationIcon className="size-6 md:size-11" />,
     label: (
       <>
@@ -66,6 +70,6 @@ export const QUICK_MENU_ITEMS = [
         <span className="hidden md:block">장학 관리</span>
       </>
     ),
-    path: '/1150502',
+    path: "/1150502",
   },
 ];
