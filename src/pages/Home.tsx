@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import EditIcon from "@/assets/icon/ic_edit.svg?react";
 import MagnifierIcon from "@/assets/icon/ic_magnifier.svg?react";
 import TitleSection from "@/components/commons/TitleSection";
 import QuickMenu from "@/components/home/QuickMenu";
