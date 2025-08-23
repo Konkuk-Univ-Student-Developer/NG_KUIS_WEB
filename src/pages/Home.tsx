@@ -93,7 +93,30 @@ const HomePage = () => {
     setShowDropdown(false);
   };
 
-  const [quickMenuItems, setQuickMenuItems] = useState(QUICK_MENU_ITEMS);
+  const [quickMenuItems, setQuickMenuItems] = useState(() => {
+    try {
+      const savedOrder = localStorage.getItem("quickMenuOrder");
+      if (savedOrder) {
+        const orderedIds = JSON.parse(savedOrder) as string[];
+
+        const orderedItems = orderedIds
+          .map((id) => QUICK_MENU_ITEMS.find((item) => item.id === id))
+          .filter(
+            (item): item is NonNullable<typeof item> => item !== undefined
+          );
+
+        if (orderedItems.length === QUICK_MENU_ITEMS.length) {
+          return orderedItems;
+        }
+      }
+    } catch (error) {
+      console.error(
+        "Failed to parse quick menu order from localStorage",
+        error
+      );
+    }
+    return QUICK_MENU_ITEMS;
+  });
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -113,12 +136,17 @@ const HomePage = () => {
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
-      setQuickMenuItems((items) => {
-        const oldIndex = items.findIndex((item) => item.id === active.id);
-        const newIndex = items.findIndex((item) => item.id === over.id);
+      const oldIndex = quickMenuItems.findIndex(
+        (item) => item.id === active.id
+      );
+      const newIndex = quickMenuItems.findIndex((item) => item.id === over.id);
 
-        return arrayMove(items, oldIndex, newIndex);
-      });
+      const newItems = arrayMove(quickMenuItems, oldIndex, newIndex);
+
+      setQuickMenuItems(newItems);
+
+      const newItemIds = newItems.map((item) => item.id);
+      localStorage.setItem("quickMenuOrder", JSON.stringify(newItemIds));
     }
   };
 
@@ -153,12 +181,7 @@ const HomePage = () => {
 
         {/* Quick Menu */}
         <section>
-          <TitleSection
-            title="QUICK MENU"
-            icon={<EditIcon className="size-6 cursor-pointer md:size-12" />}
-            path="/quick-menu"
-          />
-
+          <TitleSection title="QUICK MENU" />
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
