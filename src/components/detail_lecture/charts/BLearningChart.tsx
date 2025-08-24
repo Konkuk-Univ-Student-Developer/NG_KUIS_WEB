@@ -17,7 +17,15 @@ const BLearningChart: React.FC = () => {
     // { name: '실시간', value: 4, color: '#036B3F' },
   ];
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  interface TooltipProps {
+    active?: boolean;
+    payload?: Array<{
+      value: number;
+      name: string;
+    }>;
+  }
+
+  const CustomTooltip = ({ active, payload }: TooltipProps) => {
     if (active && payload && payload.length > 0) {
       const dataItem = payload[0];
       if (dataItem && dataItem.value !== undefined && dataItem.name !== undefined) {

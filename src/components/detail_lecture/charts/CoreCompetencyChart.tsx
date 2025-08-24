@@ -23,7 +23,15 @@ const CoreCompetencyChart: React.FC = () => {
   // Filter out 0 values for pie chart but keep them for legend
   const chartData = data.filter(item => item.value > 0);
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  interface TooltipProps {
+    active?: boolean;
+    payload?: Array<{
+      value: number;
+      name: string;
+    }>;
+  }
+
+  const CustomTooltip = ({ active, payload }: TooltipProps) => {
     if (active && payload && payload.length > 0) {
       const dataItem = payload[0];
       if (dataItem && dataItem.value !== undefined && dataItem.name !== undefined) {

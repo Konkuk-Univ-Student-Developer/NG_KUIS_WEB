@@ -42,7 +42,19 @@ const TimetablePage: React.FC = () => {
 
   // Update API params when filters or search queries change
   useEffect(() => {
-    const params: any = {
+    interface ApiParams {
+      page: number;
+      size: number;
+      year?: string;
+      semester?: string;
+      category?: string;
+      professor?: string;
+      courseNumber?: string;
+      department?: string;
+      courseName?: string;
+    }
+
+    const params: ApiParams = {
       page: currentPage - 1, // Convert to 0-based indexing
       size: 20
     };
@@ -66,7 +78,14 @@ const TimetablePage: React.FC = () => {
   const displayTotalPages = totalPages > 0 ? totalPages : MOCK_API_RESPONSE.totalPages;
 
   const navigate = useNavigate();
-  const goDetail = (courseNumber: string, courseData?: any) => {
+  interface CourseDataType {
+    courseCode?: string;
+    courseNumber?: string;
+    courseName?: string;
+    [key: string]: unknown;
+  }
+
+  const goDetail = (courseNumber: string, courseData?: CourseDataType) => {
     console.log('🚀 Navigating to DetailLecture:', {
       courseNumber,
       semester: filters.semester,

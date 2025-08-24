@@ -119,6 +119,7 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
     result.courseNumber = rawCourseNumber?.substring(0, 4); // Ensure 4-digit
     
     if (isDev && rawCourseNumber) {
+      console.log('Course number parsed:', rawCourseNumber);
     }
     
     const gradeStr = getTableCellByHeader('학년');
@@ -194,7 +195,7 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
     if (evalTable) {
       // Get ALL rows, not just tbody rows
       const allRows = evalTable.querySelectorAll('tr');
-      let evaluationRowCount = 0;
+      // let evaluationRowCount = 0; // Commented out - not currently used
       
       allRows.forEach((row, index) => {
         // Skip header rows
@@ -251,7 +252,7 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
           // Clean up item name (remove numbers and special characters at the end)
           itemName = itemName.replace(/\d+$/, '').trim();
           
-          evaluationRowCount++;
+          // evaluationRowCount++; // Commented out - not currently used
           
           evaluationItems.push({
             item: itemName,
@@ -266,6 +267,7 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
       });
       
     } else {
+      console.log('No evaluation table found');
     }
     
     if (evaluationItems.length > 0) {
@@ -302,6 +304,7 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
         }
       });
     } else {
+      console.log('No textbook table found');
     }
     
     if (textbooks.length > 0) {
@@ -349,6 +352,7 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
         }
       });
     } else {
+      console.log('No assignment table found');
     }
     
     if (assignments.length > 0) {
@@ -366,7 +370,7 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
     if (weeklyTable) {
       // Get ALL rows including those not in tbody (some tables have multiple tbody or tr outside tbody)
       const allRows = weeklyTable.querySelectorAll('tr');
-      let dataRowCount = 0;
+      // let dataRowCount = 0; // Commented out - not currently used
       
       allRows.forEach((row) => {
         const cells = row.querySelectorAll('td');
@@ -388,7 +392,7 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
             const instructor = cells[6]?.textContent?.trim() || result.professor || '';
             
             if (topic || content) {
-              dataRowCount++;
+              // dataRowCount++; // Commented out - not currently used
               
               weeklyPlans.push({
                 week,
@@ -405,6 +409,7 @@ const parseLecturePlanHTML = (html: string): Partial<LectureDetail> => {
       });
       
     } else {
+      console.log('No weekly plan table found');
     }
     
     if (weeklyPlans.length > 0) {
