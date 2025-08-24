@@ -86,8 +86,8 @@ const TimetablePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white md:mx-24">
-      <div className="px-5 py-[25px] space-y-6 md:px-16 md:pt-[72px] md:pb-12">
+    <div className="min-h-screen bg-white md:mx-12 lg:mx-24 transition-all duration-300 ease-in-out">
+      <div className="px-5 py-[25px] space-y-6 md:px-8 lg:px-16 md:pt-[72px] md:pb-12 transition-all duration-300 ease-in-out">
         {/* Title */}
         <TitleSection title="종합강의시간표" icon={<></>} path="/quick-menu"
         />
@@ -177,7 +177,7 @@ const TimetablePage: React.FC = () => {
 
       {/* Content - List or Card View */}
       {!loading && !error && viewMode === 'List' ? (
-        <div className="md:px-16">
+        <div className="md:px-8 lg:px-16 transition-all duration-300 ease-in-out">
           <Table>
             <TableHeader className="border-t bg-beige">
               <TableRow className="[&>th]:text-center [&>th]:font-bold md:[&>th]:text-xl md:[&>th]:font-normal">
@@ -205,8 +205,8 @@ const TimetablePage: React.FC = () => {
         </div>
       ) : !loading && !error ? (
         /* Card View */
-        <div className="px-5 md:px-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-[36px] justify-items-center">
+        <div className="px-5 md:px-8 lg:px-16 transition-all duration-300 ease-in-out">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-[18px] lg:gap-[36px] justify-items-center transition-all duration-300 ease-in-out">
             {displayData.map((course, index) => (
               <div key={index} onClick={() => goDetail(course.courseNumber, course)} className="cursor-pointer w-full">
                 <CourseCard course={course} />
@@ -218,7 +218,7 @@ const TimetablePage: React.FC = () => {
 
       {/* Pagination */}
       {!loading && !error && displayData.length > 0 && (
-        <div className="px-5 py-6 md:px-16">
+        <div className="px-5 py-6 md:px-8 lg:px-16 transition-all duration-300 ease-in-out">
           <Pagination
             currentPage={currentPage}
             totalPages={displayTotalPages}
