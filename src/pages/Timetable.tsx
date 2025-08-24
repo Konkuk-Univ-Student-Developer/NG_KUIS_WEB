@@ -10,7 +10,8 @@ import {
   SEMESTER_OPTIONS,
   CATEGORY_OPTIONS,
   COURSE_DATA,
-  MOCK_API_RESPONSE
+  MOCK_API_RESPONSE,
+  type CourseData
 } from '@/constants/TimetableConstants';
 
 const TimetablePage: React.FC = () => {
@@ -78,14 +79,8 @@ const TimetablePage: React.FC = () => {
   const displayTotalPages = totalPages > 0 ? totalPages : MOCK_API_RESPONSE.totalPages;
 
   const navigate = useNavigate();
-  interface CourseDataType {
-    courseCode?: string;
-    courseNumber?: string;
-    courseName?: string;
-    [key: string]: unknown;
-  }
 
-  const goDetail = (courseNumber: string, courseData?: CourseDataType) => {
+  const goDetail = (courseNumber: string, courseData?: CourseData) => {
     console.log('🚀 Navigating to DetailLecture:', {
       courseNumber,
       semester: filters.semester,
@@ -96,11 +91,11 @@ const TimetablePage: React.FC = () => {
         fullData: courseData
       }
     });
-    navigate(courseNumber, { 
-      state: { 
+    navigate(courseNumber, {
+      state: {
         courseData,
         semester: filters.semester // 학기 정보 추가
-      } 
+      }
     });
   };
 
