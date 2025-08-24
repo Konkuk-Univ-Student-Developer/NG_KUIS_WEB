@@ -10,14 +10,22 @@ interface BLearningData {
 
 const BLearningChart: React.FC = () => {
   const isTablet = useMediaQuery('(min-width: 768px)');
-  
+
   const data: BLearningData[] = [
-    { name: '대면', value: 8, color: '#61A7DD' },
-    { name: '녹화', value: 4, color: '#F6DB00' },
-    { name: '실시간', value: 4, color: '#036B3F' },
+    { name: '대면', value: 16, color: '#61A7DD' },
+    // { name: '녹화', value: 4, color: '#F6DB00' },
+    // { name: '실시간', value: 4, color: '#036B3F' },
   ];
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  interface TooltipProps {
+    active?: boolean;
+    payload?: Array<{
+      value: number;
+      name: string;
+    }>;
+  }
+
+  const CustomTooltip = ({ active, payload }: TooltipProps) => {
     if (active && payload && payload.length > 0) {
       const dataItem = payload[0];
       if (dataItem && dataItem.value !== undefined && dataItem.name !== undefined) {
@@ -33,9 +41,9 @@ const BLearningChart: React.FC = () => {
 
 
   return (
-    <div className="p-4 bg-white rounded-2xl shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100">
+    <div className="p-4 bg-white rounded-2xl shadow-[0px_4px_12px_0px_rgba(0,0,0,0.15)] border border-gray-100">
       <div className={`text-gray-900 ${isTablet ? 'text-base' : 'text-sm'} font-bold font-['Noto_Sans'] mb-4`}>
-        B러닝(녹화+대면)
+        대면강의
       </div>
       <div className={`${isTablet ? 'h-48' : 'h-48'} flex flex-col items-center`}>
         <ResponsiveContainer width="100%" height="70%">

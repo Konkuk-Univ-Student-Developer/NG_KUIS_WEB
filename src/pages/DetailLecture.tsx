@@ -9,7 +9,9 @@ import { LECTURE_DETAILS } from '@/constants/DetailLectureConstants';
 import { DownloadIcon } from '@/assets/icon';
 import type { CourseData } from '@/constants/TimetableConstants';
 import type { LectureDetail, CompetencyGoals } from '@/constants/DetailLectureConstants';
-import { useLecturePlan, useMergedLectureData } from '@/api/hooks/lecture/useLecturePlan';
+import { useMergedLectureData } from '@/api/hooks/lecture/useLecturePlan';
+import { useCourseDetail } from '@/api/hooks/course/useCourseDetail';
+import type { CourseDetailResponse } from '@/types/courseDetail';
 
 // 섹션 스타일 상수 (DetailLecture 전용)
 const styles = {
@@ -54,10 +56,6 @@ const DetailLecture: React.FC = () => {
     });
   }, [courseData, courseNumber, semester]);
 
-  // Fetch lecture plan from KUPIS
-  // Note: We need year from courseData or default to current year
-  const currentYear = new Date().getFullYear().toString();
-
   // Priority: courseData.courseNumber > URL courseNumber parameter
   const effectiveCourseNumber = courseData?.courseNumber || courseNumber || '';
 
@@ -90,48 +88,69 @@ const DetailLecture: React.FC = () => {
 
   const defaultLectureData = getDefaultLectureData();
 
-  // Only create params if we have a valid courseNumber
-  const lecturePlanParams = React.useMemo(() => {
-    if (!effectiveCourseNumber) {
-      console.log('⚠️ No effective course number available');
-      return undefined;
-    }
+  // Use API hook for course details
+  const { data: apiData, loading, error } = useCourseDetail(effectiveCourseNumber);
 
-    const params = {
-      year: currentYear,
-      courseNumber: effectiveCourseNumber,
-      semester: semester // 학기 정보 추가
+  // Convert API data to LectureDetail format
+  const fetchedData = apiData ? convertApiDataToLectureDetail(apiData) : null;
+
+  // Convert API response to LectureDetail format
+  function convertApiDataToLectureDetail(data: CourseDetailResponse): Partial<LectureDetail> {
+    return {
+      subjectCode: data.subjectInfo?.sbjt_id,
+      subjectName: data.subjectInfo?.subject_name,
+      subjectNameEng: data.subjectInfo?.subject_name_eng,
+      description: data.subjectInfo?.goal,
+      evaluationItems: data.evaluation && data.evaluation.length > 0 
+        ? data.evaluation.every(item => item.item_name && item.ratio != null && item.full_score != null)
+          ? data.evaluation.map(item => ({
+              item: item.item_name,
+              weight: `${item.ratio}%`,
+              maxScore: item.full_score,
+              isPublic: item.is_public === '공개',
+              description: item.description || `${item.item_name} 평가 기준입니다`,
+              hasDetail: true
+            }))
+          : undefined
+        : undefined,
+      textbooks: data.books?.map((book, index) => ({
+        id: index + 1,
+        type: book.type,
+        name: book.title,
+        author: book.author,
+        link: `${book.publisher}${book.year ? `, ${book.year}` : ''}`
+      })),
+      assignments: data.assignments?.map((assignment, index) => ({
+        id: index + 1,
+        type: assignment.method || '과제',
+        name: assignment.title,
+        dueDate: assignment.due_date
+      })),
+      weeklyPlans: data.weeklyPlans?.map(plan => ({
+        week: plan.week,
+        dateRange: plan.period,
+        topic: plan.topic,
+        instructor: plan.instructor || courseData?.professor || '담당교수',
+        activities: plan.content,
+        type: plan.type || '이론',
+        schedule: plan.activity || ''
+      }))
     };
-
-    console.log('📤 Creating Lecture Plan Parameters:', params);
-    return params;
-  }, [effectiveCourseNumber, currentYear, semester]);
-
-  React.useEffect(() => {
-    console.log('📊 Lecture Plan Hook Input:', {
-      hasParams: !!lecturePlanParams,
-      params: lecturePlanParams,
-      willFetch: !!(lecturePlanParams?.year && lecturePlanParams?.courseNumber)
-    });
-  }, [lecturePlanParams]);
-
-  const { data: fetchedData, loading, error } = useLecturePlan(lecturePlanParams);
+  }
 
   // Log fetched data
   React.useEffect(() => {
-    if (fetchedData && Object.keys(fetchedData).length > 0) {
-      console.log('📚 Lecture Plan Data Successfully Fetched from KUPIS:', {
-        subjectName: fetchedData.subjectName,
-        courseCode: fetchedData.courseCode,
-        courseNumber: fetchedData.courseNumber,
-        professor: fetchedData.professor,
-        evaluationItems: fetchedData.evaluationItems?.length || 0,
-        textbooks: fetchedData.textbooks?.length || 0,
-        weeklyPlans: fetchedData.weeklyPlans?.length || 0,
-        fullData: fetchedData
+    if (apiData) {
+      console.log('📚 Course Detail Data Successfully Fetched from API:', {
+        subjectName: apiData.subjectInfo?.subject_name,
+        subjectId: apiData.subjectInfo?.sbjt_id,
+        evaluationItems: apiData.evaluation?.length || 0,
+        textbooks: apiData.books?.length || 0,
+        assignments: apiData.assignments?.length || 0,
+        weeklyPlans: apiData.weeklyPlans?.length || 0
       });
     }
-  }, [fetchedData]);
+  }, [apiData]);
 
   // Merge all data sources
   const lectureData = useMergedLectureData(fetchedData, courseData, defaultLectureData);
@@ -196,18 +215,18 @@ const DetailLecture: React.FC = () => {
     return [
       {
         label: '핵심역량 강의목표',
-        value: competencyGoals.coreCompetencyGoal || '스스로 학습할 수 있는 능력',
+        value: competencyGoals.coreCompetencyGoal || '성실성, 소통역량, 창의역량, 종합적사고력, 주도성, 글로벌시민의식',
         rowSpan: 1
       },
       {
         label: '수강신청 유의사항',
-        value: lectureData.prerequisites && lectureData.prerequisites.length > 0 
-          ? lectureData.prerequisites.join(', ') 
+        value: lectureData.prerequisites && lectureData.prerequisites.length > 0
+          ? lectureData.prerequisites.join(', ')
           : '-'
       },
       {
         label: '주 전공역량',
-        value: competencyGoals.mainCompetency || '대규모 SW의 협동 개발 능력 (상)'
+        value: competencyGoals.mainCompetency || '자기주도학습능력'
       },
       {
         label: '주 전공역량 정의',
@@ -215,32 +234,32 @@ const DetailLecture: React.FC = () => {
       },
       {
         label: '보조 전공역량1',
-        value: competencyGoals.subCompetency1 || '대규모 SW의 협동 개발 능력 (상)'
+        value: competencyGoals.subCompetency1 || '종합적사고력'
       },
       {
         label: '보조 전공역량1 정의',
-        value: competencyGoals.subCompetency1Definition || '스스로 학습할 수 있는 역량'
+        value: competencyGoals.subCompetency1Definition || '다양한 관점에서 문제를 분석하는 역량'
       },
       {
         label: '보조 전공역량2',
-        value: competencyGoals.subCompetency2 || '대규모 SW의 협동 개발 능력 (상)'
+        value: competencyGoals.subCompetency2 || '성실성'
       },
       {
         label: '보조 전공역량2 정의',
-        value: competencyGoals.subCompetency2Definition || '스스로 학습할 수 있는 역량'
+        value: competencyGoals.subCompetency2Definition || '꾸준히 노력하며 학습하는 역량'
       },
       {
         label: '역량기반 교육목표',
-        value: competencyGoals.competencyBasedGoal || '대규모 SW의 협동 개발 능력 (상)',
+        value: competencyGoals.competencyBasedGoal || 'Understand the basics of major subjects',
         rowSpan: 1
       },
       {
         label: '직무역량',
-        value: (competencyGoals.jobCompetencies && 
-                competencyGoals.jobCompetencies.length > 0 && 
-                competencyGoals.jobCompetencies.some(item => item.trim())) 
-               ? competencyGoals.jobCompetencies 
-               : ['문제해결능력', '기술능력'],
+        value: (competencyGoals.jobCompetencies &&
+          competencyGoals.jobCompetencies.length > 0 &&
+          competencyGoals.jobCompetencies.some(item => item.trim()))
+          ? competencyGoals.jobCompetencies
+          : ['문제해결능력', '기술역량'],
         isCheckList: true
       }
     ];
@@ -297,7 +316,7 @@ const DetailLecture: React.FC = () => {
             <CoreCompetencyChart />
           </div>
           <div className="grid grid-cols-1">
-            <div className="p-6 bg-white rounded-[20px] shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100">
+            <div className="p-6 bg-white rounded-[20px] shadow-[0px_4px_12px_0px_rgba(0,0,0,0.15)] border border-gray-100">
               <div className="flex flex-col h-full justify-between">
                 <div>
                   <div className="text-black text-base font-normal font-['Noto_Sans'] mb-1">
@@ -366,7 +385,7 @@ const DetailLecture: React.FC = () => {
 
   const renderProfessorInfo = () => (
     <div className="grid grid-cols-1">
-      <div className={`${isTablet ? 'p-6' : 'p-4'} bg-white rounded-[20px] shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100`}>
+      <div className={`${isTablet ? 'p-6' : 'p-4'} bg-white rounded-[20px] shadow-[0px_4px_12px_0px_rgba(0,0,0,0.15)] border border-gray-100`}>
         <div className="flex flex-col h-full justify-between">
           <div>
             <div className={`text-black ${isTablet ? 'text-base' : 'text-xs'} font-normal font-['Noto_Sans'] mb-1`}>

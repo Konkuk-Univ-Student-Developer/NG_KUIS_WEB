@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { fetchLecturePlan, type LecturePlanParams } from '@/api/services/lectureService';
 import type { LectureDetail } from '@/constants/DetailLectureConstants';
+import type { CourseData } from '@/constants/TimetableConstants';
 
 interface UseLecturePlanResult {
   data: Partial<LectureDetail> | null;
@@ -80,7 +81,7 @@ export const useLecturePlan = (params?: Partial<LecturePlanParams>): UseLectureP
  */
 export const useMergedLectureData = (
   fetchedData: Partial<LectureDetail> | null,
-  courseData: any | undefined,
+  courseData: CourseData | undefined,
   defaultData: LectureDetail
 ): LectureDetail => {
   // Log the merge process

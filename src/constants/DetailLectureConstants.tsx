@@ -27,7 +27,6 @@ export interface EvaluationItem {
   maxScore: number;
   isPublic: boolean;
   description?: string;
-  hasDetail?: boolean;
   [key: string]: unknown;
 }
 

@@ -52,7 +52,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
   }, [course]);
 
   return (
-    <div className="group w-full max-h-[200px] px-4 py-5 bg-beige hover:brightness-90 transition-all duration-200 rounded-[20px] flex flex-col">
+    <div className="group w-full max-h-[200px] px-4 py-5 bg-beige hover:brightness-90 transition-all duration-300 ease-in-out rounded-[20px] flex flex-col">
       {/* Header */}
       <div className="flex justify-between items-start flex-shrink-0">
         <div className="flex-1 min-w-0 mb-1">

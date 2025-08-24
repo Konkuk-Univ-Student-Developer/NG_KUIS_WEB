@@ -29,11 +29,5 @@ export {
   BasicInfoTable,
   DesktopBasicInfoTables,
   StandardTable,
-  EvaluationTable,
-  tableStyles,
-  getCellClass,
-  TableCellRenderers,
-  TABLE_CONFIGS,
-  createDefaultData,
-  mapDesktopBasicData
+  EvaluationTable
 } from "./RoundedTable";

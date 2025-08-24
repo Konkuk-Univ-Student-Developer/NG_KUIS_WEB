@@ -34,8 +34,8 @@ export interface TimetableListResponse {
   empty: boolean;
 }
 
-// Response type for card view (can be different if needed)
-export interface TimetableCardResponse extends TimetableListResponse {}
+// Response type for card view (same as list for now, but can be extended if needed)
+export type TimetableCardResponse = TimetableListResponse;
 
 /**
  * Fetch timetable data for list view
