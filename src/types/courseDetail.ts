@@ -11,6 +11,7 @@ export interface EvaluationItem {
   ratio: number;
   full_score: number;
   is_public: string;
+  description?: string;
 }
 
 export interface Book {

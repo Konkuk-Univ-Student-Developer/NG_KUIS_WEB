@@ -101,13 +101,18 @@ const DetailLecture: React.FC = () => {
       subjectName: data.subjectInfo?.subject_name,
       subjectNameEng: data.subjectInfo?.subject_name_eng,
       description: data.subjectInfo?.goal,
-      evaluationItems: data.evaluation?.map(item => ({
-        item: item.item_name,
-        weight: `${item.ratio}%`,
-        maxScore: item.full_score,
-        isPublic: item.is_public === '공개',
-        description: 'Checked with e-campus system'
-      })),
+      evaluationItems: data.evaluation && data.evaluation.length > 0 
+        ? data.evaluation.every(item => item.item_name && item.ratio != null && item.full_score != null)
+          ? data.evaluation.map(item => ({
+              item: item.item_name,
+              weight: `${item.ratio}%`,
+              maxScore: item.full_score,
+              isPublic: item.is_public === '공개',
+              description: item.description || `${item.item_name} 평가 기준입니다`,
+              hasDetail: true
+            }))
+          : undefined
+        : undefined,
       textbooks: data.books?.map((book, index) => ({
         id: index + 1,
         type: book.type,
