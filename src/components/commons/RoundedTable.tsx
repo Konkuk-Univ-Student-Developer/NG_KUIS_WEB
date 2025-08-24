@@ -133,7 +133,8 @@ export const ExpandableTable: React.FC<ExpandableTableProps> = ({
                       colSpan={headers.length}
                       className={`${rowIdx === data.length - 1 ? '' : 'border-b'} border-gray-500 bg-beige px-2 py-1`}
                     >
-                      <div className={styles.evaluation.expandedContent}>
+                      <div className={styles.evaluation.expandedContent} onClick={() => window.open('https://ecampus.konkuk.ac.kr/', '_blank')}
+                      >
                         {expandContent}
                       </div>
                     </td>
