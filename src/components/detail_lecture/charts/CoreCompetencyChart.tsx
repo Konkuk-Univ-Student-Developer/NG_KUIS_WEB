@@ -39,7 +39,7 @@ const CoreCompetencyChart: React.FC = () => {
 
 
   return (
-    <div className="p-4 bg-white rounded-2xl shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100">
+    <div className="p-4 bg-white rounded-2xl shadow-[0px_4px_12px_0px_rgba(0,0,0,0.15)] border border-gray-100">
       <div className={`text-gray-900 ${isTablet ? 'text-base' : 'text-sm'} font-bold font-['Noto_Sans'] mb-4`}>
         핵심역량
       </div>

@@ -211,7 +211,7 @@ const DetailLecture: React.FC = () => {
     return [
       {
         label: '핵심역량 강의목표',
-        value: competencyGoals.coreCompetencyGoal || '스스로 학습할 수 있는 능력',
+        value: competencyGoals.coreCompetencyGoal || '성실성, 소통역량, 창의역량, 종합적사고력, 주도성, 글로벌시민의식',
         rowSpan: 1
       },
       {
@@ -312,7 +312,7 @@ const DetailLecture: React.FC = () => {
             <CoreCompetencyChart />
           </div>
           <div className="grid grid-cols-1">
-            <div className="p-6 bg-white rounded-[20px] shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100">
+            <div className="p-6 bg-white rounded-[20px] shadow-[0px_4px_12px_0px_rgba(0,0,0,0.15)] border border-gray-100">
               <div className="flex flex-col h-full justify-between">
                 <div>
                   <div className="text-black text-base font-normal font-['Noto_Sans'] mb-1">
@@ -381,7 +381,7 @@ const DetailLecture: React.FC = () => {
 
   const renderProfessorInfo = () => (
     <div className="grid grid-cols-1">
-      <div className={`${isTablet ? 'p-6' : 'p-4'} bg-white rounded-[20px] shadow-[0px_3px_8px_-1px_rgba(50,50,71,0.05)] border border-gray-100`}>
+      <div className={`${isTablet ? 'p-6' : 'p-4'} bg-white rounded-[20px] shadow-[0px_4px_12px_0px_rgba(0,0,0,0.15)] border border-gray-100`}>
         <div className="flex flex-col h-full justify-between">
           <div>
             <div className={`text-black ${isTablet ? 'text-base' : 'text-xs'} font-normal font-['Noto_Sans'] mb-1`}>

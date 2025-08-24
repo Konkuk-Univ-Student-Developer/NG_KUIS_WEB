@@ -66,18 +66,18 @@ export const tableStyles = {
 
 // 공통 렌더러 함수들
 export const TableCellRenderers = {
-  checkIcon: (isChecked: boolean) => 
+  checkIcon: (isChecked: boolean) =>
     isChecked ? <Check className="w-3.5 h-3.5 text-zinc-400 mx-auto" /> : null,
-  
-  expandIcon: (hasContent: boolean, isExpanded: boolean) => 
+
+  expandIcon: (hasContent: boolean, isExpanded: boolean) =>
     hasContent ? (
       <ChevronDown className={`${tableStyles.evaluation.chevron} ${isExpanded ? 'rotate-180' : ''}`} />
     ) : (
       <ChevronDown className={tableStyles.evaluation.chevronDisabled} />
     ),
-  
+
   indexCell: (index: number) => index,
-  
+
   textCell: (value: unknown) => value || '-'
 };
 
@@ -135,7 +135,7 @@ export const TABLE_CONFIGS = {
 // 기본값 생성 함수
 export const createDefaultData = (type: string, _count: number = 1) => {
   const defaults: Record<string, () => any[]> = {
-    textbooks: () => Array.from({length: 4}, (_, i) => ({
+    textbooks: () => Array.from({ length: 4 }, (_, i) => ({
       index: i + 1, type: '-', name: '-', author: '-', link: '-'
     })),
     assignments: () => [{ index: 1, type: '-', name: '-', dueDate: '-' }],
@@ -166,10 +166,10 @@ export const getCellClass = (
   } else {
     baseClass = styles.cell.bodyBase;
   }
-  
+
   const borderRight = index < total - 1 ? 'border-r' : '';
   const borderBottom = !isLastRow ? 'border-b' : '';
-  
+
   return `${baseClass} ${borderRight} ${borderBottom}`.trim();
 };
 
@@ -197,7 +197,7 @@ export const RoundedTable: React.FC<RoundedTableProps> = ({
   variant = 'mobile'
 }) => {
   const styles = variant === 'desktop' ? tableStyles.desktop : tableStyles.mobile;
-  
+
   return (
     <div className={`${styles.table.wrapper} ${wrapperClassName}`}>
       <table className={`${styles.table.base} ${className}`}>
@@ -220,7 +220,7 @@ export const RoundedTable: React.FC<RoundedTableProps> = ({
                   const isLastRow = rowIdx === data.length - 1;
                   const cellType = isFirstColumnBold && colIdx === 0 ? 'bodyBold' : 'body';
                   const value = col === 'index' ? rowIdx + 1 : row[col];
-                  
+
                   return (
                     <td key={colIdx} className={getCellClass(cellType, colIdx, columns.length, isLastRow, variant)}>
                       {(value as React.ReactNode) || '-'}
@@ -260,7 +260,7 @@ export const ExpandableTable: React.FC<ExpandableTableProps> = ({
   variant = 'mobile'
 }) => {
   const styles = variant === 'desktop' ? tableStyles.desktop : tableStyles.mobile;
-  
+
   return (
     <div className={styles.table.wrapper}>
       <table className={styles.table.base}>
@@ -279,7 +279,7 @@ export const ExpandableTable: React.FC<ExpandableTableProps> = ({
             const isExpanded = expandedRows.has(key);
             const expandContent = getExpandContent(row);
             const hasExpandContent = !!expandContent;
-            
+
             return (
               <React.Fragment key={key}>
                 <tr
@@ -290,8 +290,8 @@ export const ExpandableTable: React.FC<ExpandableTableProps> = ({
                 </tr>
                 {isExpanded && expandContent && (
                   <tr className="animate-fadeIn">
-                    <td 
-                      colSpan={headers.length} 
+                    <td
+                      colSpan={headers.length}
                       className={`${rowIdx === data.length - 1 ? '' : 'border-b'} border-gray-500 bg-beige px-2 py-1`}
                     >
                       <div className={styles.evaluation.expandedContent}>
@@ -329,15 +329,15 @@ export const VerticalTable: React.FC<VerticalTableProps> = ({ rows, className = 
   const textSize = variant === 'desktop' ? 'text-sm' : 'text-sm';
   const leadingSize = variant === 'desktop' ? 'leading-5' : 'leading-none';
   const checkSize = variant === 'desktop' ? 'w-5 h-5' : 'w-3.5 h-3.5';
-  
+
   return (
     <div className={`${styles.table.wrapper} ${className}`}>
       <table className={styles.table.base}>
         <tbody>
           {rows.map((row, idx) => (
             <tr key={idx}>
-              <td 
-                className={`border-r ${idx === rows.length - 1 ? '' : 'border-b'} border-zinc-400 bg-beige px-2 py-${row.rowSpan ? '4' : '2'} text-center text-black ${textSize} font-semibold font-['Noto_Sans'] align-middle whitespace-normal ${leadingSize}`}
+              <td
+                className={`border-r ${idx === rows.length - 1 ? '' : 'border-b'} border-zinc-400 bg-beige px-2 py-2 text-center text-black ${textSize} font-semibold font-['Noto_Sans'] align-middle whitespace-normal ${leadingSize}`}
                 style={{ wordBreak: 'keep-all' }}
                 rowSpan={row.rowSpan}
               >
@@ -345,7 +345,7 @@ export const VerticalTable: React.FC<VerticalTableProps> = ({ rows, className = 
               </td>
               <td className={`${idx === rows.length - 1 ? '' : 'border-b'} border-zinc-400 bg-white px-3 py-2`}>
                 {row.isCheckList && Array.isArray(row.value) ? (
-                  <div className={variant === 'desktop' ? "grid grid-cols-5 gap-4" : "flex flex-col gap-1"}>
+                  <div className={variant === 'desktop' ? "grid grid-cols-4 gap-4" : "flex flex-col gap-1"}>
                     {row.value.map((item, itemIdx) => (
                       <div key={itemIdx} className="flex items-center gap-2">
                         <Check className={`${checkSize} text-zinc-400`} />
@@ -412,13 +412,13 @@ export interface DesktopBasicInfoTablesProps {
   variant?: 'mobile' | 'desktop';
 }
 
-export const DesktopBasicInfoTables: React.FC<DesktopBasicInfoTablesProps> = ({ 
-  lectureData, 
+export const DesktopBasicInfoTables: React.FC<DesktopBasicInfoTablesProps> = ({
+  lectureData,
   courseData,
-  variant = 'desktop' 
+  variant = 'desktop'
 }) => {
   const { basic1, basic2, basic3 } = mapDesktopBasicData(lectureData, courseData);
-  
+
   return (
     <div className="flex flex-col gap-4">
       <RoundedTable
@@ -468,7 +468,7 @@ export interface StandardTableProps {
 export const StandardTable: React.FC<StandardTableProps> = ({ data, type, variant = 'mobile' }) => {
   const configKey = variant === 'desktop' ? `desktop${type.charAt(0).toUpperCase() + type.slice(1)}` as keyof typeof TABLE_CONFIGS : type;
   const config = TABLE_CONFIGS[configKey] || TABLE_CONFIGS[type];
-  
+
   return (
     <RoundedTable
       headers={config.headers}
@@ -486,15 +486,15 @@ export interface EvaluationTableProps {
   variant?: 'mobile' | 'desktop';
 }
 
-export const EvaluationTable: React.FC<EvaluationTableProps> = ({ 
-  data, 
-  expandedRows, 
+export const EvaluationTable: React.FC<EvaluationTableProps> = ({
+  data,
+  expandedRows,
   onToggleExpand,
   variant = 'mobile'
 }) => {
   const configKey = variant === 'desktop' ? 'desktopEvaluation' : 'evaluation';
   const config = TABLE_CONFIGS[configKey];
-  
+
   return (
     <ExpandableTable
       headers={config.headers}
