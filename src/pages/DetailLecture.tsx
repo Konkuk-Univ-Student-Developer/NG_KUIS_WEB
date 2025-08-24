@@ -106,8 +106,7 @@ const DetailLecture: React.FC = () => {
         weight: `${item.ratio}%`,
         maxScore: item.full_score,
         isPublic: item.is_public === '공개',
-        description: '',
-        hasDetail: false
+        description: 'Checked with e-campus system'
       })),
       textbooks: data.books?.map((book, index) => ({
         id: index + 1,

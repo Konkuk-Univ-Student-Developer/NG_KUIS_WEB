@@ -101,9 +101,9 @@ export const createDefaultData = (type: string): TableRowData[] => {
     }],
     evaluation: () => [
       { item: '출석률', weight: '10%', maxScore: '10', isPublic: true, description: 'Checked with e-campus system' },
-      { item: '중간', weight: '30%', maxScore: '30', isPublic: true, description: 'Checked with e-campus system' },
-      { item: '기말', weight: '30%', maxScore: '30', isPublic: true, description: 'Checked with e-campus system' },
-      { item: '과제물', weight: '30%', maxScore: '30', isPublic: true, description: 'Checked with e-campus system' }
+      { item: '중간', weight: '40%', maxScore: '40', isPublic: true, description: 'Checked with e-campus system' },
+      { item: '기말', weight: '40%', maxScore: '40', isPublic: true, description: 'Checked with e-campus system' },
+      { item: '과제물', weight: '10%', maxScore: '10', isPublic: true, description: 'Checked with e-campus system' }
     ]
   };
   return defaults[type]?.() || [];
