@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ChevronUp, ChevronDown } from 'lucide-react';
 import { Pagination, CourseCard, TitleSection, Table, TableHeader, TableRow, TableHead, TableBody, TableCell, Tab, Select, SearchInput } from '@/components/commons';
 import { useTimetableList } from '@/api/hooks/timetable/useTimetableList';
 import { useTimetableCard } from '@/api/hooks/timetable/useTimetableCard';
@@ -32,6 +33,12 @@ const TimetablePage: React.FC = () => {
     page: 0,
     size: 20
   });
+  
+  // Sorting state
+  type SortColumn = 'grade' | 'courseNumber' | 'courseName' | 'credit' | 'professor' | null;
+  type SortDirection = 'asc' | 'desc' | 'none';
+  const [sortColumn, setSortColumn] = useState<SortColumn>(null);
+  const [sortDirection, setSortDirection] = useState<SortDirection>('none');
 
   // Use appropriate hook based on view mode
   const listResult = useTimetableList(viewMode === 'List' ? apiParams : undefined);
@@ -75,8 +82,62 @@ const TimetablePage: React.FC = () => {
   }, [filters, searchQueries, currentPage]);
 
   // Use fallback data if API is not available
-  const displayData = data && data.length > 0 ? data : COURSE_DATA;
+  const baseData = data && data.length > 0 ? data : COURSE_DATA;
   const displayTotalPages = totalPages > 0 ? totalPages : MOCK_API_RESPONSE.totalPages;
+
+  // Sorting function
+  const handleSort = (column: SortColumn) => {
+    if (sortColumn === column) {
+      // Cycle through: asc -> desc -> none
+      if (sortDirection === 'asc') {
+        setSortDirection('desc');
+      } else if (sortDirection === 'desc') {
+        setSortDirection('none');
+        setSortColumn(null);
+      } else {
+        setSortDirection('asc');
+      }
+    } else {
+      setSortColumn(column);
+      setSortDirection('asc');
+    }
+  };
+
+  // Apply sorting to data
+  const displayData = useMemo(() => {
+    if (!sortColumn || sortDirection === 'none') {
+      return baseData;
+    }
+
+    const sortedData = [...baseData];
+    sortedData.sort((a, b) => {
+      const aValue = a[sortColumn];
+      const bValue = b[sortColumn];
+
+      // Handle credit default value and numeric comparison
+      if (sortColumn === 'credit') {
+        const aCredit = (aValue as number | undefined) || 3;
+        const bCredit = (bValue as number | undefined) || 3;
+        return sortDirection === 'asc' ? aCredit - bCredit : bCredit - aCredit;
+      }
+
+      // Numeric comparison for grade
+      if (sortColumn === 'grade') {
+        const aGrade = Number(aValue);
+        const bGrade = Number(bValue);
+        return sortDirection === 'asc' ? aGrade - bGrade : bGrade - aGrade;
+      }
+
+      // String comparison for other columns (courseNumber, courseName, professor)
+      const aStr = String(aValue || '');
+      const bStr = String(bValue || '');
+      return sortDirection === 'asc' 
+        ? aStr.localeCompare(bStr, 'ko')
+        : bStr.localeCompare(aStr, 'ko');
+    });
+
+    return sortedData;
+  }, [baseData, sortColumn, sortDirection]);
 
   const navigate = useNavigate();
 
@@ -100,7 +161,7 @@ const TimetablePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white md:mx-12 lg:mx-24 transition-all duration-300 ease-in-out">
+    <div className="min-h-screen bg-white md:mx-12 lg:mx-24 transition-all duration-300 ease-in-out select-none">
       <div className="px-5 py-[25px] space-y-6 md:px-8 lg:px-16 md:pt-[72px] md:pb-12 transition-all duration-300 ease-in-out">
         {/* Title */}
         <TitleSection title="종합강의시간표" icon={<></>} path="/quick-menu"
@@ -195,11 +256,66 @@ const TimetablePage: React.FC = () => {
           <Table>
             <TableHeader className="border-t bg-beige">
               <TableRow className="[&>th]:text-center [&>th]:font-bold md:[&>th]:text-xl md:[&>th]:font-normal">
-                <TableHead>학년</TableHead>
-                <TableHead>과목번호</TableHead>
-                <TableHead>교과목명</TableHead>
-                <TableHead>학점</TableHead>
-                <TableHead>담당교수</TableHead>
+                <TableHead 
+                  className="cursor-pointer hover:bg-beige/80 transition-colors"
+                  onClick={() => handleSort('grade')}
+                >
+                  <div className="flex items-center justify-center gap-1">
+                    학년
+                    {sortColumn === 'grade' && (
+                      sortDirection === 'asc' ? <ChevronUp className="w-4 h-4" /> :
+                      sortDirection === 'desc' ? <ChevronDown className="w-4 h-4" /> : null
+                    )}
+                  </div>
+                </TableHead>
+                <TableHead 
+                  className="cursor-pointer hover:bg-beige/80 transition-colors"
+                  onClick={() => handleSort('courseNumber')}
+                >
+                  <div className="flex items-center justify-center gap-1">
+                    과목번호
+                    {sortColumn === 'courseNumber' && (
+                      sortDirection === 'asc' ? <ChevronUp className="w-4 h-4" /> :
+                      sortDirection === 'desc' ? <ChevronDown className="w-4 h-4" /> : null
+                    )}
+                  </div>
+                </TableHead>
+                <TableHead 
+                  className="cursor-pointer hover:bg-beige/80 transition-colors"
+                  onClick={() => handleSort('courseName')}
+                >
+                  <div className="flex items-center justify-center gap-1">
+                    교과목명
+                    {sortColumn === 'courseName' && (
+                      sortDirection === 'asc' ? <ChevronUp className="w-4 h-4" /> :
+                      sortDirection === 'desc' ? <ChevronDown className="w-4 h-4" /> : null
+                    )}
+                  </div>
+                </TableHead>
+                <TableHead 
+                  className="cursor-pointer hover:bg-beige/80 transition-colors"
+                  onClick={() => handleSort('credit')}
+                >
+                  <div className="flex items-center justify-center gap-1">
+                    학점
+                    {sortColumn === 'credit' && (
+                      sortDirection === 'asc' ? <ChevronUp className="w-4 h-4" /> :
+                      sortDirection === 'desc' ? <ChevronDown className="w-4 h-4" /> : null
+                    )}
+                  </div>
+                </TableHead>
+                <TableHead 
+                  className="cursor-pointer hover:bg-beige/80 transition-colors"
+                  onClick={() => handleSort('professor')}
+                >
+                  <div className="flex items-center justify-center gap-1">
+                    담당교수
+                    {sortColumn === 'professor' && (
+                      sortDirection === 'asc' ? <ChevronUp className="w-4 h-4" /> :
+                      sortDirection === 'desc' ? <ChevronDown className="w-4 h-4" /> : null
+                    )}
+                  </div>
+                </TableHead>
                 <TableHead>수업시간 및 강의실</TableHead>
               </TableRow>
             </TableHeader>
