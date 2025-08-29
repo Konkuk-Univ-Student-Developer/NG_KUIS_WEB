@@ -44,6 +44,11 @@ const HomeHeader = ({ isLoggedIn, userName }: HomeHeaderProps) => {
       <p className="text-lg font-normal leading-[1.4] tracking-[-0.36px] text-black hidden md:block md:text-[28px] md:font-normal md:leading-[2.0] md:tracking-[-0.56]">
         안녕하세요. 건국대학교 학사정보시스템입니다.
       </p>
+      <p className="text-xs mt-4 font-normal leading-[1.4] tracking-[-0.36px] text-danger md:text-[16px] md:font-normal md:leading-[2.0] md:tracking-[-0.56]">
+         본 화면의 학사정보는 예시용 가상 데이터입니다.
+         <br />
+         실제 학사 정보와 무관합니다.
+      </p>
     </>
   );
 };
