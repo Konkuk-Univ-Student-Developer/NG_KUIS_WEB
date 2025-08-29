@@ -3,7 +3,8 @@
     {
       "source": "/api/kupis/:path*",
       "destination": "https://kupis.konkuk.ac.kr/:path*"
-    }
+    },
+    {"source": "/(.*)", "destination": "/"}
   ],
   "headers": [
     {
